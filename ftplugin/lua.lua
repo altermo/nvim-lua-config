@@ -1,0 +1,10 @@
+local function iabbr(key,maps)
+  vim.cmd('iabbrev '..key..' '..maps)
+end
+iabbr('Use','use <C-v>\'<C-v>\'<esc>h"+p')
+iabbr('use','use <C-v>\'<C-v>\'<C-o>h')
+iabbr('l','local')
+iabbr('f','function')
+iabbr('e','end')
+iabbr('p','pairs')
+iabbr('t','then')
