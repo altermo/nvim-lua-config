@@ -275,8 +275,7 @@ use 'ray-x/cmp-treesitter'
 use {'nvim-orgmode/orgmode', config='require"orgmode".setup()'}
 use 'benfowler/telescope-luasnip.nvim'
 use "nvim-telescope/telescope-file-browser.nvim"
-use {
-    'kosayoda/nvim-lightbulb',
+use { 'kosayoda/nvim-lightbulb',
     requires = 'antoinemadec/FixCursorHold.nvim',
 }--TODO
 vim.cmd[[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
