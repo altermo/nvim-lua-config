@@ -59,15 +59,6 @@ function Build(term)
   end end
   vim.notify("Builderror: filetype"..vim.o.filetype.."has no builder or can not be built")
 end
-function SW()
-  for from,to in pairs({t='ett',
-      n='en',['ä']='är',p='på',o='och',
-      a='att',ti='till',s='som',d='de',
-      ['do']='dem',gt='det',gn='den',i='inte',
-    }) do
-    vim.cmd('iabbrev '..from..' '..to)
-    vim.cmd('iabbrev '..(from:gsub("^%l",string.upper))..' '..(to:gsub("^%l",string.upper)))
-end end
 function Toggle(opt)
   vim.cmd('set '..opt..'!|echo "'..opt..'=" &'..opt)
 end

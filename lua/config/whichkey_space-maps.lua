@@ -80,7 +80,6 @@ spmaps.c.d={':cd %:p:h|pwd\r','cd-to-file'}
 spmaps.c.t={':!ctags -R .\r','ctags'}
 spmaps.c.f={name='+call-function'}
 spmaps.c.f.n={':call v:lua.Norm()\r','set-arrows&mouse'}
-spmaps.c.f.s={':call v:lua.SW()\r','sv-abbrevs'}
 spmaps.c.n={':CycleColorNext\r','color-next'}
 spmaps.c.p={':CycleColorPrev\r','color-prev'}
 ------treesitter
