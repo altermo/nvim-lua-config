@@ -31,6 +31,9 @@ end
 local function get_config(name)
   return string.format('require("config.%s")', name)
 end
+local function get_setup(name,conf)
+  return string.format('require"%s".setup%s',name,vim.inspect(conf or {}))
+end
 local function autocmd(au,opt)
     vim.api.nvim_create_autocmd(au,opt)
 end
@@ -267,28 +270,18 @@ require('packer').startup(function(use)
 ------test
 use 'lewis6991/impatient.nvim' --note
 use{'glacambre/firenvim',run=function() vim.fn['firenvim#install'](0) end}
-use{'0styx0/abbreinder.nvim',requires='0styx0/abbremand.nvim',config='require"abbreinder".setup()'}
-use{'monkoose/matchparen.nvim',config='require"matchparen".setup()'}
-use{ "mtoohey31/cmp-fish", ft = "fish" }
+use{'0styx0/abbreinder.nvim',requires='0styx0/abbremand.nvim',config=get_setup"abbreinder"}
+use{'monkoose/matchparen.nvim',config=get_setup"matchparen"}
+use{"mtoohey31/cmp-fish",ft="fish" }
 use 'quangnguyen30192/cmp-nvim-tags'
 use 'ray-x/cmp-treesitter'
-use {'nvim-orgmode/orgmode', config='require"orgmode".setup()'}
+use {'nvim-orgmode/orgmode', config=get_setup"orgmode"}
 use 'benfowler/telescope-luasnip.nvim'
 use "nvim-telescope/telescope-file-browser.nvim"
-use { 'kosayoda/nvim-lightbulb',
-    requires = 'antoinemadec/FixCursorHold.nvim',
-}--TODO
+use{'kosayoda/nvim-lightbulb', requires = 'antoinemadec/FixCursorHold.nvim'}--TODO
 vim.cmd[[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
 use "tversteeg/registers.nvim"
-use{'folke/which-key.nvim',config=
-function()
-    require("which-key").setup {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    }
-  end
-}
+use{'folke/which-key.nvim',config=get_setup"which-key"}
 use 'arp242/jumpy.vim'
 --use 'nvim-treesitter/nvim-treesitter-textobjects' --TODO=speed test VS alternetive
 --use 'nvim-treesitter/nvim-treesitter-refactor'    --TODO=speed test VS alternetive
@@ -314,38 +307,38 @@ use 'yuttie/hydrangea-vim' --1.5
 use{'mjlbach/onedark.nvim',config='vim.cmd("colorschem onedark")'} --1.3
 --------visual
 use{'p00f/nvim-ts-rainbow',requires={'nvim-treesitter/nvim-treesitter'}} --id=rainbow
-use{'nvim-lualine/lualine.nvim',config='require"lualine".setup({options={theme="powerline"}})'} --id=statusline
-use{'norcalli/nvim-colorizer.lua',config='require"colorizer".setup({"*"})'} --id=sccolor
+use{'nvim-lualine/lualine.nvim',config=get_setup("lualine",{options={theme="powerline"}})} --id=statusline
+use{'norcalli/nvim-colorizer.lua',config=get_setup("colorizer",{"*"})} --id=sccolor
 use 'itchyny/vim-cursorword'
 use 'ntpeters/vim-better-whitespace'
 use 'psliwka/vim-smoothie'
 use 'wellle/context.vim'
-use{'beauwilliams/focus.nvim',config='require("focus").setup({autoresize=false})'}
+use{'beauwilliams/focus.nvim',config=get_setup("focus",{autoresize=false})}
 use{'wfxr/minimap.vim',run=':!cargo install --locked code-minimap',cmd='MinimapToggle'}
 use 'onsails/lspkind.nvim' --note
 --------syntax
-use{'nvim-neorg/neorg',config=[[
-require('neorg').setup{load={
+use{'nvim-neorg/neorg',config=get_setup(
+'neorg',{load={
     ["core.defaults"]={},
     ['core.export']={},
     ['core.export.markdown']={},
     ['core.norg.concealer']={},
-}}]]} --TODO
+}})} --TODO
 use 'neovim/nvim-lspconfig' --TODO --note
 use{'nvim-treesitter/nvim-treesitter',run='vim.cmd"TSUpdate"',requires={'nvim-lua/plenary.nvim'}} --syntax
 --------keys
 use 'tpope/vim-surround' --id=surround
-use{'s1n7ax/nvim-lazy-inner-block',config='require("nvim-lazy-inner-block").setup()'}--id=normal
+use{'s1n7ax/nvim-lazy-inner-block',config=get_setup"nvim-lazy-inner-block"}--id=normal
 use 'tommcdo/vim-lion' --id=align
 use 'bfredl/nvim-miniyank'
-use{'windwp/nvim-autopairs',config='require("nvim-autopairs").setup({map_cr=false})'}--id=autoper
-use{'s1n7ax/nvim-terminal',config='require"nvim-terminal".setup()'} --id=term
+use{'windwp/nvim-autopairs',config=get_setup("nvim-autopairs",{map_cr=false})}--id=autoper
+use{'s1n7ax/nvim-terminal',config=get_setup"nvim-terminal"} --id=term
 use{'tpope/vim-speeddating',keys={{'n','<C-a>'},{'n','<C-x>'},{'n','d<C-a>'},{'n','d<C-x>'},{'x','<C-a>'},{'x','<C-x>'},}}
 use 'wellle/targets.vim'
 use 'wesQ3/vim-windowswap'
 use 'michaeljsmith/vim-indent-object'
 --------movement
-use{'phaazon/hop.nvim',config='require"hop".setup()'}--id=anyhop
+use{'phaazon/hop.nvim',config=get_setup"hop"}--id=anyhop
 use 'rhysd/clever-f.vim'
 ------command
 use{'kyazdani42/nvim-tree.lua',config=get_config('nvimtree'),cmd='NvimTreeToggle'} --id=tree
@@ -363,14 +356,14 @@ use{'dhruvasagar/vim-table-mode',cmd='TableModeToggle'}      --command
 use{'romainl/vim-qf',keys='<Plug>(qf_qf_toggle_stay)'}        --command
 use{'skywind3000/asyncrun.vim',cmd={'AsyncRun','AsyncStop'}} --command
 use{'vim-scripts/CycleColor',cmd={'CycleColorNext','CycleColorPrev','CycleColorRefresh'}}          --command
-use{'sindrets/winshift.nvim',config='require("winshift").setup()'}          --command
+use{'sindrets/winshift.nvim',config=get_setup("winshift")}          --command
 use 'elihunter173/dirbuf.nvim'         --command     --TODO
 use 'williamboman/nvim-lsp-installer'  --command
 --------other
 use{'glepnir/dashboard-nvim',config=get_config('dashboard')}          --other         --id=startpage
 use{'metakirby5/codi.vim',cmd={'Codi','CodiNew','CodiExpand','CodiSelect','CodiUpdate'}}             --other         --id=intscratch
 use{'hrsh7th/nvim-cmp',config=get_config('nvim-lsp-cmp')}        --id=autocomplete
-use{'ThePrimeagen/refactoring.nvim',config='require"refactoring".setup()'}   --other         --r=(nvim-treesitter/nvim-treesitter)
+use{'ThePrimeagen/refactoring.nvim',config=get_setup"refactoring"}   --other         --r=(nvim-treesitter/nvim-treesitter)
 use 'L3MON4D3/LuaSnip'                 --other         --id=snippets
 use 'Konfekt/FastFold'                 --other
 use 'jbyuki/venn.nvim'                 --other         --TODO

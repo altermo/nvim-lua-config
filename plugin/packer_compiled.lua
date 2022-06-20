@@ -98,7 +98,7 @@ _G.packer_plugins = {
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
   ["abbreinder.nvim"] = {
-    config = { 'require"abbreinder".setup()' },
+    config = { 'require"abbreinder".setup{}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/abbreinder.nvim",
     url = "https://github.com/0styx0/abbreinder.nvim"
@@ -266,7 +266,7 @@ _G.packer_plugins = {
     url = "https://github.com/glacambre/firenvim"
   },
   ["focus.nvim"] = {
-    config = { 'require("focus").setup({autoresize=false})' },
+    config = { 'require"focus".setup{\n  autoresize = false\n}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/focus.nvim",
     url = "https://github.com/beauwilliams/focus.nvim"
@@ -292,7 +292,7 @@ _G.packer_plugins = {
     url = "https://github.com/ellisonleao/gruvbox.nvim"
   },
   ["hop.nvim"] = {
-    config = { 'require"hop".setup()' },
+    config = { 'require"hop".setup{}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/hop.nvim",
     url = "https://github.com/phaazon/hop.nvim"
@@ -323,13 +323,13 @@ _G.packer_plugins = {
     url = "https://github.com/onsails/lspkind.nvim"
   },
   ["lualine.nvim"] = {
-    config = { 'require"lualine".setup({options={theme="powerline"}})' },
+    config = { 'require"lualine".setup{\n  options = {\n    theme = "powerline"\n  }\n}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
   ["matchparen.nvim"] = {
-    config = { 'require"matchparen".setup()' },
+    config = { 'require"matchparen".setup{}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/matchparen.nvim",
     url = "https://github.com/monkoose/matchparen.nvim"
@@ -348,7 +348,7 @@ _G.packer_plugins = {
     url = "https://github.com/rafamadriz/neon"
   },
   neorg = {
-    config = { "require('neorg').setup{load={\n    [\"core.defaults\"]={},\n    ['core.export']={},\n    ['core.export.markdown']={},\n    ['core.norg.concealer']={},\n}}" },
+    config = { 'require"neorg".setup{\n  load = {\n    ["core.defaults"] = {},\n    ["core.export"] = {},\n    ["core.export.markdown"] = {},\n    ["core.norg.concealer"] = {}\n  }\n}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/neorg",
     url = "https://github.com/nvim-neorg/neorg"
@@ -364,7 +364,7 @@ _G.packer_plugins = {
     url = "https://github.com/shaunsingh/nord.nvim"
   },
   ["nvim-autopairs"] = {
-    config = { 'require("nvim-autopairs").setup({map_cr=false})' },
+    config = { 'require"nvim-autopairs".setup{\n  map_cr = false\n}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
     url = "https://github.com/windwp/nvim-autopairs"
@@ -376,13 +376,13 @@ _G.packer_plugins = {
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
   ["nvim-colorizer.lua"] = {
-    config = { 'require"colorizer".setup({"*"})' },
+    config = { 'require"colorizer".setup{ "*" }' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
     url = "https://github.com/norcalli/nvim-colorizer.lua"
   },
   ["nvim-lazy-inner-block"] = {
-    config = { 'require("nvim-lazy-inner-block").setup()' },
+    config = { 'require"nvim-lazy-inner-block".setup{}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/nvim-lazy-inner-block",
     url = "https://github.com/s1n7ax/nvim-lazy-inner-block"
@@ -408,7 +408,7 @@ _G.packer_plugins = {
     url = "https://github.com/bfredl/nvim-miniyank"
   },
   ["nvim-terminal"] = {
-    config = { 'require"nvim-terminal".setup()' },
+    config = { 'require"nvim-terminal".setup{}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/nvim-terminal",
     url = "https://github.com/s1n7ax/nvim-terminal"
@@ -449,7 +449,7 @@ _G.packer_plugins = {
     url = "https://github.com/rmehri01/onenord.nvim"
   },
   orgmode = {
-    config = { 'require"orgmode".setup()' },
+    config = { 'require"orgmode".setup{}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/orgmode",
     url = "https://github.com/nvim-orgmode/orgmode"
@@ -475,7 +475,7 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-lua/popup.nvim"
   },
   ["refactoring.nvim"] = {
-    config = { 'require"refactoring".setup()' },
+    config = { 'require"refactoring".setup{}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/refactoring.nvim",
     url = "https://github.com/ThePrimeagen/refactoring.nvim"
@@ -616,13 +616,13 @@ _G.packer_plugins = {
     url = "https://github.com/wellle/visual-split.vim"
   },
   ["which-key.nvim"] = {
-    config = { "\27LJ\2\n;\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\14which-key\frequire\0" },
+    config = { 'require"which-key".setup{}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/which-key.nvim",
     url = "https://github.com/folke/which-key.nvim"
   },
   ["winshift.nvim"] = {
-    config = { 'require("winshift").setup()' },
+    config = { 'require"winshift".setup{}' },
     loaded = true,
     path = "/home/user/.local/share/nvim/site/pack/packer/start/winshift.nvim",
     url = "https://github.com/sindrets/winshift.nvim"
@@ -630,112 +630,122 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: neorg
+time([[Config for neorg]], true)
+require"neorg".setup{
+  load = {
+    ["core.defaults"] = {},
+    ["core.export"] = {},
+    ["core.export.markdown"] = {},
+    ["core.norg.concealer"] = {}
+  }
+}
+time([[Config for neorg]], false)
+-- Config for: lualine.nvim
+time([[Config for lualine.nvim]], true)
+require"lualine".setup{
+  options = {
+    theme = "powerline"
+  }
+}
+time([[Config for lualine.nvim]], false)
 -- Config for: focus.nvim
 time([[Config for focus.nvim]], true)
-require("focus").setup({autoresize=false})
+require"focus".setup{
+  autoresize = false
+}
 time([[Config for focus.nvim]], false)
+-- Config for: refactoring.nvim
+time([[Config for refactoring.nvim]], true)
+require"refactoring".setup{}
+time([[Config for refactoring.nvim]], false)
 -- Config for: nvim-colorizer.lua
 time([[Config for nvim-colorizer.lua]], true)
-require"colorizer".setup({"*"})
+require"colorizer".setup{ "*" }
 time([[Config for nvim-colorizer.lua]], false)
--- Config for: winshift.nvim
-time([[Config for winshift.nvim]], true)
-require("winshift").setup()
-time([[Config for winshift.nvim]], false)
+-- Config for: nvim-lazy-inner-block
+time([[Config for nvim-lazy-inner-block]], true)
+require"nvim-lazy-inner-block".setup{}
+time([[Config for nvim-lazy-inner-block]], false)
 -- Config for: nvim-cmp
 time([[Config for nvim-cmp]], true)
 require("config.nvim-lsp-cmp")
 time([[Config for nvim-cmp]], false)
--- Config for: nvim-terminal
-time([[Config for nvim-terminal]], true)
-require"nvim-terminal".setup()
-time([[Config for nvim-terminal]], false)
--- Config for: onedark.nvim
-time([[Config for onedark.nvim]], true)
-vim.cmd("colorschem onedark")
-time([[Config for onedark.nvim]], false)
--- Config for: refactoring.nvim
-time([[Config for refactoring.nvim]], true)
-require"refactoring".setup()
-time([[Config for refactoring.nvim]], false)
--- Config for: neorg
-time([[Config for neorg]], true)
-require('neorg').setup{load={
-    ["core.defaults"]={},
-    ['core.export']={},
-    ['core.export.markdown']={},
-    ['core.norg.concealer']={},
-}}
-time([[Config for neorg]], false)
--- Config for: nvim-autopairs
-time([[Config for nvim-autopairs]], true)
-require("nvim-autopairs").setup({map_cr=false})
-time([[Config for nvim-autopairs]], false)
--- Config for: hop.nvim
-time([[Config for hop.nvim]], true)
-require"hop".setup()
-time([[Config for hop.nvim]], false)
+-- Config for: orgmode
+time([[Config for orgmode]], true)
+require"orgmode".setup{}
+time([[Config for orgmode]], false)
 -- Config for: dashboard-nvim
 time([[Config for dashboard-nvim]], true)
 require("config.dashboard")
 time([[Config for dashboard-nvim]], false)
--- Config for: abbreinder.nvim
-time([[Config for abbreinder.nvim]], true)
-require"abbreinder".setup()
-time([[Config for abbreinder.nvim]], false)
+-- Config for: hop.nvim
+time([[Config for hop.nvim]], true)
+require"hop".setup{}
+time([[Config for hop.nvim]], false)
 -- Config for: matchparen.nvim
 time([[Config for matchparen.nvim]], true)
-require"matchparen".setup()
+require"matchparen".setup{}
 time([[Config for matchparen.nvim]], false)
+-- Config for: winshift.nvim
+time([[Config for winshift.nvim]], true)
+require"winshift".setup{}
+time([[Config for winshift.nvim]], false)
+-- Config for: onedark.nvim
+time([[Config for onedark.nvim]], true)
+vim.cmd("colorschem onedark")
+time([[Config for onedark.nvim]], false)
+-- Config for: nvim-terminal
+time([[Config for nvim-terminal]], true)
+require"nvim-terminal".setup{}
+time([[Config for nvim-terminal]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+require"nvim-autopairs".setup{
+  map_cr = false
+}
+time([[Config for nvim-autopairs]], false)
 -- Config for: which-key.nvim
 time([[Config for which-key.nvim]], true)
-try_loadstring("\27LJ\2\n;\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\14which-key\frequire\0", "config", "which-key.nvim")
+require"which-key".setup{}
 time([[Config for which-key.nvim]], false)
--- Config for: nvim-lazy-inner-block
-time([[Config for nvim-lazy-inner-block]], true)
-require("nvim-lazy-inner-block").setup()
-time([[Config for nvim-lazy-inner-block]], false)
--- Config for: lualine.nvim
-time([[Config for lualine.nvim]], true)
-require"lualine".setup({options={theme="powerline"}})
-time([[Config for lualine.nvim]], false)
--- Config for: orgmode
-time([[Config for orgmode]], true)
-require"orgmode".setup()
-time([[Config for orgmode]], false)
+-- Config for: abbreinder.nvim
+time([[Config for abbreinder.nvim]], true)
+require"abbreinder".setup{}
+time([[Config for abbreinder.nvim]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file AsyncRun lua require("packer.load")({'asyncrun.vim'}, { cmd = "AsyncRun", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file AsyncStop lua require("packer.load")({'asyncrun.vim'}, { cmd = "AsyncStop", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file NvimTreeToggle lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CycleColorPrev lua require("packer.load")({'CycleColor'}, { cmd = "CycleColorPrev", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CycleColorRefresh lua require("packer.load")({'CycleColor'}, { cmd = "CycleColorRefresh", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Bdelete lua require("packer.load")({'close-buffers.vim'}, { cmd = "Bdelete", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Bwipeout lua require("packer.load")({'close-buffers.vim'}, { cmd = "Bwipeout", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Telescope lua require("packer.load")({'telescope.nvim'}, { cmd = "Telescope", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Bclose lua require("packer.load")({'bclose.vim'}, { cmd = "Bclose", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Codi lua require("packer.load")({'codi.vim'}, { cmd = "Codi", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CodiNew lua require("packer.load")({'codi.vim'}, { cmd = "CodiNew", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CodiExpand lua require("packer.load")({'codi.vim'}, { cmd = "CodiExpand", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CodiSelect lua require("packer.load")({'codi.vim'}, { cmd = "CodiSelect", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Bdelete lua require("packer.load")({'close-buffers.vim'}, { cmd = "Bdelete", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Bwipeout lua require("packer.load")({'close-buffers.vim'}, { cmd = "Bwipeout", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CodiUpdate lua require("packer.load")({'codi.vim'}, { cmd = "CodiUpdate", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file TableModeToggle lua require("packer.load")({'vim-table-mode'}, { cmd = "TableModeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Telescope lua require("packer.load")({'telescope.nvim'}, { cmd = "Telescope", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file TagbarToggle lua require("packer.load")({'tagbar'}, { cmd = "TagbarToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file TableModeToggle lua require("packer.load")({'vim-table-mode'}, { cmd = "TableModeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file AsyncRun lua require("packer.load")({'asyncrun.vim'}, { cmd = "AsyncRun", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file AsyncStop lua require("packer.load")({'asyncrun.vim'}, { cmd = "AsyncStop", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CycleColorNext lua require("packer.load")({'CycleColor'}, { cmd = "CycleColorNext", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Bclose lua require("packer.load")({'bclose.vim'}, { cmd = "Bclose", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CycleColorPrev lua require("packer.load")({'CycleColor'}, { cmd = "CycleColorPrev", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CycleColorRefresh lua require("packer.load")({'CycleColor'}, { cmd = "CycleColorRefresh", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file MinimapToggle lua require("packer.load")({'minimap.vim'}, { cmd = "MinimapToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CodiSelect lua require("packer.load")({'codi.vim'}, { cmd = "CodiSelect", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CodiExpand lua require("packer.load")({'codi.vim'}, { cmd = "CodiExpand", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
 
 -- Keymap lazy-loads
 time([[Defining lazy-load keymaps]], true)
-vim.cmd [[noremap <silent> <leader>bd <cmd>lua require("packer.load")({'bclose.vim'}, { keys = "<lt>leader>bd", prefix = "" }, _G.packer_plugins)<cr>]]
-vim.cmd [[noremap <silent> <Plug>(qf_qf_toggle_stay) <cmd>lua require("packer.load")({'vim-qf'}, { keys = "<lt>Plug>(qf_qf_toggle_stay)", prefix = "" }, _G.packer_plugins)<cr>]]
-vim.cmd [[xnoremap <silent> <C-x> <cmd>lua require("packer.load")({'vim-speeddating'}, { keys = "<lt>C-x>", prefix = "" }, _G.packer_plugins)<cr>]]
-vim.cmd [[xnoremap <silent> <C-a> <cmd>lua require("packer.load")({'vim-speeddating'}, { keys = "<lt>C-a>", prefix = "" }, _G.packer_plugins)<cr>]]
-vim.cmd [[nnoremap <silent> <C-a> <cmd>lua require("packer.load")({'vim-speeddating'}, { keys = "<lt>C-a>", prefix = "" }, _G.packer_plugins)<cr>]]
 vim.cmd [[nnoremap <silent> <C-x> <cmd>lua require("packer.load")({'vim-speeddating'}, { keys = "<lt>C-x>", prefix = "" }, _G.packer_plugins)<cr>]]
 vim.cmd [[nnoremap <silent> d<C-a> <cmd>lua require("packer.load")({'vim-speeddating'}, { keys = "d<lt>C-a>", prefix = "" }, _G.packer_plugins)<cr>]]
 vim.cmd [[nnoremap <silent> d<C-x> <cmd>lua require("packer.load")({'vim-speeddating'}, { keys = "d<lt>C-x>", prefix = "" }, _G.packer_plugins)<cr>]]
+vim.cmd [[nnoremap <silent> <C-a> <cmd>lua require("packer.load")({'vim-speeddating'}, { keys = "<lt>C-a>", prefix = "" }, _G.packer_plugins)<cr>]]
+vim.cmd [[noremap <silent> <Plug>(qf_qf_toggle_stay) <cmd>lua require("packer.load")({'vim-qf'}, { keys = "<lt>Plug>(qf_qf_toggle_stay)", prefix = "" }, _G.packer_plugins)<cr>]]
+vim.cmd [[xnoremap <silent> <C-x> <cmd>lua require("packer.load")({'vim-speeddating'}, { keys = "<lt>C-x>", prefix = "" }, _G.packer_plugins)<cr>]]
+vim.cmd [[xnoremap <silent> <C-a> <cmd>lua require("packer.load")({'vim-speeddating'}, { keys = "<lt>C-a>", prefix = "" }, _G.packer_plugins)<cr>]]
+vim.cmd [[noremap <silent> <leader>bd <cmd>lua require("packer.load")({'bclose.vim'}, { keys = "<lt>leader>bd", prefix = "" }, _G.packer_plugins)<cr>]]
 time([[Defining lazy-load keymaps]], false)
 
 vim.cmd [[augroup packer_load_aucmds]]
