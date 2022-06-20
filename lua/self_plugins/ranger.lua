@@ -2,7 +2,7 @@ local function command(cmd,bin,opt)
   vim.api.nvim_create_user_command(cmd,bin,opt or {})
 end
 local fn=vim.fn
-function RangerF(path)
+function Ranger(path)
   local currentPath=fn.expand(path,nil,nil)
   if string.find(currentPath,'term:') then
       currentPath=fn.getcwd()
@@ -25,5 +25,5 @@ function RangerF(path)
   fn.termopen(ranger_command..' --choosefiles='..file..' "'..currentPath..'"',JobArgs)
   vim.cmd('startinsert')
 end
-command('Ranger','lua RangerF("%")')
-command('RangerG','lua RangerF(<args>)',{nargs=1})
+command('Ranger','lua Ranger("%")')
+command('RangerG','lua Ranger(<args>)',{nargs=1})
