@@ -23,4 +23,4 @@ vim.cmd([[
   hi link txtLink     Special
   hi link noWord      Function
   hi link specWord    Todo
-  ]]) --TODO
+  ]]) --TODO --TODO

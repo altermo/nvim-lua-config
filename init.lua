@@ -346,7 +346,7 @@ use{'rbgrouleff/bclose.vim',cmd='Bclose',keys='<leader>bd'} --id=buffers
 use{'Asheq/close-buffers.vim',cmd={'Bdelete','Bwipeout'}} --id=buffers
 use{'nvim-telescope/telescope.nvim',cmd='Telescope'}   --command       --id=FZF
 use 'tpope/vim-eunuch'                 --command       --id=normal
-use 'mbbill/undotree'                  --command       --id=undotree
+use{'mbbill/undotree',cmd='UndotreeToggle'}                 --command       --id=undotree
 use{'majutsushi/tagbar',cmd='TagbarToggle'}                  --command       --id=tagbar
 use{'nvim-treesitter/playground',requires={'nvim-lua/popup.nvim'}}      --command       --r=(nvim-treesitter/nvim-treesitter)
 use 'wellle/visual-split.vim'          --command
