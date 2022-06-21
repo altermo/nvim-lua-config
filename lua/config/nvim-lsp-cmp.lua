@@ -65,13 +65,13 @@ mapping=cmp.mapping.preset.insert({
         else
             fallback()
         end end,{ "i","s" }),
-        ["<S-Tab>"]=cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            else
-                fallback()
-            end end,{ "i","s" })
-        }),
+    ["<S-Tab>"]=cmp.mapping(function(fallback)
+        if cmp.visible() then
+            cmp.select_prev_item()
+        else
+            fallback()
+        end end,{ "i","s" })
+    }),
 })--TODO
 cmp.setup.cmdline("/",{
     mapping=cmp.mapping.preset.cmdline(),
