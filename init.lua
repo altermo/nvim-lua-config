@@ -80,12 +80,10 @@ function FoldL(lnum)
 end
 function TermAppRun(bin,mouse)
   vim.cmd('enew')
-  local JobArgs={}
   local buf=fn.bufnr()
-  function JobArgs.on_exit(_,_,_)
+  fn.termopen((mouse and "printf '\\e[?1000h';" or "")..bin,{on_exit=function (_,_,_)
     vim.cmd('bdelete! '..buf)
-  end
-  fn.termopen((mouse and "printf '\\e[?1000h';" or "")..bin,JobArgs)
+  end})
   vim.cmd('startinsert')
 end
 
