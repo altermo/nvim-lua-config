@@ -276,6 +276,9 @@ use 'arp242/jumpy.vim'
 --use 'nvim-treesitter/nvim-treesitter-refactor'    --TODO=speed test VS alternetive
 --use{'glepnir/indent-guides.nvim',config='require("indent_guides").setup()'} --TODO
 use 'nvim-telescope/telescope-symbols.nvim'
+use 'suan/vim-instant-markdown'
+--use{"AckslD/nvim-neoclip.lua", config = function() require('neoclip').setup() end, } --TODO test
+--use 'airblade/vim-rooter'
 --------colorschem
 use 'mhartington/oceanic-next' --14
 use 'ghifarit53/tokyonight-vim' --11
@@ -300,8 +303,7 @@ use{'nvim-lualine/lualine.nvim',config=get_setup("lualine",{options={theme="powe
 use{'norcalli/nvim-colorizer.lua',config=get_setup("colorizer",{"*"})} --id=sccolor
 use 'itchyny/vim-cursorword'
 use 'ntpeters/vim-better-whitespace'
-use 'psliwka/vim-smoothie'
-use 'wellle/context.vim'
+use{'karb94/neoscroll.nvim',config=get_setup"neoscroll"}
 use{'beauwilliams/focus.nvim',config=get_setup("focus",{autoresize=false})}
 use{'wfxr/minimap.vim',run=':!cargo install --locked code-minimap',cmd='MinimapToggle'}
 use 'onsails/lspkind.nvim' --note
@@ -334,8 +336,8 @@ use{'kyazdani42/nvim-tree.lua',config=get_config('nvimtree'),cmd='NvimTreeToggle
 use{'rbgrouleff/bclose.vim',cmd='Bclose',keys='<leader>bd'} --id=buffers
 use{'Asheq/close-buffers.vim',cmd={'Bdelete','Bwipeout'}} --id=buffers
 use{'nvim-telescope/telescope.nvim',cmd='Telescope'}   --command       --id=FZF
-use 'tpope/vim-eunuch'                 --command       --id=normal
-use{'mbbill/undotree',cmd='UndotreeToggle'}                 --command       --id=undotree
+use{'tpope/vim-eunuch'}                --command       --id=normal
+use{'simnalamburt/vim-mundo',cmd='MundoToggle'}                 --command       --id=undotree
 use{'majutsushi/tagbar',cmd='TagbarToggle'}                  --command       --id=tagbar
 use{'nvim-treesitter/playground',requires={'nvim-lua/popup.nvim'}}      --command       --r=(nvim-treesitter/nvim-treesitter)
 use 'wellle/visual-split.vim'          --command

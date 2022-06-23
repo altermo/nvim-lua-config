@@ -136,7 +136,7 @@ spmaps.t={name='+toggle'}
 spmaps.t.e={':NvimTreeToggle\r','explorer'}
 spmaps.t.h={':TSToggle highlight\r','TS-highlight'}
 spmaps.t.t={':Tagbar\r','tagbar'}
-spmaps.t.u={':UndotreeToggle\r','undotree'}
+spmaps.t.u={':MundoToggle\r','undotree'}
 spmaps.t.f={':call v:lua.Toggle("foldenable")\r','fold'}
 spmaps.t.T={':TSPlaygroundToggle\r','TSPlayground'}
 spmaps.t.F={':FocusToggle\r','focus'}
@@ -155,6 +155,8 @@ end end,'max-mode'} --TODO
 spmaps.g={name='+browser--'}
 for k,v in pairs({
     p='yi\':!setsid firefox https://www.github.com/<C-r>"\r',
+    P='yi":!setsid firefox https://www.github.com/<C-r>"\r',
+    ["π"]='0Y:!setsid firefox https://www.github.com/<C-r>"\r',
     c='yi\':!setsid firefox (curl -s "https://registry.npmjs.org/<C-r>""<Bar>jq -r ".homepage")\r',
     C='yi\':!setsid firefox "https://registry.npmjs.org/<C-r>""\r',
     w='lbyw:!setsid firefox "https://en.wikipedia.org/w/index.php?search=<C-r>""\r',

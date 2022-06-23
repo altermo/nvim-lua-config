@@ -1,7 +1,3 @@
-"if line("'\"")>1&&line("'\"")<=line("$")
-"  exe "normal! g`\""
-"endif
-
 let filename=expand("%:p")
 if filename=="/home/user/.config/fish/config.fish"
   setl foldenable
