@@ -10,7 +10,7 @@ vim.keymap.set('n','[d',vim.diagnostic.goto_prev,{noremap=true,silent=true})
 vim.keymap.set('n',']d',vim.diagnostic.goto_next,{noremap=true,silent=true})
 
 local cmp=require'cmp'
-local lspkind = require('lspkind')
+local lspkind=require('lspkind')
 cmp.setup({
     formatting={
         format=lspkind.cmp_format({menu={
@@ -118,3 +118,4 @@ ls.add_snippets(nil,{
         snip({trig="pathh"},{func(function() return {vim.fn.expand('%:h')} end)}),
         snip({trig="patht"},{func(function() return {vim.fn.expand('%:t')} end)}),
 }})
+--TODO:: separate into multible files

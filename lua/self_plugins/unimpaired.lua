@@ -5,6 +5,32 @@ end
 local function nno(key,maps)
   map('n',key,maps,{noremap=true,silent=true})
 end
+local function toggle(opt,on,off) --TODO : remake in lua
+    if off then
+        vim.cmd('let &'..opt..'=(&'..opt..'=="'..on..'"?"'..off..'":"'..on..'")')
+    elseif on then
+        vim.cmd('let &'..opt..'=(&'..opt..'==""?"'..on..'":"")')
+    else
+        vim.cmd('set '..opt..'!')
+    end
+    vim.cmd('|echo "'..opt..'=" &'..opt)
+end
+local function seton(opt,on)
+    if on then
+        vim.cmd('set '..opt..'='..on)
+    else
+        vim.cmd('set '..opt)
+    end
+    vim.cmd('|echo "'..opt..'=" &'..opt)
+end
+local function setoff(opt,off)
+    if off then
+        vim.cmd('set '..opt..'='..off)
+    else
+        vim.cmd('set no'..opt)
+    end
+    vim.cmd('|echo "'..opt..'=" &'..opt)
+end
 
 local function listdir(path)
     return fn.readdir(path)
@@ -97,24 +123,17 @@ for k,v in pairs({
     c='cursorline',h='hlsearch',l='list',
     i='ignorecase',n='number',r='relativenumber',
     s='spell',u='cursorcolumn',w='wrap',d='diff',
-    t={opt='colorcolumn',on='1,41,81,121,161,201,241',off=''}, --TODO
-    v={opt='virtualedit',on='block,onemore',off=''} --TODO
+    t={opt='colorcolumn',on='1,41,81,121,161,201,241'}, --TODO
+    v={opt='virtualedit',on='block,onemore'}, --TODO
+    m={opt='mouse',on='a'},f='foldenable',
 }) do
-    if type(v)=='table' then
-        nno('[o'..k,':set '..v.opt..'='..v.on..'\r')
-        nno(']o'..k,':set '..v.opt..'='..v.off..'\r')
-        nno('yo'..k,':let &'..v.opt..'=(&'..v.opt..'=="'..v.on..'"?"'..v.off..'":"'..v.on..'")\r')
-        nno('<s'..k,':set '..v.opt..'='..v.on..'\r')
-        nno('>s'..k,':set '..v.opt..'='..v.off..'\r')
-        nno('=s'..k,':let &'..v.opt..'=(&'..v.opt..'=="'..v.on..'"?"'..v.off..'":"'..v.on..'")\r')
-    else
-        nno('[o'..k,':set '..v..'\r')
-        nno(']o'..k,':set no'..v..'\r')
-        nno('yo'..k,':set '..v..'!\r')
-        nno('<s'..k,':set '..v..'\r')
-        nno('>s'..k,':set no'..v..'\r')
-        nno('=s'..k,':set '..v..'!\r')
-    end
+    if type(v)~='table' then v={opt=v} end
+    nno('[o'..k,function () seton(v.opt,v.on) end)
+    nno(']o'..k,function () setoff(v.opt,v.off) end)
+    nno('yo'..k,function () toggle(v.opt,v.on,v.off) end)
+    nno('<s'..k,function () seton(v.opt,v.on) end)
+    nno('>s'..k,function () setoff(v.opt,v.off) end)
+    nno('=s'..k,function () toggle(v.opt,v.on,v.off) end)
 end
 nno('yox',':set cursorcolumn!|let &cursorline=&cursorcolumn\r')
 nno('[ox',':set cursorcolumn cursorline\r')
