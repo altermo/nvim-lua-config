@@ -5,31 +5,31 @@ end
 local function nno(key,maps)
   map('n',key,maps,{noremap=true,silent=true})
 end
-local function toggle(opt,on,off) --TODO : remake in lua
+local function toggle(opt,on,off)
     if off then
-        vim.cmd('let &'..opt..'=(&'..opt..'=="'..on..'"?"'..off..'":"'..on..'")')
+        vim.o[opt]=(vim.o[opt]==on and off or on)
     elseif on then
-        vim.cmd('let &'..opt..'=(&'..opt..'==""?"'..on..'":"")')
+        vim.o[opt]=(vim.o[opt]=='' and on or '')
     else
-        vim.cmd('set '..opt..'!')
+        vim.o[opt]=not vim.o[opt]
     end
-    vim.cmd('|echo "'..opt..'=" &'..opt)
+    vim.notify(opt..'='..tostring(vim.o[opt]))
 end
 local function seton(opt,on)
     if on then
-        vim.cmd('set '..opt..'='..on)
+        vim.o[opt]=on
     else
-        vim.cmd('set '..opt)
+        vim.o[opt]=true
     end
-    vim.cmd('|echo "'..opt..'=" &'..opt)
+    vim.notify(opt..'='..tostring(vim.o[opt]))
 end
 local function setoff(opt,off)
     if off then
-        vim.cmd('set '..opt..'='..off)
+        vim.o[opt]=off
     else
-        vim.cmd('set no'..opt)
+        vim.o[opt]=false
     end
-    vim.cmd('|echo "'..opt..'=" &'..opt)
+    vim.notify(opt..'='..tostring(vim.o[opt]))
 end
 
 local function listdir(path)
@@ -123,8 +123,8 @@ for k,v in pairs({
     c='cursorline',h='hlsearch',l='list',
     i='ignorecase',n='number',r='relativenumber',
     s='spell',u='cursorcolumn',w='wrap',d='diff',
-    t={opt='colorcolumn',on='1,41,81,121,161,201,241'}, --TODO
-    v={opt='virtualedit',on='block,onemore'}, --TODO
+    t={opt='colorcolumn',on='1,41,81,121,161,201,241'},
+    v={opt='virtualedit',on='block,onemore'},
     m={opt='mouse',on='a'},f='foldenable',
 }) do
     if type(v)~='table' then v={opt=v} end

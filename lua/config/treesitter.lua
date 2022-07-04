@@ -11,17 +11,16 @@ require'nvim-treesitter.configs'.setup({ensure_installed={
     'jsonc','norg'
 },rainbow={enable=true},
 highlight={enable=true},
-refactor={ --TODO
-smart_rename={enable=true,keymaps={smart_rename="gr"}},
-navigation={enable=true,
-keymaps={
-    goto_definition = "gnd",
-    list_definitions = "gnD",
-    goto_next_usage = "<a-*>",
-    goto_previous_usage = "<a-#>",
-}}},
-autotag={enable=true},
 context_commentstring={enable=true},
 pairs={enable=true,highlight_pair_events={'CursorMoved'}},
+textsubjects={enable=true,
+    prev_selection='Q',
+    keymaps={
+        ['a,']='textsubjects-smart',
+        ['a.']='textsubjects-container-outer',
+        ['i.']='textsubjects-container-inner',
+}},
 })
 require'orgmode'.setup_ts_grammar()
+--refactor={smart_rename={keymaps={smart_rename="gr"}}},
+--vim.keymap.set('n','gr':TSEnable refactor.smart_rename<cr>gr')

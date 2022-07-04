@@ -1,13 +1,4 @@
 ----init--
-local function map(kind,key,maps,opts)
-  vim.keymap.set(kind,' '..key,maps,opts)
-end
-local function nno(key,maps)
-  map('n',key,maps,{noremap=true,silent=true})
-end
-local function lnno(key,maps)
-  map('n',key,maps,{noremap=true})
-end
 local function wip()
     return ':echo "work in progress"\r'
 end
@@ -28,14 +19,14 @@ spmaps.C={':set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20\r','restore-
 ------other
 spmaps['\t']={':edit #\r','edit-last'}
 spmaps.R={'m":Resource\r','reload-config'}
-lnno('S',':! "%"<Left><Left><Left><Left>') spmaps.S='shell-file'
+spmaps.S={':! "%"<Left><Left><Left><Left>','shell-file',silent=false}
 spmaps.z={'zM100zo','close-all-folds-but-cursor'}
 spmaps.Z={'zM','close-all-folds'}
 spmaps.l={':ls\r','list-buffers'}
 spmaps.o={':only\r','only-window'}
 spmaps.d={':w !diff % -\r','diff-last-write'}
 spmaps.M={':set ro virtualedit=all\r','read-only'}
-lnno('P',':py ') spmaps.P='python'
+spmaps.P={':py ','python',silent=false}
 spmaps.k={':Telescope current_buffer_fuzzy_find\r','current-file-search'}
 ------hop
 spmaps[' ']={':HopLine\r','SmartHop'}
@@ -46,17 +37,11 @@ spmaps.a={name='+apps'}
 spmaps.a.w={':call execute("terminal curl \'wttr.in/?nQF&lang=es\' -s")|startinsert\r','weather'}
 spmaps.a.t={':vsplit|term set a (mktemp);while :;cat "%"|trans "es:sv" -b>$a;clear;cat $a;end\r:wincmd p\r','async-tranlate'}
 
-----otherm
-spmaps.m={name='+otherm'}
-spmaps.m['\r']={':marks\r','list-marks'}
-lnno('mn',':nnoremap <C-v><CR> ') spmaps.m.n='nmap-private'
-lnno('mv',':vnoremap <C-v><CR> ') spmaps.m.v='vmap-private'
-
 ----replace-vertical-horizontal
 spmaps.r={name='+replace'}
 spmaps.v={name='+vertical'}
 spmaps.e={name='+horizontal'}
-for k,v in pairs({t='Fish',n='enew',d='Dashboard',b='Telescope buffers'}) do
+for k,v in pairs({t='Fish',n='enew',d='Dff',b='Telescope buffers'}) do
     spmaps.r[k]={':'..v..'\r',v}
     spmaps.v[k]={':vnew|'..v..'\r',v}
     spmaps.e[k]={':new|'..v..'\r',v}
@@ -78,7 +63,7 @@ spmaps.e.e={':split\r','split'}
 ----otherc
 spmaps.c={name='+otherc'}
 spmaps.c.d={':cd %:p:h|pwd\r','cd-to-file'}
-spmaps.c.t={':!ctags -R .\r','ctags'}
+spmaps.c.T={':!ctags -R .\r','ctags'}
 spmaps.c.f={name='+call-function'}
 spmaps.c.f.n={':call v:lua.Norm()\r','set-arrows&mouse'}
 spmaps.c.f.t={':call v:lua.TN()\r','ett/en'}
@@ -87,30 +72,42 @@ spmaps.c.p={':CycleColorPrev\r','color-prev'}
 spmaps.c.c={':mod\r','redraw-screen'}
 spmaps.c.P={':v/\\//d|%s/\\v^.{-}([a-zA-Z0-9._-]+\\/[a-zA-Z0-9._-]+).*/\\1/g\r','extraxt-plugs'}
 ------treesitter
-spmaps.c.T={name='+treesitter'}
-spmaps.c.T.q={':TSCaptureUnderCursor\r','query1'}
-spmaps.c.T.Q={':TSNodeUnderCursor\r','query2'}
-spmaps.c.H={':lua require"tsht".nodes()\r','TSHT'}
+spmaps.c.t={name='+treesitter'}
+spmaps.c.t.q={':TSCaptureUnderCursor\r','query1'}
+spmaps.c.t.Q={':TSNodeUnderCursor\r','query2'}
+spmaps.c.t.Q={':TSNodeUnderCursor\r','query2'}
+spmaps.c.t.h={':lua require"tsht".nodes()\r','TSHT'}
+spmaps.c.t.t={':doautocmd User autotag\r','autotag'}
+------foldmethod
+spmaps.c.F={name='+foldmethod'}
+for k,v in pairs({m='manual',i='indent',e='expr',M='marker',S='syntex',d='diff'}) do
+    spmaps.c.F[k]={':set foldmethod='..v..'\r',v}
+end
+------map
+spmaps.c.m={name='+maps'}
+spmaps.c.m.n={':nnoremap <C-v><CR> ','nmap-private',silent=false}
+spmaps.c.m.v={':vnoremap <C-v><CR> ','vmap-private',silent=false}
 
 ----find
 spmaps.f={name='+find'}
 for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
   o='oldfiles',s='live_grep',b='buffers',l='luasnip',B='builtin',
-  h='harpoon marks',p='projects',L='software-licenses find'}) do
+  h='harpoon marks',p='projects',L='software-licenses find',
+  y='yank_history',n='notify'}) do
   spmaps.f[k]={':Telescope '..v..' theme=ivy hidden=true\r',v}
 end
 
 ----files
 spmaps.F={name='+files'}
 spmaps.F.b={':!cp "%" "%".bak\r','backup'}
-lnno('Fr',':Rename ') spmaps.F.r='rename'
+spmaps.F.r={':Rename ','rename',silent=false}
 spmaps.F.c={':!echo "%:p"|xclip -selection c\r','copy-path'}
 spmaps.F.p={':exe(\'vnew|call termopen("bat -pp \'.expand(\'<cfile>\').\'")\')\r','preview-under-cursor'}
 spmaps.F.t={name='+set-type'}
 for k,v in pairs({p='python',t='text',v='vim',f='fish',r='rust',l='lua'}) do
     spmaps.F.t[k]={':set filetype='..v..'\r',v}
 end
-lnno('Fto',':set filetype=') spmaps.F.t.o='other'
+spmaps.F.t.o={':set filetype=','other',silent=false}
 
 ----buffers
 spmaps.b={name='+buffers'}
@@ -123,6 +120,7 @@ spmaps.b.d.t={':BD! term\r','terminal'}
 spmaps.p={name='packer'}
 spmaps.p.s={':PackerSync\r','sync'}
 spmaps.p.p={':PackerCompile\r','compile'}
+spmaps.p.P={':PackerCompile profile=true\r','compile-profile'}
 spmaps.p.i={':PackerInstall\r','install'}
 spmaps.p.c={':PackerClean\r','clean'}
 
@@ -132,13 +130,13 @@ spmaps.T={name='+translate'}
 spmaps.T.f={name='+from'}
 spmaps.T.t={name='+to'}
 for k,v in pairs({s='es',e='en',v='sv',n='nb'}) do
-    lnno('s'..k,':set spelllang='..v..'\r') spmaps.s[k]='lang='..v
-    lnno('Tf'..k,':let g:translator_source_lang="'..v..'"\r') spmaps.T.f[k]='lang='..v
-    lnno('Tt'..k,':let g:translator_target_lang="'..v..'"\r') spmaps.T.t[k]='lang='..v
+spmaps.s[k]={':set spelllang='..v..'\r','lang='..v,silent=false}
+spmaps.T.f[k]={':let g:translator_source_lang="'..v..'"\r','lang='..v,silent=false}
+spmaps.T.t[k]={':let g:translator_target_lang="'..v..'"\r','lang='..v,silent=false}
 end
 spmaps.T.s={':call v:lua.SwapLang()\r','swap_lang'}
-lnno('Tff',':let g:translator_source_lang=""<Left>') spmaps.T.f.f='other'
-lnno('Ttt',':let g:translator_target_lang=""<Left>') spmaps.T.t.t='other'
+spmaps.T.f.f={':let g:translator_source_lang=""<Left>','other',silent=false}
+spmaps.T.t.t={':let g:translator_target_lang=""<Left>','other',silent=false}
 
 ----toggle
 spmaps.t={name='+toggle'}
@@ -150,18 +148,27 @@ spmaps.t.T={':TSPlaygroundToggle\r','TSPlayground'}
 spmaps.t.F={':FocusToggle\r','focus'}
 spmaps.t.m={':MinimapToggle\r','minimap'}
 spmaps.t.c={':ColorizerToggle\r','colorizer'}
+spmaps.t.o={':SymbolsOutline\r','outline'}
 spmaps.t.k={wip(),'kakoune-mode'}
 spmaps.t.M={function ()
-    vim.o.winminwidth=0
-    vim.o.winminheight=0
-    for i in ('hjkl'):gmatch('.') do
-        vim.cmd('nno <C-'..i..'> <C-w>'..i..'<C-w><bar><C-w>_')
-end end,'max-mode'} --TODO
+    if MaxGroop then
+        vim.api.nvim_del_autocmd(MaxGroop)
+        MaxGroop=nil
+        vim.cmd('set winminheight& winminwidth&')
+    else
+        vim.o.winminwidth=0
+        vim.o.winminheight=0
+        MaxGroop=vim.api.nvim_create_autocmd('WinEnter',{command='execute("wincmd _")|wincmd |'})
+        vim.cmd('wincmd _')
+        vim.cmd('wincmd |')
+    end
+end,'max-mode'}
 spmaps.t.z={':ZenMode\r','zen-mode'}
 spmaps.t.Z={':Twilight\r','twilight'}
+spmaps.t.b={':SimpleBufferToggle\r','simple-bufer-toggle'}
 
 ----browser
-spmaps.g={name='+browser--'}
+spmaps.g={name='+browser--'} -- TODO g is other> remap to G
 for k,v in pairs({
     p='yi\':!setsid firefox https://www.github.com/<C-r>"\r',
     P='yi":!setsid firefox https://www.github.com/<C-r>"\r',
@@ -171,7 +178,7 @@ for k,v in pairs({
     w='lbyw:!setsid firefox "https://en.wikipedia.org/w/index.php?search=<C-r>""\r',
     q='lbyw:!setsid firefox "https://docs.qtile.org/en/latest/search.html?q=<C-r>"&check_keywords=yes&area=default"\r',
   }) do
-  nno('g'..k,v..'\r')
+  spmaps.g[k]={v..'\r',v}
 end
 
 ----harpoon
@@ -190,7 +197,18 @@ for i=1,9 do
     spmaps.H[n]={':HSHighlight '..n..'\r','color '..n}
 end
 
+----multiline
+spmaps.m={name='+multiline'}
+spmaps.m.v={':v//d<Left><Left>','vdelete',silent=false}
+spmaps.m.a={':% norm ','anorm',silent=false}
+spmaps.m.j={':%s/\\n//<Left>','ajoin',silent=false}
+spmaps.m.y={':% y\r','ayank'} --TODO
+
+----lsp
+spmaps.L={name='lsp'}
+spmaps.L.q={':lua vim.diagnostic.setqflist()\r','quickfix'}
+
 ----last--
 wk.register({[' ']=spmaps})
---TODO : foldmethod=*
+--TODO remake in format {a:{b:{c:{"a","b"}}}}
 -- vim:fen:

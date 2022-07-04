@@ -1,9 +1,9 @@
-pcall(require,'impatient') --TODO
+pcall(require,'impatient')
 
-require('functions') --priority
-require('plugins')
-require('options')
-require('keymaps')
-require('abbrevs-commands')
-require('autocmds')
-require('other')
+require'functions' --priority
+require'plugins'
+require'options'
+require'keymaps'
+require'abbrevs-commands'
+require'autocmds'
+require'other'

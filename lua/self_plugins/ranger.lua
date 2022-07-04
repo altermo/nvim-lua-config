@@ -4,9 +4,6 @@ end
 local fn=vim.fn
 function Ranger(path)
   local currentPath=fn.expand(path,nil,nil)
-  if string.find(currentPath,'term:') then
-      currentPath=fn.getcwd()
-  end
   local file='/tmp/chosenfile'
   local ranger_command="printf '\\e[?1000h';ranger --cmd 'set show_hidden=true' --cmd 'set preview_images=true'"
   vim.cmd('enew')
@@ -21,6 +18,9 @@ function Ranger(path)
       else
         vim.cmd('bdelete! '..buf)
       end
+  end
+  while fn.filereadable(currentPath)==0 and fn.isdirectory(currentPath)==0 do
+      currentPath=fn.fnamemodify(currentPath,':h')
   end
   fn.termopen(ranger_command..' --choosefiles='..file..' "'..currentPath..'"',JobArgs)
   vim.cmd('startinsert')

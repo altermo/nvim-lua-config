@@ -21,32 +21,31 @@ end
 local function tno(key,maps)
   map('t',key,maps,{noremap=true,silent=true})
 end
-local function togglecomment()
-    local left,_=vim.o.commentstring:match('^(.*)%%s(.*)')
-    if left:find(' $') then
-        left=string.sub(left,1,-2)
-    end
-    local line=vim.api.nvim_get_current_line()
-    if line:find('^%s*'..vim.pesc(left)) then
-        local temp=fn.getreg('/')
-        vim.cmd([[s/^\(\s*\)]]..fn.escape(left,'[]\\')..[[/\1]])
-        fn.setreg('/',temp)
-    else
-        vim.cmd('norm I'..left)
-    end
-end --TODO
 
-vim.api.nvim_create_autocmd('BufWinEnter',{command=[[
+vim.api.nvim_create_autocmd('BufEnter',{command=[[
 vnoremap <silent> S <cmd>HopChar1<cr>
 nnoremap <nowait><buffer> z za
-]]}) --TODO
+nnoremap <nowait><buffer> ! :!|     "may be remapt
+]]})
 
 ----map
-map('n','\'','<cmd>lua require("which-key").show("\'",{mode="n",auto=true)\r',{}) --TODO
+map('n','\'','<cmd>lua require("which-key").show("\'",{mode="n",auto=true)\r',{})
 map('v','\r','d',{})
 map('n','\r','dd',{})
+map('v','s',':norm ',{})
 
 ----nno
+------alt/ctrl
+for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical resize +'}) do
+  nno('<C-'..k..'>','<C-w>'..k)
+  nno('<C-S-'..k..'>','<C-w>'..k:upper())
+  nno('<A-'..k..'>',':'..v..'2\r')
+  nno('<A-S-'..k..'>',':'..v..'10\r')
+end
+nno('<A-=>','<C-w>=')
+lnno('<A-f>','/')
+lnno('<A-S-a>',':% ')
+nno('<A-a>','GVgg') --TODO
 ------other
 nno('<Home>',QuickFixToggle)
 nno('|','~')
@@ -60,15 +59,9 @@ nno('å','"+p')
 nno('mw','lb"ade"bxe"bp"apbb')
 nno('j','gj')
 nno('k','gk')
-for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical resize +'}) do
-  nno('<C-'..k..'>','<C-w>'..k)
-  nno('<C-S-'..k..'>','<C-w>'..k:upper())
-  nno('<A-'..k..'>',':'..v..'2\r')
-end
-nno('<A-=>','<C-w>=')
 nno('\t','<C-w>w')
 nno('<F5>',':lua Build()\r')
-nno('gc',togglecomment)
+nno('gc',Togglecomment)
 nno('L','gt')
 nno('H','gT')
 for i=0,9 do
@@ -89,12 +82,11 @@ nno('cd',function ()
     fn.chdir('..')
     ::End::
     vim.notify(fn.getcwd())
-end) --TODO
-nno('dc',':lcd ..|pwd\r') --TODO
+end)
+nno('dc',':lcd ..|pwd\r')
 nno('S',':HopChar1<cr>')
 ------alt-gr
-nno('ª','[s')                         --alt_gr-a
-nno('º',']s')                         --alt_gr-A
+nno('ª','[]s')                         --alt_gr-A
 nno('π','yyp')                        --alt_gr-p
 nno('Π','yyP')                        --alt_gr-P
 nno('“',':lua Build()\r')             --alt_gr-b
@@ -120,11 +112,9 @@ ino('<C-w>','<C-o><C-w>')
 ino('¨','<esc>')
 ino('ſ','<Right>')
 ino('¦','<Left>')
---TODO more ctrl...
 ----vno
-vno('s',':norm')
 vno('gG','y:!setsid firefox https://www.github.com/<C-r>"\r')
-vno('gc','echo "TODO"') --TODO
+vno('gc',':lua Togglecomment(1)\rgv')
 vno('å','"+y')
 lvno('Ø',':sort')
 vno('<','<gv')
@@ -139,15 +129,6 @@ lvno('.',':')
 vno('k','gk')
 vno('j','gj')
 vno(' ','<cmd>HopLine\r')
-
-------add-parenteses
-for _,i in pairs({'()','{}','[]','""',"''",'``','<>'}) do
-  local b,e=i:gmatch('.')(),i:gmatch('.(.)')()
-  vno('&'..b,'<esc>`>a'..e..'<esc>`<i'..b..'<esc>')
-  vno('&'..e,'<esc>`>a'..e..'<esc>`<i'..b..'<esc>')
-end
-vno('&?','<esc>`>a?<esc>`<i¿<esc>')
-vno('&!','<esc>`>a!<esc>`<i¡<esc>')
 
 ----tno
 tno('<C-\\>','<C-\\><C-n>')
@@ -173,10 +154,8 @@ vno('+','$')
 nno('?','?')
 nno('&','n')
 nno('#','n')
-map('n','!',':!',{noremap=true,unique=true,nowait=true}) --TODO
 lnno('Ø',':sort')
 nno('vv','V')
-vno('p','"_dP') --TODO miniyank for visual
 
 ------leader
 nno('\\ew',':exec("e "..fnameescape(expand("%:h"))."/") \r')
@@ -185,4 +164,6 @@ nno('\\ev',':exec("vsp "..fnameescape(expand("%:h"))."/") \r')
 nno('\\et',':exec("tabe "..fnameescape(expand("%:h"))."/") \r')
 nno('\\ff','[I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"\r')
 nno('\\q','gwip')
+
+--TODO more ctrl-alt...
 -- vim:fen

@@ -1,1 +1,1 @@
-vim.o.conceallevel=2 --MayTODO
+vim.o.conceallevel=2

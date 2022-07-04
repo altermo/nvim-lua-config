@@ -1,4 +1,3 @@
-vim.cmd('syntax enable') --TODO
 local set=vim.o
 set.scrolloff=5
 set.winminheight=0
@@ -7,6 +6,7 @@ set.shiftwidth=4
 set.tabstop=4
 set.softtabstop=4
 set.foldcolumn='2'
+set.synmaxcol=200 --TODO
 set.foldmethod='expr'
 set.spelllang='sv'
 --set.mouse='a'

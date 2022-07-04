@@ -44,9 +44,31 @@ end
 function QuickFixToggle()
     for _,v in pairs(fn.getwininfo()) do
         if v.quickfix==1 then
-            vim.cmd('silent! cclose') --TODO
+            vim.cmd('cclose')
             return
         end
     end
     vim.cmd('copen')
 end
+function Togglecomment(visual)
+    local left,_=vim.o.commentstring:match('^(.*)%%s(.*)')
+    if left:find(' $') then
+        left=string.sub(left,1,-2)
+    end
+    local line=vim.api.nvim_get_current_line()
+    if line:find('^%s*'..vim.pesc(left)) then
+        local temp=fn.getreg('/')
+        if visual then
+            vim.cmd([['<,'>s/^\(\s*\)]]..fn.escape(left,'[]\\')..[[/\1]])
+        else
+            vim.cmd([[s/^\(\s*\)]]..fn.escape(left,'[]\\')..[[/\1]])
+        end
+        fn.setreg('/',temp)
+    else
+        if visual then
+            vim.cmd("'<,'>norm I"..left)
+        else
+            vim.cmd('norm I'..left)
+        end
+    end
+end --TODO #a\nb| > ##a\n#b and better visual/normal

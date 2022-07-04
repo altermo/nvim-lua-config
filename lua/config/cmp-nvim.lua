@@ -1,14 +1,3 @@
-require("nvim-lsp-installer").setup{}
-require("luasnip.loaders.from_vscode").lazy_load()
-
-require'lspconfig'.pyright.setup{}
-require'lspconfig'.sumneko_lua.setup{settings={Lua={diagnostics={globals={'vim'}}}}}
-require'lspconfig'.jsonls.setup{}
-require'lspconfig'.bashls.setup{}
-
-vim.keymap.set('n','[d',vim.diagnostic.goto_prev,{noremap=true,silent=true})
-vim.keymap.set('n',']d',vim.diagnostic.goto_next,{noremap=true,silent=true})
-
 local cmp=require'cmp'
 local lspkind=require('lspkind')
 cmp.setup({
@@ -72,7 +61,7 @@ mapping=cmp.mapping.preset.insert({
             fallback()
         end end,{ "i","s" })
     }),
-})--TODO
+})
 cmp.setup.cmdline("/",{
     mapping=cmp.mapping.preset.cmdline(),
     cmp.config.sources({
@@ -98,24 +87,3 @@ cmp.setup({sorting={priority_weight=2,comparators={
     compare.length,
     compare.order,
 }}})
-
-local ls=require("luasnip")
-vim.keymap.set({"i","s"},"<c-l>",function()
-    if ls.expand_or_jumpable() then
-        ls.expand_or_jump()
-end end,{silent=true})
-vim.keymap.set({"i","s"},"<c-h>",function()
-    if ls.jumpable(-1) then
-        ls.jump(-1)
-end end,{silent=true})
-local snip=ls.snippet
-local func=ls.function_node
-ls.add_snippets(nil,{
-    all={
-        snip({trig="dd"},{func(function() return {os.date('%Y-%m-%d')} end)}),
-        snip({trig="dt"},{func(function() return {os.date('%H-%M-%S')} end)}),
-        snip({trig="path"},{func(function() return {vim.fn.expand('%')} end)}),
-        snip({trig="pathh"},{func(function() return {vim.fn.expand('%:h')} end)}),
-        snip({trig="patht"},{func(function() return {vim.fn.expand('%:t')} end)}),
-}})
---TODO:: separate into multible files

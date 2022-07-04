@@ -76,11 +76,11 @@ local function mainloop(buf,path)
     end
     return path
 end
-function Df()
+function Dff()
     local buf=api.nvim_create_buf(false,true)
     api.nvim_buf_set_option(buf,'bufhidden','wipe')
     local window=api.nvim_get_current_win()
     api.nvim_win_set_buf(window,buf)
     vim.cmd('e '..mainloop(buf,fn.fnamemodify('.',':p')))
 end
-api.nvim_create_user_command('Df','lua Df()',{})
+api.nvim_create_user_command('Dff','lua Dff()',{})
