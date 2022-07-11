@@ -156,7 +156,7 @@ spmaps.t.m={':MinimapToggle\r','minimap'}
 spmaps.t.c={':ColorizerToggle\r','colorizer'}
 spmaps.t.o={':SymbolsOutline\r','outline'}
 spmaps.t.k={function ()
-    wip()
+    vim.cmd(wip())
     require 'self_plugins.kakoune'
     end,'kakoune-mode'}
 spmaps.t.M={function ()
