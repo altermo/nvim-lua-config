@@ -1,4 +1,4 @@
-vim.fn.timer_start(2000,function() vim.fn.execute('checktime') end,{['repeat']=-1})
+vim.fn.timer_start(1000,function() vim.fn.execute('checktime') end,{['repeat']=-1})
 vim.g.loaded_matchparen=1
 vim.g.loaded_matchit=1
 vim.g.loaded_logiPat=1

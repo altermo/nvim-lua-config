@@ -8,15 +8,16 @@ local wk=require("which-key")
 
 ----other
 ------file
-spmaps.w={':up\r','smartsave'}
 spmaps.W={wip(),'sudosave'}
 spmaps.q={':q\r','quit'}
-spmaps.Q={':qa\r','quitall'}
-spmaps.x={':x\r','save&quit'}
+spmaps.Q={':q!\r','QUIT!'}
+spmaps.x={':qa\r','quitall'}
+spmaps.X={':qa!\r','QUITALL!'}
 ------visual
 spmaps['\r']={':set hls!\r','toggle-highlight'}
 spmaps.C={':set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20\r','restore-cursor'}
 ------other
+spmaps.V={':redir! > %|silent |redir END<C-Left><C-Left>','output vim to buffer',silent=false}
 spmaps['\t']={':edit #\r','edit-last'}
 spmaps.R={'m":Resource\r','reload-config'}
 spmaps.S={':! "%"<Left><Left><Left><Left>','shell-file',silent=false}
@@ -29,8 +30,12 @@ spmaps.M={':set ro virtualedit=all\r','read-only'}
 spmaps.P={':py ','python',silent=false}
 spmaps.k={':Telescope current_buffer_fuzzy_find\r','current-file-search'}
 ------hop
-spmaps[' ']={':HopLine\r','SmartHop'}
-spmaps['<S- >']={':HopLineMW\r','SmartHopMW'}
+spmaps[' ']={':HopChar1\r','Hop'}
+spmaps['<S- >']={':HopChar1MW\r','HopMW'}
+------windwos
+for i in ('0123456789'):gmatch('.') do
+    spmaps[i]={':'..i..'wincmd w\r','window '..i}
+end
 
 ----apps
 spmaps.a={name='+apps'}
@@ -100,20 +105,21 @@ end
 ----files
 spmaps.F={name='+files'}
 spmaps.F.b={':!cp "%" "%".bak\r','backup'}
-spmaps.F.r={':Rename ','rename',silent=false}
+spmaps.F.r={':Rename <C-r>=expand("%")\r','rename',silent=false}
 spmaps.F.c={':!echo "%:p"|xclip -selection c\r','copy-path'}
 spmaps.F.p={':exe(\'vnew|call termopen("bat -pp \'.expand(\'<cfile>\').\'")\')\r','preview-under-cursor'}
 spmaps.F.t={name='+set-type'}
-for k,v in pairs({p='python',t='text',v='vim',f='fish',r='rust',l='lua'}) do
+spmaps.F.a={':tabe %\r','open alternetive'}
+for k,v in pairs({p='python',t='txt',v='vim',f='fish',r='rust',l='lua'}) do
     spmaps.F.t[k]={':set filetype='..v..'\r',v}
 end
 spmaps.F.t.o={':set filetype=','other',silent=false}
 
 ----buffers
 spmaps.b={name='+buffers'}
-spmaps.b.c={':Bclose!\r','buffer-close'}
+spmaps.b.c={':Bdelete!\r','buffer-close'}
 spmaps.b.d={name='+delete-all'}
-spmaps.b.d.h={':Bdelete! hidden\r','hidden'}
+spmaps.b.d.h={':BDelete! hidden\r','hidden'}
 spmaps.b.d.t={':BD! term\r','terminal'}
 
 ----packer
@@ -149,26 +155,27 @@ spmaps.t.F={':FocusToggle\r','focus'}
 spmaps.t.m={':MinimapToggle\r','minimap'}
 spmaps.t.c={':ColorizerToggle\r','colorizer'}
 spmaps.t.o={':SymbolsOutline\r','outline'}
-spmaps.t.k={wip(),'kakoune-mode'}
+spmaps.t.k={function ()
+    wip()
+    require 'self_plugins.kakoune'
+    end,'kakoune-mode'}
 spmaps.t.M={function ()
-    if MaxGroop then
-        vim.api.nvim_del_autocmd(MaxGroop)
-        MaxGroop=nil
-        vim.cmd('set winminheight& winminwidth&')
+    vim.keymap.set('n','<A-w>',':FocusMaxOrEqual\r:ChooseWin|FocusMaximise\r',{silent=true})
+    if Max then
+        require'focus'.focus_max_or_equal()
+        Max=false
     else
-        vim.o.winminwidth=0
-        vim.o.winminheight=0
-        MaxGroop=vim.api.nvim_create_autocmd('WinEnter',{command='execute("wincmd _")|wincmd |'})
-        vim.cmd('wincmd _')
-        vim.cmd('wincmd |')
+        require'focus'.focus_maximise()
+        Max=true
     end
 end,'max-mode'}
 spmaps.t.z={':ZenMode\r','zen-mode'}
 spmaps.t.Z={':Twilight\r','twilight'}
 spmaps.t.b={':SimpleBufferToggle\r','simple-bufer-toggle'}
+spmaps.t.s={':lua require"shade".toggle()\r','shade'}
 
 ----browser
-spmaps.g={name='+browser--'} -- TODO g is other> remap to G
+spmaps.G={name='+browser--'}
 for k,v in pairs({
     p='yi\':!setsid firefox https://www.github.com/<C-r>"\r',
     P='yi":!setsid firefox https://www.github.com/<C-r>"\r',
@@ -178,7 +185,7 @@ for k,v in pairs({
     w='lbyw:!setsid firefox "https://en.wikipedia.org/w/index.php?search=<C-r>""\r',
     q='lbyw:!setsid firefox "https://docs.qtile.org/en/latest/search.html?q=<C-r>"&check_keywords=yes&area=default"\r',
   }) do
-  spmaps.g[k]={v..'\r',v}
+  spmaps.G[k]={v..'\r',v}
 end
 
 ----harpoon
@@ -202,7 +209,8 @@ spmaps.m={name='+multiline'}
 spmaps.m.v={':v//d<Left><Left>','vdelete',silent=false}
 spmaps.m.a={':% norm ','anorm',silent=false}
 spmaps.m.j={':%s/\\n//<Left>','ajoin',silent=false}
-spmaps.m.y={':% y\r','ayank'} --TODO
+spmaps.m.y={':% y\r','ayank'}
+spmaps.m.d={':sort|w|w !uniq > %\r','remove duplicates'} --TODO
 
 ----lsp
 spmaps.L={name='lsp'}
@@ -210,5 +218,5 @@ spmaps.L.q={':lua vim.diagnostic.setqflist()\r','quickfix'}
 
 ----last--
 wk.register({[' ']=spmaps})
---TODO remake in format {a:{b:{c:{"a","b"}}}}
+--TODO spacevim
 -- vim:fen:

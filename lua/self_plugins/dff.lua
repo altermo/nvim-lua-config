@@ -84,3 +84,4 @@ function Dff()
     vim.cmd('e '..mainloop(buf,fn.fnamemodify('.',':p')))
 end
 api.nvim_create_user_command('Dff','lua Dff()',{})
+--TODO syntax

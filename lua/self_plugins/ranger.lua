@@ -11,7 +11,7 @@ function Ranger(path)
   local buf=fn.bufnr()
   function JobArgs.on_exit(_,_,_)
       if fn.filereadable(file)==1 then
-        vim.cmd('Bclose! '..buf)
+        vim.cmd('Bdelete! '..buf)
         local f=fn.readfile(file)[1]
         vim.cmd('edit '..f)
         fn.delete(file)

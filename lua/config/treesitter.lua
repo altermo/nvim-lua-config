@@ -2,16 +2,19 @@ require'nvim-treesitter.configs'.setup({ensure_installed={
     'python','lua','fish',
     'bash','vim',
     --
-    'go','c','html',
+    'go','c','html','c_sharp',
     'java','javascript','css',
-    'cpp','rust',
+    'cpp','rust','typescript',
+    'haskell',
     --
     'help','org','markdown',
-    'query','json','toml',
-    'jsonc','norg'
+    'json','toml','hjson',
+    'jsonc','norg','jsdoc',
+    'json5','rst','todotxt',
+    --
+    'comment','regex','query',
 },rainbow={enable=true},
 highlight={enable=true},
-context_commentstring={enable=true},
 pairs={enable=true,highlight_pair_events={'CursorMoved'}},
 textsubjects={enable=true,
     prev_selection='Q',
@@ -20,6 +23,7 @@ textsubjects={enable=true,
         ['a.']='textsubjects-container-outer',
         ['i.']='textsubjects-container-inner',
 }},
+context_commentstring={enable=true},
 })
 require'orgmode'.setup_ts_grammar()
 --refactor={smart_rename={keymaps={smart_rename="gr"}}},

@@ -1,6 +1,5 @@
 pcall(require,'impatient')
-
-require'functions' --priority
+require'functions'
 require'plugins'
 require'options'
 require'keymaps'

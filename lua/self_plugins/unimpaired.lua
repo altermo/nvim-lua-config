@@ -126,6 +126,7 @@ for k,v in pairs({
     t={opt='colorcolumn',on='1,41,81,121,161,201,241'},
     v={opt='virtualedit',on='block,onemore'},
     m={opt='mouse',on='a'},f='foldenable',
+    e='scrollbind',
 }) do
     if type(v)~='table' then v={opt=v} end
     nno('[o'..k,function () seton(v.opt,v.on) end)

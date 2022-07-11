@@ -18,12 +18,14 @@ end
 local function ino(key,maps)
   map('i',key,maps,{noremap=true,silent=true})
 end
+local function lcno(key,maps)
+  map('c',key,maps,{noremap=true})
+end
 local function tno(key,maps)
   map('t',key,maps,{noremap=true,silent=true})
 end
 
 vim.api.nvim_create_autocmd('BufEnter',{command=[[
-vnoremap <silent> S <cmd>HopChar1<cr>
 nnoremap <nowait><buffer> z za
 nnoremap <nowait><buffer> ! :!|     "may be remapt
 ]]})
@@ -39,27 +41,41 @@ map('v','s',':norm ',{})
 for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical resize +'}) do
   nno('<C-'..k..'>','<C-w>'..k)
   nno('<C-S-'..k..'>','<C-w>'..k:upper())
-  nno('<A-'..k..'>',':'..v..'2\r')
-  nno('<A-S-'..k..'>',':'..v..'10\r')
+  nno('<C-A-'..k..'>',':'..v..'2\r')
+  nno('<C-A-S-'..k..'>',':'..v..'10\r')
 end
 nno('<A-=>','<C-w>=')
-lnno('<A-f>','/')
+lnno('<A-e>','/')
+lnno('<A-f>',':%s///g<Left><Left><Left>')
 lnno('<A-S-a>',':% ')
-nno('<A-a>','GVgg') --TODO
+nno('<A-a>','GVgg')
+nno('<A-d>','0D"_dd')
+nno('<A-s>',']s')
+nno('<A-S-s>','[s')
+nno('<A-c>','yyp')
+nno('<A-S-c>','yyP')
+nno('<A-b>',':lua Build()\r')
+nno('<A-S-b>',':lua Build(1)\r')
+nno('<A-w>',':echo wordcount()\r')
+nno('<A-y>',':let @+=@"\r')
+nno('<A-j>',':move +1\r')
+nno('<A-k>',':move -2\r') --TODO
 ------other
 nno('<Home>',QuickFixToggle)
 nno('|','~')
 nno(',','<C-o>')
 nno(';','<C-i>')
 lnno('.',':')
+nno('<C-.>','.')
 nno('<BS>',':lua require("neoscroll").zz(250)\r')
 nno('ø',':redo\r')
 nno('æ','z=')
 nno('å','"+p')
-nno('mw','lb"ade"bxe"bp"apbb')
+nno('mw','"xdiw"axviw<esc>"ap"xp')
+-- a b
 nno('j','gj')
 nno('k','gk')
-nno('\t','<C-w>w')
+nno('\t ','<C-w>w')
 nno('<F5>',':lua Build()\r')
 nno('gc',Togglecomment)
 nno('L','gt')
@@ -84,21 +100,10 @@ nno('cd',function ()
     vim.notify(fn.getcwd())
 end)
 nno('dc',':lcd ..|pwd\r')
-nno('S',':HopChar1<cr>')
-------alt-gr
-nno('ª','[]s')                         --alt_gr-A
-nno('π','yyp')                        --alt_gr-p
-nno('Π','yyP')                        --alt_gr-P
-nno('“',':lua Build()\r')             --alt_gr-b
-nno('‘',':lua Build(1)\r')            --alt_gr-B
-nno('ſ',':echo wordcount()\r')        --alt_gr-w
-nno('←',':let @+=@"\r')               --alt_gr-y
-lnno('đ',':%s///g<Left><Left><Left>') --alt_gr-f
-nno('ð',':move +1\r')                 --alt_gr-d
-nno('↓',':move -2\r')                 --alt_gr-u
-nno('gN','yi\':e <C-r>=stdpath("config")\r/lua/<C-r>=substitute("<C-r>"","\\\\.","/","g")\r.lua\r')
+nno('S',':HopLine<cr>')
+nno('gN','yi\':e <C-r>=stdpath("config")\r/lua/<C-r>=substitute("<C-r>"","\\\\.","/","g")\r.lua\r') --TODO
 
-----ino
+----ino/cno
 ino('ø','ö')
 ino('æ','ä')
 ino('Ø','Ö')
@@ -106,29 +111,30 @@ ino('Æ','Ä')
 for i in ('hjklwb'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
 end
-ino('ß','()<Left>') --alt_gr-s
-ino('€','=')        --alt_gr-e
+lcno('<A-h>','<Left>')
+lcno('<A-l>','<Right>')
+lcno('<A-j>','<C-Left>')
+lcno('<A-k>','<C-Right>')
 ino('<C-w>','<C-o><C-w>')
 ino('¨','<esc>')
-ino('ſ','<Right>')
-ino('¦','<Left>')
+
 ----vno
+vno('S','<cmd>HopLine\r')
+lvno('gr','y:execute("%s/<C-r>"/".input(\'>\'))\r<C-r>"')
 vno('gG','y:!setsid firefox https://www.github.com/<C-r>"\r')
 vno('gc',':lua Togglecomment(1)\rgv')
 vno('å','"+y')
 lvno('Ø',':sort')
 vno('<','<gv')
 vno('>','>gv')
-vno('ſ','<cmd>w !wc\r')              --alt_gr-w
-vno('ð',':move \'>+1\rgv')           --alt_gr-d
-vno('↓',':move \'<-2\rgv')           --alt_gr-u
-vno('J',':move \'>+1\rgv')
-vno('K',':move \'<-2\rgv')
-lvno('đ',':s/\\%V//g<Left><Left><Left>') --alt_gr-f
+vno('<A-w>','<cmd>w !wc\r')
+vno('<A-j>',':move \'>+1\rgv')
+vno('<A-k>',':move \'<-2\rgv')
+lvno('<A-f>',':s/\\%V//g<Left><Left><Left>')
 lvno('.',':')
 vno('k','gk')
 vno('j','gj')
-vno(' ','<cmd>HopLine\r')
+vno(' ','<cmd>HopChar1\r')
 
 ----tno
 tno('<C-\\>','<C-\\><C-n>')
@@ -153,9 +159,9 @@ nno('+','$')
 vno('+','$')
 nno('?','?')
 nno('&','n')
-nno('#','n')
 lnno('Ø',':sort')
 nno('vv','V')
+nno('vvv','<C-v>')
 
 ------leader
 nno('\\ew',':exec("e "..fnameescape(expand("%:h"))."/") \r')
@@ -165,5 +171,4 @@ nno('\\et',':exec("tabe "..fnameescape(expand("%:h"))."/") \r')
 nno('\\ff','[I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"\r')
 nno('\\q','gwip')
 
---TODO more ctrl-alt...
 -- vim:fen
