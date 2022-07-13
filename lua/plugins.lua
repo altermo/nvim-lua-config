@@ -42,7 +42,8 @@ use{'lervag/lists.vim',config=function ()
 use 'kabbamine/lazylist.vim'
 
 ----colorschem
-use 'base16-project/base16-vim'
+--use 'base16-project/base16-vim'
+use 'lmburns/kimbox'
 use 'mhartington/oceanic-next'
 use 'ghifarit53/tokyonight-vim'
 use 'challenger-deep-theme/vim'
@@ -192,7 +193,7 @@ use{'monaqa/dial.nvim',config=function ()
     vim.api.nvim_set_keymap("v","<C-x>",require("dial.map").dec_visual(),{noremap=true})
     vim.api.nvim_set_keymap("v","g<C-a>",require("dial.map").inc_gvisual(),{noremap=true})
     vim.api.nvim_set_keymap("v","g<C-x>",require("dial.map").dec_gvisual(),{noremap=true})
-    end}
+    end,keys={{'n','<C-a>'},{'n','<C-x>'},{'v','<C-a>'},{'v','<C-x>'},{'v','g<C-a>'},{'v','g<C-x>'}}}
 use 'brettanomyces/nvim-editcommand' --MD
 use{'ekickx/clipboard-image.nvim',config=function ()
     vim.keymap.set('n','\\p',':PasteImg\r',{nowait=true,silent=true})
@@ -236,7 +237,7 @@ use{'MisanthropicBit/vim-numbers',config=function ()
     end} --TODO
 use{'rhysd/vim-textobj-anyblock',requires='kana/vim-textobj-user',keys={{'o','ib'},{'v','ib'},{'o','ab'},{'v','ab'}}}
 use{'deathlyfrantic/vim-textobj-blanklines',requires='kana/vim-textobj-user',keys={{'o','i '},{'v','i '},{'o','a '},{'v','a '}}}
-use{'D4KU/vim-pushover',requires='tommcdo/vim-exchange'}
+use{'D4KU/vim-pushover',requires='tommcdo/vim-exchange',keys={'>w','<w','<W','>W','<p','>p'}}
 
 ----movement
 use{'phaazon/hop.nvim',config=get_setup'hop'}
@@ -259,7 +260,7 @@ use 'tpope/vim-abolish'
 use{'nvim-colortils/colortils.nvim',config=get_setup'colortils'}
 
 ----command
-use{'toppair/reach.nvim',config=get_setup'reach'}
+use{'toppair/reach.nvim',config=get_setup'reach'} --TODO
 use 'pixelneo/vim-python-docstring'
 use 'alec-gibson/nvim-tetris'
 use{'ThePrimeagen/harpoon',requires='nvim-lua/plenary.nvim'}
@@ -465,4 +466,5 @@ require'self_plugins.unimpaired'
 require'self_plugins.tabline'
 require'self_plugins.dff'
 require'self_plugins.textobj'
+--TODO: better udotree
 -- vim:fen:
