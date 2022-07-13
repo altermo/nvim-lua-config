@@ -92,13 +92,19 @@ end
 spmaps.c.m={name='+maps'}
 spmaps.c.m.n={':nnoremap <C-v><CR> ','nmap-private',silent=false}
 spmaps.c.m.v={':vnoremap <C-v><CR> ','vmap-private',silent=false}
+------commentstring
+spmaps.c.C={name='+commentstring'}
+spmaps.c.C.h={':set commentstring=#%s','octothorpe-#%s'}
+spmaps.c.C.l={':set commentstring=--%s','lines---%s'}
+spmaps.c.C.s={':set commentstring=/*%s*/','slash-/*%s*/'}
 
 ----find
 spmaps.f={name='+find'}
 for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
-  o='oldfiles',s='live_grep',b='buffers',l='luasnip',B='builtin',
+  o='oldfiles',s='live_grep',b='buffers',l='luasnip',T='builtin',
   h='harpoon marks',p='projects',L='software-licenses find',
-  y='yank_history',n='notify'}) do
+  y='yank_history',n='notify',C='changed_files',H='changes',
+  P='ports',z='zoxide list',B='vim_bookmarks'}) do
   spmaps.f[k]={':Telescope '..v..' theme=ivy hidden=true\r',v}
 end
 
@@ -210,7 +216,7 @@ spmaps.m.v={':v//d<Left><Left>','vdelete',silent=false}
 spmaps.m.a={':% norm ','anorm',silent=false}
 spmaps.m.j={':%s/\\n//<Left>','ajoin',silent=false}
 spmaps.m.y={':% y\r','ayank'}
-spmaps.m.d={':sort|w|w !uniq > %\r','remove duplicates'} --TODO
+spmaps.m.d={':sort|w|w !uniq > %\r','remove duplicates'}
 
 ----lsp
 spmaps.L={name='lsp'}

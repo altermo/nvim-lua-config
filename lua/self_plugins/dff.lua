@@ -1,3 +1,16 @@
+--[[
+.conf/
+.cashe/
+dir/
+file1
+file2
+>>>
+/.c0 onf  > .c0 .co
+/.c1 ashe > .c1 .ca
+/d   ir   > d
+ f0  ile1 > f0 file1
+ f1  ile2 > f1 file2
+--]]
 local api=vim.api
 local fn=vim.fn
 local function counter(x) --list{any}:table{any:int}>vlib
@@ -55,6 +68,9 @@ local function mainloop(buf,path)
         local shortnames=shortnamer(fn.readdir(path))
         local text=createtext(shortnames,search,path)
         api.nvim_buf_set_lines(buf,0,vim.o.columns-11,false,text)
+        for i = 0,vim.o.columns,1 do
+            api.nvim_buf_add_highlight(buf,-1,'DiagnosticError',i,1,2)
+        end
         api.nvim_buf_set_lines(buf,-1,-1,false,{':'..search})
         vim.cmd('redraw')
         local char=fn.getchar()
@@ -84,4 +100,4 @@ function Dff()
     vim.cmd('e '..mainloop(buf,fn.fnamemodify('.',':p')))
 end
 api.nvim_create_user_command('Dff','lua Dff()',{})
---TODO syntax
+--TODO evrythong

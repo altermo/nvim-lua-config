@@ -20,8 +20,8 @@ use 'rlane/pounce.nvim' --TODO
 use{'justinmk/vim-sneak',disable=true} --TODO
 use{'ggandor/lightspeed.nvim',disable=true} --TODO
 use 'ggandor/leap.nvim' --TODO
-use 'tjdevries/train.nvim' --TODO
 use{'matbme/JABS.nvim',config=get_setup'jabs'} --TODO
+use{'skywind3000/asynctasks.vim',cmd=expander('AsyncTask',{'Edit','Last','List','Macro','Profile'},true)} --TODO
 
 ----ui creator
 use 'muniftanjim/nui.nvim' --TODO
@@ -67,7 +67,7 @@ use{'anuvyklack/pretty-fold.nvim',requires='anuvyklack/nvim-keymap-amend',
 use 'itchyny/vim-cursorword'
 use{'norcalli/nvim-colorizer.lua',config=get_setup('colorizer',{'*'})}
 use{'ntpeters/vim-better-whitespace',config=function ()
-    vim.g.better_whitespace_filetypes_blacklist={'dashboard','qf'}
+    vim.g.better_whitespace_filetypes_blacklist={'dashboard','qf','term'}
     end}
 use{'azabiong/vim-highlighter',setup=function ()
     vim.g.HiSet='M<CR>'
@@ -100,13 +100,14 @@ use {'bennypowers/nvim-regexplainer',
     end,event='User regexplainer'}
 use{'luukvbaal/stabilize.nvim',config=get_setup'stabilize'}
 use{'kevinhwang91/nvim-hlslens',config=function ()
-    vim.api.nvim_set_keymap('n','n',[[n<Cmd>luarequire('hlslens').start()<CR>]],{noremap=true,silent=true})
-    vim.api.nvim_set_keymap('n','N',[[N<Cmd>luarequire('hlslens').start()<CR>]],{noremap=true,silent=true})
-    vim.api.nvim_set_keymap('n','*',[[*<Cmd>luarequire('hlslens').start()<CR>]],{noremap=true,silent=true})
-    vim.api.nvim_set_keymap('n','#',[[#<Cmd>luarequire('hlslens').start()<CR>]],{noremap=true,silent=true})
-    vim.api.nvim_set_keymap('n','g*',[[g*<Cmd>luarequire('hlslens').start()<CR>]],{noremap=true,silent=true})
-    vim.api.nvim_set_keymap('n','g#',[[g#<Cmd>luarequire('hlslens').start()<CR>]],{noremap=true,silent=true})
+    vim.api.nvim_set_keymap('n','n',[[n<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
+    vim.api.nvim_set_keymap('n','N',[[N<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
+    vim.api.nvim_set_keymap('n','*',[[*<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
+    vim.api.nvim_set_keymap('n','#',[[#<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
+    vim.api.nvim_set_keymap('n','g*',[[g*<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
+    vim.api.nvim_set_keymap('n','g#',[[g#<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
     end}
+use 'nagy135/visualmark-nvim'
 
 ----replace
 use{'filipdutescu/renamer.nvim',config=function ()
@@ -130,6 +131,14 @@ use{'neovim/nvim-lspconfig',config=get_config'lsp',requires={
 use{'nvim-orgmode/orgmode',config=get_setup'orgmode'}
 
 ----keys
+use 'tpope/vim-characterize'
+use 'tommcdo/vim-exchange'
+use{'AndrewRadev/sideways.vim',config=function ()
+    vim.keymap.set('n','>a',':SidewaysRight\r',{silent=true})
+    vim.keymap.set('n','<a',':SidewaysLeft\r',{silent=true})
+    vim.keymap.set('n','>A',':SidewaysJumpRight\r',{silent=true})
+    vim.keymap.set('n','<A',':SidewaysJumpLeft\r',{silent=true})
+    end}
 use{'zef/vim-cycle',config=function ()
     vim.g.cycle_no_mappings=true
     vim.keymap.set('n','g<C-a>','<Plug>CycleNext')
@@ -167,7 +176,15 @@ use{'tpope/vim-surround',keys={{'n','ds'},{'n','cs'},{'n','cS'},{'n','ys'},{'n',
     vim.keymap.set('x','&!','<esc>`>a!<esc>`<i¡<esc>')
     end}
 use{'tommcdo/vim-lion',keys={{'v','gl'},{'n','gl'},{'v','gL'},{'n','gL'}}}
-use{'windwp/nvim-autopairs',config=get_setup('nvim-autopairs',{map_cr=false,fast_wrap={}})}--TODO: there are more things you can add, like ''' for python
+use{'windwp/nvim-autopairs',config=function ()
+    local npairs=require'nvim-autopairs'
+    npairs.setup{map_cr=false,fast_wrap={chars={'{','[','(','"',"'",'`'}}}
+    local rule=require('nvim-autopairs.rule')
+    npairs.add_rule(rule("'''","'''","python"))
+    local cond=require('nvim-autopairs.conds')
+    npairs.add_rule(rule('=','=','lua'):with_pair(cond.before_regex('[[]=*$',-1)))
+    npairs.add_rule(rule('/*','*/',{'c','cpp','java','javascript','rust','php','haskell','go'}))
+    end}
 use{'monaqa/dial.nvim',config=function ()
     vim.api.nvim_set_keymap("n","<C-a>",require("dial.map").inc_normal(),{noremap=true})
     vim.api.nvim_set_keymap("n","<C-x>",require("dial.map").dec_normal(),{noremap=true})
@@ -200,16 +217,34 @@ use{'ghillb/cybu.nvim',config=function ()
     vim.keymap.set('n','[B','<plug>(CybuLastusedPrev)')
     vim.keymap.set('n',']B','<plug>(CybuLastusedNext)')
     end}
+use 'romainl/vim-qf'
+use{'tpope/vim-repeat',config=function ()
+    vim.keymap.set('n','<C-.>','<Plug>(RepeatDot)',{silent=true})
+    end}
 
 ----text object
 use{'s1n7ax/nvim-lazy-inner-block',config=get_setup'nvim-lazy-inner-block'}
 use{'wellle/targets.vim',keys={{'o','i'},{'x','i'}}}
 use 'michaeljsmith/vim-indent-object'
 use 'coderifous/textobj-word-column.vim'
+use{'MisanthropicBit/vim-numbers',config=function ()
+    vim.g['numbers#enable_text_objects']=0
+    vim.keymap.set('v','an','<Plug>(VselectNumber)',{silent=true})
+    vim.keymap.set('o','an','<Plug>(VselectNumber)',{silent=true})
+    vim.keymap.set('v','in','<Plug>(VselectNumber)',{silent=true})
+    vim.keymap.set('o','in','<Plug>(VselectNumber)',{silent=true})
+    end} --TODO
+use{'rhysd/vim-textobj-anyblock',requires='kana/vim-textobj-user',keys={{'o','ib'},{'v','ib'},{'o','ab'},{'v','ab'}}}
+use{'deathlyfrantic/vim-textobj-blanklines',requires='kana/vim-textobj-user',keys={{'o','i '},{'v','i '},{'o','a '},{'v','a '}}}
+use{'D4KU/vim-pushover',requires='tommcdo/vim-exchange'}
 
 ----movement
 use{'phaazon/hop.nvim',config=get_setup'hop'}
-use 'rhysd/clever-f.vim'
+use{'rhysd/clever-f.vim',config=function ()
+    vim.g.clever_f_smart_case=1
+    vim.g.clever_f_mark_direct=1
+    vim.keymap.set('n','<esc>','<Plug>(clever-f-reset)',{silent=true,noremap=true})
+    end}
 use{'arp242/jumpy.vim',keys={'[[','<char-93><char-93>','g]','g['}}
 
 ----utils
@@ -220,6 +255,8 @@ use 'famiu/bufdelete.nvim'
 use{'tpope/vim-eunuch',cmd={'Cfind','Chmod','Clocate','Copy',
     'Delete','Duplicate','Lfind','Llocate','Mkdir','Move','Remove',
     'Rename','SudoEdit','SudoWrite','Unlink','W','Wall'}}
+use 'tpope/vim-abolish'
+use{'nvim-colortils/colortils.nvim',config=get_setup'colortils'}
 
 ----command
 use{'toppair/reach.nvim',config=get_setup'reach'}
@@ -248,7 +285,7 @@ use{'majutsushi/tagbar',cmd='TagbarToggle'}
 use{'kyazdani42/nvim-tree.lua',config=get_config('nvimtree'),cmd='NvimTreeToggle'}
 use{'simrat39/symbols-outline.nvim',cmd=expander('SymbolsOutline',{'Open','Close'},true)}
 use 'codcodog/simplebuffer.vim'
-use 'simnalamburt/vim-mundo'
+use{'simnalamburt/vim-mundo',cmd='MundoToggle'}
 use{'mattn/calendar-vim',cmd=expander('Calender',{'H','T','VT'},true)}
 use{'folke/trouble.nvim',requires='kyazdani42/nvim-web-devicons',config=get_setup'trouble'}
 use{'wfxr/minimap.vim',run=':!cargo install --locked code-minimap',cmd='MinimapToggle',config=function ()
@@ -263,10 +300,11 @@ use{'nvim-telescope/telescope.nvim',requires={
     'nvim-telescope/telescope-symbols.nvim',
     'chip/telescope-software-licenses.nvim',
     {'ahmedkhalf/project.nvim',config=get_setup('project_nvim',{manual_mode=true})},
-    'tom-anders/telescope-vim-bookmarks.nvim', --TODO
-    'jvgrootveld/telescope-zoxide', --TODO
-    'linarcx/telescope-changes.nvim', --TODO
-    'linarcx/telescope-ports.nvim' --TODO
+    'tom-anders/telescope-vim-bookmarks.nvim',
+    'jvgrootveld/telescope-zoxide',
+    'linarcx/telescope-changes.nvim',
+    'linarcx/telescope-ports.nvim',
+    'axkirillov/telescope-changed-files',
     },config=get_config'telescope'}
 
 ----window
@@ -334,6 +372,10 @@ use{'m-demare/attempt.nvim',config=function ()
     vim.keymap.set('n','<leader>ac',attempt.rename_buf,{silent=true,noremap=true})--renameattemptfromcurrentbuffer
     vim.keymap.set('n','<leader>al','Telescope attempt',{silent=true,noremap=true})--searchthroughattempts
     end}
+use{'mg979/vim-visual-multi',keys='<C-S-n>'} --TODO
+use{'romainl/vim-devdocs',config=function ()
+    vim.keymap.set('n','gD',':DD\r',{silent=true,noremap=true})
+    end}
 
 ----improve
 use 'antoinemadec/FixCursorHold.nvim'
@@ -382,8 +424,18 @@ use{'ziontee113/syntax-tree-surfer',config=function ()
     vim.keymap.set('x','<C-k>','mode()=="<C-v>"?"<Plug>GoVSMUp":"<cmd>STSSelectPrevSiblingNode\r"',{noremap=true,silent=true,expr=true})
     vim.keymap.set('x','<C-h>','mode()=="<C-v>"?"<Plug>GoVSMLeft":"<cmd>STSSelectParentNode\r"',{noremap=true,silent=true,expr=true})
     vim.keymap.set('x','<C-l>','mode()=="<C-v>"?"<Plug>GoVSMRight":"<cmd>STSSelectChildNode\r"',{noremap=true,silent=true,expr=true})
-    vim.keymap.set('x','<C-S-j>','mode()=="<C-v>"?"<Plug>GoVS":"<cmd>STSSwapNextVisual\r"',{noremap=true,silent=true,expr=true}) --TODO
-    vim.keymap.set('x','<C-S-k>','mode()=="<C-v>"?"<Plug>GoVS":"<cmd>STSSwapPrevVisual\r"',{noremap=true,silent=true,expr=true}) --TODO
+    vim.keymap.set('x','<C-S-j>','mode()=="<C-v>"?"<Plug>GoVSDDown":"<cmd>STSSwapNextVisual\r"',{noremap=true,silent=true,expr=true})
+    vim.keymap.set('x','<C-S-k>','mode()=="<C-v>"?"<Plug>GoVSDUp":"<cmd>STSSwapPrevVisual\r"',{noremap=true,silent=true,expr=true})
+    vim.keymap.set('x','<C-S-h>','mode()=="<C-v>"?"<Plug>GoVSDLeft":""',{noremap=true,silent=true,expr=true}) --TODO
+    vim.keymap.set('x','<C-S-l>','mode()=="<C-v>"?"<Plug>GoVSDRight":""',{noremap=true,silent=true,expr=true}) --TODO
+    vim.keymap.set('x','<A-k>','<Plug>GoVMLineUp',{noremap=true,silent=true})
+    vim.keymap.set('x','<A-j>','<Plug>GoVMLineDown',{noremap=true,silent=true})
+    vim.keymap.set('n','<A-k>','<Plug>GoNMLineUp',{noremap=true,silent=true})
+    vim.keymap.set('n','<A-j>','<Plug>GoNMLineDown',{noremap=true,silent=true})
+    vim.keymap.set('x','<A-S-k>','<Plug>GoVDLineUp',{noremap=true,silent=true})
+    vim.keymap.set('x','<A-S-j>','<Plug>GoVDLineDown',{noremap=true,silent=true})
+    vim.keymap.set('n','<A-S-k>','<Plug>GoNDLineUp',{noremap=true,silent=true})
+    vim.keymap.set('n','<A-S-j>','<Plug>GoNDLineDown',{noremap=true,silent=true})
     vim.keymap.set('n','<C-o>',':lua require("syntax-tree-surfer").go_to_top_node_and_execute_commands(false,{"normal!O","normal!O","startinsert"})\r',{noremap=true,silent=true})
     vim.keymap.set('n','gfu',function() sts.targeted_jump({'function','arrrow_function','function_definition'}) end,{noremap=true,silent=true})
     vim.keymap.set('n','gfe',function() sts.targeted_jump({'if_statement','else_clause','else_statement','elseif_statement'}) end,{noremap=true,silent=true})
@@ -401,6 +453,10 @@ use{'ziontee113/syntax-tree-surfer',config=function ()
 use{'airblade/vim-gitgutter',cmd=expander('GitGutter',{'All','BufferDisable','BufferEnable','BufferToggle','Debug','DiffOrig','Disable','Enable','Fold','LineHighlightsDisable','LineHighlightsEnable','LineHighlightsToggle','LineNrHighlightsDisable','LineNrHighlightsEnable','LineNrHighlightsToggle','NextHunk','PrevHunk','PreviewHunk','QuickFix','QuickFixCurrentFile','SignsDisable','SignsEnable','SignsToggle','StageHunk','Toggle','UndoHunk'},true)}
 use{'lewis6991/gitsigns.nvim',config=get_setup'gitsigns',cmd='Gitsigns'}
 use{'timuntersberger/neogit',cmd='Neogit'}
+use{'junegunn/gv.vim',opt=true,setup=function()
+    vim.cmd [[command! -nargs=* -range -bang -complete=file GV lua require("packer.load")({'vim-fugitive'},{},_G.packer_plugins) require("packer.load")({'gv.vim'},{cmd="GV",l1=<line1>,l2=<line2>,bang=<q-bang>,args=<q-args>,mods="<mods>"},_G.packer_plugins)]]
+    end} --smart lazy load
+use{'tpope/vim-fugitive',opt=true}
 end)
 
 ----self plugins
@@ -409,5 +465,4 @@ require'self_plugins.unimpaired'
 require'self_plugins.tabline'
 require'self_plugins.dff'
 require'self_plugins.textobj'
-----TODO: sort, orginize, lazyload needed
 -- vim:fen:

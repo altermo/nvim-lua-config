@@ -1,7 +1,7 @@
 setl shiftwidth=8 tabstop=8
 syn case ignore
-syn keyword noWord      är eller om till i av det den från som en ett de dem att in var inte
-"--TODO: och,men
+syn keyword noWord      är eller om till i av det den från som en ett de dem att in var inte alla
+syn match noWord       "\v\c<och>|<men>"
 syn case match
 syn match txtNumber    "\d\(\.\d\+\)\?"
 syn match txtOperator  "[~\-_+*=|#@$%&\\/:&\^\.,!?]"

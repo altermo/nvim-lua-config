@@ -28,6 +28,10 @@ function Build(term)
       end
       return
   end end
+  if vim.o.filetype=='cpp' then
+      vim.cmd('AsyncRun g++ % -o __tmp;./__tmp;rm __tmp')
+      return
+  end
   vim.notify("Builderror: filetype "..vim.o.filetype.." has no builder or can not be built")
 end
 function Fold(lnum)

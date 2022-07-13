@@ -59,20 +59,26 @@ nno('<A-S-b>',':lua Build(1)\r')
 nno('<A-w>',':echo wordcount()\r')
 nno('<A-y>',':let @+=@"\r')
 nno('<A-j>',':move +1\r')
-nno('<A-k>',':move -2\r') --TODO
+nno('<A-k>',':move -2\r')
+nno('<A-h>','<<')
+nno('<A-l>','>>')
+--TODO
+------alt-gr
+nno('“',':lua Build()\r')
+nno('‘',':lua Build(1)\r')
+nno('π','yyp')
 ------other
+nno('gV','gvo<esc>')
 nno('<Home>',QuickFixToggle)
 nno('|','~')
 nno(',','<C-o>')
 nno(';','<C-i>')
 lnno('.',':')
-nno('<C-.>','.')
 nno('<BS>',':lua require("neoscroll").zz(250)\r')
 nno('ø',':redo\r')
 nno('æ','z=')
 nno('å','"+p')
 nno('mw','"xdiw"axviw<esc>"ap"xp')
--- a b
 nno('j','gj')
 nno('k','gk')
 nno('\t ','<C-w>w')
@@ -101,7 +107,7 @@ nno('cd',function ()
 end)
 nno('dc',':lcd ..|pwd\r')
 nno('S',':HopLine<cr>')
-nno('gN','yi\':e <C-r>=stdpath("config")\r/lua/<C-r>=substitute("<C-r>"","\\\\.","/","g")\r.lua\r') --TODO
+nno('gd',':lua vim.lsp.buf.definition()\r') --TODO
 
 ----ino/cno
 ino('ø','ö')
@@ -130,6 +136,8 @@ vno('>','>gv')
 vno('<A-w>','<cmd>w !wc\r')
 vno('<A-j>',':move \'>+1\rgv')
 vno('<A-k>',':move \'<-2\rgv')
+vno('<A-h>','<gv')
+vno('<A-l>','>gv')
 lvno('<A-f>',':s/\\%V//g<Left><Left><Left>')
 lvno('.',':')
 vno('k','gk')
