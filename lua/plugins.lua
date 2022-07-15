@@ -471,7 +471,8 @@ use{'rbong/vim-flog',setup=function ()
     end,opt=true}
 use{'tpope/vim-fugitive',opt=true}
 use{'pwntester/octo.nvim',requires={'nvim-lua/plenary.nvim','nvim-telescope/telescope.nvim','kyazdani42/nvim-web-devicons'},config=get_setup'octo'}
-use 'rhysd/committia.vim'
+use 'mhinz/vim-signify'
+use 'kdheepak/lazygit.nvim'
 end)
 
 ----self plugins
