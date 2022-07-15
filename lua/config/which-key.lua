@@ -155,7 +155,7 @@ spmaps.t={name='+toggle'}
 spmaps.t.e={':NvimTreeToggle\r','explorer'}
 spmaps.t.h={':TSToggle highlight\r','TS-highlight'}
 spmaps.t.t={':Tagbar\r','tagbar'}
-spmaps.t.u={':MundoToggle\r','undotree'}
+spmaps.t.u={':UndotreeToggle\r','undotree'}
 spmaps.t.T={':TSPlaygroundToggle\r','TSPlayground'}
 spmaps.t.F={':FocusToggle\r','focus'}
 spmaps.t.m={':MinimapToggle\r','minimap'}

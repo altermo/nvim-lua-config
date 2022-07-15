@@ -16,12 +16,6 @@ end
 require('packer').startup(function(use)
 
 ----test
-use 'rlane/pounce.nvim' --TODO
-use{'justinmk/vim-sneak',disable=true} --TODO
-use{'ggandor/lightspeed.nvim',disable=true} --TODO
-use 'ggandor/leap.nvim' --TODO
-use{'matbme/JABS.nvim',config=get_setup'jabs'} --TODO
-use{'skywind3000/asynctasks.vim',cmd=expander('AsyncTask',{'Edit','Last','List','Macro','Profile'},true)} --TODO
 
 ----ui creator
 use 'muniftanjim/nui.nvim' --TODO
@@ -31,7 +25,8 @@ use 'anuvyklack/hydra.nvim' --TODO
 ----list
 use{'dkarter/bullets.vim',config=function ()
     vim.g.bullets_enabled_file_types={'*'}
-    vim.g.bullets_set_mappings=1
+    vim.g.bullets_set_mappings=0
+    vim.keymap.set('n','o',':InsertNewBullet\r',{silent=true,noremap=true})
     end}
 use{'lervag/vim-rainbow-lists',config=function ()
     vim.api.nvim_create_autocmd('FileType',{command='RBListEnable'})
@@ -84,6 +79,7 @@ use{'haringsrob/nvim_context_vt',config=get_setup'nvim_context_vt'}
 use{'sunjon/Shade.nvim',config=get_setup'shade',module='shade'}
 use{'https://gitlab.com/yorickpeterse/nvim-pqf',config=get_setup'pqf'}
 use{'folke/zen-mode.nvim',config=get_setup'zen-mode',requires='folke/twilight.nvim'}
+use 'pocco81/truezen.nvim'
 use{'nvim-lualine/lualine.nvim',config=get_setup('lualine',{options={theme='powerline'}})}
 use{'karb94/neoscroll.nvim',config=get_setup'neoscroll'}
 use{'beauwilliams/focus.nvim',config=get_setup('focus',{autoresize=false})}
@@ -222,6 +218,8 @@ use 'romainl/vim-qf'
 use{'tpope/vim-repeat',config=function ()
     vim.keymap.set('n','<C-.>','<Plug>(RepeatDot)',{silent=true})
     end}
+use{'glts/vim-radical',requires='glts/vim-magnum'}
+use 'jakewvincent/mkdnflow.nvim' --TODO
 
 ----text object
 use{'s1n7ax/nvim-lazy-inner-block',config=get_setup'nvim-lazy-inner-block'}
@@ -234,10 +232,10 @@ use{'MisanthropicBit/vim-numbers',config=function ()
     vim.keymap.set('o','an','<Plug>(VselectNumber)',{silent=true})
     vim.keymap.set('v','in','<Plug>(VselectNumber)',{silent=true})
     vim.keymap.set('o','in','<Plug>(VselectNumber)',{silent=true})
-    end} --TODO
+    end}
 use{'rhysd/vim-textobj-anyblock',requires='kana/vim-textobj-user',keys={{'o','ib'},{'v','ib'},{'o','ab'},{'v','ab'}}}
-use{'deathlyfrantic/vim-textobj-blanklines',requires='kana/vim-textobj-user',keys={{'o','i '},{'v','i '},{'o','a '},{'v','a '}}}
-use{'D4KU/vim-pushover',requires='tommcdo/vim-exchange',keys={'>w','<w','<W','>W','<p','>p'}}
+use{'deathlyfrantic/vim-textobj-blanklines',requires='kana/vim-textobj-user',keys={{'o','i<space>'},{'v','i<space>'},{'o','a<space>'},{'v','a<space>'}}}
+use{'D4KU/vim-pushover',requires='tommcdo/vim-exchange',keys={{'n','>w'},{'n','<w'},{'n','<W'},{'n','>W'},{'n','<p'},{'n','>p'}}}
 
 ----movement
 use{'phaazon/hop.nvim',config=get_setup'hop'}
@@ -247,6 +245,11 @@ use{'rhysd/clever-f.vim',config=function ()
     vim.keymap.set('n','<esc>','<Plug>(clever-f-reset)',{silent=true,noremap=true})
     end}
 use{'arp242/jumpy.vim',keys={'[[','<char-93><char-93>','g]','g['}}
+use 'rlane/pounce.nvim' --TODO
+use{'ggandor/lightspeed.nvim',config=function ()
+    vim.g.lightspeed_no_default_keymaps=1
+    end} --TODO
+use 'ggandor/leap.nvim' --TODO
 
 ----utils
 use 'nyngwang/NeoNoName.lua' --TODO
@@ -256,7 +259,7 @@ use 'famiu/bufdelete.nvim'
 use{'tpope/vim-eunuch',cmd={'Cfind','Chmod','Clocate','Copy',
     'Delete','Duplicate','Lfind','Llocate','Mkdir','Move','Remove',
     'Rename','SudoEdit','SudoWrite','Unlink','W','Wall'}}
-use 'tpope/vim-abolish'
+use{'tpope/vim-abolish',cmd={'Abolish','Subvert'},keys={{'n','cr'}}}
 use{'nvim-colortils/colortils.nvim',config=get_setup'colortils'}
 
 ----command
@@ -280,14 +283,16 @@ use{'elihunter173/dirbuf.nvim',cmd={'Dirbuf'},setup=function()
         command="if isdirectory(expand('%')) && !&modified|execute 'Dirbuf'|endif"
     })end}
 use{'ziontee113/color-picker.nvim',config='require("color-picker")'}
+use{'skywind3000/asynctasks.vim',cmd=expander('AsyncTask',{'Edit','Last','List','Macro','Profile'},true)}
 
 ----sidepannel
 use{'majutsushi/tagbar',cmd='TagbarToggle'}
 use{'kyazdani42/nvim-tree.lua',config=get_config('nvimtree'),cmd='NvimTreeToggle'}
 use{'simrat39/symbols-outline.nvim',cmd=expander('SymbolsOutline',{'Open','Close'},true)}
 use 'codcodog/simplebuffer.vim'
-use{'simnalamburt/vim-mundo',cmd='MundoToggle'}
 use{'mattn/calendar-vim',cmd=expander('Calender',{'H','T','VT'},true)}
+--use{'jiaoshijie/undotree',requires='nvim-lua/plenary.nvim',config=get_setup'undotree'}
+use 'mbbill/undotree'
 use{'folke/trouble.nvim',requires='kyazdani42/nvim-web-devicons',config=get_setup'trouble'}
 use{'wfxr/minimap.vim',run=':!cargo install --locked code-minimap',cmd='MinimapToggle',config=function ()
     vim.g.minimap_highlight_range=1
@@ -306,6 +311,7 @@ use{'nvim-telescope/telescope.nvim',requires={
     'linarcx/telescope-changes.nvim',
     'linarcx/telescope-ports.nvim',
     'axkirillov/telescope-changed-files',
+    {'nvim-telescope/telescope-arecibo.nvim',rocks={'openssl','lua-http-parser'}},
     },config=get_config'telescope'}
 
 ----window
@@ -339,12 +345,13 @@ use{'hrsh7th/nvim-cmp',config=get_config('cmp-nvim'),requires={
     'saadparwaiz1/cmp_luasnip',
     {'mtoohey31/cmp-fish',ft='fish'},
     {'tzachar/cmp-tabnine',run='./install.sh'},
+    'uga-rosa/cmp-dictionary',
     }}
 use{'L3MON4D3/LuaSnip',requires='rafamadriz/friendly-snippets',config=get_config'snip'}
 
 ----other
 use 'jghauser/fold-cycle.nvim'
-use{'suan/vim-instant-markdown',ft='markdown',run=':!npm -g install instant-markdown-d'}
+use 'davidgranstrom/nvim-markdown-preview'
 use{'glepnir/dashboard-nvim',config=get_config('dashboard'),cmd={'Dashboard','DashboardNewFile'},setup=function ()
     vim.api.nvim_create_autocmd('Vimenter',{callback=function()
         if vim.fn.argc()==0 and vim.fn.line2byte('$')==-1 then
@@ -438,13 +445,13 @@ use{'ziontee113/syntax-tree-surfer',config=function ()
     vim.keymap.set('n','<A-S-k>','<Plug>GoNDLineUp',{noremap=true,silent=true})
     vim.keymap.set('n','<A-S-j>','<Plug>GoNDLineDown',{noremap=true,silent=true})
     vim.keymap.set('n','<C-o>',':lua require("syntax-tree-surfer").go_to_top_node_and_execute_commands(false,{"normal!O","normal!O","startinsert"})\r',{noremap=true,silent=true})
-    vim.keymap.set('n','gfu',function() sts.targeted_jump({'function','arrrow_function','function_definition'}) end,{noremap=true,silent=true})
-    vim.keymap.set('n','gfe',function() sts.targeted_jump({'if_statement','else_clause','else_statement','elseif_statement'}) end,{noremap=true,silent=true})
-    vim.keymap.set('n','gfo',function() sts.targeted_jump({'for_statement','while_statement','switch_statement'}) end,{noremap=true,silent=true})
-    vim.keymap.set('n','gfv',function() sts.targeted_jump({'variable_declaration'}) end,{noremap=true,silent=true})
-    vim.keymap.set('n','gfs',function() sts.targeted_jump({'string'}) end,{noremap=true,silent=true})
-    vim.keymap.set('n','gfi',function() sts.targeted_jump({'ineger'}) end,{noremap=true,silent=true})
-    vim.keymap.set('n','gfa',function() sts.targeted_jump({"function","if_statement","else_clause","else_statement",
+    vim.keymap.set('n','gFu',function() sts.targeted_jump({'function','arrrow_function','function_definition'}) end,{noremap=true,silent=true})
+    vim.keymap.set('n','gFe',function() sts.targeted_jump({'if_statement','else_clause','else_statement','elseif_statement'}) end,{noremap=true,silent=true})
+    vim.keymap.set('n','gFo',function() sts.targeted_jump({'for_statement','while_statement','switch_statement'}) end,{noremap=true,silent=true})
+    vim.keymap.set('n','gFv',function() sts.targeted_jump({'variable_declaration'}) end,{noremap=true,silent=true})
+    vim.keymap.set('n','gFs',function() sts.targeted_jump({'string'}) end,{noremap=true,silent=true})
+    vim.keymap.set('n','gFi',function() sts.targeted_jump({'ineger'}) end,{noremap=true,silent=true})
+    vim.keymap.set('n','gFa',function() sts.targeted_jump({"function","if_statement","else_clause","else_statement",
         "elseif_statement","for_statement","while_statement","switch_statement",}) end,{noremap=true,silent=true})
     vim.keymap.set('n','<A-N>',function() sts.filtered_jump('default',true) end,{noremap=true,silent=true})
     vim.keymap.set('n','<A-P>',function() sts.filtered_jump('default',false) end,{noremap=true,silent=true})
@@ -454,10 +461,17 @@ use{'ziontee113/syntax-tree-surfer',config=function ()
 use{'airblade/vim-gitgutter',cmd=expander('GitGutter',{'All','BufferDisable','BufferEnable','BufferToggle','Debug','DiffOrig','Disable','Enable','Fold','LineHighlightsDisable','LineHighlightsEnable','LineHighlightsToggle','LineNrHighlightsDisable','LineNrHighlightsEnable','LineNrHighlightsToggle','NextHunk','PrevHunk','PreviewHunk','QuickFix','QuickFixCurrentFile','SignsDisable','SignsEnable','SignsToggle','StageHunk','Toggle','UndoHunk'},true)}
 use{'lewis6991/gitsigns.nvim',config=get_setup'gitsigns',cmd='Gitsigns'}
 use{'timuntersberger/neogit',cmd='Neogit'}
-use{'junegunn/gv.vim',opt=true,setup=function()
-    vim.cmd [[command! -nargs=* -range -bang -complete=file GV lua require("packer.load")({'vim-fugitive'},{},_G.packer_plugins) require("packer.load")({'gv.vim'},{cmd="GV",l1=<line1>,l2=<line2>,bang=<q-bang>,args=<q-args>,mods="<mods>"},_G.packer_plugins)]]
-    end} --smart lazy load
+use{'rbong/vim-flog',setup=function ()
+    local function create_cmd(cmd)
+        vim.api.nvim_create_user_command(cmd,'lua require"packer.load"({"vim-fugitive"},{},_G.packer_plugins) require"packer.load"({"vim-flog"},{cmd="'..cmd..'",l1=<line1>,l2=<line2>,bang=<q-bang>,args=<q-args>,mods="<mods>"},_G.packer_plugins)',{nargs='*',range=true,bang=true,complete='file'})
+    end
+    create_cmd'Flog'
+    create_cmd'Flogsplit'
+    create_cmd'Floggit'
+    end,opt=true}
 use{'tpope/vim-fugitive',opt=true}
+use{'pwntester/octo.nvim',requires={'nvim-lua/plenary.nvim','nvim-telescope/telescope.nvim','kyazdani42/nvim-web-devicons'},config=get_setup'octo'}
+use 'rhysd/committia.vim'
 end)
 
 ----self plugins
@@ -466,5 +480,5 @@ require'self_plugins.unimpaired'
 require'self_plugins.tabline'
 require'self_plugins.dff'
 require'self_plugins.textobj'
---TODO: better udotree
+require'self_plugins.gx'
 -- vim:fen:

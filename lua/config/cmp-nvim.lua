@@ -16,6 +16,7 @@ cmp.setup({
             orgmode='ORG',
             treesitter='TS',
             tags='TGS',
+            dictionary='DICT',
     },mode='text'})},
     snippet={
         expand=function(args)
@@ -37,6 +38,7 @@ cmp.setup({
         {name='orgmode'},
         {name='treesitter'},
         {name='tags'},
+        {name='dictionary'},
     }),
 mapping=cmp.mapping.preset.insert({
     ["<CR>"]=cmp.mapping(function()
@@ -76,7 +78,7 @@ cmp.setup.cmdline(":",{
     })
 })
 local compare = require('cmp.config.compare')
-cmp.setup({sorting={priority_weight=2,comparators={
+cmp.setup{sorting={priority_weight=2,comparators={
     require('cmp_tabnine.compare'),
     compare.offset,
     compare.exact,
@@ -86,4 +88,13 @@ cmp.setup({sorting={priority_weight=2,comparators={
     compare.sort_text,
     compare.length,
     compare.order,
-}}})
+}}}
+require("cmp_dictionary").setup{
+    dic={
+        ['*']='/home/user/.config/nvim/dict/std.dict',
+        filepath={
+            ['/home/user/.config/nvim/.*%.lua']='/home/user/.config/nvim/dict/luaconf.dict'
+        }
+    },
+    async=true
+}

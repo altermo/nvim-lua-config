@@ -9,4 +9,5 @@ telescope.load_extension'vim_bookmarks'
 telescope.load_extension'zoxide'
 telescope.load_extension'changes'
 telescope.load_extension'ports'
+telescope.load_extension'arecibo' --TODO
 --set up spesifik searches and not just main (aka t.n.*=telescope neorg *)
