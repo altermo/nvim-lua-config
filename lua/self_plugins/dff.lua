@@ -1,4 +1,4 @@
---[[
+--[[ plans
 .conf/
 .cashe/
 dir/
@@ -8,8 +8,8 @@ file2
 /.c0 onf  > .c0 .co
 /.c1 ashe > .c1 .ca
 /d   ir   > d
- f0  ile1 > f0 file1
- f1  ile2 > f1 file2
+ f0  ile1 > f0 file1 fi1
+ f1  ile2 > f1 file2 fi2
 --]]
 local api=vim.api
 local fn=vim.fn
@@ -100,4 +100,3 @@ function Dff()
     vim.cmd('e '..mainloop(buf,fn.fnamemodify('.',':p')))
 end
 api.nvim_create_user_command('Dff','lua Dff()',{})
---TODO evrythong

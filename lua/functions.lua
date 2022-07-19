@@ -13,7 +13,6 @@ function Norm()
   ino('<down>','<C-o>k')
   vim.o.mouse='a'
 end
-
 function TN()
     fn.execute([[/\v(n|t)>]])
 end
@@ -40,7 +39,7 @@ end
 function TermAppRun(bin,mouse)
   vim.cmd('enew')
   local buf=fn.bufnr()
-  fn.termopen((mouse and "printf '\\e[?1000h';" or "")..bin,{on_exit=function (_,_,_)
+  fn.termopen((mouse and "sleep 0.01;printf '\\e[?1000h';" or "")..bin,{on_exit=function (_,_,_)
     vim.cmd('bdelete! '..buf)
   end})
   vim.cmd('startinsert')
@@ -54,25 +53,3 @@ function QuickFixToggle()
     end
     vim.cmd('copen')
 end
-function Togglecomment(visual)
-    local left,_=vim.o.commentstring:match('^(.*)%%s(.*)')
-    if left:find(' $') then
-        left=string.sub(left,1,-2)
-    end
-    local line=vim.api.nvim_get_current_line()
-    if line:find('^%s*'..vim.pesc(left)) then
-        local temp=fn.getreg('/')
-        if visual then
-            vim.cmd([['<,'>s/^\(\s*\)]]..fn.escape(left,'[]\\')..[[/\1]])
-        else
-            vim.cmd([[s/^\(\s*\)]]..fn.escape(left,'[]\\')..[[/\1]])
-        end
-        fn.setreg('/',temp)
-    else
-        if visual then
-            vim.cmd("'<,'>norm I"..left)
-        else
-            vim.cmd('norm I'..left)
-        end
-    end
-end --TODO #a\nb| > ##a\n#b and better visual/normal

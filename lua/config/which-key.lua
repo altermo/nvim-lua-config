@@ -17,7 +17,6 @@ spmaps.X={':qa!\r','QUITALL!'}
 spmaps['\r']={':set hls!\r','toggle-highlight'}
 spmaps.C={':set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20\r','restore-cursor'}
 ------other
-spmaps.V={':redir! > %|silent |redir END<C-Left><C-Left>','output vim to buffer',silent=false}
 spmaps['\t']={':edit #\r','edit-last'}
 spmaps.R={'m":Resource\r','reload-config'}
 spmaps.S={':! "%"<Left><Left><Left><Left>','shell-file',silent=false}
@@ -72,8 +71,6 @@ spmaps.c.T={':!ctags -R .\r','ctags'}
 spmaps.c.f={name='+call-function'}
 spmaps.c.f.n={':call v:lua.Norm()\r','set-arrows&mouse'}
 spmaps.c.f.t={':call v:lua.TN()\r','ett/en'}
-spmaps.c.n={':CycleColorNext\r','color-next'}
-spmaps.c.p={':CycleColorPrev\r','color-prev'}
 spmaps.c.c={':mod\r','redraw-screen'}
 spmaps.c.P={':v/\\//d|%s/\\v^.{-}([a-zA-Z0-9._-]+\\/[a-zA-Z0-9._-]+).*/\\1/g\r','extraxt-plugs'}
 ------treesitter
@@ -101,11 +98,15 @@ spmaps.c.C.s={':set commentstring=/*%s*/','slash-/*%s*/'}
 ----find
 spmaps.f={name='+find'}
 for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
-  o='oldfiles',s='live_grep',b='buffers',l='luasnip',T='builtin',
-  h='harpoon marks',p='projects',L='software-licenses find',
-  y='yank_history',n='notify',C='changed_files',H='changes',
-  P='ports',z='zoxide list',B='vim_bookmarks'}) do
+  o='oldfiles',s='live_grep_args',b='buffers',l='luasnip',u='builtin',
+  h='harpoon marks',p='project',L='software-licenses find',
+  y='yank_history',n='notify',C='changed_files',T='tele_tabby list',
+  P='ports',z='zoxide list',B='vim_bookmarks',r='refactoring refactors'}) do
   spmaps.f[k]={':Telescope '..v..' theme=ivy hidden=true\r',v}
+end
+spmaps.f.S={name='+small'}
+for k,v in pairs({c='colorschemes',m='marks',b='buffers',t='tabpages'}) do
+    spmaps.f.S[k]={':ReachOpen '..v..'\r',v}
 end
 
 ----files
@@ -155,7 +156,7 @@ spmaps.t={name='+toggle'}
 spmaps.t.e={':NvimTreeToggle\r','explorer'}
 spmaps.t.h={':TSToggle highlight\r','TS-highlight'}
 spmaps.t.t={':Tagbar\r','tagbar'}
-spmaps.t.u={':UndotreeToggle\r','undotree'}
+spmaps.t.u={':MundoToggle\r','undotree'}
 spmaps.t.T={':TSPlaygroundToggle\r','TSPlayground'}
 spmaps.t.F={':FocusToggle\r','focus'}
 spmaps.t.m={':MinimapToggle\r','minimap'}
@@ -179,6 +180,7 @@ spmaps.t.z={':ZenMode\r','zen-mode'}
 spmaps.t.Z={':Twilight\r','twilight'}
 spmaps.t.b={':SimpleBufferToggle\r','simple-bufer-toggle'}
 spmaps.t.s={':lua require"shade".toggle()\r','shade'}
+spmaps.t.C={':Centerpad\r','centerpad'}
 
 ----browser
 spmaps.G={name='+browser--'}
@@ -222,7 +224,30 @@ spmaps.m.d={':sort|w|w !uniq > %\r','remove duplicates'}
 spmaps.L={name='lsp'}
 spmaps.L.q={':lua vim.diagnostic.setqflist()\r','quickfix'}
 
+----goto
+spmaps.g={name='+goto'}
+spmaps.g.w={':HopWordMW\r','word'}
+spmaps.g.p={':Pounce\r','pounce'}
+spmaps.g.r={':HopPattern\r','regex'}
+spmaps.g.l={':HopLineMW\r','line'}
+spmaps.g.v={':HopVertical\r','vertical'}
+spmaps.g['2']={':HopChar2MW\r','2 char'}
+spmaps.g.f={':Lista\r','find-whole-file'}
+spmaps.g.m={':lua MiniJump2d.start()\r','mini-jump'}
+spmaps.g.s={':Smalls\r','smalls'}
+------current-line
+spmaps.g.c={name='+current line'}
+spmaps.g.c.c={':HopChar1CurrentLine\r','1 char'}
+spmaps.g.c['2']={':HopChar2CurrentLine\r','2 char'}
+spmaps.g.c.w={':HopWordCurrentLine\r','word'}
+------aerojump
+spmaps.g.a={name='+aerojump'}
+spmaps.g.a.c={'<Plug>(AerojumpFromCursorBolt)','cursor-bolt'}
+spmaps.g.a.d={'<Plug>(AerojumpDefault)','default'}
+spmaps.g.a.s={'<Plug>(AerojumpSpace)','space'}
+spmaps.g.a.b={'<Plug>(AerojumpBolt)','bolt'}
+spmaps.g.a.m={'<Plug>(AerojumpMilk)','milk'}
+
 ----last--
 wk.register({[' ']=spmaps})
---TODO spacevim
 -- vim:fen:

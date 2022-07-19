@@ -5,3 +5,5 @@ require'lspconfig'.jsonls.setup{}
 require'lspconfig'.clangd.setup{}
 vim.keymap.set('n','[d',vim.diagnostic.goto_prev,{noremap=true,silent=true})
 vim.keymap.set('n',']d',vim.diagnostic.goto_next,{noremap=true,silent=true})
+vim.keymap.set('n',']D',vim.diagnostic.disable,{noremap=true,silent=true})
+vim.keymap.set('n','[D',vim.diagnostic.enable,{noremap=true,silent=true})

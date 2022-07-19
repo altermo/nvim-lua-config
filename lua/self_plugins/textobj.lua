@@ -16,7 +16,6 @@ function Onecharcolumn()
     while fin<fn.line('$') and getlineindexone(fin+1,col)==char do
         fin=fin+1
     end
-    print(beg,fin,char)
     fn.execute('keepjumps silent normal! '..beg..'gg\x16'..fin..'gg')
 end
 function Multicharcolumn()

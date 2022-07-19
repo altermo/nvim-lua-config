@@ -17,6 +17,7 @@ cmp.setup({
             treesitter='TS',
             tags='TGS',
             dictionary='DICT',
+            fuzzy_buffer='FB',
     },mode='text'})},
     snippet={
         expand=function(args)
@@ -39,6 +40,7 @@ cmp.setup({
         {name='treesitter'},
         {name='tags'},
         {name='dictionary'},
+        {name='fuzzy_buffer'},
     }),
 mapping=cmp.mapping.preset.insert({
     ["<CR>"]=cmp.mapping(function()
@@ -71,12 +73,20 @@ cmp.setup.cmdline("/",{
     })
 })
 cmp.setup.cmdline(":",{
+    formatting={
+        format=lspkind.cmp_format({menu={
+            path='PATH',
+            cmdline='CL',
+            cmdline_history='CLH',
+        },mode='text'})},
     mapping=cmp.mapping.preset.cmdline(),
     sources=cmp.config.sources({
         {name="path"},
         {name="cmdline"},
+        {name='cmdline_history'},
     })
 })
+cmp.setup.filetype({'AerojumpFilter'},{sources={}})
 local compare = require('cmp.config.compare')
 cmp.setup{sorting={priority_weight=2,comparators={
     require('cmp_tabnine.compare'),

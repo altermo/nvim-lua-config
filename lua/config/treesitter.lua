@@ -15,6 +15,8 @@ require'nvim-treesitter.configs'.setup({ensure_installed={
     'comment','regex','query',
 },rainbow={enable=true},
 highlight={enable=true},
+--indent={enable=true},
+yati={enable=true},
 pairs={enable=true,highlight_pair_events={'CursorMoved'}},
 textsubjects={enable=true,
     prev_selection='Q',
@@ -24,7 +26,7 @@ textsubjects={enable=true,
         ['i.']='textsubjects-container-inner',
 }},
 context_commentstring={enable=true},
+refactor={smart_rename={enable=true,keymaps={smart_rename="gR"}}},
 })
 require'orgmode'.setup_ts_grammar()
---refactor={smart_rename={keymaps={smart_rename="gr"}}},
---vim.keymap.set('n','gr':TSEnable refactor.smart_rename<cr>gr')
+vim.keymap.set('n','\\ft',':set foldexpr=nvim_treesitter#foldexpr()\r',{silent=true,noremap=true})

@@ -15,6 +15,9 @@ end
 local function vno(key,maps)
   map('v',key,maps,{noremap=true,silent=true})
 end
+local function lino(key,maps)
+  map('i',key,maps,{noremap=true})
+end
 local function ino(key,maps)
   map('i',key,maps,{noremap=true,silent=true})
 end
@@ -62,7 +65,7 @@ nno('<A-j>',':move +1\r')
 nno('<A-k>',':move -2\r')
 nno('<A-h>','<<')
 nno('<A-l>','>>')
---TODO
+nno('<C-.>','.')
 ------alt-gr
 nno('“',':lua Build()\r')
 nno('‘',':lua Build(1)\r')
@@ -81,9 +84,8 @@ nno('å','"+p')
 nno('mw','"xdiw"axviw<esc>"ap"xp')
 nno('j','gj')
 nno('k','gk')
-nno('\t ','<C-w>w')
+nno('\t','<C-w>w')
 nno('<F5>',':lua Build()\r')
-nno('gc',Togglecomment)
 nno('L','gt')
 nno('H','gT')
 for i=0,9 do
@@ -103,11 +105,10 @@ nno('cd',function ()
     end
     fn.chdir('..')
     ::End::
-    vim.notify(fn.getcwd())
+    vim.cmd'pwd'
 end)
 nno('dc',':lcd ..|pwd\r')
-nno('S',':HopLine<cr>')
-nno('gd',':lua vim.lsp.buf.definition()\r') --TODO
+nno('gd',':lua vim.lsp.buf.definition()\r')
 
 ----ino/cno
 ino('ø','ö')
@@ -116,19 +117,27 @@ ino('Ø','Ö')
 ino('Æ','Ä')
 for i in ('hjklwb'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
+  ino('<A-S-'..i..'>','<C-o>5'..i)
 end
+for i in ('u'):gmatch('.') do
+  ino('<A-'..i..'>','<C-o>'..i)
+end
+lino('<A-.>','<C-o>:')
+ino('<A-ø>','<cmd>redo\r')
+ino('<A-æ>','<C-o>z=')
+ino('<A- >','<C-o>')
+ino('<C- >','<C-o>')
 lcno('<A-h>','<Left>')
 lcno('<A-l>','<Right>')
-lcno('<A-j>','<C-Left>')
-lcno('<A-k>','<C-Right>')
+lcno('<A-j>','<Down>')
+lcno('<A-k>','<Up>')
 ino('<C-w>','<C-o><C-w>')
 ino('¨','<esc>')
 
 ----vno
-vno('S','<cmd>HopLine\r')
-lvno('gr','y:execute("%s/<C-r>"/".input(\'>\'))\r<C-r>"')
+vno('&','<cmd>HopLine\r')
+lvno('gr','y:execute("%s/<C-r>"/".input(\'>\')."/g")\r<C-r>"')
 vno('gG','y:!setsid firefox https://www.github.com/<C-r>"\r')
-vno('gc',':lua Togglecomment(1)\rgv')
 vno('å','"+y')
 lvno('Ø',':sort')
 vno('<','<gv')
@@ -176,7 +185,6 @@ nno('\\ew',':exec("e "..fnameescape(expand("%:h"))."/") \r')
 nno('\\es',':exec("sp "..fnameescape(expand("%:h"))."/") \r')
 nno('\\ev',':exec("vsp "..fnameescape(expand("%:h"))."/") \r')
 nno('\\et',':exec("tabe "..fnameescape(expand("%:h"))."/") \r')
-nno('\\ff','[I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"\r')
 nno('\\q','gwip')
 
 -- vim:fen

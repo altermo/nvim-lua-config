@@ -37,3 +37,9 @@ if __name__ == '__main__':
         )),
     }
 })
+for _,i in pairs({'abs','aiter','all','any','anext','ascii','bin','breakpoint','callable','chr','compile','delattr','dir','divmod','enumerate','eval','exec','filter','format','frozenset','getattr','globals','hasattr','hash','help','hex','id','input','isinstance','issubclass','iter','len','locals','map','max','memoryview','min','next','oct','open','ord','pow','print','range','repr','reversed','round','set','setattr','sorted','str','sum','super','type','vars','zip','__import__'}) do
+    ls.add_snippets(nil,{python={snip({trig=i},{text(i..'('),ins(1),text(')')})}})
+end
+for _,i in pairs({'pairs','print'}) do
+    ls.add_snippets(nil,{lua={snip({trig=i},{text(i..'('),ins(1),text(')')})}})
+end
