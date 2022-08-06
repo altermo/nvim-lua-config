@@ -26,5 +26,5 @@ vim.keymap.set('n','gFs',function() sts.targeted_jump({'string'}) end,{noremap=t
 vim.keymap.set('n','gFi',function() sts.targeted_jump({'ineger'}) end,{noremap=true,silent=true})
 vim.keymap.set('n','gFa',function() sts.targeted_jump({"function","if_statement","else_clause","else_statement",
     "elseif_statement","for_statement","while_statement","switch_statement",}) end,{noremap=true,silent=true})
-vim.keymap.set('n','<A-N>',function() sts.filtered_jump('default',true) end,{noremap=true,silent=true})
-vim.keymap.set('n','<A-P>',function() sts.filtered_jump('default',false) end,{noremap=true,silent=true})
+vim.keymap.set('n','<A-o>',function() sts.filtered_jump('default',true) end,{noremap=true,silent=true})
+vim.keymap.set('n','<A-i>',function() sts.filtered_jump('default',false) end,{noremap=true,silent=true})

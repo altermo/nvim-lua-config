@@ -10,10 +10,10 @@ local function lnno(key,maps)
   map('n',key,maps,{noremap=true})
 end
 local function lvno(key,maps)
-  map('v',key,maps,{noremap=true})
+  map('x',key,maps,{noremap=true})
 end
 local function vno(key,maps)
-  map('v',key,maps,{noremap=true,silent=true})
+  map('x',key,maps,{noremap=true,silent=true})
 end
 local function lino(key,maps)
   map('i',key,maps,{noremap=true})
@@ -35,9 +35,9 @@ nnoremap <nowait><buffer> ! :!|     "may be remapt
 
 ----map
 map('n','\'','<cmd>lua require("which-key").show("\'",{mode="n",auto=true)\r',{})
-map('v','\r','d',{})
+map('x','\r','d',{})
 map('n','\r','dd',{})
-map('v','s',':norm ',{})
+map('x','s',':norm ',{})
 
 ----nno
 ------alt/ctrl
@@ -66,6 +66,7 @@ nno('<A-k>',':move -2\r')
 nno('<A-h>','<<')
 nno('<A-l>','>>')
 nno('<C-.>','.')
+nno('<M-x>',Mx)
 ------alt-gr
 nno('“',':lua Build()\r')
 nno('‘',':lua Build(1)\r')
@@ -82,8 +83,8 @@ nno('ø',':redo\r')
 nno('æ','z=')
 nno('å','"+p')
 nno('mw','"xdiw"axviw<esc>"ap"xp')
-nno('j','gj')
-nno('k','gk')
+--nno('j','gj')
+--nno('k','gk')
 nno('\t','<C-w>w')
 nno('<F5>',':lua Build()\r')
 nno('L','gt')
@@ -108,13 +109,20 @@ nno('cd',function ()
     vim.cmd'pwd'
 end)
 nno('dc',':lcd ..|pwd\r')
+------lsp
 nno('gd',':lua vim.lsp.buf.definition()\r')
+nno('gr',':lua vim.lsp.buf.rename()\r')
+nno('gC',':lua vim.lsp.buf.code_action()\r')
 
 ----ino/cno
 ino('ø','ö')
 ino('æ','ä')
 ino('Ø','Ö')
 ino('Æ','Ä')
+ino('ö','ø')
+ino('ä','æ')
+ino('Ö','Ø')
+ino('Ä','Æ')
 for i in ('hjklwb'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
   ino('<A-S-'..i..'>','<C-o>5'..i)
@@ -131,11 +139,19 @@ lcno('<A-h>','<Left>')
 lcno('<A-l>','<Right>')
 lcno('<A-j>','<Down>')
 lcno('<A-k>','<Up>')
+lcno('<A-S-h>','<S-Left>')
+lcno('<A-S-l>','<S-Right>')
+lcno('<A-S-j>','<S-Down>')
+lcno('<A-S-k>','<S-Up>')
+lcno('<A-BS>','<C-w>')
 ino('<C-w>','<C-o><C-w>')
 ino('¨','<esc>')
+ino('<A-e>','<End>')
+ino('<A-0>','<Home>')
+ino('<M-BS>','<C-o>db')
 
 ----vno
-vno('&','<cmd>HopLine\r')
+vno('&','<cmd>lua require"hop".hint_lines()\r')
 lvno('gr','y:execute("%s/<C-r>"/".input(\'>\')."/g")\r<C-r>"')
 vno('gG','y:!setsid firefox https://www.github.com/<C-r>"\r')
 vno('å','"+y')
@@ -151,7 +167,9 @@ lvno('<A-f>',':s/\\%V//g<Left><Left><Left>')
 lvno('.',':')
 vno('k','gk')
 vno('j','gj')
-vno(' ','<cmd>HopChar1\r')
+vno(' ','<cmd>lua require"hop".hint_char1()\r')
+vim.keymap.set('x','A','mode()=="<C-v>"?"A":"<esc>:au InsertLeave * ++once :\'<+1,\'>norm! $\\".p\r\'<A"',{noremap=true,silent=true,expr=true})
+vim.keymap.set('x','I','mode()=="<C-v>"?"I":"<esc>:au InsertLeave * ++once :\'<+1,\'>norm! _\\".P\r\'<I"',{noremap=true,silent=true,expr=true})
 
 ----tno
 tno('<C-\\>','<C-\\><C-n>')
@@ -164,6 +182,7 @@ for _,i in pairs({'<left>','<right>','<up>','<down>'}) do
   nno(i,'<nop>')
   ino(i,'<nop>')
   vno(i,'<nop>')
+  lcno(i,'<nop>')
 end
 nno('ZZ','<nop>')
 nno('ZQ','<nop>')

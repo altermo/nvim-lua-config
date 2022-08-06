@@ -17,5 +17,14 @@ cabbr('qw','wq')
 command('Fish','lua TermAppRun(\'fish <args>\')',{nargs='*'})
 command('Emacs','lua TermAppRun("emacsclient -nw -c -a \'emcas -nw\' <args>")',{nargs='*'})
 command('Kak','lua TermAppRun(\'kak <args>\')',{nargs='*'})
-command('Resource','so ~/.config/nvim/init.lua')
 command('BD',[[command! -bang -nargs=1 BD execute 'bd<bang> ' . join(map(split(execute('filter /<args>/ ls'), "\n"), 'str2nr(v:val)'))]],{nargs=1,bang=true})
+command('UpdateRemotePlugins',[[
+    for i in g:rplugins
+        call luaeval('require"packer.load"({"'.i.'"},{},_G.packer_plugins)')
+    endfor
+    if g:loaded_remote_plugins==1
+        unlet g:loaded_remote_plugins
+        source /usr/share/nvim/runtime/plugin/rplugin.vim
+    endif
+    UpdateRemotePlugins
+]])

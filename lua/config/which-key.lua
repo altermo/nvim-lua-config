@@ -1,6 +1,6 @@
 ----init--
 local function wip()
-    return ':echo "work in progress"\r'
+    return ':lua vim.notify"work in progress"\r'
 end
 require"which-key".setup{}
 local spmaps={}
@@ -17,20 +17,22 @@ spmaps.X={':qa!\r','QUITALL!'}
 spmaps['\r']={':set hls!\r','toggle-highlight'}
 spmaps.C={':set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20\r','restore-cursor'}
 ------other
+spmaps.r={':Ranger\r','ranger'}
 spmaps['\t']={':edit #\r','edit-last'}
-spmaps.R={'m":Resource\r','reload-config'}
 spmaps.S={':! "%"<Left><Left><Left><Left>','shell-file',silent=false}
 spmaps.z={'zM100zo','close-all-folds-but-cursor'}
 spmaps.Z={'zM','close-all-folds'}
 spmaps.l={':ls\r','list-buffers'}
 spmaps.o={':only\r','only-window'}
-spmaps.d={':w !diff % -\r','diff-last-write'}
+spmaps.d={':changes\r','changes',silent=false}
 spmaps.M={':set ro virtualedit=all\r','read-only'}
 spmaps.P={':py ','python',silent=false}
-spmaps.k={':Telescope current_buffer_fuzzy_find\r','current-file-search'}
+spmaps.v={':vsplit\r','vertical'}
+spmaps.e={':split\r','horizontal'}
+spmaps.n={':enew\r','enew'}
 ------hop
-spmaps[' ']={':HopChar1\r','Hop'}
-spmaps['<S- >']={':HopChar1MW\r','HopMW'}
+spmaps[' ']={':lua require"hop".hint_char1()\r','Hop'}
+spmaps['<S- >']={':lua require"hop".hint_char1({multi_windows=true})\r','HopMW'}
 ------windwos
 for i in ('0123456789'):gmatch('.') do
     spmaps[i]={':'..i..'wincmd w\r','window '..i}
@@ -40,29 +42,12 @@ end
 spmaps.a={name='+apps'}
 spmaps.a.w={':call execute("terminal curl \'wttr.in/?nQF&lang=es\' -s")|startinsert\r','weather'}
 spmaps.a.t={':vsplit|term set a (mktemp);while :;cat "%"|trans "es:sv" -b>$a;clear;cat $a;end\r:wincmd p\r','async-tranlate'}
-
-----replace-vertical-horizontal
-spmaps.r={name='+replace'}
-spmaps.v={name='+vertical'}
-spmaps.e={name='+horizontal'}
-for k,v in pairs({t='Fish',n='enew',d='Dff',b='Telescope buffers'}) do
-    spmaps.r[k]={':'..v..'\r',v}
-    spmaps.v[k]={':vnew|'..v..'\r',v}
-    spmaps.e[k]={':new|'..v..'\r',v}
-end
-spmaps.r.r={':RangerG "%"\r','ranger'}
-spmaps.r.e={':execute "Emacs ".expand("%")\r','emacs'}
-spmaps.r.k={':execute "Kak ".expand("%")\r','kakoune'}
---      .
-spmaps.v.r={':vnew|RangerG "#"\r','ranger'}
-spmaps.v.e={':vnew|Emacs .\r','emacs'}
-spmaps.v.k={':vnew|execute "Kak ".expand("#")\r','kakoune'}
-spmaps.v.v={':vsplit\r','vsplit'}
---      .
-spmaps.e.r={':new|RangerG "#"\r','ranger'}
-spmaps.e.e={':new|Emacs .\r','emacs'}
-spmaps.e.k={':new|execute "Kak ".expand("#")\r','kakoune'}
-spmaps.e.e={':split\r','split'}
+spmaps.a.e={':Emacs .\r','emacs'}
+spmaps.a.k={':Kak .\r','kakoune'}
+spmaps.a.d={':Dff\r','dff'}
+spmaps.a.f={':Fish\r','fish-shell'}
+spmaps.a.T={':FloatermToggle\r','terminal'}
+spmaps.a.r={':RnvimrToggle\r','ranger'}
 
 ----otherc
 spmaps.c={name='+otherc'}
@@ -73,6 +58,7 @@ spmaps.c.f.n={':call v:lua.Norm()\r','set-arrows&mouse'}
 spmaps.c.f.t={':call v:lua.TN()\r','ett/en'}
 spmaps.c.c={':mod\r','redraw-screen'}
 spmaps.c.P={':v/\\//d|%s/\\v^.{-}([a-zA-Z0-9._-]+\\/[a-zA-Z0-9._-]+).*/\\1/g\r','extraxt-plugs'}
+spmaps.c.n={':tabe\r','new-tab'}
 ------treesitter
 spmaps.c.t={name='+treesitter'}
 spmaps.c.t.q={':TSCaptureUnderCursor\r','query1'}
@@ -98,16 +84,23 @@ spmaps.c.C.s={':set commentstring=/*%s*/','slash-/*%s*/'}
 ----find
 spmaps.f={name='+find'}
 for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
-  o='oldfiles',s='live_grep_args',b='buffers',l='luasnip',u='builtin',
-  h='harpoon marks',p='project',L='software-licenses find',
-  y='yank_history',n='notify',C='changed_files',T='tele_tabby list',
-  P='ports',z='zoxide list',B='vim_bookmarks',r='refactoring refactors'}) do
-  spmaps.f[k]={':Telescope '..v..' theme=ivy hidden=true\r',v}
+    o='oldfiles',s={'live_grep_args'},b='buffers',
+    u='builtin',H='harpoon marks',p={'project'},y={'yank_history'},
+    n={'notify'},C={'changed_files'},T='tele_tabby list',B='vim_bookmarks all',
+    r='refactoring refactors',P={'packer'},a='asynctasks all',R={'cder'},
+    h={'howdoi'}
+    }) do
+    if type(v)=='string' then
+        spmaps.f[k]={':Telescope '..v..' theme=ivy hidden=true\r',v}
+    else
+        spmaps.f[k]={':Telescope '..v[1]..' '..v[1]..' theme=ivy hidden=true\r',v[1]}
+    end
 end
 spmaps.f.S={name='+small'}
 for k,v in pairs({c='colorschemes',m='marks',b='buffers',t='tabpages'}) do
     spmaps.f.S[k]={':ReachOpen '..v..'\r',v}
 end
+spmaps.f.F={':Folds\r','folds'}
 
 ----files
 spmaps.F={name='+files'}
@@ -117,7 +110,7 @@ spmaps.F.c={':!echo "%:p"|xclip -selection c\r','copy-path'}
 spmaps.F.p={':exe(\'vnew|call termopen("bat -pp \'.expand(\'<cfile>\').\'")\')\r','preview-under-cursor'}
 spmaps.F.t={name='+set-type'}
 spmaps.F.a={':tabe %\r','open alternetive'}
-for k,v in pairs({p='python',t='txt',v='vim',f='fish',r='rust',l='lua'}) do
+for k,v in pairs({p='python',t='txt',v='vim',f='fish',r='rust',l='lua',m='markdown',c='cpp',h='html'}) do
     spmaps.F.t[k]={':set filetype='..v..'\r',v}
 end
 spmaps.F.t.o={':set filetype=','other',silent=false}
@@ -131,11 +124,11 @@ spmaps.b.d.t={':BD! term\r','terminal'}
 
 ----packer
 spmaps.p={name='packer'}
-spmaps.p.s={':PackerSync\r','sync'}
-spmaps.p.p={':PackerCompile\r','compile'}
-spmaps.p.P={':PackerCompile profile=true\r','compile-profile'}
-spmaps.p.i={':PackerInstall\r','install'}
-spmaps.p.c={':PackerClean\r','clean'}
+spmaps.p.s={':call luaeval("require \'plugins\'")|PackerSync\r','sync'}
+spmaps.p.p={':call luaeval("require \'plugins\'")|PackerCompile\r','compile'}
+spmaps.p.P={':call luaeval("require \'plugins\'")|PackerCompile profile=true\r','compile-profile'}
+spmaps.p.i={':call luaeval("require \'plugins\'")|PackerInstall\r','install'}
+spmaps.p.c={':call luaeval("require \'plugins\'")|PackerClean\r','clean'}
 
 ----spell/translate
 spmaps.s={name='+spell'}
@@ -153,7 +146,7 @@ spmaps.T.t.t={':let g:translator_target_lang=""<Left>','other',silent=false}
 
 ----toggle
 spmaps.t={name='+toggle'}
-spmaps.t.e={':NvimTreeToggle\r','explorer'}
+spmaps.t.e={':Neotree\r','explorer'}
 spmaps.t.h={':TSToggle highlight\r','TS-highlight'}
 spmaps.t.t={':Tagbar\r','tagbar'}
 spmaps.t.u={':MundoToggle\r','undotree'}
@@ -166,16 +159,7 @@ spmaps.t.k={function ()
     vim.notify('Note: this is still in development')
     require 'self_plugins.kakoune'
     end,'kakoune-mode'}
-spmaps.t.M={function ()
-    vim.keymap.set('n','<A-w>',':FocusMaxOrEqual\r:ChooseWin|FocusMaximise\r',{silent=true})
-    if Max then
-        require'focus'.focus_max_or_equal()
-        Max=false
-    else
-        require'focus'.focus_maximise()
-        Max=true
-    end
-end,'max-mode'}
+spmaps.t.M={wip(),'max-mode'}
 spmaps.t.z={':ZenMode\r','zen-mode'}
 spmaps.t.Z={':Twilight\r','twilight'}
 spmaps.t.b={':SimpleBufferToggle\r','simple-bufer-toggle'}
@@ -226,27 +210,27 @@ spmaps.L.q={':lua vim.diagnostic.setqflist()\r','quickfix'}
 
 ----goto
 spmaps.g={name='+goto'}
-spmaps.g.w={':HopWordMW\r','word'}
+spmaps.g.w={':lua require"hop".hint_words({ multi_windows = true })\r','word'}
 spmaps.g.p={':Pounce\r','pounce'}
-spmaps.g.r={':HopPattern\r','regex'}
-spmaps.g.l={':HopLineMW\r','line'}
-spmaps.g.v={':HopVertical\r','vertical'}
-spmaps.g['2']={':HopChar2MW\r','2 char'}
+spmaps.g.r={':lua require"hop".hint_patterns()\r','regex'}
+spmaps.g.l={':lua require"hop".hint_lines({ multi_windows = true })\r','line'}
+spmaps.g.v={':lua require"hop".hint_vertical()\r','vertical'}
+spmaps.g['2']={':lua require"hop".hint_char2({ multi_windows = true })\r','2 char'}
 spmaps.g.f={':Lista\r','find-whole-file'}
-spmaps.g.m={':lua MiniJump2d.start()\r','mini-jump'}
+spmaps.g.m={':lua require"mini.jump2d".start()\r','mini-jump'}
 spmaps.g.s={':Smalls\r','smalls'}
 ------current-line
 spmaps.g.c={name='+current line'}
-spmaps.g.c.c={':HopChar1CurrentLine\r','1 char'}
-spmaps.g.c['2']={':HopChar2CurrentLine\r','2 char'}
-spmaps.g.c.w={':HopWordCurrentLine\r','word'}
+spmaps.g.c.c={':lua require"hop".hint_char1({ current_line_only = true })\r','1 char'}
+spmaps.g.c['2']={':lua require"hop".hint_char2({ current_line_only = true })\r','2 char'}
+spmaps.g.c.w={':lua require"hop".hint_words({ current_line_only = true })\r','word'}
 ------aerojump
 spmaps.g.a={name='+aerojump'}
-spmaps.g.a.c={'<Plug>(AerojumpFromCursorBolt)','cursor-bolt'}
-spmaps.g.a.d={'<Plug>(AerojumpDefault)','default'}
-spmaps.g.a.s={'<Plug>(AerojumpSpace)','space'}
-spmaps.g.a.b={'<Plug>(AerojumpBolt)','bolt'}
-spmaps.g.a.m={'<Plug>(AerojumpMilk)','milk'}
+spmaps.g.a.c={':Aerojump cursor bolt\r','cursor-bolt'}
+spmaps.g.a.d={':Aerojump kbd default\r','default'}
+spmaps.g.a.s={':Aerojump kbd space\r','space'}
+spmaps.g.a.b={':Aerojump kbd bolt\r','bolt'}
+spmaps.g.a.m={':Aerojump kbd milk\r','milk'}
 
 ----last--
 wk.register({[' ']=spmaps})

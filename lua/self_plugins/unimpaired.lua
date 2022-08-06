@@ -96,27 +96,27 @@ end
 nno(']f',function() vim.cmd('edit '..get_next_file(fn.expand('%',nil,nil))) end)
 nno('[f',function() vim.cmd('edit '..get_prev_file(fn.expand('%',nil,nil))) end)
 
-for k,v in pairs({a='',b='b',l='l',q='c',t='t',['<C-t>']='pt'}) do
-    nno(']'..k,':'..v..'next\r')
-    nno('['..k,':'..v..'previous\r')
-end
-for k,v in pairs({A='',B='b',L='l',Q='c',T='t'}) do
-    nno(']'..k,':'..v..'last\r')
-    nno('['..k,':'..v..'first\r')
-end
+--for k,v in pairs({a='',b='b',l='l',q='c',t='t',['<C-t>']='pt'}) do
+    --nno(']'..k,':'..v..'next\r')
+    --nno('['..k,':'..v..'previous\r')
+--end
+--for k,v in pairs({A='',B='b',L='l',Q='c',T='t'}) do
+    --nno(']'..k,':'..v..'last\r')
+    --nno('['..k,':'..v..'first\r')
+--end
 
-nno(']<C-q>',':cpfile\r')
-nno('[<C-q>',':cnfile\r')
-nno(']n',':  call search(\'^\\(@@ .* @@\\|[<=>|]\\{7}[<=>|]\\@!\\)\',"W")\r')
-nno('[n',':  call search(\'^\\(@@ .* @@\\|[<=>|]\\{7}[<=>|]\\@!\\)\',"Wb")\r')
+--nno(']<C-q>',':cpfile\r')
+--nno('[<C-q>',':cnfile\r')
+--nno(']n',':  call search(\'^\\(@@ .* @@\\|[<=>|]\\{7}[<=>|]\\@!\\)\',"W")\r')
+--nno('[n',':  call search(\'^\\(@@ .* @@\\|[<=>|]\\{7}[<=>|]\\@!\\)\',"Wb")\r')
 nno('[ ','O<esc>j')
 nno('] ','o<esc>k')
-nno('>p','p>>')
-nno('<p','p<<')
-nno('=p','p==')
-nno('>P','P>>')
-nno('<P','P<<')
-nno('=P','P==')
+--nno('>p','p>>')
+--nno('<p','p<<')
+--nno('=p','p==')
+--nno('>P','P>>')
+--nno('<P','P<<')
+--nno('=P','P==')
 
 for k,v in pairs({
     b={opt='background',on='light',off='dark'},
@@ -132,9 +132,9 @@ for k,v in pairs({
     nno('[o'..k,function () seton(v.opt,v.on) end)
     nno(']o'..k,function () setoff(v.opt,v.off) end)
     nno('yo'..k,function () toggle(v.opt,v.on,v.off) end)
-    nno('<s'..k,function () seton(v.opt,v.on) end)
-    nno('>s'..k,function () setoff(v.opt,v.off) end)
-    nno('=s'..k,function () toggle(v.opt,v.on,v.off) end)
+    --nno('<s'..k,function () seton(v.opt,v.on) end)
+    --nno('>s'..k,function () setoff(v.opt,v.off) end)
+    --nno('=s'..k,function () toggle(v.opt,v.on,v.off) end)
 end
 nno('yox',':set cursorcolumn!|let &cursorline=&cursorcolumn\r')
 nno('[ox',':set cursorcolumn cursorline\r')

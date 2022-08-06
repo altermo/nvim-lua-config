@@ -10,6 +10,7 @@ syn match txtEmail      "\v([a-z0-9_\.\+-]+)\@([\da-z\.-]+)\.([a-z\.]{2,6})"
 syn match specWord     "\v\c<dom>|<så>|, och|^<men>|^<och>"
 syn cluster txtContains add=txtNumber,txtOperator,txtLink,specWord,txtEmail
 syn region txtCite      start="\"" end="\"" oneline contains=@txtContains
+syn region txtCite      start="\'" end="\'" oneline contains=@txtContains
 syn region txtComments  start="^#" end="$"  oneline contains=@txtContains,txtCite
 syn region txtDelims    start="("  end=")"  oneline contains=@txtContains,txtCite
 syn region txtDelims    start="<"  end=">"  oneline contains=@txtContains,txtCite

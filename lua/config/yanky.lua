@@ -7,4 +7,3 @@ vim.keymap.set('n','<A-p>','<Plug>(YankyCycleForward)')
 vim.keymap.set('n','<A-P>','<Plug>(YankyCycleBackward)')
 vim.keymap.set('n','<C-p>',':wshada\r')
 vim.keymap.set('n','<C-n>',':rshada\r')
-require'telescope'.load_extension'yank_history'

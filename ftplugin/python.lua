@@ -1,1 +1,1 @@
-vim.keymap.set('i','…','self.')
+vim.keymap.set('i','…','self.',{buffer=true})

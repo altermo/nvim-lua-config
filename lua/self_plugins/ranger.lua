@@ -3,7 +3,7 @@ local function command(cmd,bin,opt)
 end
 local fn=vim.fn
 function Ranger(path)
-    local currentPath=fn.expand(path,nil,nil)
+local currentPath=fn.expand(path,nil,nil)
     local file='/tmp/chosenfile'
     local ranger_command="sleep 0.01;printf '\\e[?1000h';ranger --cmd 'set show_hidden=true' --cmd 'set preview_images=true'"
     vim.cmd('enew')

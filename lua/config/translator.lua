@@ -4,5 +4,5 @@ function SwapLang()
 end
 vim.g.translator_source_lang='sv'
 vim.g.translator_target_lang='es'
-vim.keymap.set('v','þ',':Translate<CR>',{noremap=true,silent=true})  --alt_gr-t
-vim.keymap.set('v','Þ',':TranslateR<CR>',{noremap=true,silent=true}) --alt_gr-T
+vim.keymap.set('x','þ',':Translate<CR>',{noremap=true,silent=true})  --alt_gr-t
+vim.keymap.set('x','Þ',':TranslateR<CR>',{noremap=true,silent=true}) --alt_gr-T

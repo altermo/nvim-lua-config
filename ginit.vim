@@ -16,5 +16,5 @@ nnoremap <silent><F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,ful
 "tnoremap <silent><C-S-?> <cmd>execute "GuiFont! Inconsolata:h" . (matchstr(&guifont, '\d\+$')+5)<CR>
 "tnoremap <silent><C-S-_> <cmd>execute "GuiFont! Inconsolata:h" . (matchstr(&guifont, '\d\+$')-5)<CR>
 "tnoremap <silent><C-0> <cmd>execute "GuiFont! Inconsolata:h11"
-tnoremap <silent><F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
+"tnoremap <silent><F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
 tnoremap <silent><F12> <cmd>call feedkeys(readfile('/home/user/.config/token.txt')[input('>')])<cr>

@@ -31,6 +31,10 @@ function Build(term)
       vim.cmd('AsyncRun g++ % -o __tmp;./__tmp;rm __tmp')
       return
   end
+  if vim.o.filetype=='vim' then
+    vim.cmd'so %'
+    return
+  end
   vim.notify("Builderror: filetype "..vim.o.filetype.." has no builder or can not be built")
 end
 function Fold(lnum)
@@ -52,4 +56,9 @@ function QuickFixToggle()
         end
     end
     vim.cmd('copen')
+  vim.cmd'wincmd p'
+end
+function Mx()
+  local inp=vim.fn.input('>')
+  require'fennel-nvim'.vimeval('('..inp..')')
 end
