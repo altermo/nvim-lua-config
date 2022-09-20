@@ -66,12 +66,13 @@ nno('<A-k>',':move -2\r')
 nno('<A-h>','<<')
 nno('<A-l>','>>')
 nno('<C-.>','.')
-nno('<M-x>',Mx)
+nno('<M-x>',':lua Mx()\r')
 ------alt-gr
 nno('“',':lua Build()\r')
 nno('‘',':lua Build(1)\r')
 nno('π','yyp')
 ------other
+nno('go','o')
 nno('gV','gvo<esc>')
 nno('<Home>',QuickFixToggle)
 nno('|','~')
@@ -115,26 +116,6 @@ nno('gr',':lua vim.lsp.buf.rename()\r')
 nno('gC',':lua vim.lsp.buf.code_action()\r')
 
 ----ino/cno
-ino('ø','ö')
-ino('æ','ä')
-ino('Ø','Ö')
-ino('Æ','Ä')
-ino('ö','ø')
-ino('ä','æ')
-ino('Ö','Ø')
-ino('Ä','Æ')
-for i in ('hjklwb'):gmatch('.') do
-  ino('<A-'..i..'>','<C-o>'..i)
-  ino('<A-S-'..i..'>','<C-o>5'..i)
-end
-for i in ('u'):gmatch('.') do
-  ino('<A-'..i..'>','<C-o>'..i)
-end
-lino('<A-.>','<C-o>:')
-ino('<A-ø>','<cmd>redo\r')
-ino('<A-æ>','<C-o>z=')
-ino('<A- >','<C-o>')
-ino('<C- >','<C-o>')
 lcno('<A-h>','<Left>')
 lcno('<A-l>','<Right>')
 lcno('<A-j>','<Down>')
@@ -144,11 +125,45 @@ lcno('<A-S-l>','<S-Right>')
 lcno('<A-S-j>','<S-Down>')
 lcno('<A-S-k>','<S-Up>')
 lcno('<A-BS>','<C-w>')
+lcno('<A-Del>','<C-u>')
+lcno('<A-b>','<S-Left>')
+lcno('<A-e>','<S-Right>')
+lcno('<A-w>','<S-Right>')
+ino('ø','ö')
+ino('æ','ä')
+ino('Ø','Ö')
+ino('Æ','Ä')
+ino('ö','ø')
+ino('ä','æ')
+ino('Ö','Ø')
+ino('Ä','Æ')
 ino('<C-w>','<C-o><C-w>')
+for i in ('hjklwbn'):gmatch('.') do
+  ino('<A-'..i..'>','<C-o>'..i)
+  ino('<A-S-'..i..'>','<C-o>5'..i)
+end
+for i in ('0u$_+-fvFVGtTxX'):gmatch('.') do
+  ino('<A-'..i..'>','<C-o>'..i)
+end
+lino('<A-/>','<C-o>/')
+lino('<A-.>','<C-o>:')
+ino('<A-ø>','<cmd>redo\r')
+ino('<A-æ>','<C-o>z=')
+ino('<A- >','<C-o> ') --TODO
+ino('<A-g>','<C-o>:WhichKey g\r')
 ino('¨','<esc>')
-ino('<A-e>','<End>')
-ino('<A-0>','<Home>')
-ino('<M-BS>','<C-o>db')
+ino('<A-BS>','<C-o>db')
+ino('<A-d>','<C-o>dw')
+ino('<A-c>','<C-o>ce')
+ino('<A-,>','<C-o>;')
+ino('<A-;>','<C-o>,')
+ino('<A-a>c','<C-o>cc')
+ino('<A-a>d','<C-o>dd')
+ino('<A-a><A-c>','<C-o>cc')
+ino('<A-a><A-d>','<C-o>dd')
+ino('<A-C-v>','<C-o><C-v>')
+ino('<A-s>','<bs>')
+ino('<A-S-S>','<C-w>')
 
 ----vno
 vno('&','<cmd>lua require"hop".hint_lines()\r')
@@ -176,6 +191,10 @@ tno('<C-\\>','<C-\\><C-n>')
 for i in ('hjkl'):gmatch('.') do
   tno('<C-'..i..'>','<C-\\><C-n><C-w>'..i)
 end
+tno('<A-S-h>','<S-Left>')
+tno('<A-S-l>','<S-Right>')
+tno('<A-S-j>','<S-Down>')
+tno('<A-S-k>','<S-Up>')
 
 ----no keys
 for _,i in pairs({'<left>','<right>','<up>','<down>'}) do
@@ -195,9 +214,9 @@ nno('+','$')
 vno('+','$')
 nno('?','?')
 nno('&','n')
-lnno('Ø',':sort')
 nno('vv','V')
 nno('vvv','<C-v>')
+lnno('Ø',':sort')
 
 ------leader
 nno('\\ew',':exec("e "..fnameescape(expand("%:h"))."/") \r')

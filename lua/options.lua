@@ -36,3 +36,4 @@ set.cursorline=true
 set.foldenable=false
 set.modelineexpr=true
 set.termguicolors=true
+set.nrformats='bin,hex,alpha'

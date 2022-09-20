@@ -32,7 +32,7 @@ spmaps.e={':split\r','horizontal'}
 spmaps.n={':enew\r','enew'}
 ------hop
 spmaps[' ']={':lua require"hop".hint_char1()\r','Hop'}
-spmaps['<S- >']={':lua require"hop".hint_char1({multi_windows=true})\r','HopMW'}
+spmaps['<C- >']={':lua require"hop".hint_char1({multi_windows=true})\r','HopMW'}
 ------windwos
 for i in ('0123456789'):gmatch('.') do
     spmaps[i]={':'..i..'wincmd w\r','window '..i}
@@ -80,15 +80,19 @@ spmaps.c.C={name='+commentstring'}
 spmaps.c.C.h={':set commentstring=#%s','octothorpe-#%s'}
 spmaps.c.C.l={':set commentstring=--%s','lines---%s'}
 spmaps.c.C.s={':set commentstring=/*%s*/','slash-/*%s*/'}
+------g
+spmaps.c.g={name='+fcreate'}
+spmaps.c.g.f={':lua require"self_plugins.fcreate".func()\r','function'}
+spmaps.c.g.c={':lua require"self_plugins.fcreate".class()\r','class'}
 
 ----find
 spmaps.f={name='+find'}
 for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
-    o='oldfiles',s={'live_grep_args'},b='buffers',
-    u='builtin',H='harpoon marks',p={'project'},y={'yank_history'},
-    n={'notify'},C={'changed_files'},T='tele_tabby list',B='vim_bookmarks all',
-    r='refactoring refactors',P={'packer'},a='asynctasks all',R={'cder'},
-    h={'howdoi'}
+        o='oldfiles',s={'live_grep_args'},b='buffers',
+        u='builtin',H='harpoon marks',p={'project'},y={'yank_history'},
+        n={'notify'},C={'changed_files'},T='tele_tabby list',B='vim_bookmarks all',
+        r='refactoring refactors',P={'packer'},a='asynctasks all',R={'cder'},
+        h={'howdoi'}
     }) do
     if type(v)=='string' then
         spmaps.f[k]={':Telescope '..v..' theme=ivy hidden=true\r',v}
@@ -110,7 +114,7 @@ spmaps.F.c={':!echo "%:p"|xclip -selection c\r','copy-path'}
 spmaps.F.p={':exe(\'vnew|call termopen("bat -pp \'.expand(\'<cfile>\').\'")\')\r','preview-under-cursor'}
 spmaps.F.t={name='+set-type'}
 spmaps.F.a={':tabe %\r','open alternetive'}
-for k,v in pairs({p='python',t='txt',v='vim',f='fish',r='rust',l='lua',m='markdown',c='cpp',h='html'}) do
+for k,v in pairs({p='python',t='txt',v='vim',s='fish',f='fennel',r='rust',l='lua',m='markdown',c='cpp',h='html'}) do
     spmaps.F.t[k]={':set filetype='..v..'\r',v}
 end
 spmaps.F.t.o={':set filetype=','other',silent=false}
@@ -136,9 +140,9 @@ spmaps.T={name='+translate'}
 spmaps.T.f={name='+from'}
 spmaps.T.t={name='+to'}
 for k,v in pairs({s='es',e='en',v='sv',n='nb'}) do
-spmaps.s[k]={':set spelllang='..v..'\r','lang='..v,silent=false}
-spmaps.T.f[k]={':let g:translator_source_lang="'..v..'"\r','lang='..v,silent=false}
-spmaps.T.t[k]={':let g:translator_target_lang="'..v..'"\r','lang='..v,silent=false}
+    spmaps.s[k]={':set spelllang='..v..'\r','lang='..v,silent=false}
+    spmaps.T.f[k]={':let g:translator_source_lang="'..v..'"\r','lang='..v,silent=false}
+    spmaps.T.t[k]={':let g:translator_target_lang="'..v..'"\r','lang='..v,silent=false}
 end
 spmaps.T.s={':call v:lua.SwapLang()\r','swap_lang'}
 spmaps.T.f.f={':let g:translator_source_lang=""<Left>','other',silent=false}
@@ -158,7 +162,7 @@ spmaps.t.o={':SymbolsOutline\r','outline'}
 spmaps.t.k={function ()
     vim.notify('Note: this is still in development')
     require 'self_plugins.kakoune'
-    end,'kakoune-mode'}
+end,'kakoune-mode'}
 spmaps.t.M={wip(),'max-mode'}
 spmaps.t.z={':ZenMode\r','zen-mode'}
 spmaps.t.Z={':Twilight\r','twilight'}
@@ -169,15 +173,15 @@ spmaps.t.C={':Centerpad\r','centerpad'}
 ----browser
 spmaps.G={name='+browser--'}
 for k,v in pairs({
-    p='yi\':!setsid firefox https://www.github.com/<C-r>"\r',
-    P='yi":!setsid firefox https://www.github.com/<C-r>"\r',
-    ["π"]='0Y:!setsid firefox https://www.github.com/<C-r>"\r',
-    c='yi\':!setsid firefox (curl -s "https://registry.npmjs.org/<C-r>""<Bar>jq -r ".homepage")\r',
-    C='yi\':!setsid firefox "https://registry.npmjs.org/<C-r>""\r',
-    w='lbyw:!setsid firefox "https://en.wikipedia.org/w/index.php?search=<C-r>""\r',
-    q='lbyw:!setsid firefox "https://docs.qtile.org/en/latest/search.html?q=<C-r>"&check_keywords=yes&area=default"\r',
-  }) do
-  spmaps.G[k]={v..'\r',v}
+        p='yi\':!setsid firefox https://www.github.com/<C-r>"\r',
+        P='yi":!setsid firefox https://www.github.com/<C-r>"\r',
+        ["π"]='0Y:!setsid firefox https://www.github.com/<C-r>"\r',
+        c='yi\':!setsid firefox (curl -s "https://registry.npmjs.org/<C-r>""<Bar>jq -r ".homepage")\r',
+        C='yi\':!setsid firefox "https://registry.npmjs.org/<C-r>""\r',
+        w='lbyw:!setsid firefox "https://en.wikipedia.org/w/index.php?search=<C-r>""\r',
+        q='lbyw:!setsid firefox "https://docs.qtile.org/en/latest/search.html?q=<C-r>"&check_keywords=yes&area=default"\r',
+    }) do
+    spmaps.G[k]={v..'\r',v}
 end
 
 ----harpoon
@@ -219,11 +223,13 @@ spmaps.g['2']={':lua require"hop".hint_char2({ multi_windows = true })\r','2 cha
 spmaps.g.f={':Lista\r','find-whole-file'}
 spmaps.g.m={':lua require"mini.jump2d".start()\r','mini-jump'}
 spmaps.g.s={':Smalls\r','smalls'}
+spmaps.g.A={':lua require"hop".hint_anywhere()\r','anywhere'}
 ------current-line
 spmaps.g.c={name='+current line'}
 spmaps.g.c.c={':lua require"hop".hint_char1({ current_line_only = true })\r','1 char'}
 spmaps.g.c['2']={':lua require"hop".hint_char2({ current_line_only = true })\r','2 char'}
 spmaps.g.c.w={':lua require"hop".hint_words({ current_line_only = true })\r','word'}
+spmaps.g.c.A={':lua require"hop".hint_anywhere({ current_line_only = true })\r','anywhere'}
 ------aerojump
 spmaps.g.a={name='+aerojump'}
 spmaps.g.a.c={':Aerojump cursor bolt\r','cursor-bolt'}

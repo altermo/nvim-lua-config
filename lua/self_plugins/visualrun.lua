@@ -46,8 +46,8 @@ end
 function VisualCode()
     return codes
 end
-vim.keymap.set('v','\\\r',':<C-u>call v:lua.Visualrun()\r',{silent=true,noremap=true})
-vim.keymap.set('v','\\va',':<C-u>call v:lua.Visualadd()\r',{silent=true,noremap=true})
+vim.keymap.set('x','\\\r',':<C-u>call v:lua.Visualrun()\r',{silent=true,noremap=true})
+vim.keymap.set('x','\\va',':<C-u>call v:lua.Visualadd()\r',{silent=true,noremap=true})
 vim.keymap.set('n','\\\r',':call v:lua.Visualrunnormal()\r',{silent=true,noremap=true})
 vim.keymap.set('n','\\vc',':call v:lua.Visualclear()\r',{silent=true,noremap=true})
 vim.keymap.set('n','\\vp',':call v:lua.Visualprint()\r',{silent=true,noremap=true})

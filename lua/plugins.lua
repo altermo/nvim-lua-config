@@ -20,21 +20,11 @@ local function mexp(mode,exp)
   end
   return ret
 end
-local function cox(map)
+local function moa(map)
   return {{'o','i'..map},{'o','a'..map},{'x','i'..map},{'x','a'..map}}
 end
 local extend=vim.fn.extend
 require'packer'.startup(function (use)
-
-  ----test
-
-  ----list
-  use{'dkarter/bullets.vim',config=function ()
-    vim.g.bullets_enabled_file_types={'*'}
-    vim.g.bullets_set_mappings=0
-    vim.keymap.set('n','o',':InsertNewBullet\r',{silent=true,noremap=true})
-  end,keys={{'n','o'}}}
-  use{'kabbamine/lazylist.vim',cmd='LazyList'}
 
   ----colorschem
   --use 'base16-project/base16-vim'
@@ -93,7 +83,7 @@ require'packer'.startup(function (use)
   use{'nvim-lualine/lualine.nvim',config=get_setup('lualine',{options={theme='powerline'}})}
   use{'karb94/neoscroll.nvim',config=get_setup'neoscroll',keys={'<C-u>','<C-d>','<C-b>','<C-f>','<C-y>','<C-e>'},module='neoscroll'}
   use{'0styx0/abbreinder.nvim',requires='0styx0/abbremand.nvim',config=get_setup'abbreinder',event='User s1'}
-  use{'folke/which-key.nvim',config=get_config'which-key',keys={{'n','<space>'},{'n','g'}}}
+  use{'folke/which-key.nvim',config=get_config'which-key',keys={{'n','<space>'},{'n','g'},{'n','<char-92>'}},cmd='WhichKey'}
   use{'winston0410/range-highlight.nvim',config=get_setup'range-highlight',requires='winston0410/cmd-parser.nvim',event='CmdlineEnter'}
   use{'nacro90/numb.nvim',config=get_setup'numb',event='CmdlineEnter'}
   use{'mattesgroeger/vim-bookmarks',keys={'mg','mjj','mkk','mx','mc','mp','mn','mi','mm','ma'}}
@@ -119,7 +109,7 @@ require'packer'.startup(function (use)
     vim.keymap.set('n','gb','<Plug>(LiveEasyAlign)',{noremap=true,silent=true})
     vim.keymap.set('x','gb','<Plug>(LiveEasyAlign)',{noremap=true,silent=true})
   end,keys={{'x','gb'},{'n','gb'}},cmd={'EasyAlign','LiveEasyAlign'}}
-  use{'ap/vim-you-keep-using-that-word',keys={{'o','w'},{'o','W'}}}
+  use{'ap/vim-you-keep-using-that-word',keys={{'n','cw'},{'n','cW'}}}
   use{'tyru/open-browser.vim',config=function ()
     vim.keymap.set('n','gx','<Plug>(openbrowser-smart-search)',{noremap=true,silent=true})
     vim.keymap.set('x','gx','<Plug>(openbrowser-smart-search)',{noremap=true,silent=true})
@@ -150,7 +140,8 @@ require'packer'.startup(function (use)
   end}
   use{'tommcdo/vim-lion',keys={{'x','gl'},{'n','gl'},{'x','gL'},{'n','gL'}}}
   use{'windwp/nvim-autopairs',config=get_config'autopairs',event='InsertEnter'}
-  use{'monaqa/dial.nvim',config=get_config'dial',keys={{'n','<C-a>'},{'n','<C-x>'},{'x','<C-a>'},{'x','<C-x>'},{'x','g<C-a>'},{'x','g<C-x>'}}}
+  --use{'jiangmiao/auto-pairs',event='InsertEnter',config='vim.cmd"call AutoPairsTryInit()"'}
+  use{'monaqa/dial.nvim',config=get_config'dial',keys={{'n','<C-a>'},{'n','<C-x>'},{'x','<C-a>'},{'x','<C-x>'}}}
   use{'ghillb/cybu.nvim',config=function ()
     require'cybu'.setup{style={devicons={enabled=false}}}
     vim.keymap.set('n','[b','<Plug>(CybuPrev)')
@@ -168,28 +159,19 @@ require'packer'.startup(function (use)
   use{'mattn/emmet-vim',keys={{'i','<C-y>'},{'n','<C-y>'},{'v','<C-y>'}}}
   use{'kylechui/nvim-surround',config=get_setup'nvim-surround',keys={{'i','<C-g>s'},{'i','<C-g>S'},{'n','ys'},{'n','yS'},{'x','S'},{'x','gS'},{'n','cs'},{'n','ds'}}}
   use{'justinmk/vim-sneak',keys={{'n','s'}}}
-  use{'triglav/vim-visual-increment',setup=function ()
-    vim.keymap.set('x','g<C-a>','<Plug>VisualIncrement',{noremap=true,silent=true})
-    vim.keymap.set('x','g<C-x>','<Plug>VisualDecrement',{noremap=true,silent=true})
-  end,keys=mexp('x',{'g<C-a>','g<C-x>'})}
   use{'johmsalas/text-case.nvim',module='textcase'}
-  use{'rrethy/vim-tranquille',keys='g/'}
+  use{'rrethy/vim-tranquille',keys='g/',config=function ()
+    vim.keymap.set('n','g/','<Plug>(tranquille_search)',{noremap=true,silent=true})
+  end}
   use{'xiyaowong/accelerated-jk.nvim',config=get_setup'accelerated-jk',keys={{'n','j'},{'n','k'}}}
   use{'iron-e/vim-tabmode',requires='Iron-E/vim-libmodal',cmd='TabmodeEnter',keys={{'n','\\<tab>'}}}
-  use{'hrsh7th/vim-foolish-move',config=function ()
-    vim.keymap.set('n','g<A-h>',':<C-u>call foolish_move#flick("left")\r',{noremap=true,silent=true})
-    vim.keymap.set('n','g<A-j>',':<C-u>call foolish_move#flick("down")\r',{noremap=true,silent=true})
-    vim.keymap.set('n','g<A-k>',':<C-u>call foolish_move#flick("up")\r',{noremap=true,silent=true})
-    vim.keymap.set('n','g<A-l>',':<C-u>call foolish_move#flick("right")\r',{noremap=true,silent=true})
-    vim.keymap.set('n','g',':<C-u>call foolish_move#stop()\r',{noremap=true,silent=true})
-  end,keys=mexp('n',{'g<A-h>','g<A-j>','g<A-k>','g<A-l>'})}
 
   ----text object
   use{'s1n7ax/nvim-lazy-inner-block',config=get_setup'nvim-lazy-inner-block'}
-  use{'michaeljsmith/vim-indent-object',keys=extend(cox'i',cox'I')}
-  use{'coderifous/textobj-word-column.vim',keys=extend(cox'c',cox'C')}
-  use{'deathlyfrantic/vim-textobj-blanklines',requires='kana/vim-textobj-user',keys=cox'<space>'}
-  use{'Julian/vim-textobj-variable-segment',keys=cox'v'}
+  use{'michaeljsmith/vim-indent-object',keys=extend(moa'i',moa'I')}
+  use{'coderifous/textobj-word-column.vim',keys=extend(moa'c',moa'C')}
+  use{'deathlyfrantic/vim-textobj-blanklines',requires='kana/vim-textobj-user',keys=moa'<space>'}
+  use{'Julian/vim-textobj-variable-segment',keys=moa'v'}
 
   ----movement
   use{'phaazon/hop.nvim',config=get_setup'hop',module='hop'}
@@ -242,13 +224,10 @@ require'packer'.startup(function (use)
   use{'nvim-colortils/colortils.nvim',cmd="Colortils",config=get_setup'colortils'}
   use{'nyngwang/neononame.lua',cmd='NeoNoName'}
   use{'nvim-pack/nvim-spectre',module='spectre'}
-  use{'rhysd/vim-grammarous',cmd={'GrammarousCheck','GrammarousReset'}}
   use{'ThePrimeagen/harpoon',requires='nvim-lua/plenary.nvim',module='harpoon'}
   use{'wellle/visual-split.vim',keys={{'n','<C-W>gr'},{'n','<C-W>gss'},{'n','<C-W>gsa'},
       {'n','<C-W>gsb'},{'x','<C-W>gr'},{'x','<C-W>gss'},{'x','<C-W>gsa'},{'x','<C-W>gsb'}},
     cmd=extend(cexp('VSSplit',{'Above','Below'},true),{'VSResize'})}
-  use{'voldikss/vim-translator',config=get_config'translator',cmd=cexp('Translate',{'W','R','X','H','L'},true)}
-  use{'dhruvasagar/vim-table-mode',cmd='TableModeToggle'}
   use{'skywind3000/asyncrun.vim',cmd={'AsyncRun','AsyncStop'}}
   use{'kassio/neoterm',cmd={'T','Tnew','Topen','Texec'}}
   use{'elihunter173/dirbuf.nvim',cmd='Dirbuf',setup=function()
@@ -263,27 +242,20 @@ require'packer'.startup(function (use)
   use{'alec-gibson/nvim-tetris',cmd='Tetris'}
   use{'seandewar/killersheep.nvim',cmd='KillKillKill'}
   use{'seandewar/nvimesweeper',cmd='Nvimesweeper'}
-  use{'dbmrq/vim-ditto',cmd=extend(cexp('Ditto',{'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},true),{'NoDitto','ToggleDitto'})}
   use{'toppair/reach.nvim',cmd='ReachOpen'}
   use{'godlygeek/tabular',cmd='Tabularize'}
   use {"ellisonleao/carbon-now.nvim", config = function() require('carbon-now').setup() end,cmd='CarbonNow'}
   use{'mattboehm/vim-accordion',cmd=cexp('Accordion',{'All','Diff','Stop','ZoomIn','ZoomOut','Once','Clear'},true)}
-  use{'sanhajio/synonyms.vim',cmd={'Synonyms','SynonymsSelection'}}
   use{'andrewradev/linediff.vim',cmd={'Linediff','LinediffReset'}}
   use{'strboul/urlview.vim',cmd='Urlview'}
   use{'jbyuki/instant.nvim',config=function ()
     vim.g.instant_username='UsEr'
   end} --NULL
-  use{'rexagod/samwise.nvim',cmd=cexp('Samwise',{'MoveBack','MoveFwd','ToggleBuffer','ToggleHighlight'})}
   use{'tpope/vim-dadbod',cmd='DB'}
   use 'dosimple/workspace.vim' --NULL
   use{'danymat/neogen',module='neogen',config=get_setup('neogen',{snippet_engine='snippy'})}
   use{'https://gitlab.com/Groctel/jobsplit.nvim',cmd='Jobsplit'}
   use{'chrisbra/nrrwrgn',cmd=extend(cexp('NR',{'V','P','M','S','L','N'},true),{'NW','WR','NUD'})}
-  use{'fmoralesc/vim-pad',config=function ()
-    vim.g['pad#dir']='/home/user/.pad'
-  end,cmd='Pad'}
-  use{'ron89/thesaurus_query.vim',cmd=cexp('Thesaurus',{'QueryReplaceCurrentWord','QueryLookupCurrentWord','QueryReplace'},true)}
   use{'skywind3000/vim-rt-format',cmd='RTFormatEnable'}
   use{'lifepillar/vim-colortemplate',opt=true}
   use{'dokwork/vim-hp',cmd=cexp('Hp',{'GenerateContents','Refresh','LeftRight'})}
@@ -294,7 +266,6 @@ require'packer'.startup(function (use)
   end}
   use{'powerman/vim-plugin-ansiesc',cmd='AnsiEsc'}
   use{'sbdchd/neoformat',cmd='Neoformat'}
-  use{'reedes/vim-wordy',cmd='Wordy'}
   use{'shinglyu/vim-codespell',cmd='Codespell'}
   use{'felipec/notmuch-vim',cmd='NotMuch'}
   use{'Javyre/fennel-nvim',cmd=cexp('Fnl',{'File','Do'},true),module='fennel-nvim'} --FORK
@@ -314,9 +285,6 @@ require'packer'.startup(function (use)
   use{'roosta/fzf-folds.vim',cmd='Folds'}
   use{'everduin94/nvim-quick-switcher',module='nvim-quick-switcher'}
   use{'stevearc/stickybuf.nvim',cmd=extend(cexp('Pin',{'Buffer','Buftype','Filetype'}),{'UnpinBuffer'})}
-  use{'echuraev/translate-shell.vim',run='wget -O ~/.vim/trans git.io/trans && chmod +x ~/.vim/trans',
-    cmd=extend(cexp('Trans',{'SelectDirection','Interactive','Term','OpenHistoryWindow','ChangeDefaultDirection'},true),
-      cexp('FZFTrans',{'SelectDirection','Interactive','ChangeDefaultDirection'}))}
 
   ----sidepannel
   use{'majutsushi/tagbar',cmd='TagbarToggle'}
@@ -393,7 +361,7 @@ require'packer'.startup(function (use)
   },config=get_config'treesitter'}
   use{'booperlv/nvim-gomove',config=get_setup('gomove',{map_defaults=false}),keys=extend(mexp('n',{'<Plug>GoNDLineDown','<Plug>GoNDLineUp','<Plug>GoNMLineDown','<Plug>GoNMLineUp'}),mexp('x',{'<Plug>GoVDLineDown','<Plug>GoVDLineUp','<Plug>GoVMLineDown','<Plug>GoVMLineUp','<Plug>GoVSDDown','<Plug>GoVSDLeft','<Plug>GoVSDRight','<Plug>GoVSDUp','<Plug>GoVSMDown','<Plug>GoVSMLeft','<Plug>GoVSMRight','<Plug>GoVSMUp'}))} --not treesitter
   use{'ziontee113/syntax-tree-surfer',config=get_config'gomove-treesurfer',
-    keys=extend(mexp('n',{'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','<C-S-o>','gFu','gFe','gFo','gFv','gFs','gFi','gFa','<A-i>','<A-o>'}),mexp('x',{'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','<A-S-k>','<A-S-j>'}))}
+    keys=extend(mexp('n',{'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','<C-S-o>','gFu','gFe','gFo','gFv','gFs','gFi','gFa','<A-i>','<A-o>'}),mexp('x',{'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','<A-S-k>','<A-S-j>'})),module='syntax-tree-surfer'}
 
   ----other
   use{'rbong/vim-buffest',
@@ -401,7 +369,7 @@ require'packer'.startup(function (use)
       extend(cexp('Qflist',{'split','vsplit','tabedit','edit'}),
         cexp('Loclist',{'split','vsplit','tabedit','edit'})))}
   use{'glepnir/dashboard-nvim',config=get_config('dashboard'),cmd={'Dashboard','DashboardNewFile'},setup=function ()
-    vim.api.nvim_create_autocmd('Vimenter',{callback=function()
+    vim.api.nvim_create_autocmd({'Vimenter','User s1'},{callback=function()
       if vim.fn.argc()==0 and vim.fn.line2byte('$')==-1 then
         vim.cmd('Dashboard')
       end end})end}
@@ -412,7 +380,6 @@ require'packer'.startup(function (use)
     vim.api.nvim_set_keymap('x','<leader>rv',[[<Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>,{noremap=true,silent=true})
 vim.api.nvim_set_keymap('x','<leader>ri',[[<Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap=true,silent=true})
   end,keys=mexp('x',{'\\re','\\rf','\\rv','\\ri'})}
-  use{'jbyuki/venn.nvim',cmd=extend(cexp('VBox',{'D','H','O','DO','HO'},true),{'VFill'})}
   use{'ahmedkhalf/notif.nvim',opt=true}
   use{'m-demare/attempt.nvim',config=get_config'attempt',keys=mexp('n',{'\\an','\\ai','\\ar','\\ad','\\ac','\\al'})}
   use{'rcarriga/nvim-notify',setup='vim.notify=function (...) require"notify"(...) end',module='notify'}
@@ -517,8 +484,31 @@ require"packer.load"({"vim-flog"},{cmd="]]..cmd..[[",l1=<line1>,l2=<line2>,bang=
   rcarriga/nvim-dap-ui
   --]]
 
+  ----writing
+  use{'rexagod/samwise.nvim',cmd=cexp('Samwise',{'MoveBack','MoveFwd','ToggleBuffer','ToggleHighlight'})}
+  use{'sanhajio/synonyms.vim',cmd={'Synonyms','SynonymsSelection'}}
+  use{'dbmrq/vim-ditto',cmd=extend(cexp('Ditto',{'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},true),{'NoDitto','ToggleDitto'})}
+  use{'dhruvasagar/vim-table-mode',cmd='TableModeToggle'}
+  use{'voldikss/vim-translator',config=get_config'translator'} --NULL
+  use{'rhysd/vim-grammarous',cmd={'GrammarousCheck','GrammarousReset'}}
+  use{'dkarter/bullets.vim',config=function ()
+    vim.g.bullets_enabled_file_types={'*'}
+    vim.g.bullets_set_mappings=0
+    vim.keymap.set('n','o',':InsertNewBullet\r',{silent=true,noremap=true})
+  end,keys={{'n','o'}}}
+  use{'kabbamine/lazylist.vim',cmd='LazyList'}
+  use{'fmoralesc/vim-pad',config=function ()
+    vim.g['pad#dir']='/home/user/.pad'
+  end,cmd='Pad'}
+  use{'ron89/thesaurus_query.vim',cmd=cexp('Thesaurus',{'QueryReplaceCurrentWord','QueryLookupCurrentWord','QueryReplace'},true)}
+  use{'reedes/vim-wordy',cmd='Wordy'}
+  use{'echuraev/translate-shell.vim',run='wget -O ~/.vim/trans git.io/trans && chmod +x ~/.vim/trans',
+    cmd=extend(cexp('Trans',{'SelectDirection','Interactive','Term','OpenHistoryWindow','ChangeDefaultDirection'},true),
+      cexp('FZFTrans',{'SelectDirection','Interactive','ChangeDefaultDirection'}))}
+  use{'jbyuki/venn.nvim',cmd=extend(cexp('VBox',{'D','H','O','DO','HO'},true),{'VFill'})}
+
   ----end--
   use 'wbthomason/packer.nvim'
 end)
 -- vim:fen:
---replace_RnvimrResizecurrenhttps://github.com/naklt/plantuml-syntaxvim-neorg/neorg/wiki/t  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim' use 'tklepzig/vim-buffer-navigator'
+--replace_RnvimrResizecurrenhttps://github.com/naklt/plantuml-syntaxvim-neorg/neorg/wiki/t  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim' use 'tklepzig/vim-buffer-navigator' * fennel (most likely a back burner)

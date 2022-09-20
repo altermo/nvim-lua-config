@@ -14,10 +14,10 @@ function Norm()
   vim.o.mouse='a'
 end
 function TN()
-    fn.execute([[/\v(n|t)>]])
+  fn.execute([[/\v(n|t)>]])
 end
 function Build(term)
-  for ftype,cmd in pairs({fish='fish',lua='lua',python='python3.10'}) do
+  for ftype,cmd in pairs({fish='fish',lua='lua',python='python3.10',fennel='fennel'}) do
     if vim.o.filetype==ftype then
       pcall(vim.cmd,'write')
       if term then
@@ -26,10 +26,10 @@ function Build(term)
         vim.cmd('AsyncRun time '..cmd..' "%"')
       end
       return
-  end end
+    end end
   if vim.o.filetype=='cpp' then
-      vim.cmd('AsyncRun g++ % -o __tmp;./__tmp;rm __tmp')
-      return
+    vim.cmd('AsyncRun g++ % -o __tmp;./__tmp;rm __tmp')
+    return
   end
   if vim.o.filetype=='vim' then
     vim.cmd'so %'
@@ -49,16 +49,47 @@ function TermAppRun(bin,mouse)
   vim.cmd('startinsert')
 end
 function QuickFixToggle()
-    for _,v in pairs(fn.getwininfo()) do
-        if v.quickfix==1 then
-            vim.cmd('cclose')
-            return
-        end
+  for _,v in pairs(fn.getwininfo()) do
+    if v.quickfix==1 then
+      vim.cmd('cclose')
+      return
     end
-    vim.cmd('copen')
+  end
+  vim.cmd('copen')
   vim.cmd'wincmd p'
 end
+local previous=''
+local err=false
 function Mx()
-  local inp=vim.fn.input('>')
-  require'fennel-nvim'.vimeval('('..inp..')')
+  vim.api.nvim_echo({{'>','Normal'},{previous,'Comment'}},false,{})
+  local char=vim.fn.getchar()
+  vim.cmd'redraw'
+  local precode='(fn printf [x] (print (vim.inspect x))) (var cmd vim.cmd) (var api vim.api) (var log vim.log) (var lsp vim.lsp)'
+  local inp
+  if char==13 then
+    if err then
+      inp=vim.fn.input('>',previous)
+    else
+      inp=previous
+    end
+  elseif char==27 then
+    return
+  elseif char==18 then
+    inp=vim.fn.input('>',previous)
+  else
+    inp=vim.fn.input('>',vim.fn.nr2char(char))
+  end
+  if inp=='' then
+    return
+  end
+  vim.cmd'redraw'
+  previous=inp
+  err=true
+  require'fennel-nvim'.vimeval(precode..'('..inp..')')
+  err=false
+end
+function Fast()
+for k,v in pairs({o='och',et='ett',a='att',s='som'}) do
+  vim.cmd('iabbrev <buffer> '..k..' '..v)
+  end
 end
