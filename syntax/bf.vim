@@ -1,0 +1,5 @@
+syn match Comment "."
+syn match Identifier "[][]"
+syn match Directory "[+-]"
+syn match String "[<>]"
+syn match Statement "[.,]"
