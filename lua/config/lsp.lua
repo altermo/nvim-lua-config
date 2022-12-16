@@ -1,9 +1,12 @@
 require'nvim-lsp-installer'.setup{}
-require'lspconfig'.pyright.setup{}
-require'lspconfig'.sumneko_lua.setup{settings={Lua={diagnostics={globals={'vim','unpack'}}}}}
-require'lspconfig'.jsonls.setup{}
-require'lspconfig'.clangd.setup{}
-vim.keymap.set('n','[d',vim.diagnostic.goto_prev,{noremap=true,silent=true})
-vim.keymap.set('n',']d',vim.diagnostic.goto_next,{noremap=true,silent=true})
-vim.keymap.set('n',']D',vim.diagnostic.disable,{noremap=true,silent=true})
-vim.keymap.set('n','[D',vim.diagnostic.enable,{noremap=true,silent=true})
+local lspconfig=require'lspconfig'
+lspconfig.pyright.setup{}
+lspconfig.sumneko_lua.setup{settings={Lua={diagnostics={globals={'vim','unpack'}}}}}
+lspconfig.jsonls.setup{}
+lspconfig.clangd.setup{}
+lspconfig['fennel-ls'].setup{}
+local nno=require'utils.keymap'.nno
+nno('[d',vim.diagnostic.goto_prev)
+nno(']d',vim.diagnostic.goto_next)
+nno(']D',vim.diagnostic.disable)
+nno('[D',vim.diagnostic.enable)

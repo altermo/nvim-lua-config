@@ -1,6 +1,6 @@
-vim.api.nvim_set_keymap("n","<C-a>",require("dial.map").inc_normal(),{noremap=true})
-vim.api.nvim_set_keymap("n","<C-x>",require("dial.map").dec_normal(),{noremap=true})
-vim.api.nvim_set_keymap("v","<C-a>",require("dial.map").inc_visual(),{noremap=true})
-vim.api.nvim_set_keymap("v","<C-x>",require("dial.map").dec_visual(),{noremap=true})
---vim.api.nvim_set_keymap("v","g<C-a>",require("dial.map").inc_gvisual(),{noremap=true})
---vim.api.nvim_set_keymap("v","g<C-x>",require("dial.map").dec_gvisual(),{noremap=true})
+local k=require'utils.keymap'
+local dialmap=require'dial.map'
+k.nno('<C-a>',dialmap.inc_normal())
+k.nno('<C-x>',dialmap.dec_normal())
+k.xno('<C-a>',dialmap.inc_visual())
+k.xno('<C-x>',dialmap.dec_visual())

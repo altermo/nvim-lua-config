@@ -1,26 +1,19 @@
-local M={}
-local F={
-    lua='local function ()\rend\x1bk0ww',
-    vim='function ()\rendfunction\x1bk0w'
-}
-local C={
-    lua='local ={}\rfunction :new()\rself.__index=self\rreturn setmetatable({},self)\rend\x1bkkkk0w'
-}
+local M = {}
+local F = {lua = "local function ()\13end\27k0ww", vim = "function ()\13endfunction\27k0w", fennel = "(fn  []\13\13)\27kkll"}
+local C = {lua = "local ={}\13function :new()\13self.__index=self\13return setmetatable({},self)\13end\27kkkk0w"}
 local function gototopnodeandexec(exec)
-    require('syntax-tree-surfer').go_to_top_node_and_execute_commands(true,{'normal! o\x1bo',exec,'startinsert'})
+  return (require("syntax-tree-surfer")).go_to_top_node_and_execute_commands(true, {"normal! o\27o", exec, "startinsert"})
 end
 local function get_f()
-    local f=F[vim.o.filetype]
-    return f and f or '(){\r}\x1bk'
+  return (F[vim.o.filetype] or "(){\13}\27k")
 end
 local function get_c()
-    local f=C[vim.o.filetype]
-    return f and f or 'class {\r}\x1bkw'
+  return (C[vim.o.filetype] or "class {\13}\27kw")
 end
-function M.func()
-    gototopnodeandexec('normal! I'..get_f())
+M.func = function()
+  return gototopnodeandexec(("normal! I" .. get_f()))
 end
-function M.class()
-    gototopnodeandexec('normal! I'..get_c())
+M.class = function()
+  return gototopnodeandexec(("normal! I" .. get_c()))
 end
 return M

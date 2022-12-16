@@ -1,48 +1,27 @@
 ----init--
 local fn=vim.fn
-local function map(kind,key,maps,opts)
-  vim.keymap.set(kind,key,maps,opts)
-end
-local function nno(key,maps)
-  map('n',key,maps,{noremap=true,silent=true})
-end
-local function lnno(key,maps)
-  map('n',key,maps,{noremap=true})
-end
-local function lvno(key,maps)
-  map('x',key,maps,{noremap=true})
-end
-local function vno(key,maps)
-  map('x',key,maps,{noremap=true,silent=true})
-end
-local function lino(key,maps)
-  map('i',key,maps,{noremap=true})
-end
-local function ino(key,maps)
-  map('i',key,maps,{noremap=true,silent=true})
-end
-local function lcno(key,maps)
-  map('c',key,maps,{noremap=true})
-end
-local function tno(key,maps)
-  map('t',key,maps,{noremap=true,silent=true})
-end
+local key=require'utils.keymap'
+local nno=key.nno
+local ino=key.ino
+local xno=key.xno
+local vno=key.xno
+local tno=key.tno
+local lnno=key.lnno
+local lcno=key.lcno
 
-vim.api.nvim_create_autocmd('BufEnter',{command=[[
-nnoremap <nowait><buffer> z za
-nnoremap <nowait><buffer> ! :!|     "may be remapt
-]]})
+vim.api.nvim_create_autocmd('FileType',{callback=function()
+  nno('z','za',{nowait=true,buffer=true})
+end})
 
 ----map
-map('n','\'','<cmd>lua require("which-key").show("\'",{mode="n",auto=true)\r',{})
-map('x','\r','d',{})
-map('n','\r','dd',{})
-map('x','s',':norm ',{})
+xno('\r','d',{})
+nno('\r','dd',{})
+xno('s',':norm ',{})
 
 ----nno
 ------alt/ctrl
 for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical resize +'}) do
-  nno('<C-'..k..'>','<C-w>'..k)
+  nno('<C-'..k..'>','<C-w>'..k..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
   nno('<C-S-'..k..'>','<C-w>'..k:upper())
   nno('<C-A-'..k..'>',':'..v..'2\r')
   nno('<C-A-S-'..k..'>',':'..v..'10\r')
@@ -53,12 +32,8 @@ lnno('<A-f>',':%s///g<Left><Left><Left>')
 lnno('<A-S-a>',':% ')
 nno('<A-a>','GVgg')
 nno('<A-d>','0D"_dd')
-nno('<A-s>',']s')
-nno('<A-S-s>','[s')
 nno('<A-c>','yyp')
 nno('<A-S-c>','yyP')
-nno('<A-b>',':lua Build()\r')
-nno('<A-S-b>',':lua Build(1)\r')
 nno('<A-w>',':echo wordcount()\r')
 nno('<A-y>',':let @+=@"\r')
 nno('<A-j>',':move +1\r')
@@ -66,14 +41,12 @@ nno('<A-k>',':move -2\r')
 nno('<A-h>','<<')
 nno('<A-l>','>>')
 nno('<C-.>','.')
-nno('<M-x>',':lua Mx()\r')
+lnno('<M-x>',':lua ')
 ------alt-gr
-nno('“',':lua Build()\r')
-nno('‘',':lua Build(1)\r')
 nno('π','yyp')
 ------other
-nno('go','o')
-nno('gV','gvo<esc>')
+nno('¤','gvo<esc>')
+nno('g=','magg=G`a')
 nno('<Home>',QuickFixToggle)
 nno('|','~')
 nno(',','<C-o>')
@@ -83,52 +56,66 @@ nno('<BS>',':lua require("neoscroll").zz(250)\r')
 nno('ø',':redo\r')
 nno('æ','z=')
 nno('å','"+p')
-nno('mw','"xdiw"axviw<esc>"ap"xp')
+nno('>w','"xdiw"axviw<esc>"ap"xp')
+nno('<w','viwo<esc>b"xdiw"axviw<esc>"ap"xpbb')
 --nno('j','gj')
 --nno('k','gk')
 nno('\t','<C-w>w')
-nno('<F5>',':lua Build()\r')
 nno('L','gt')
 nno('H','gT')
-for i=0,9 do
-    nno('\\f'..i,':set foldlevel='..i..'\r')
-end
-nno('zl','zL')
-nno('zh','zH')
+--nno('zl','zL')
+--nno('zh','zH')
 nno('cd',function ()
-    local path=fn.expand('%:p:h')
-    if path==fn.getcwd() then goto End end
-    while path~='/' do
-        if fn.fnamemodify(path,':h')==fn.getcwd() then
-            fn.chdir(path)
-            goto End
-        end
-        path=fn.fnamemodify(path,':h')
+  local path=fn.expand('%:p:h')
+  if path==fn.getcwd() then goto End end
+  while path~='/' do
+    if fn.fnamemodify(path,':h')==fn.getcwd() then
+      fn.chdir(path)
+      goto End
     end
-    fn.chdir('..')
-    ::End::
-    vim.cmd'pwd'
+    path=fn.fnamemodify(path,':h')
+  end
+  fn.chdir('..')
+  ::End::
+  vim.cmd.pwd()
 end)
 nno('dc',':lcd ..|pwd\r')
+local zo=0
+nno('<C-z>',function ()
+  if zo==2 then
+    zo=0
+    vim.cmd.norm{'zb',bang=true}
+  elseif zo==1 then
+    vim.cmd.norm{'zt',bang=true}
+    zo=2
+  else
+    vim.cmd.norm{'zz',bang=true}
+    zo=1
+    vim.api.nvim_create_autocmd('CursorMoved,CursorMovedI',{once=true,callback=function() zo=0 end,group=vim.api.nvim_create_augroup('Cz',{clear=true})})
+  end
+end)
+nno('ghk',':execute("h ".nr2char(getchar()))\r')
 ------lsp
 nno('gd',':lua vim.lsp.buf.definition()\r')
 nno('gr',':lua vim.lsp.buf.rename()\r')
 nno('gC',':lua vim.lsp.buf.code_action()\r')
 
 ----ino/cno
-lcno('<A-h>','<Left>')
-lcno('<A-l>','<Right>')
-lcno('<A-j>','<Down>')
-lcno('<A-k>','<Up>')
-lcno('<A-S-h>','<S-Left>')
-lcno('<A-S-l>','<S-Right>')
-lcno('<A-S-j>','<S-Down>')
-lcno('<A-S-k>','<S-Up>')
-lcno('<A-BS>','<C-w>')
-lcno('<A-Del>','<C-u>')
+for k,v in pairs({h='Left',l='Right',j='Down',k='Up'}) do
+  lcno('<A-'..k..'>','<'..v..'>')
+  lcno('<A-S-'..k..'>','<S-'..v..'>')
+end
+lcno('<A-d>','<C-w>')
 lcno('<A-b>','<S-Left>')
 lcno('<A-e>','<S-Right>')
+lcno('<A-b>','<S-Left>')
 lcno('<A-w>','<S-Right>')
+lcno('<A-+>','<End>')
+lcno('<A-0>','<Home>')
+lcno('<C-e>','<End>')
+lcno('<C-a>','<Home>')
+lcno('<A-s>','<BS>')
+lcno('<A-x>','<Del>')
 ino('ø','ö')
 ino('æ','ä')
 ino('Ø','Ö')
@@ -142,18 +129,16 @@ for i in ('hjklwbn'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
   ino('<A-S-'..i..'>','<C-o>5'..i)
 end
-for i in ('0u$_+-fvFVGtTxX'):gmatch('.') do
+for i in ('0u$_+-fvFVtTxD'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
 end
-lino('<A-/>','<C-o>/')
-lino('<A-.>','<C-o>:')
+ino('<A-/>','<C-o>/',{noremap=true})
+ino('<A-.>','<C-o>:',{noremap=true})
 ino('<A-ø>','<cmd>redo\r')
 ino('<A-æ>','<C-o>z=')
-ino('<A- >','<C-o> ') --TODO
-ino('<A-g>','<C-o>:WhichKey g\r')
 ino('¨','<esc>')
 ino('<A-BS>','<C-o>db')
-ino('<A-d>','<C-o>dw')
+ino('<A-d>','<C-w>')
 ino('<A-c>','<C-o>ce')
 ino('<A-,>','<C-o>;')
 ino('<A-;>','<C-o>,')
@@ -164,13 +149,26 @@ ino('<A-a><A-d>','<C-o>dd')
 ino('<A-C-v>','<C-o><C-v>')
 ino('<A-s>','<bs>')
 ino('<A-S-S>','<C-w>')
+ino('<A-S-X>','<C-o>dw')
+ino('<A-p>','()<Left>')
+ino('<A-P>',')')
+ino('<A-<>','<C-o><<')
+ino('<A->>','<C-o>>>')
+ino('<A-g>','<C-o>gg')
+ino('<A-G>','<C-o>G')
+ino('<A-n>','ä')
+ino('<A-S-n>','Ä')
+ino('<A-m>','å')
+ino('<A-S-m>','Å')
 
 ----vno
 vno('&','<cmd>lua require"hop".hint_lines()\r')
-lvno('gr','y:execute("%s/<C-r>"/".input(\'>\')."/g")\r<C-r>"')
+vno('gr','y:execute("%s/<C-r>"/".input(\'>\')."/g")\r<C-r>"',{noremap=true})
+vno('Ø',':sort',{noremap=true})
+vno('<A-f>',':s/\\%V//g<Left><Left><Left>',{noremap=true})
+vno('.',':',{noremap=true})
 vno('gG','y:!setsid firefox https://www.github.com/<C-r>"\r')
 vno('å','"+y')
-lvno('Ø',':sort')
 vno('<','<gv')
 vno('>','>gv')
 vno('<A-w>','<cmd>w !wc\r')
@@ -178,18 +176,16 @@ vno('<A-j>',':move \'>+1\rgv')
 vno('<A-k>',':move \'<-2\rgv')
 vno('<A-h>','<gv')
 vno('<A-l>','>gv')
-lvno('<A-f>',':s/\\%V//g<Left><Left><Left>')
-lvno('.',':')
-vno('k','gk')
-vno('j','gj')
+--vno('k','gk')
+--vno('j','gj')
 vno(' ','<cmd>lua require"hop".hint_char1()\r')
-vim.keymap.set('x','A','mode()=="<C-v>"?"A":"<esc>:au InsertLeave * ++once :\'<+1,\'>norm! $\\".p\r\'<A"',{noremap=true,silent=true,expr=true})
-vim.keymap.set('x','I','mode()=="<C-v>"?"I":"<esc>:au InsertLeave * ++once :\'<+1,\'>norm! _\\".P\r\'<I"',{noremap=true,silent=true,expr=true})
+xno('A','mode()=="<C-v>"?"A":"<esc>:au InsertLeave * ++once :\'<+1,\'>norm! $\\".p\r\'<A"',{noremap=true,silent=true,expr=true})
+xno('I','mode()=="<C-v>"?"I":"<esc>:au InsertLeave * ++once :\'<+1,\'>norm! _\\".P\r\'<I"',{noremap=true,silent=true,expr=true})
 
 ----tno
 tno('<C-\\>','<C-\\><C-n>')
 for i in ('hjkl'):gmatch('.') do
-  tno('<C-'..i..'>','<C-\\><C-n><C-w>'..i)
+  tno('<C-'..i..'>','<C-\\><C-n><C-w>'..i..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
 end
 tno('<A-S-h>','<S-Left>')
 tno('<A-S-l>','<S-Right>')
@@ -203,8 +199,6 @@ for _,i in pairs({'<left>','<right>','<up>','<down>'}) do
   vno(i,'<nop>')
   lcno(i,'<nop>')
 end
-nno('ZZ','<nop>')
-nno('ZQ','<nop>')
 
 ----may-be remapt
 nno('Å','"+')
@@ -212,17 +206,9 @@ nno('-','_')
 vno('-','_')
 nno('+','$')
 vno('+','$')
-nno('?','?')
-nno('&','n')
+nno('v','v')
 nno('vv','V')
 nno('vvv','<C-v>')
 lnno('Ø',':sort')
-
-------leader
-nno('\\ew',':exec("e "..fnameescape(expand("%:h"))."/") \r')
-nno('\\es',':exec("sp "..fnameescape(expand("%:h"))."/") \r')
-nno('\\ev',':exec("vsp "..fnameescape(expand("%:h"))."/") \r')
-nno('\\et',':exec("tabe "..fnameescape(expand("%:h"))."/") \r')
-nno('\\q','gwip')
 
 -- vim:fen

@@ -1,102 +1,132 @@
---[[ plans
-.conf/
-.cashe/
-dir/
-file1
-file2
->>>
-/.c0 onf  > .c0 .co
-/.c1 ashe > .c1 .ca
-/d   ir   > d
- f0  ile1 > f0 file1 fi1
- f1  ile2 > f1 file2 fi2
---]]
-local api=vim.api
-local fn=vim.fn
-local function counter(x) --list{any}:table{any:int}>vlib
-    local out={}
-    for _,v in pairs(x) do
-        out[v]=fn.count(x,v)
+local vf = vim.fn
+local api = vim.api
+local function recursive(items)
+  if ((#items == 1) and (items[1] == "")) then
+    return {{"", "", ""}}
+  else
+    local fmap = {}
+    local ret = {}
+    for _, v in pairs(items) do
+      local fc = vf.get({[""] = "\13"}, v:sub(1, 1), v:sub(1, 1))
+      if not fmap[fc] then
+        fmap[fc] = {}
+      else
+      end
+      fmap[fc][(#fmap[fc] + 1)] = v:sub(2)
     end
-    return out
-end
-local function firstletterer(x) --list{str}:list{str}>lib
-    local out={}
-    for _,v in pairs(x) do
-        out[#out+1]=string.sub(v,1,1)
-    end
-    return out
-end
-local function zfill(s,n) --str,int:str>vlib
-    return fn['repeat']('0',n-fn.len(s))..s
-end
-local function shortnamer(x) --list{str}:table{str,str}>wlib
-    if x[''] then error('All elements of list must have a minimum length of 1') end
-    local firstletters=firstletterer(x)
-    local count=counter(firstletters)
-    local out={}
-    local firstlettersnum={}
-    for _,v in pairs(firstletters) do firstlettersnum[v]=0 end
-    for _,i in pairs(x) do
-        local firstletter=string.sub(i,1,1)
-        if count[firstletter]==1 then
-            out[firstletter]=i
+    for k, v in pairs(fmap) do
+      for _, i in pairs(recursive(v)) do
+        i[3] = (k .. i[3])
+        if (vf.len(fmap) == 1) then
+          i[2] = ("n" .. i[2])
         else
-            out[firstletter..zfill(tostring(firstlettersnum[firstletter]),fn.len(tostring(count[firstletter])-1))]=i
-            firstlettersnum[firstletter]=firstlettersnum[firstletter]+1
-    end end
-    return out
-end
---vim.notify(vim.inspect(shortnamer({'a0','a1','a2','a3','a4','a5','a6','a7','a8','a9'})))
---vim.notify(vim.inspect(shortnamer({'a0','a1','a2','a3','a4','a5','a6','a7','a8','a9','a10'})))
-local function createtext(x,pat,path) --dict{str,str}:list{str}>lib
-    local out={}
-    for k,v in pairs(x) do
-        if string.sub(k,1,#pat)==pat then
-            if fn.isdirectory(path..'/'..v)==1 then
-                out[#out+1]='/'..k..' '..string.sub(v,2)
-            else
-                out[#out+1]=' '..k..' '..string.sub(v,2)
-            end
+          i[1] = (k .. i[1])
+          do end (i)[2] = ("s" .. i[2])
         end
+        ret[(#ret + 1)] = i
+      end
     end
-    return out
+    return ret
+  end
 end
-local function mainloop(buf,path)
-    local search=''
-    while fn.isdirectory(path)==1 do
-        local shortnames=shortnamer(fn.readdir(path))
-        local text=createtext(shortnames,search,path)
-        api.nvim_buf_set_lines(buf,0,vim.o.columns-11,false,text)
-        for i = 0,vim.o.columns,1 do
-            api.nvim_buf_add_highlight(buf,-1,'DiagnosticError',i,1,2)
+local function parse(items)
+  if (vf.index(items, "") == -1) then
+    do local _ = {} end
+  else
+  end
+  if (#items == 1) then
+    local item = items[1]
+    return {{item:sub(1, 1), ("n" .. vf["repeat"]("s", (#item - 1))), item}}
+  else
+    return recursive(items)
+  end
+end
+local function createtext(p, search, path)
+  local tbl_17_auto = {}
+  local i_18_auto = #tbl_17_auto
+  for _, v in pairs(p) do
+    local val_19_auto
+    do
+      local _let_6_ = v
+      local searchterm = _let_6_[1]
+      local _0 = _let_6_[2]
+      local name = _let_6_[3]
+      if (search == searchterm:sub(1, #search)) then
+        local function _7_()
+          if (vf.isdirectory((path .. "/" .. name:gsub("\13$", ""))) == 1) then
+            return "/"
+          else
+            return " "
+          end
         end
-        api.nvim_buf_set_lines(buf,-1,-1,false,{':'..search})
-        vim.cmd('redraw')
-        local char=fn.getchar()
-        if char==27 then
-            return path
-        elseif char=='\x80kb' then
-            if search=='' then
-                path=fn.fnamemodify(path,':h')
-            else
-            search=string.sub(search,0,-2)
-            end
+        val_19_auto = (_7_() .. name)
+      else
+        val_19_auto = nil
+      end
+    end
+    if (nil ~= val_19_auto) then
+      i_18_auto = (i_18_auto + 1)
+      do end (tbl_17_auto)[i_18_auto] = val_19_auto
+    else
+    end
+  end
+  return tbl_17_auto
+end
+local function mainloop(buf, ipath)
+  local path = ipath
+  local search = ""
+  while (vf.isdirectory(path) == 1) do
+    local parsed = parse(vf.readdir(path))
+    local indexdict
+    do
+      local tbl_14_auto = {}
+      for _, v in pairs(parsed) do
+        local _10_, _11_ = v[1], v[3]
+        if ((nil ~= _10_) and (nil ~= _11_)) then
+          local k_15_auto = _10_
+          local v_16_auto = _11_
+          tbl_14_auto[k_15_auto] = v_16_auto
         else
-            search=search..fn.nr2char(char)
         end
-        if shortnames[search] then
-            path=path..'/'..shortnames[search]
-            search=''
-        end
+      end
+      indexdict = tbl_14_auto
     end
-    return path
+    local text = createtext(parsed, search, path)
+    api.nvim_buf_set_lines(buf, 0, -1, false, text)
+    api.nvim_buf_set_lines(buf, -1, -1, false, {(":" .. search)})
+    vim.cmd.redraw()
+    do
+      local _13_ = vf.getchar()
+      if (_13_ == 27) then
+        return path
+      elseif (_13_ == "\128kb") then
+        if (search == "") then
+          path = vf.fnamemodify(path, ":h")
+        else
+          search = search:sub(0, -2)
+        end
+      elseif (nil ~= _13_) then
+        local char = _13_
+        search = (search .. vf.nr2char(char))
+      else
+      end
+    end
+    if indexdict[search] then
+      path = (path .. "/" .. (indexdict[search]):gsub("\13$", ""))
+      search = ""
+    else
+    end
+  end
+  return path
 end
-function Dff()
-    local buf=api.nvim_create_buf(false,true)
-    api.nvim_buf_set_option(buf,'bufhidden','wipe')
-    local window=api.nvim_get_current_win()
-    api.nvim_win_set_buf(window,buf)
-    vim.cmd('e '..mainloop(buf,fn.fnamemodify('.',':p')))
+local function Dff()
+  local buf = api.nvim_create_buf(false, true)
+  local window = api.nvim_get_current_win()
+  api.nvim_buf_set_option(buf, "bufhidden", "wipe")
+  api.nvim_win_set_buf(window, buf)
+  return vim.cmd.edit(mainloop(buf, vf.fnamemodify(".", ":p:h")))
 end
-api.nvim_create_user_command('Dff','lua Dff()',{})
+local function setup()
+  return api.nvim_create_user_command("Dff", Dff, {})
+end
+return setup()

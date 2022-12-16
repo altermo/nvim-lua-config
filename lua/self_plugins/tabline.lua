@@ -1,23 +1,26 @@
-local fn=vim.fn
-----tabline
-function MyTabLine()
-    local line=''
-    local curtab=fn.tabpagenr()
-    for i=1,fn.tabpagenr('$') do
-        line=line..((i==curtab)and'%#TabLineSel#'or'%#TabLine#')
-        line=line..'❬'   --❬❭❮❯❰❱
-        local bufnr=fn.tabpagebuflist(i)[fn.tabpagewinnr(i)]
-        local file=fn.bufname(bufnr)
-        if file=="" then
-            file=((fn.getbufvar(bufnr,'current_syntax')=='dashboard')and"D"or"N")
-        elseif string.match(file,'^term://') then
-            file=((string.match(file,'ranger'))and'R'or'T')
-        elseif string.len(file)>20 then
-            file=string.sub(file,1,17)..'...'
+local vf = vim.fn
+_G.MyTabLine = function()
+  local curtab = vf.tabpagenr()
+  local function _1_()
+    local line = ""
+    for i, _ in ipairs(vf.gettabinfo()) do
+      local file = vf.bufname(vf.tabpagebuflist(i)[vf.tabpagewinnr(i)])
+      local function _2_()
+        if (file == "") then
+          return "N"
+        elseif file:match("^term://") then
+          return ((file:match("ranger") and "R") or "T")
+        elseif (#file > 20) then
+          return (file:sub(1, 17) .. "...")
+        else
+          return file
         end
-        line=line..file
-        line=line..'❭'
+      end
+      line = (line .. (((i == curtab) and "%#TabLineSel#") or "%#TabLine#") .. "\226\157\172" .. _2_() .. "\226\157\173")
     end
-    return line..'%#TabLine#'
+    return line
+  end
+  return (_1_() .. "%#TabLine#")
 end
-vim.o.tabline='%!v:lua.MyTabLine()'
+vim.o["tabline"] = "%!v:lua.MyTabLine()"
+return nil

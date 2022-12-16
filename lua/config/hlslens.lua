@@ -1,6 +1,5 @@
-vim.api.nvim_set_keymap('n','n',[[n<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
-vim.api.nvim_set_keymap('n','N',[[N<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
-vim.api.nvim_set_keymap('n','*',[[*<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
-vim.api.nvim_set_keymap('n','#',[[#<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
-vim.api.nvim_set_keymap('n','g*',[[g*<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
-vim.api.nvim_set_keymap('n','g#',[[g#<Cmd>lua require('hlslens').start()<CR>]],{noremap=true,silent=true})
+require('hlslens').setup()
+local nno=require'utils.keymap'.nno
+for _,v in pairs({'n','N','*','#','g*','g#'}) do
+    nno(v,v..'<Cmd>lua require("hlslens").start()\r')
+end

@@ -1,9 +1,10 @@
 require'yanky'.setup{}
-vim.keymap.set('n','p','<Plug>(YankyPutAfter)')
-vim.keymap.set('n','P','<Plug>(YankyPutBefore)')
-vim.keymap.set('x','p','<Plug>(YankyPutAfter)')
-vim.keymap.set('x','P','<Plug>(YankyPutBefore)')
-vim.keymap.set('n','<A-p>','<Plug>(YankyCycleForward)')
-vim.keymap.set('n','<A-P>','<Plug>(YankyCycleBackward)')
-vim.keymap.set('n','<C-p>',':wshada\r')
-vim.keymap.set('n','<C-n>',':rshada\r')
+local k=require'utils.keymap'
+k.nno('p','<Plug>(YankyPutAfter)')
+k.nno('P','<Plug>(YankyPutBefore)')
+k.xno('p','<Plug>(YankyPutAfter)')
+k.xno('P','<Plug>(YankyPutBefore)')
+k.nno('<A-p>','<Plug>(YankyCycleForward)')
+k.nno('<A-P>','<Plug>(YankyCycleBackward)')
+k.nno('<C-p>',':wshada\r')
+k.nno('<C-n>',':rshada\r')

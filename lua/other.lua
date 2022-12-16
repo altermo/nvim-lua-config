@@ -8,7 +8,6 @@ vim.g.loaded_man=1
 vim.g.loaded_gzip=1
 vim.g.loaded_zipPlugin=1
 vim.g.loaded_2html_plugin=1
-vim.g.loaded_shada_plugin=1
 vim.g.loaded_spellfile_plugin=1
 vim.g.loaded_netrw=1
 vim.g.loaded_netrwPlugin=1
@@ -40,15 +39,23 @@ qftimer=fn.timer_start(2000,function ()
     fn.timer_stop(qftimer)
   end
 end,{['repeat']=-1})
-require'self_plugins.unimpaired'
-require'self_plugins.tabline'
-require'self_plugins.dff'
-require'self_plugins.textobj'
-require'self_plugins.visualrun'
-require'self_plugins.ranger'
 require'self_plugins.auto-save'
-local so=vim.api.nvim_create_autocmd('FileType',{pattern='sh,bash,python,lua,cpp,c,rust,fish',command='syntax off'})
+require'self_plugins.dff'
+require'self_plugins.neofnl'
+require'self_plugins.labull'
+require'self_plugins.ranger'
+require'self_plugins.tabline'
+require'self_plugins.textobj'
+require'self_plugins.unimpaired'
+require'self_plugins.builder'
+local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
+  if fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg"},vim.o.filetype)~=-1 then
+    vim.cmd"syntax off"
+  else
+    vim.cmd"syntax on"
+  end
+end})
 vim.api.nvim_create_autocmd('User',{pattern='s1',callback=function ()
   vim.api.nvim_del_autocmd(so)
-  vim.cmd'syntax on|doautocmd BufWinEnter'
+  vim.cmd'syntax on'
 end})

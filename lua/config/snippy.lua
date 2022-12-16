@@ -1,3 +1,4 @@
-vim.keymap.set('i','<C-tab>','<Plug>(snippy-expand-or-advance)',{noremap=true,silent=true})
-vim.keymap.set('i','<C-l>','<Plug>(snippy-next)',{noremap=true,silent=true})
-vim.keymap.set('i','<C-h>','<Plug>(snippy-previous)',{noremap=true,silent=true})
+local ino=require'utils.keymap'.ino
+ino('<C-tab>','<Plug>(snippy-expand)',{noremap=true,silent=true})
+ino('<C-l>','<Plug>(snippy-next)',{noremap=true,silent=true})
+ino('<C-h>','<Plug>(snippy-previous)',{noremap=true,silent=true})
