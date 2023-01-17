@@ -14,7 +14,7 @@ cmp.setup({
             nvim_lua='NVL',
             treesitter='TS',
             tags='TGS',
-            fuzzy_buffer='FB',
+            --fuzzy_buffer='FB',
             buffer='BUF',
         },mode='text'})},
     snippet={
@@ -30,12 +30,12 @@ cmp.setup({
         {name='calc'},
         {name='spell'},
         {name='path'},
-        {name='rg',option={cwd='..',additional_arguments='--hidden --max-depth 4'}},
+        {name='rg',option={additional_arguments='--hidden --max-depth 4'}},--cwd='..',
         {name='fish'},
         {name='nvim_lua'},
         {name='treesitter'},
         {name='tags'},
-        {name='fuzzy_buffer'},
+        --{name='fuzzy_buffer'},
         {name='buffer'},
     }),
     mapping=cmp.mapping.preset.insert({

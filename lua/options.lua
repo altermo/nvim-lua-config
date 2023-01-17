@@ -28,6 +28,7 @@ set.undofile=true
 set.swapfile=false
 --
 set.synmaxcol=1000
+set.pumblend=10
 set.history=1000
 set.scrolloff=5
 set.winminheight=0

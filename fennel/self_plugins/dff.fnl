@@ -82,4 +82,4 @@
 (fn setup []
   (api.nvim_create_user_command "Dff" Dff {})
   )
-(setup)
+(setup) ; TODO _make faster, lazyload, other things

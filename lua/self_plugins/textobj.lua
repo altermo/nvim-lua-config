@@ -23,6 +23,31 @@ local function charcolumn(...)
   vf.execute("keepjumps silent normal! v")
   return wordcolumn()
 end
+local function getchar(x, y)
+  return vf.strcharpart(vf.getline(y), (x - 1), 1)
+end
+local function wordrow(...)
+  vf.execute("keepjumps silent normal! \27")
+  local col1 = vf.virtcol("'<")
+  local col2 = vf.virtcol("'>")
+  local line = vf.line(".")
+  local char = getchar(col1, line)
+  while ((col1 > 1) and (getchar((col1 - 1), line) == char)) do
+    col1 = (col1 - 1)
+  end
+  while ((col2 < #vf.getline(line)) and (getchar((col2 + 1), line) == char)) do
+    col2 = (col2 + 1)
+  end
+  vf.setcursorcharpos({line, col1})
+  vf.execute("keepjumps silent normal! \22")
+  return vf.setcursorcharpos({line, col2})
+end
+local function charrow(...)
+  vf.execute("keepjumps silent normal! v")
+  return wordrow()
+end
 local k = require("utils.keymap")
 k.ono("im", charcolumn)
-return k.xno("im", wordcolumn)
+k.xno("im", wordcolumn)
+k.ono("ik", charrow)
+return k.xno("ik", wordrow)

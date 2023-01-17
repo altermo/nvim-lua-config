@@ -142,8 +142,9 @@ require'which-key'.register({[' ']=format({
         p={':exe(\'vnew|call termopen("bat -pp \'.expand(\'<cfile>\').\'")\')\r','preview-under-cursor'},
         o={':exe("edit ".expand("<cfile>"))\r',"file.under-cursor"},
         T={':execute("edit ".tempname())\r','tempfile'},
+        f={':Telescope find_files\r','find'},
         t={name='+set-type',
-            o={':set filetype=','other',silent=false},
+            o={':setf ','other',silent=false},
             _=cmap({p='python',t='txt',v='vim',s='fish',f='fennel',r='rust',l='lua',m='markdown',c='cpp',h='html',n="norg"},':set filetype=%s\r','%s')
         },
     },

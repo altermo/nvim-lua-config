@@ -59,3 +59,9 @@ vim.api.nvim_create_autocmd('User',{pattern='s1',callback=function ()
   vim.api.nvim_del_autocmd(so)
   vim.cmd'syntax on'
 end})
+vim.g.do_filetype_lua=1 --later TODO
+vim.g.do_legacy_filetype=nil --later TODO
+vim.filetype.add({extension={bf='bf',slisp='lisp'}})
+function vim.pprint(...)
+  return vim.notify(vim.inspect(...))
+end

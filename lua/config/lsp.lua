@@ -4,6 +4,7 @@ lspconfig.pyright.setup{}
 lspconfig.sumneko_lua.setup{settings={Lua={diagnostics={globals={'vim','unpack'}}}}}
 lspconfig.jsonls.setup{}
 lspconfig.clangd.setup{}
+lspconfig.rust_analyzer.setup{} --TODO
 lspconfig['fennel-ls'].setup{}
 local nno=require'utils.keymap'.nno
 nno('[d',vim.diagnostic.goto_prev)

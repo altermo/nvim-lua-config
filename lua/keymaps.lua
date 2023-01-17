@@ -16,7 +16,7 @@ end})
 ----map
 xno('\r','d',{})
 nno('\r','dd',{})
-xno('s',':norm ',{})
+xno('s',':Norm ',{})
 
 ----nno
 ------alt/ctrl
@@ -41,10 +41,11 @@ nno('<A-k>',':move -2\r')
 nno('<A-h>','<<')
 nno('<A-l>','>>')
 nno('<C-.>','.')
-lnno('<M-x>',':lua ')
+lnno('<M-x>',':lua=')
 ------alt-gr
 nno('π','yyp')
 ------other
+--nno('s','') -- TODO
 nno('¤','gvo<esc>')
 nno('g=','magg=G`a')
 nno('<Home>',QuickFixToggle)

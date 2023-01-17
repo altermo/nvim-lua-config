@@ -69,6 +69,9 @@ require'packer'.startup(function (use)
   use{'camspiers/lens.vim',requires='camspiers/animate.vim',fn='lens#run'}
 
   ----visual
+  use{'smjonas/live-command.nvim',config=get_setup('live-command',{commands={
+    Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'},
+  }}),cmd={'G','V','Norm'}}
   use{'lukas-reineke/indent-blankline.nvim',config=get_setup('indent_blankline',{show_current_context=true})}
   use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
     vim.g.Hexokinase_highlighters={'backgroundfull'}
@@ -229,6 +232,10 @@ require'packer'.startup(function (use)
   use{'tyru/capture.vim',cmd='Capture'}
 
   ----command
+  use{'smjonas/inc-rename.nvim',config=function()
+    require 'inc_rename'.setup{}
+    require'utils.keymap'.nno('gr',':IncRename <C-r>=expand("<cword>")\r',{noremap=true})
+  end,cmd='IncRename',keys={'gr'}}
   use{'micmine/jumpwire.nvim',module='jumpwire'}
   use{'will133/vim-dirdiff',cmd='DirDiff'}
   use{'ludopinelli/comment-box.nvim',module='comment-box'}
@@ -282,8 +289,8 @@ require'packer'.startup(function (use)
   use{'shinglyu/vim-codespell',cmd='Codespell'}
   use{'felipec/notmuch-vim',cmd='NotMuch'}
   use{'rraks/pyro',cmd='Pyro',config=get_rplugin(),setup=function ()
-      vim.g.pyro_macro_path='/home/user/.macro'
-    end}
+    vim.g.pyro_macro_path='/home/user/.macro'
+  end}
   use{'ntbbloodbath/color-converter.nvim',opt=true}
   use{'amadeus/vim-convert-color-to',cmd='ConvertColorTo'}
   use{'chimay/wheel',cmd='Wheel'}
@@ -348,11 +355,11 @@ require'packer'.startup(function (use)
   use{'wesQ3/vim-windowswap',keys='\\ww'}
   use{'https://gitlab.com/yorickpeterse/nvim-window',config=function ()
     require'utils.keymap'.nno('<C-w>g ',':lua require("nvim-window").pick()\r')
-  end,keys='<C-w>g '}
+  end,keys='<C-w>g<space>'}
   use{'t9md/vim-choosewin',config=function ()
     vim.g.choosewin_overlay_enable=1
     require'utils.keymap'.nno('<C-w> ',':ChooseWin\r')
-  end,keys='<C-w> ',command=':ChooseWin'}
+  end,keys='<C-w><space>',command=':ChooseWin'}
 
   ----treesitter
   use{'nvim-treesitter/nvim-treesitter',run='vim.cmd"TSUpdate"',requires={
@@ -444,7 +451,6 @@ require'packer'.startup(function (use)
   use{'Konfekt/FastFold',config=function ()
     require'utils.keymap'.nno('Z','<Plug>(FastFoldUpdate)')
   end,event='User isfolded',cmd='FastFoldUpdate',keys='Z'}
-  use 'nathom/filetype.nvim'
 
   ----git
   use{'timuntersberger/neogit',cmd='Neogit'}
@@ -488,7 +494,6 @@ require"packer.load"({"vim-flog"},{cmd="]]..cmd..[[",l1=<line1>,l2=<line2>,bang=
 
   ----writing
   use{'rexagod/samwise.nvim',cmd=cexp('Samwise',{'MoveBack','MoveFwd','ToggleBuffer','ToggleHighlight'})}
-  use{'sanhajio/synonyms.vim',cmd={'Synonyms','SynonymsSelection'}}
   use{'dbmrq/vim-ditto',cmd=extend(cexp('Ditto',{'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},true),{'NoDitto','ToggleDitto'})}
   use{'dhruvasagar/vim-table-mode',cmd='TableModeToggle'}
   use{'voldikss/vim-translator',config=get_config'translator'} --NULL
@@ -505,4 +510,3 @@ require"packer.load"({"vim-flog"},{cmd="]]..cmd..[[",l1=<line1>,l2=<line2>,bang=
   use 'wbthomason/packer.nvim'
 end)
 -- vim:fen:
---replafindr.findr -filesce_RnvimrResizecurrenhttps://github.com/naklt/plantuml-syntaxvim-neorg/neorg/wiki/t  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim'  use 'jbyuki/nabla.nvim' use 'tklepzig/vim-buffer-navigator' * fennel (most likely a back burner)

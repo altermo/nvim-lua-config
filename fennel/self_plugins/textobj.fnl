@@ -23,7 +23,33 @@
   (vf.execute "keepjumps silent normal! v")
   (wordcolumn)
   )
+(fn getchar [x y]
+  (vf.strcharpart (vf.getline y) (- x 1) 1)
+  )
+(fn wordrow [...]
+  (vf.execute "keepjumps silent normal! \x1b")
+  (var col1 (vf.virtcol "'<"))
+  (var col2 (vf.virtcol "'>"))
+  (local line (vf.line "."))
+  (local char (getchar col1 line))
+  (while (and (> col1 1) (= (getchar (- col1 1) line) char))
+    (set col1 (- col1 1))
+    )
+  (while (and (< col2 (length (vf.getline line))) (= (getchar (+ col2 1) line) char))
+    (set col2 (+ col2 1))
+    )
+  (vf.setcursorcharpos [line col1])
+  (vf.execute "keepjumps silent normal! \x16")
+  (vf.setcursorcharpos [line col2])
+  )
+(fn charrow [...]
+  (vf.execute "keepjumps silent normal! v")
+  (wordrow)
+)
 (let [k (require "utils.keymap")]
   (k.ono "im" charcolumn)
   (k.xno "im" wordcolumn)
+  (k.ono "ik" charrow)
+  (k.xno "ik" wordrow)
   )
+
