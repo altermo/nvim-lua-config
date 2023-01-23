@@ -1,0 +1,16 @@
+#builtin
+only filter inside or outside of string
+only filter inside or outside of comments
+only filter inside or outside of other blocks
+multiline as one
+multicharacter pair (like py ''' and md ```)
+#maybe
+test escape characters in string (/outside of string?)
+html tag suport
+other keywords (like if ... end)?
+and with random text inbetween (like if TEXT ... end)?
+triple pairs
+comment pairs (like /*|*/)
+nonsymetrical comment pairs (like <!--|-->)
+auto skip multicharacter pair
+treesitter integration for special blocks

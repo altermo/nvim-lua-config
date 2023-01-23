@@ -1,8 +1,6 @@
 vim.fn.timer_start(1000,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
 vim.g.loaded_matchparen=1
 vim.g.loaded_matchit=1
-vim.g.loaded_logiPat=1
-vim.g.loaded_rrhelper=1
 vim.g.loaded_tarPlugin=1
 vim.g.loaded_man=1
 vim.g.loaded_gzip=1
@@ -12,16 +10,8 @@ vim.g.loaded_spellfile_plugin=1
 vim.g.loaded_netrw=1
 vim.g.loaded_netrwPlugin=1
 vim.g.loaded_tutor_mode_plugin=1
---vim.g.loaded_fzf=1
 vim.g.loaded_remote_plugins=1
-vim.g.loaded_skim=1
-vim.api.nvim_create_user_command('Termdebug','delcommand Termdebug|delcommand TermdebugCommand|packadd termdebug|Termdebug<bang> <args>',{bang=true,nargs='*'})
-vim.api.nvim_create_user_command('TermdebugCommand','delcommand TermdebugCommand|delcommand Termdebug|packadd termdebug|TermdebugCommand<bang> <args>',{bang=true,nargs='+'})
-vim.api.nvim_create_user_command('Cfilter','packadd cfilter|Cfilter<bang> <args>',{bang=true,nargs='+'})
-vim.api.nvim_create_user_command('Lfilter','packadd cfilter|Lfilter<bang> <args>',{bang=true,nargs='+'})
-vim.api.nvim_create_user_command('CheckColors','so /usr/share/nvim/runtime/tools/check_colors.vim',{})
-vim.api.nvim_create_user_command('Less','so /usr/share/nvim/runtime/macros/less.vim',{})
---vim.cmd'packadd justify'
+--vim.g.loaded_fzf=1
 vim.g.rplugins={'aerojump.nvim','lista.nvim','vim-ghost','pyro'}
 local fn=vim.fn
 fn.timer_start(1000,function() vim.cmd"doautocmd User s1" end)

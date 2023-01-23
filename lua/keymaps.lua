@@ -97,8 +97,8 @@ nno('<C-z>',function ()
 end)
 nno('ghk',':execute("h ".nr2char(getchar()))\r')
 ------lsp
-nno('gd',':lua vim.lsp.buf.definition()\r')
-nno('gr',':lua vim.lsp.buf.rename()\r')
+--nno('gd',':lua vim.lsp.buf.definition()\r')
+--nno('gr',':lua vim.lsp.buf.rename()\r')
 nno('gC',':lua vim.lsp.buf.code_action()\r')
 
 ----ino/cno
@@ -130,7 +130,7 @@ for i in ('hjklwbn'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
   ino('<A-S-'..i..'>','<C-o>5'..i)
 end
-for i in ('0u$_+-fvFVtTxD'):gmatch('.') do
+for i in ('0u$_+-fvFVtTD'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
 end
 ino('<A-/>','<C-o>/',{noremap=true})
@@ -149,6 +149,7 @@ ino('<A-a><A-c>','<C-o>cc')
 ino('<A-a><A-d>','<C-o>dd')
 ino('<A-C-v>','<C-o><C-v>')
 ino('<A-s>','<bs>')
+ino('<A-x>','<Del>')
 ino('<A-S-S>','<C-w>')
 ino('<A-S-X>','<C-o>dw')
 ino('<A-p>','()<Left>')

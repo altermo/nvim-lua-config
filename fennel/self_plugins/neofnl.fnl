@@ -19,5 +19,6 @@
   )
 (fn M.setup []
   (vim.api.nvim_create_user_command "FnlFile" M.RunFnlFile {:nargs 1})
+  (set vim.fennel M.FnlFile)
   )
 (M.setup)

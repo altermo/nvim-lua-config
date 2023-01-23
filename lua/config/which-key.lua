@@ -157,10 +157,10 @@ require'which-key'.register({[' ']=format({
         _=(function ()
             local tbl={}
             for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
-                o='oldfiles',s={'live_grep_args'},b='buffers', u='builtin',
+                o='oldfiles',s={'live_grep_args'},b='buffers', u={'undo'},
                 H='harpoon marks',p={'project'},y={'yank_history'},n={'notify'},
-                C={'changed_files'},T='tele_tabby list',B='vim_bookmarks all',
-                P={'packer'},a='asynctasks all',['?']={'howdoi'},w={'file_browser'},
+                T='tele_tabby list',B='vim_bookmarks all',
+                P={'packer'},a='asynctasks all',w={'file_browser'},
                 k='current_buffer_fuzzy_find',h='help_tags',K='symbols',
             }) do
                 if type(v)=='string' then
@@ -170,7 +170,15 @@ require'which-key'.register({[' ']=format({
                 end
             end
             return tbl
-        end)()
+        end)(),
+        g={name='+git',
+            s={':Telescope git_status\r','status'},
+            c={':Telescope conventional_commits conventional_commits\r','conventional-commit'},
+            e={':Telescope gitmoji gitmoji\r','gitmoji-commit'},
+            C={':Telescope git_commits\r','commits'},
+            b={':Telescope git_branches\r','branches'},
+            --{'Telescope gh ...'} --TODO
+        },
     },
 
     ----buffers
@@ -216,8 +224,7 @@ require'which-key'.register({[' ']=format({
         c={':ColorizerToggle\r','colorizer'},
         e={':Neotree\r','explorer'},
         h={':TSToggle highlight\r','TS-highlight'},
-        m={':MinimapToggle\r','minimap'},
-        o={':SymbolsOutline\r','outline'},
+        m={':CodeWindow\r','minimap'},
         t={':Tagbar\r','tagbar'},
         u={':MundoToggle\r','undotree'},
         H={':HexokinaseToggle\r','color-name-highlight'},
@@ -275,7 +282,6 @@ require'which-key'.register({[' ']=format({
     g={name='+goto',
         w={':lua require"hop".hint_words({ multi_windows = true })\r','word'},
         t={':lua require"tsht".nodes()\r','TSHT'},
-        p={':Pounce\r','pounce'},
         r={':lua require"hop".hint_patterns()\r','regex'},
         l={':lua require"hop".hint_lines({ multi_windows = true })\r','line'},
         v={':lua require"hop".hint_vertical()\r','vertical'},
@@ -319,7 +325,9 @@ require'which-key'.register({[' ']=format({
         ['8']={':call overlength#toggle()\r','toggle highlight past 80'},
         i={':IndentBlanklineToggle!\r','toggle highlight indent level'},
         w={':let b:minicursorword_disable=luaeval("not vim.b.minicursorword_disable")\r','toggle highlight cursor word'},
-        n={':require"notify".dismiss()\r','dismiss notify'},
+        n={':lua require"notify".dismiss()\r','dismiss notify'},
+        r={':TSToggle rainbow\r','toggle rainbow'},
+        p={':TSToggle pairs\r','toggle pairs'},
     }
 })})
 -- vim:fen:

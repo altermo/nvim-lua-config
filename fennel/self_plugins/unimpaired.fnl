@@ -66,6 +66,7 @@
                   :t {:opt "colorcolumn" :on "1,41,81,121,161,201,241"}
                   :v {:opt "virtualedit" :on "block,onemore"} :m {:opt "mouse" :on "a"}
                   :f "foldenable" :e "scrollbind"
+                  :p {:opt "matchpairs" :on "(:),{:},[:]" :off ""}
                   })]
   (let [opt (or v.opt v)]
     (nno (.. "]o" k) #(seton opt v.on))

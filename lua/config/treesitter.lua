@@ -4,8 +4,10 @@ require'nvim-treesitter.configs'.setup({
     rainbow={enable=true},
     pairs={enable=true,highlight_pair_events={'CursorMoved'}},
     context_commentstring={enable=true},
-    refactor={smart_rename={enable=true,keymaps={smart_rename="gR"}}},
-    endwise={enable=true},
+    refactor={
+        smart_rename={enable=true,keymaps={smart_rename="gR"}},
+        navigation={enable=true,keymaps={goto_definition_lsp_fallback='gd'}}
+    },
     playground={enable=true},
 })
 function _G.TSUpadte()

@@ -14,6 +14,8 @@ M.RunFnlFile = function(_2_)
   return M.FnlFile(vf.expand(file))
 end
 M.setup = function()
-  return vim.api.nvim_create_user_command("FnlFile", M.RunFnlFile, {nargs = 1})
+  vim.api.nvim_create_user_command("FnlFile", M.RunFnlFile, {nargs = 1})
+  vim.fennel = M.FnlFile
+  return nil
 end
 return M.setup()

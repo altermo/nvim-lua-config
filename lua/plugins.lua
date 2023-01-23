@@ -36,17 +36,22 @@ end
 local extend=vim.fn.extend
 require'packer'.startup(function (use)
 
+  ----TEST
+  --use{"anuvyklack/windows.nvim",config=get_setup'windows',requires={"anuvyklack/middleclass","anuvyklack/animation.nvim"},event='User s1'}
+  use{'acksld/nvim-femaco.lua',config=get_setup'femaco',cmd='FeMaco'}
+  use{'axkirillov/easypick.nvim',opt=true}
+  use{'folke/styler.nvim',config=get_setup('styler',{themes={}}),cmd='Styler'}
+
   ----colorschm
   --use 'base16-project/base16-vim'
+  --use'ray-x/starry.nvim'
   use 'everblush/everblush.nvim'
-  use '1995parham/naz.vim'
   use 'lmburns/kimbox'
-  use 'mhartington/oceanic-next'
+  use 'mhartington/oceanic-next'--
   use 'folke/tokyonight.nvim'
   use 'challenger-deep-theme/vim'
-  use 'rmehri01/onenord.nvim'
   use 'NTBBloodbath/doom-one.nvim'
-  use 'shaunsingh/nord.nvim'
+  use 'gbprod/nord.nvim'
   use 'rafamadriz/neon'
   use 'luisiacc/gruvbox-baby'
   use{'edeneast/nightfox.nvim',event='User s1'}
@@ -55,10 +60,11 @@ require'packer'.startup(function (use)
   use 'kuznetsss/meadow-nvim'
   use 'matsuuu/pinkmare'
   use 'jaredgorski/spacecamp'
-  use 'yazeed1s/minimal.nvim'
   use{'vigoux/oak',event='User s1'}
   use 'mjlbach/onedark.nvim'
   use{'folke/lsp-colors.nvim',event='User s1'}
+  use'bluz71/vim-nightfly-colors'
+  use'rakr/vim-one'
 
   ----zen
   use{'folke/zen-mode.nvim',config=get_setup'zen-mode',cmd='ZenMode'}
@@ -66,20 +72,15 @@ require'packer'.startup(function (use)
   use{'pocco81/truezen.nvim',cmd={'TZMinimalist','TZFocus','TZAtaraxis'}}
   use{'junegunn/limelight.vim',cmd='Limelight'}
   use{'koenverburg/peepsight.nvim',config=get_setup('peepsight',{'function_definition'}),cmd=cexp('Peepsight',{'Enable','Disable'},true)}
-  use{'camspiers/lens.vim',requires='camspiers/animate.vim',fn='lens#run'}
 
   ----visual
-  use{'smjonas/live-command.nvim',config=get_setup('live-command',{commands={
-    Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'},
-  }}),cmd={'G','V','Norm'}}
+  use{'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cmd={'G','V','Norm'}}
   use{'lukas-reineke/indent-blankline.nvim',config=get_setup('indent_blankline',{show_current_context=true})}
   use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
     vim.g.Hexokinase_highlighters={'backgroundfull'}
   end,event='User s1'}
   use{'anuvyklack/pretty-fold.nvim',
     config=get_setup'pretty-fold',event='User isfolded'}
-  use{'anuvyklack/fold-preview.nvim',requires='anuvyklack/keymap-amend.nvim',
-    config=get_setup'fold-preview',event='User isfolded'}
   use{'azabiong/vim-highlighter',setup=function ()
     vim.g.HiSet='M<CR>'
     vim.g.HiErase='M<BS>'
@@ -87,10 +88,7 @@ require'packer'.startup(function (use)
     vim.g.HiFind='M<tab>'
   end,keys={'M<CR>','M<BS>','M<C-l>','M<Tab>'}}
   use{'Pocco81/HighStr.nvim',cmd={'HSHighlight','HSRmHighlight'}}
-  use{'tjdevries/overlength.vim',config=function ()
-    vim.fn['overlength#disable_filetypes']{'term','dashboard'}
-    vim.fn['overlength#toggle']()
-  end,fn='overlength#toggle'}
+  use{'lcheylus/overlength.nvim',config=get_setup('overlength',{enabled=false,textwidth_mode=1}),cmd='OverlengthToggle'}
   use{'monkoose/matchparen.nvim',config=get_setup'matchparen',event='User s1'}
   use{'https://gitlab.com/yorickpeterse/nvim-pqf',config=get_setup'pqf',event='User qfopen'}
   use{'nvim-lualine/lualine.nvim',config=get_setup('lualine',{options={theme='powerline'}})}
@@ -100,10 +98,11 @@ require'packer'.startup(function (use)
   use{'winston0410/range-highlight.nvim',config=get_setup'range-highlight',requires='winston0410/cmd-parser.nvim',event='CmdlineEnter'}
   use{'nacro90/numb.nvim',config=get_setup'numb',event='CmdlineEnter'}
   use{'mattesgroeger/vim-bookmarks',keys={'mg','mjj','mkk','mx','mc','mp','mn','mi','mm','ma'}}
-  use{'luukvbaal/stabilize.nvim',config=get_setup'stabilize',event='User s1'}
+  use{'luukvbaal/stabilize.nvim',config=get_setup'stabilize',event='User s1'} --TODO: wait
   use{'kevinhwang91/nvim-hlslens',config=get_config'hlslens',event='CmdlineEnter'}
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
   use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
+  use{'mawkler/modicator.nvim',config=get_setup'modicator',after='mini.nvim'}
 
   ----syntax
   use{'nvim-neorg/neorg',config=get_setup(
@@ -144,11 +143,16 @@ require'packer'.startup(function (use)
   use{'tommcdo/vim-exchange',keys={{'n','cx'},{'x','X'}}}
   use{'AndrewRadev/sideways.vim',config=function ()
     local nno=require 'utils.keymap'.nno
-    nno('>a',':SidewaysRight\r')
-    nno('<a',':SidewaysLeft\r')
-    nno('>A',':SidewaysJumpRight\r')
-    nno('<A',':SidewaysJumpLeft\r')
-  end,keys=mexp('n',{'>a','<a','>A','<A'})}
+    nno('>A',':SidewaysRight\r')
+    nno('<A',':SidewaysLeft\r')
+  end,keys=mexp('n',{'>A','<A'})}
+  use{'Wansmer/sibling-swap.nvim',requires='nvim-treesitter',config=function()
+    local swap=require('sibling-swap')
+    local nno=require'utils.keymap'.nno
+    swap.setup({use_default_keymaps=false})
+    nno('>a',swap.swap_with_right)
+    nno('<a',swap.swap_with_left)
+  end,key=mexp('n',{'>a','<a'})}
   use{'gbprod/yanky.nvim',config=get_config'yanky',event='TextYankPost',
     keys=extend(mexp('n',{'p','P','<A-p>','<A-P>','<C-p>','<C-n>'}),{{'x','p'},{'x','P'}})}
   use{'abecodes/tabout.nvim',config=get_setup('tabout',{tabkey='<A-tab>',backwards_tabkey='<A-S-tab>',act_as_tab=false}),keys={{'i','<A-tab>'},{'i','<A-S-tab>'}}}
@@ -163,6 +167,7 @@ require'packer'.startup(function (use)
     vim.g.splitjoin_split_mapping='<nul>'
   end}
   use{'windwp/nvim-autopairs',config=get_config'autopairs',event='InsertEnter'}
+  --use{'hrsh7th/nvim-insx',config=get_setup'insx.preset.standard'} --TODO: wait
   use{'monaqa/dial.nvim',config=get_config'dial',keys={{'n','<C-a>'},{'n','<C-x>'},{'x','<C-a>'},{'x','<C-x>'}}}
   use{'ghillb/cybu.nvim',config=function ()
     require'cybu'.setup{style={devicons={enabled=false}}}
@@ -181,7 +186,7 @@ require'packer'.startup(function (use)
     k.nno('gc','<Plug>NERDCommenterToggle')
   end,keys={{'x','gc'},{'n','gc'}}}
   use{'gennaro-tedesco/nvim-peekup',keys={{'n','<char-34><char-34>'}}}
-  use{'mattn/emmet-vim',keys={{'i','<C-y>'},{'n','<C-y>'},{'v','<C-y>'}}}
+  use{'mattn/emmet-vim',keys={{'i','<C-y>'}}}
   use{'kylechui/nvim-surround',config=get_setup'nvim-surround',keys={{'i','<C-g>s'},{'i','<C-g>S'},{'n','ys'},{'n','yS'},{'x','S'},{'x','gS'},{'n','cs'},{'n','ds'}}}
   use{'justinmk/vim-sneak',keys={{'n','s'}}}
   use{'johmsalas/text-case.nvim',module='textcase'}
@@ -212,7 +217,6 @@ require'packer'.startup(function (use)
     require'utils.keymap'.nno('<esc>','<Plug>(clever-f-reset)')
   end,keys={'f','t','F','T'}}
   use{'arp242/jumpy.vim',keys={'[[','<char-93><char-93>'}}
-  use{'rlane/pounce.nvim',cmd='Pounce'}
   use{'lambdalisue/lista.nvim',config=get_rplugin(),cmd='Lista'}
   use{'ripxorip/aerojump.nvim',config=get_rplugin(),cmd='Aerojump'}
   use{'t9md/vim-smalls',cmd={'Smalls','SmallsExcursion'}}
@@ -267,7 +271,6 @@ require'packer'.startup(function (use)
   use {"ellisonleao/carbon-now.nvim", config = function() require('carbon-now').setup() end,cmd='CarbonNow'}
   use{'mattboehm/vim-accordion',cmd=cexp('Accordion',{'All','Diff','Stop','ZoomIn','ZoomOut','Once','Clear'},true)}
   use{'andrewradev/linediff.vim',cmd={'Linediff','LinediffReset'}}
-  use{'strboul/urlview.vim',cmd='Urlview'}
   use{'jbyuki/instant.nvim',config=function ()
     vim.g.instant_username='UsEr'
   end} --NULL
@@ -278,7 +281,6 @@ require'packer'.startup(function (use)
   use{'chrisbra/nrrwrgn',cmd=extend(cexp('NR',{'V','P','M','S','L','N'},true),{'NW','WR','NUD'})}
   use{'skywind3000/vim-rt-format',cmd='RTFormatEnable'}
   use{'lifepillar/vim-colortemplate',opt=true}
-  use{'dokwork/vim-hp',cmd=cexp('Hp',{'GenerateContents','Refresh','LeftRight'})}
   use{'pianocomposer321/project-templates.nvim',cmd={'LoadTemplate','DeleteTemplate','SaveAsTemplate'}}
   use{'tommcdo/vim-express',cmd={'MapExpress','MapSubpress'}}
   use{'mtth/scratch.vim',cmd=cexp('Scratch',{'Insert','Preview','Selection'},true),setup=function ()
@@ -293,29 +295,26 @@ require'packer'.startup(function (use)
   end}
   use{'ntbbloodbath/color-converter.nvim',opt=true}
   use{'amadeus/vim-convert-color-to',cmd='ConvertColorTo'}
-  use{'chimay/wheel',cmd='Wheel'}
   use{'roosta/fzf-folds.vim',cmd='Folds'}
   use{'everduin94/nvim-quick-switcher',module='nvim-quick-switcher'}
   use{'stevearc/stickybuf.nvim',cmd=extend(cexp('Pin',{'Buffer','Buftype','Filetype'}),{'UnpinBuffer'})}
 
   ----sidepannel
   use{'majutsushi/tagbar',cmd='TagbarToggle'}
-  use{'simrat39/symbols-outline.nvim',cmd=cexp('SymbolsOutline',{'Open','Close'},true)}
   use{'itchyny/calendar.vim',cmd='Calendar'}
-  use{'jiaoshijie/undotree',requires='nvim-lua/plenary.nvim',config=get_setup('undotree',{window={winblend=30},keymaps={}}),opt=true}
   use{'simnalamburt/vim-mundo',cmd='MundoToggle'}
-  use{'wfxr/minimap.vim',run=':!cargo install --locked code-minimap',cmd='MinimapToggle',config=function ()
-    vim.g.minimap_highlight_range=1
-    vim.g.minimap_highlight_search=1
-  end}
   use{'nvim-neo-tree/neo-tree.nvim',requires='MunifTanjim/nui.nvim',config=get_config'neotree',cmd='Neotree'}
+  use{'gorbit99/codewindow.nvim',config=function()
+    local codewindow=require'codewindow'
+    codewindow.setup()
+    vim.api.nvim_create_user_command('CodeWindow',codewindow.toggle_minimap,{})
+  end,cmd='CodeWindow'}
 
   ----telescope
   use{'nvim-telescope/telescope.nvim',requires={
     'nvim-neorg/neorg-telescope',
     'nvim-telescope/telescope-symbols.nvim',
     'tom-anders/telescope-vim-bookmarks.nvim',
-    'axkirillov/telescope-changed-files',
     'nvim-telescope/telescope-project.nvim',
     {'nvim-telescope/telescope-fzf-native.nvim',run='make'},
     'olacin/telescope-cc.nvim',
@@ -336,7 +335,7 @@ require'packer'.startup(function (use)
     'nvim-telescope/telescope-file-browser.nvim',
     'GustavoKatel/telescope-asynctasks.nvim',
     'nvim-telescope/telescope-hop.nvim',
-    'zane-/howdoi.nvim',
+    'debugloop/telescope-undo.nvim',
   },config=function ()
       local telescope=require'telescope'
       telescope.load_extension'fzf'
@@ -369,10 +368,8 @@ require'packer'.startup(function (use)
     {'theHamsta/nvim-treesitter-pairs',event='User s1'},
     {'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
     {'mfussenegger/nvim-treehopper',module='tsht'},
-    {'lewis6991/spellsitter.nvim',config=get_setup'spellsitter',event='OptionSet spell'},
     {'JoosepAlviste/nvim-ts-context-commentstring',event='User s1'},
-    {'nvim-treesitter/nvim-treesitter-refactor',keys={{'n','gR'}},config='vim.cmd"TSEnable refactor.smart_rename"'},
-    'rrethy/nvim-treesitter-endwise',
+    {'nvim-treesitter/nvim-treesitter-refactor',keys=mexp('n',{'gR','gd'}),config='vim.cmd"TSEnable refactor"'},
   },config=get_config'treesitter'}
   use{'booperlv/nvim-gomove',config=get_setup('gomove',{map_defaults=false}),keys=extend(mexp('n',{'<Plug>GoNDLineDown','<Plug>GoNDLineUp','<Plug>GoNMLineDown','<Plug>GoNMLineUp'}),mexp('x',{'<Plug>GoVDLineDown','<Plug>GoVDLineUp','<Plug>GoVMLineDown','<Plug>GoVMLineUp','<Plug>GoVSDDown','<Plug>GoVSDLeft','<Plug>GoVSDRight','<Plug>GoVSDUp','<Plug>GoVSMDown','<Plug>GoVSMLeft','<Plug>GoVSMRight','<Plug>GoVSMUp'}))} --not treesitter
   use{'ziontee113/syntax-tree-surfer',config=get_config'gomove-treesurfer',
@@ -431,7 +428,7 @@ require'packer'.startup(function (use)
   use{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy',after='nvim-cmp'}
 
   ----improve
-  use{'antoinemadec/FixCursorHold.nvim',event='User s1'}
+  use{'antoinemadec/FixCursorHold.nvim',event='User s1'} --TODO: wait
   use{'brglng/vim-im-select',event='User s1'}
   use{'jghauser/mkdir.nvim',event='User s1'}
   use{'ethanholz/nvim-lastplace',config=get_setup'nvim-lastplace'}
@@ -440,7 +437,6 @@ require'packer'.startup(function (use)
   use{'shoumodip/helm.nvim',module='helm'}
   use{'nvim-lua/plenary.nvim',module='plenary'}
   use{'tastyep/structlog.nvim',module='structlog'}
-  use{'bkoropoff/bex.nvim',module='bex'}
   use{'s1n7ax/nvim-window-picker',module='window-picker'}
   use{'rktjmp/fwatch.nvim',module='fwatch'}
   use{'edluffy/hologram.nvim',module='hologram'}
