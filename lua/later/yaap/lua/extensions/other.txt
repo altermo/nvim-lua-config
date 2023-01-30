@@ -1,23 +1,0 @@
-#maybe
-<CR> suport
-<CR> smart newline
-<CR> auto add pair (like {| > CR > {|})
-<CR> auto add multicharacter pair
-<CR> behave like splitjoin
-make auto skip char optional
-make everything optional
-<bs> suport
-<bs> remove the pair (like [|] > BS > |)
-<bs> remove the pair when pair filled (like [|abc] > BS > |abc)
-<bs> remove the pair when pair empty (like ()| > BS > |)
-<bs> dont remove pair when cause not balance (like [[|] > BS > [|])
-<bs> remove the pair when multicharacter pair empty (like /**/| > BS > |)
-<bs> remove the pair when pair with space (like ( )| > BS > |)
-autocomplete integration
-hop stile fastwarp
-smart space (like [|] > SP > [ | ])
-norma fastwarp (like {}|[] > <C-e> > {[]|} or {[|]})
-norma fastwarp multi line
-auto goto end (like [te|xt] > [ > [text]|)
-fly mode (like [{| > ] > [{}]|)
-dot repeat?

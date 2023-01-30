@@ -1,0 +1,6 @@
+Rename things...
+Place memory objects (mem,extensions...) into a separate file...
+Refactor cr and bs (more functions)
+Replace as many of vim.fn with vim. as possible
+Make sure that everything works
+Creat categories of todos (like (requires change to whole system) and (requires minimal change))

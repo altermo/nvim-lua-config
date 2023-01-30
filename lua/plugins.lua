@@ -86,7 +86,7 @@ require'packer'.startup(function (use)
     vim.g.HiErase='M<BS>'
     vim.g.HiClear='M<C-L>'
     vim.g.HiFind='M<tab>'
-  end,keys={'M<CR>','M<BS>','M<C-l>','M<Tab>'}}
+  end,keys=mexp('x',{'M<CR>','M<BS>','M<C-l>','M<Tab>'})}
   use{'Pocco81/HighStr.nvim',cmd={'HSHighlight','HSRmHighlight'}}
   use{'lcheylus/overlength.nvim',config=get_setup('overlength',{enabled=false,textwidth_mode=1}),cmd='OverlengthToggle'}
   use{'monkoose/matchparen.nvim',config=get_setup'matchparen',event='User s1'}
@@ -97,12 +97,12 @@ require'packer'.startup(function (use)
   use{'folke/which-key.nvim',config=get_config'which-key',keys={{'n','<space>'},{'n','g'},{'n','<char-92>'}},cmd='WhichKey'}
   use{'winston0410/range-highlight.nvim',config=get_setup'range-highlight',requires='winston0410/cmd-parser.nvim',event='CmdlineEnter'}
   use{'nacro90/numb.nvim',config=get_setup'numb',event='CmdlineEnter'}
-  use{'mattesgroeger/vim-bookmarks',keys={'mg','mjj','mkk','mx','mc','mp','mn','mi','mm','ma'}}
+  use{'mattesgroeger/vim-bookmarks',keys=mexp('n',{'mg','mjj','mkk','mx','mc','mp','mn','mi','mm','ma'})}
   use{'luukvbaal/stabilize.nvim',config=get_setup'stabilize',event='User s1'} --TODO: wait
   use{'kevinhwang91/nvim-hlslens',config=get_config'hlslens',event='CmdlineEnter'}
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
   use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
-  use{'mawkler/modicator.nvim',config=get_setup'modicator',after='mini.nvim'}
+  use{'mawkler/modicator.nvim',config=get_setup'modicator',after='mini.nvim',opt=true} --TODO
 
   ----syntax
   use{'nvim-neorg/neorg',config=get_setup(
@@ -146,7 +146,7 @@ require'packer'.startup(function (use)
     nno('>A',':SidewaysRight\r')
     nno('<A',':SidewaysLeft\r')
   end,keys=mexp('n',{'>A','<A'})}
-  use{'Wansmer/sibling-swap.nvim',requires='nvim-treesitter',config=function()
+  use{'wansmer/sibling-swap.nvim',requires='nvim-treesitter',config=function()
     local swap=require('sibling-swap')
     local nno=require'utils.keymap'.nno
     swap.setup({use_default_keymaps=false})
@@ -166,8 +166,7 @@ require'packer'.startup(function (use)
   use{'andrewradev/splitjoin.vim',keys='gJ',setup=function ()
     vim.g.splitjoin_split_mapping='<nul>'
   end}
-  use{'windwp/nvim-autopairs',config=get_config'autopairs',event='InsertEnter'}
-  --use{'hrsh7th/nvim-insx',config=get_setup'insx.preset.standard'} --TODO: wait
+  --use{'windwp/nvim-autopairs',config=get_config'autopairs',event='InsertEnter'}
   use{'monaqa/dial.nvim',config=get_config'dial',keys={{'n','<C-a>'},{'n','<C-x>'},{'x','<C-a>'},{'x','<C-x>'}}}
   use{'ghillb/cybu.nvim',config=function ()
     require'cybu'.setup{style={devicons={enabled=false}}}
@@ -215,7 +214,7 @@ require'packer'.startup(function (use)
     vim.g.clever_f_smart_case=1
     vim.g.clever_f_mark_direct=1
     require'utils.keymap'.nno('<esc>','<Plug>(clever-f-reset)')
-  end,keys={'f','t','F','T'}}
+  end,keys=extend(mexp('n',{'f','t','F','T'}),mexp('x',{'f','t','F','T'}))}
   use{'arp242/jumpy.vim',keys={'[[','<char-93><char-93>'}}
   use{'lambdalisue/lista.nvim',config=get_rplugin(),cmd='Lista'}
   use{'ripxorip/aerojump.nvim',config=get_rplugin(),cmd='Aerojump'}
@@ -239,7 +238,7 @@ require'packer'.startup(function (use)
   use{'smjonas/inc-rename.nvim',config=function()
     require 'inc_rename'.setup{}
     require'utils.keymap'.nno('gr',':IncRename <C-r>=expand("<cword>")\r',{noremap=true})
-  end,cmd='IncRename',keys={'gr'}}
+  end,cmd='IncRename',keys={{'n','gr'}}}
   use{'micmine/jumpwire.nvim',module='jumpwire'}
   use{'will133/vim-dirdiff',cmd='DirDiff'}
   use{'ludopinelli/comment-box.nvim',module='comment-box'}
@@ -248,7 +247,7 @@ require'packer'.startup(function (use)
   use{'nvim-colortils/colortils.nvim',cmd="Colortils",config=get_setup'colortils'}
   use{'nyngwang/neononame.lua',cmd='NeoNoName'}
   use{'nvim-pack/nvim-spectre',module='spectre'}
-  use{'ThePrimeagen/harpoon',requires='nvim-lua/plenary.nvim',module='harpoon'}
+  use{'ThePrimeagen/harpoon',requires='nvim-lua/plenary.nvim',module='harpoon'} --TODO
   use{'wellle/visual-split.vim',keys={{'n','<C-W>gr'},{'n','<C-W>gss'},{'n','<C-W>gsa'},
     {'n','<C-W>gsb'},{'x','<C-W>gr'},{'x','<C-W>gss'},{'x','<C-W>gsa'},{'x','<C-W>gsb'}},
     cmd=extend(cexp('VSSplit',{'Above','Below'},true),{'VSResize'})}
@@ -363,13 +362,14 @@ require'packer'.startup(function (use)
   ----treesitter
   use{'nvim-treesitter/nvim-treesitter',run='vim.cmd"TSUpdate"',requires={
     'nvim-lua/plenary.nvim',
-    {'p00f/nvim-ts-rainbow',event='User s1'},
+    {'p00f/nvim-ts-rainbow',event='User s1',config='vim.cmd"TSEnable rainbow"'},
     {'nvim-treesitter/playground',requires={'nvim-lua/popup.nvim'},cmd='TSPlaygroundToggle'},
     {'theHamsta/nvim-treesitter-pairs',event='User s1'},
     {'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
     {'mfussenegger/nvim-treehopper',module='tsht'},
     {'JoosepAlviste/nvim-ts-context-commentstring',event='User s1'},
-    {'nvim-treesitter/nvim-treesitter-refactor',keys=mexp('n',{'gR','gd'}),config='vim.cmd"TSEnable refactor"'},
+    {'nvim-treesitter/nvim-treesitter-refactor',config='vim.cmd"TSEnable refactor"',opt=true}, --TODO
+    {'rrethy/nvim-treesitter-endwise',opt=true}, --TODO
   },config=get_config'treesitter'}
   use{'booperlv/nvim-gomove',config=get_setup('gomove',{map_defaults=false}),keys=extend(mexp('n',{'<Plug>GoNDLineDown','<Plug>GoNDLineUp','<Plug>GoNMLineDown','<Plug>GoNMLineUp'}),mexp('x',{'<Plug>GoVDLineDown','<Plug>GoVDLineUp','<Plug>GoVMLineDown','<Plug>GoVMLineUp','<Plug>GoVSDDown','<Plug>GoVSDLeft','<Plug>GoVSDRight','<Plug>GoVSDUp','<Plug>GoVSMDown','<Plug>GoVSMLeft','<Plug>GoVSMRight','<Plug>GoVSMUp'}))} --not treesitter
   use{'ziontee113/syntax-tree-surfer',config=get_config'gomove-treesurfer',

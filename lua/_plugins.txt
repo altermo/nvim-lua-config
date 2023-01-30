@@ -1,11 +1,7 @@
-benekastah/neomake
 cbochs/grapple.nvim
 cbochs/portal.nvim
-chrisgrieser/nvim-genghis
-chrisgrieser/nvim-recorder
-desdic/greyjoy.nvim
+# chrisgrieser/nvim-genghis #later
 desdic/telescope-rooter.nvim
-emileferreira/nvim-strict
 hrsh7th/vim-candle
 jghauser/papis.nvim
 julian/lean.nvim
@@ -39,3 +35,5 @@ windwp/nvim-spectre
 xxiaoa/ns-textobject.nvim
 yaocccc/nvim-hlchunk
 zbirenbaum/neodim
+#macro
+chrisgrieser/nvim-recorder

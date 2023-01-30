@@ -38,6 +38,7 @@ local azz={}
 require'which-key'.register({[' ']=format({
 
     ----other
+    b={require'self_plugins.bookend'.goto_file,'bookmarks'},
     ------file
     W={function ()
         local tmp=vim.fn.tempname()
@@ -181,8 +182,8 @@ require'which-key'.register({[' ']=format({
         },
     },
 
-    ----buffers
-    b={name='+buffers-delete',
+    ----buffer-delete
+    B={name='+buffers-delete',
         h={':BDelete! hidden\r','hidden'},
         t={':BDelete! glob=term://*\r','terminal'},
     },

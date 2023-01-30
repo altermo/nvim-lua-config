@@ -55,3 +55,6 @@ vim.filetype.add({extension={bf='bf',slisp='lisp'}})
 function vim.pprint(...)
   return vim.notify(vim.inspect(...))
 end
+function vim.oprint(...)
+  return vim.fn.writefile(vim.fn.split(vim.inspect(...),'\n'),'out')
+end

@@ -1,9 +1,0 @@
-#builtin
-dont add character if next or previous is alphanumeric
-add the parens att end when logical (like |"a" > [ > [|"a"] or ["a"|])
-dont complete when previous is \ in string? (like \| > [ > \[)
-(like 'a|b' > ' > 'a'|'b')
-auto escape extend in string?(like '\|' > ' > '\'|\'')
-insert spsified !important
-auto add ; att the end of } in c
-#maybe

@@ -28,7 +28,7 @@ for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical re
 end
 nno('<A-=>','<C-w>=')
 lnno('<A-e>','/')
-lnno('<A-f>',':%s///g<Left><Left><Left>')
+lnno('<A-r>',':G/')
 lnno('<A-S-a>',':% ')
 nno('<A-a>','GVgg')
 nno('<A-d>','0D"_dd')
@@ -46,6 +46,8 @@ lnno('<M-x>',':lua=')
 nno('π','yyp')
 ------other
 --nno('s','') -- TODO
+lnno('gR',':%s/\\<<C-r>=expand("<cword>")\r\\>/<C-r>=expand("<cword>")\r/g<Left><Left>')
+lnno('<A-f>',':%s///g<Left><Left><Left>')
 nno('¤','gvo<esc>')
 nno('g=','magg=G`a')
 nno('<Home>',QuickFixToggle)
@@ -97,7 +99,7 @@ nno('<C-z>',function ()
 end)
 nno('ghk',':execute("h ".nr2char(getchar()))\r')
 ------lsp
---nno('gd',':lua vim.lsp.buf.definition()\r')
+nno('gd',':lua vim.lsp.buf.definition()\r')
 --nno('gr',':lua vim.lsp.buf.rename()\r')
 nno('gC',':lua vim.lsp.buf.code_action()\r')
 
@@ -164,11 +166,12 @@ ino('<A-m>','å')
 ino('<A-S-m>','Å')
 
 ----vno
-vno('&','<cmd>lua require"hop".hint_lines()\r')
-vno('gr','y:execute("%s/<C-r>"/".input(\'>\')."/g")\r<C-r>"',{noremap=true})
+vno('gr','y:%s/<C-r>"/<C-r>"/g<Left><Left>',{noremap=true})
 vno('Ø',':sort',{noremap=true})
 vno('<A-f>',':s/\\%V//g<Left><Left><Left>',{noremap=true})
+vno('<A-r>',':G/',{noremap=true})
 vno('.',':',{noremap=true})
+vno('&','<cmd>lua require"hop".hint_lines()\r')
 vno('gG','y:!setsid firefox https://www.github.com/<C-r>"\r')
 vno('å','"+y')
 vno('<','<gv')
