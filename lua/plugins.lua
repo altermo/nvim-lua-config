@@ -37,17 +37,13 @@ local extend=vim.fn.extend
 require'packer'.startup(function (use)
 
   ----TEST
-  --use{"anuvyklack/windows.nvim",config=get_setup'windows',requires={"anuvyklack/middleclass","anuvyklack/animation.nvim"},event='User s1'}
-  use{'acksld/nvim-femaco.lua',config=get_setup'femaco',cmd='FeMaco'}
-  use{'axkirillov/easypick.nvim',opt=true}
-  use{'folke/styler.nvim',config=get_setup('styler',{themes={}}),cmd='Styler'}
 
   ----colorschm
   --use 'base16-project/base16-vim'
   --use'ray-x/starry.nvim'
   use 'everblush/everblush.nvim'
   use 'lmburns/kimbox'
-  use 'mhartington/oceanic-next'--
+  use 'mhartington/oceanic-next'
   use 'folke/tokyonight.nvim'
   use 'challenger-deep-theme/vim'
   use 'NTBBloodbath/doom-one.nvim'
@@ -62,9 +58,10 @@ require'packer'.startup(function (use)
   use 'jaredgorski/spacecamp'
   use{'vigoux/oak',event='User s1'}
   use 'mjlbach/onedark.nvim'
-  use{'folke/lsp-colors.nvim',event='User s1'}
   use'bluz71/vim-nightfly-colors'
   use'rakr/vim-one'
+  use{'folke/lsp-colors.nvim',event='User s1'}
+  use{'folke/styler.nvim',config=get_setup('styler',{themes={}}),cmd='Styler'}
 
   ----zen
   use{'folke/zen-mode.nvim',config=get_setup'zen-mode',cmd='ZenMode'}
@@ -98,7 +95,7 @@ require'packer'.startup(function (use)
   use{'winston0410/range-highlight.nvim',config=get_setup'range-highlight',requires='winston0410/cmd-parser.nvim',event='CmdlineEnter'}
   use{'nacro90/numb.nvim',config=get_setup'numb',event='CmdlineEnter'}
   use{'mattesgroeger/vim-bookmarks',keys=mexp('n',{'mg','mjj','mkk','mx','mc','mp','mn','mi','mm','ma'})}
-  use{'luukvbaal/stabilize.nvim',config=get_setup'stabilize',event='User s1'} --TODO: wait
+  use{'luukvbaal/stabilize.nvim',config=get_setup'stabilize',event='User s1'} --TODO: wait ('splitkeep')
   use{'kevinhwang91/nvim-hlslens',config=get_config'hlslens',event='CmdlineEnter'}
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
   use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
@@ -146,33 +143,30 @@ require'packer'.startup(function (use)
     nno('>A',':SidewaysRight\r')
     nno('<A',':SidewaysLeft\r')
   end,keys=mexp('n',{'>A','<A'})}
-  use{'wansmer/sibling-swap.nvim',requires='nvim-treesitter',config=function()
+  use{'wansmer/sibling-swap.nvim',requires='nvim-treesitter',config=function() --TODO replace with treesurfer
     local swap=require('sibling-swap')
     local nno=require'utils.keymap'.nno
     swap.setup({use_default_keymaps=false})
     nno('>a',swap.swap_with_right)
     nno('<a',swap.swap_with_left)
-  end,key=mexp('n',{'>a','<a'})}
+  end,keys=mexp('n',{'>a','<a'})}
   use{'gbprod/yanky.nvim',config=get_config'yanky',event='TextYankPost',
     keys=extend(mexp('n',{'p','P','<A-p>','<A-P>','<C-p>','<C-n>'}),{{'x','p'},{'x','P'}})}
   use{'abecodes/tabout.nvim',config=get_setup('tabout',{tabkey='<A-tab>',backwards_tabkey='<A-S-tab>',act_as_tab=false}),keys={{'i','<A-tab>'},{'i','<A-S-tab>'}}}
   use{'allendang/nvim-expand-expr',config=function ()
     require'utils.keymap'.nno('gE',':lua require"expand_expr".expand()\r')
   end,keys={{'n','gE'}}}
-  use{'acksld/nvim-trevj.lua',config=function ()
-    require'utils.keymap'.nno('gS',':lua require("trevj").format_at_cursor()\r')
+  use{'wansmer/treesj',config=function()
+    local tsj=require'treesj'
+    tsj.setup({use_default_keymaps=false})
+    require'utils.keymap'.nno('gS','<cmd>TSJToggle\n')
   end,keys={{'n','gS'}}}
   use{'andrewradev/switch.vim',keys='gs',cmd=cexp('Switch',{'Extend','Reverse'},true)}
-  use{'andrewradev/splitjoin.vim',keys='gJ',setup=function ()
-    vim.g.splitjoin_split_mapping='<nul>'
-  end}
-  --use{'windwp/nvim-autopairs',config=get_config'autopairs',event='InsertEnter'}
   use{'monaqa/dial.nvim',config=get_config'dial',keys={{'n','<C-a>'},{'n','<C-x>'},{'x','<C-a>'},{'x','<C-x>'}}}
   use{'ghillb/cybu.nvim',config=function ()
     require'cybu'.setup{style={devicons={enabled=false}}}
     local nno=require'utils.keymap'.nno
     nno('[b','<Plug>(CybuPrev)')
-    nno(']b','<Plug>(CybuNext)')
     nno('[B','<plug>(CybuLastusedPrev)')
     nno(']B','<plug>(CybuLastusedNext)')
   end,keys={{'n',']b'},{'n','[b'},{'n',']B'},{'n','[B'}}}
@@ -187,7 +181,6 @@ require'packer'.startup(function (use)
   use{'gennaro-tedesco/nvim-peekup',keys={{'n','<char-34><char-34>'}}}
   use{'mattn/emmet-vim',keys={{'i','<C-y>'}}}
   use{'kylechui/nvim-surround',config=get_setup'nvim-surround',keys={{'i','<C-g>s'},{'i','<C-g>S'},{'n','ys'},{'n','yS'},{'x','S'},{'x','gS'},{'n','cs'},{'n','ds'}}}
-  use{'justinmk/vim-sneak',keys={{'n','s'}}}
   use{'johmsalas/text-case.nvim',module='textcase'}
   use{'rrethy/vim-tranquille',keys='g/',config=function ()
     require'utils.keymap'.nno('g/','<Plug>(tranquille_search)')
@@ -217,7 +210,6 @@ require'packer'.startup(function (use)
   end,keys=extend(mexp('n',{'f','t','F','T'}),mexp('x',{'f','t','F','T'}))}
   use{'arp242/jumpy.vim',keys={'[[','<char-93><char-93>'}}
   use{'lambdalisue/lista.nvim',config=get_rplugin(),cmd='Lista'}
-  use{'ripxorip/aerojump.nvim',config=get_rplugin(),cmd='Aerojump'}
   use{'t9md/vim-smalls',cmd={'Smalls','SmallsExcursion'}}
   use{'jeetsukumaran/vim-indentwise',keys=mexp('n',extend(cexp('[',{'-','+','=','_','%'}),cexp(']',{'-','+','=','_','%'})))}
   use{'mg979/vim-visual-multi',setup='vim.cmd"let g:VM_maps={}"',opt=true} --TODO
@@ -235,6 +227,7 @@ require'packer'.startup(function (use)
   use{'tyru/capture.vim',cmd='Capture'}
 
   ----command
+  use{'acksld/nvim-femaco.lua',config=get_setup'femaco',cmd='FeMaco'}
   use{'smjonas/inc-rename.nvim',config=function()
     require 'inc_rename'.setup{}
     require'utils.keymap'.nno('gr',':IncRename <C-r>=expand("<cword>")\r',{noremap=true})
@@ -267,14 +260,13 @@ require'packer'.startup(function (use)
   use{'seandewar/nvimesweeper',cmd='Nvimesweeper'}
   use{'toppair/reach.nvim',cmd='ReachOpen'}
   use{'godlygeek/tabular',cmd='Tabularize'}
-  use {"ellisonleao/carbon-now.nvim", config = function() require('carbon-now').setup() end,cmd='CarbonNow'}
+  use{"ellisonleao/carbon-now.nvim", config = function() require('carbon-now').setup() end,cmd='CarbonNow'}
   use{'mattboehm/vim-accordion',cmd=cexp('Accordion',{'All','Diff','Stop','ZoomIn','ZoomOut','Once','Clear'},true)}
   use{'andrewradev/linediff.vim',cmd={'Linediff','LinediffReset'}}
   use{'jbyuki/instant.nvim',config=function ()
     vim.g.instant_username='UsEr'
   end} --NULL
   use{'tpope/vim-dadbod',cmd='DB'}
-  use 'dosimple/workspace.vim' --NULL
   use{'danymat/neogen',module='neogen',config=get_setup('neogen',{snippet_engine='snippy'})}
   use{'https://gitlab.com/Groctel/jobsplit.nvim',cmd='Jobsplit'}
   use{'chrisbra/nrrwrgn',cmd=extend(cexp('NR',{'V','P','M','S','L','N'},true),{'NW','WR','NUD'})}
@@ -335,13 +327,18 @@ require'packer'.startup(function (use)
     'GustavoKatel/telescope-asynctasks.nvim',
     'nvim-telescope/telescope-hop.nvim',
     'debugloop/telescope-undo.nvim',
+    'desdic/telescope-rooter.nvim',
+    'axkirillov/easypick.nvim',
   },config=function ()
       local telescope=require'telescope'
       telescope.load_extension'fzf'
       telescope.setup{
         defaults={mappings={i={
           ['<C-h>']=function (...)telescope.extensions.hop.hop(...)end
-        }}}}
+        }}},
+        extensions={rooter={patterns={'.git'}}}
+      }
+      telescope.load_extension'rooter'
     end,cmd='Telescope',module='telescope'}
 
   ----window
@@ -358,6 +355,7 @@ require'packer'.startup(function (use)
     vim.g.choosewin_overlay_enable=1
     require'utils.keymap'.nno('<C-w> ',':ChooseWin\r')
   end,keys='<C-w><space>',command=':ChooseWin'}
+  use{"anuvyklack/windows.nvim",config=get_setup'windows',requires={"anuvyklack/middleclass","anuvyklack/animation.nvim"},cmd='WindowsToggleAutowidth'}
 
   ----treesitter
   use{'nvim-treesitter/nvim-treesitter',run='vim.cmd"TSUpdate"',requires={
@@ -430,7 +428,7 @@ require'packer'.startup(function (use)
   ----improve
   use{'antoinemadec/FixCursorHold.nvim',event='User s1'} --TODO: wait
   use{'brglng/vim-im-select',event='User s1'}
-  use{'jghauser/mkdir.nvim',event='User s1'}
+  use{'jghauser/mkdir.nvim',event='User s1'} --TODO: wait
   use{'ethanholz/nvim-lastplace',config=get_setup'nvim-lastplace'}
 
   ----lua utils
@@ -486,6 +484,7 @@ require"packer.load"({"vim-flog"},{cmd="]]..cmd..[[",l1=<line1>,l2=<line2>,bang=
   nvim-telescope/telescope-dap.nvim
   thehamsta/nvim-dap-virtual-text
   rcarriga/nvim-dap-ui
+  ofirgall/goto-breakpoints.nvim
   --]]
 
   ----writing
@@ -493,6 +492,7 @@ require"packer.load"({"vim-flog"},{cmd="]]..cmd..[[",l1=<line1>,l2=<line2>,bang=
   use{'dbmrq/vim-ditto',cmd=extend(cexp('Ditto',{'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},true),{'NoDitto','ToggleDitto'})}
   use{'dhruvasagar/vim-table-mode',cmd='TableModeToggle'}
   use{'voldikss/vim-translator',config=get_config'translator'} --NULL
+  use{'potamides/pantran.nvim',cmd='Pantran'}
   use{'rhysd/vim-grammarous',cmd={'GrammarousCheck','GrammarousReset'}}
   use{'kabbamine/lazylist.vim',cmd='LazyList'}
   use{'fmoralesc/vim-pad',config=function ()

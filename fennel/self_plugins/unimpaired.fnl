@@ -1,5 +1,7 @@
 (local vf vim.fn)
-(local nno (. (require "utils.keymap") :nno))
+(fn nno [lhs rhs opt]
+ (vim.keymap.set "n" lhs rhs (or opt {:silent true :noremap true}))
+ )
 (fn toggle [opt on off]
   (if
     off
@@ -65,8 +67,9 @@
                   :s "spell" :u "cursorcolumn" :w "wrap" :d "diff"
                   :t {:opt "colorcolumn" :on "1,41,81,121,161,201,241"}
                   :v {:opt "virtualedit" :on "block,onemore"} :m {:opt "mouse" :on "a"}
-                  :f "foldenable" :e "scrollbind"
+                  :f "foldenable" :e "scrollbind" :m {:opt "conceallevel" :on 2 :off 0}
                   :p {:opt "matchpairs" :on "(:),{:},[:]" :off ""}
+                  :T {:opt "showtabline" :on 1 :off 0}
                   })]
   (let [opt (or v.opt v)]
     (nno (.. "]o" k) #(seton opt v.on))

@@ -11,12 +11,12 @@ syn match txtEmail      "\v([a-z0-9_\.\+-]+)\@([\da-z\.-]+)\.([a-z\.]{2,6})"
 syn match specWord     "\v\c<dom>|<så>|, och|^<men>|^<och>"
 syn match specWord     "\v\cdid not|could not"
 syn cluster txtContains add=txtNumber,txtOperator,txtLink,specWord,txtEmail
-syn region txtCite      start="\"" end="\"" oneline contains=@txtContains
+syn region txtCite      start="\"" end="\"" oneline
 syn region txtComments  start="^\s*#" end="$"  oneline contains=@txtContains,txtCite
-syn region txtDelims    start="("  end=")"  oneline contains=@txtContains,txtCite
-syn region txtDelims    start="<"  end=">"  oneline contains=@txtContains,txtCite
-syn region txtDelims    start="{"  end="}"  oneline contains=@txtContains,txtCite
-syn region txtDelims    start="\[" end="\]" oneline contains=@txtContains,txtCite
+syn region txtDelims    start="("  end=")"  oneline contains=@txtContains,txtCite,txtDelims
+syn region txtDelims    start="<"  end=">"  oneline contains=@txtContains,txtCite,txtDelims
+syn region txtDelims    start="{"  end="}"  oneline contains=@txtContains,txtCite,txtDelims
+syn region txtDelims    start="\[" end="\]" oneline contains=@txtContains,txtCite,txtDelims
 hi link txtNumber   Number
 hi link txtOperator Operator
 hi link txtCite     String

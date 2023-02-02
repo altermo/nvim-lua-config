@@ -1,41 +1,63 @@
 (local M {})
-(tset M :bookmarks {})
-(fn getfloatwinopt []
+(tset M :visited_files {})
+(fn M.open_file [file]
+  (vim.cmd.edit file)
+  )
+(fn M.lock_file [key]
+  (let [dict (. M.visited_files key)]
+    (if (> (length dict) 1)
+        (vim.ui.select dict {} #(tset dict :lock $1))
+        (tset dict :lock (. dict 1))
+        )))
+(fn M.unlock_file [key]
+  (tset (. M.visited_files key) :lock nil)
+  )
+(fn M.goto_file [key]
+  (let [dict (. M.visited_files key)]
+    (if dict
+        (match (length dict)
+          0 nil
+          1 (M.open_file (. dict 1))
+          _ (if (. dict :lock)
+                (M.open_file (. dict :lock))
+                (vim.ui.select dict {} M.open_file)
+                )))))
+(fn M.add_file []
   (let [
-        width (math.floor (* vim.o.columns 0.5))
-        height (math.floor (* vim.o.lines 0.5))
+        filename (vim.fn.expand "%:t")
+        filepath (vim.fn.expand "%:p")
         ]
-    {
-    :relative "win"
-    :width width
-    :height height
-    :col (math.floor (/ (- vim.o.columns width) 2))
-    :row (math.floor (/ (- vim.o.lines height) 2))
-    :style "minimal"
-    }
-    )
-  )
-(fn M.goto_file []
-  (let [buf (vim.api.nvim_create_buf true true)
-            win (vim.api.nvim_open_win buf false (getfloatwinopt))
+    (when (and (~= filename "") (= (vim.fn.match filepath "^[A-Za-z0-9]*://") -1))
+      (let [
+            key (: filename :sub 1 1)
+            dict (. M.visited_files key)
             ]
-    (vim.api.nvim_buf_set_lines buf 0 -1 false
-                                (icollect [k v (pairs M.bookmarks)]
-                                  (.. k " : " v)
-                                  ))
-    (vim.cmd.redraw)
-    (match (vim.fn.getcharstr)
-      " " (M.add_file (vim.fn.getcharstr))
-      "\x80kb" (tset M.bookmarks (vim.fn.getcharstr) nil)
-      "" nil
-      char (vim.cmd.edit (. M.bookmarks char))
-      )
-    (vim.api.nvim_win_close win false)
-    (vim.api.nvim_buf_delete buf {})
-    )
-  )
-(fn M.add_file [char]
-  (let [file (vim.fn.expand "%:p")]
-    (tset M.bookmarks char file)
+        (if (= (vim.fn.filereadable filepath) 1)
+            (if (not dict)
+                (tset M.visited_files (: filename :sub 1 1) [filepath])
+                (if (not (vim.tbl_contains dict filepath))
+                    (table.insert (. M.visited_files key) filepath)
+                    )))))))
+(fn M.select []
+  (let [locked-files (icollect [_ v (pairs M.visited_files)] (. v :lock))]
+    (vim.ui.select (vim.tbl_flatten (icollect [_ v (pairs M.visited_files)] v))
+                   {:format_item
+                   (fn [file]
+                     (if (vim.tbl_contains locked-files file)
+                         (.. ">>" file)
+                         file
+                         ))}
+                   (fn [choice]
+                     (M.open_file choice)
+                     ))))
+(fn M.run []
+  (match (vim.fn.getcharstr)
+    "\t" (M.lock_file (vim.fn.getcharstr))
+    "\x80kB" (M.unlock_file (vim.fn.getcharstr))
+    "\r" (M.select)
+    char (M.goto_file char)
     ))
+(fn M.setup []
+  (vim.api.nvim_create_autocmd "FileType" {:pattern "*" :callback M.add_file})
+  )
 M

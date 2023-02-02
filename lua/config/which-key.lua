@@ -38,7 +38,8 @@ local azz={}
 require'which-key'.register({[' ']=format({
 
     ----other
-    b={require'self_plugins.bookend'.goto_file,'bookmarks'},
+    b={require'self_plugins.bookend'.run,'bookmarks'},
+    ['\r']={'',''},
     ------file
     W={function ()
         local tmp=vim.fn.tempname()
@@ -58,7 +59,6 @@ require'which-key'.register({[' ']=format({
     x={':qa\r','quitall'},
     X={':qa!\r','QUITALL!'},
     ------visual
-    ['\r']={':set hls!\r:lua require("hlslens").start()\r','toggle-highlight'},
     z={'zM100zo','close-all-folds-but-cursor'},
     Z={'zM','close-all-folds'},
     ------buffer
@@ -89,11 +89,21 @@ require'which-key'.register({[' ']=format({
 
     ----Tabe
     ['<tab>']={name='+tab',
-        ['<tab>']={':tabe\r','new'},
-        o={':tabe %\r','open'},
         n={':tabnext\r','next'},
         p={':tabprev\r','prev'},
-        c={':tabclose\r','close'},
+        d={':tabclose\r','delete'},
+        [' ']={':tabnext\r','next'},
+        ['<']={':-tabmove\r','move-prev'},
+        ['>']={':+tabmove\r','move-next'},
+        ['<tab>']={':exe "tabe ".expand("%:p")\r','new'},
+        _=fmap(9,':tabnext %s\r','tab-%s'),
+        ['0']={':tablast\r','tab-last'},
+        m={name='move-buffer',
+            _=fmap(9,':TabBufMove %s\r','tab-%s'),
+            ['0']={':TabBufMove $\r','last'},
+            ['<']={':TabBufMove -\r','prev'},
+            ['>']={':TabBufMove +\r','next'},
+        },
     },
 
     ----cother
@@ -141,7 +151,6 @@ require'which-key'.register({[' ']=format({
         r={':Rename <C-r>=expand("%")\r','rename',silent=false},
         c={':!echo "%:p"|xclip -selection c\r','copy-path'},
         p={':exe(\'vnew|call termopen("bat -pp \'.expand(\'<cfile>\').\'")\')\r','preview-under-cursor'},
-        o={':exe("edit ".expand("<cfile>"))\r',"file.under-cursor"},
         T={':execute("edit ".tempname())\r','tempfile'},
         f={':Telescope find_files\r','find'},
         t={name='+set-type',
@@ -207,7 +216,7 @@ require'which-key'.register({[' ']=format({
         },
         t={name='+translate',
             s={':call v:lua.SwapLang()\r','swap_lang'},
-            A={':vsplit|term set a (mktemp);while :;cat "%"|trans "es:sv" -b>$a;clear;cat $a;end\r:wincmd p\r','async-tranlate'},
+            A={':vsplit|term set a (mktemp);while :;cat "%"|trans "es:sv" -b>$a;clear;cat $a;end\r:wincmd p\r','async-tranlate'}, --TODO better alternative
             f={name='+from',
                 f={':let g:translator_source_lang=""<Left>','other',silent=false},
                 _=cmap(spell,':let g:translator_source_lang="%s"\r','lang=%s',{silent=false})
@@ -221,14 +230,14 @@ require'which-key'.register({[' ']=format({
 
     ----toggle
     t={name='+toggle',
+        ['\r']={':set hls!\r:lua require("hlslens").start()\r','highlight'},
         T={':TSPlaygroundToggle\r','TSPlayground'},
-        c={':ColorizerToggle\r','colorizer'},
         e={':Neotree\r','explorer'},
         h={':TSToggle highlight\r','TS-highlight'},
         m={':CodeWindow\r','minimap'},
         t={':Tagbar\r','tagbar'},
         u={':MundoToggle\r','undotree'},
-        H={':HexokinaseToggle\r','color-name-highlight'},
+        c={':HexokinaseToggle\r','color-name-highlight'},
         C={function()
             local b=vim.fn.bufnr()
             if azz[b] then
@@ -298,32 +307,24 @@ require'which-key'.register({[' ']=format({
             w={':lua require"hop".hint_words({ current_line_only = true })\r','word'},
             A={':lua require"hop".hint_anywhere({ current_line_only = true })\r','anywhere'},
         },
-        ------aerojump
-        a={name='+aerojump',
-            c={':Aerojump cursor bolt\r','cursor-bolt'},
-            d={':Aerojump kbd default\r','default'},
-            s={':Aerojump kbd space\r','space'},
-            b={':Aerojump kbd bolt\r','bolt'},
-            m={':Aerojump kbd milk\r','milk'},
-        },
     },
 
     ----theme
     T={
         name='+UI',
         ['+']={function()
-            vim.o.guifont=vim.o.guifont:gsub('%d+$','')..(tonumber(vim.o.guifont:gsub('.-(%d+)$','%1'),10)+1)
-        end,'zoom in'}, --TODO
+            vim.o.guifont=vim.fn.substitute(vim.o.guifont,[[\vh(\d+)]],'\\="h".(submatch(1)+1)','')
+        end,'zoom in'},
         ['-']={function()
-            vim.o.guifont=vim.o.guifont:gsub('%d+$','')..(tonumber(vim.o.guifont:gsub('.-(%d+)$','%1'),10)-1)
-        end,'zoom out'}, --TODO
+            vim.o.guifont=vim.fn.substitute(vim.o.guifont,[[\vh(\d+)]],'\\="h".(submatch(1)-1)','')
+        end,'zoom out'},
         ['0']={function()
-            vim.o.guifont=vim.o.guifont:gsub('%d+$','')..'11'
-        end,'zoom reset'}, --TODO
+            vim.o.guifont=vim.fn.substitute(vim.o.guifont,[[\vh(\d+)]],'h11','')
+        end,'zoom reset'},
         C={':set guicursor=a:ver1\r','hide-cursor'}, --TODO
         c={':set guicursor&\r','reset-cursor'},
         f={':set guifont=*\r','select-font'},
-        ['8']={':call overlength#toggle()\r','toggle highlight past 80'},
+        ['8']={':call overlength#toggle()\r','toggle highlight past 80'}, --TODO
         i={':IndentBlanklineToggle!\r','toggle highlight indent level'},
         w={':let b:minicursorword_disable=luaeval("not vim.b.minicursorword_disable")\r','toggle highlight cursor word'},
         n={':lua require"notify".dismiss()\r','dismiss notify'},

@@ -1,18 +1,91 @@
 local M = {}
-M["bookmarks"] = {}
-local function getfloatwinopt()
-  local width = math.floor((vim.o.columns * 0.5))
-  local height = math.floor((vim.o.lines * 0.5))
-  return {relative = "win", width = width, height = height, col = math.floor(((vim.o.columns - width) / 2)), row = math.floor(((vim.o.lines - height) / 2)), style = "minimal"}
+M["visited_files"] = {}
+M.open_file = function(file)
+  return vim.cmd.edit(file)
 end
-M.goto_file = function()
-  local buf = vim.api.nvim_create_buf(true, true)
-  local win = vim.api.nvim_open_win(buf, false, getfloatwinopt())
-  local function _1_()
+M.lock_file = function(key)
+  local dict = M.visited_files[key]
+  if (#dict > 1) then
+    local function _1_(_241)
+      dict["lock"] = _241
+      return nil
+    end
+    return vim.ui.select(dict, {}, _1_)
+  else
+    dict["lock"] = dict[1]
+    return nil
+  end
+end
+M.unlock_file = function(key)
+  M.visited_files[key]["lock"] = nil
+  return nil
+end
+M.goto_file = function(key)
+  local dict = M.visited_files[key]
+  if dict then
+    local _3_ = #dict
+    if (_3_ == 0) then
+      return nil
+    elseif (_3_ == 1) then
+      return M.open_file(dict[1])
+    elseif true then
+      local _ = _3_
+      if dict.lock then
+        return M.open_file(dict.lock)
+      else
+        return vim.ui.select(dict, {}, M.open_file)
+      end
+    else
+      return nil
+    end
+  else
+    return nil
+  end
+end
+M.add_file = function()
+  local filename = vim.fn.expand("%:t")
+  local filepath = vim.fn.expand("%:p")
+  if ((filename ~= "") and (vim.fn.match(filepath, "^[A-Za-z0-9]*://") == -1)) then
+    local key = filename:sub(1, 1)
+    local dict = M.visited_files[key]
+    if (vim.fn.filereadable(filepath) == 1) then
+      if not dict then
+        M.visited_files[filename:sub(1, 1)] = {filepath}
+        return nil
+      else
+        if not vim.tbl_contains(dict, filepath) then
+          return table.insert(M.visited_files[key], filepath)
+        else
+          return nil
+        end
+      end
+    else
+      return nil
+    end
+  else
+    return nil
+  end
+end
+M.select = function()
+  local locked_files
+  do
     local tbl_17_auto = {}
     local i_18_auto = #tbl_17_auto
-    for k, v in pairs(M.bookmarks) do
-      local val_19_auto = (k .. " : " .. v)
+    for _, v in pairs(M.visited_files) do
+      local val_19_auto = v.lock
+      if (nil ~= val_19_auto) then
+        i_18_auto = (i_18_auto + 1)
+        do end (tbl_17_auto)[i_18_auto] = val_19_auto
+      else
+      end
+    end
+    locked_files = tbl_17_auto
+  end
+  local function _12_()
+    local tbl_17_auto = {}
+    local i_18_auto = #tbl_17_auto
+    for _, v in pairs(M.visited_files) do
+      local val_19_auto = v
       if (nil ~= val_19_auto) then
         i_18_auto = (i_18_auto + 1)
         do end (tbl_17_auto)[i_18_auto] = val_19_auto
@@ -21,27 +94,34 @@ M.goto_file = function()
     end
     return tbl_17_auto
   end
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, _1_())
-  vim.cmd.redraw()
-  do
-    local _3_ = vim.fn.getcharstr()
-    if (_3_ == " ") then
-      M.add_file(vim.fn.getcharstr())
-    elseif (_3_ == "\128kb") then
-      M.bookmarks[vim.fn.getcharstr()] = nil
-    elseif (_3_ == "\27") then
-    elseif (nil ~= _3_) then
-      local char = _3_
-      vim.cmd.edit(M.bookmarks[char])
+  local function _14_(file)
+    if vim.tbl_contains(locked_files, file) then
+      return (">>" .. file)
     else
+      return file
     end
   end
-  vim.api.nvim_win_close(win, false)
-  return vim.api.nvim_buf_delete(buf, {})
+  local function _16_(choice)
+    return M.open_file(choice)
+  end
+  return vim.ui.select(vim.tbl_flatten(_12_()), {format_item = _14_}, _16_)
 end
-M.add_file = function(char)
-  local file = vim.fn.expand("%:p")
-  do end (M.bookmarks)[char] = file
-  return nil
+M.run = function()
+  local _17_ = vim.fn.getcharstr()
+  if (_17_ == "\9") then
+    return M.lock_file(vim.fn.getcharstr())
+  elseif (_17_ == "\128kB") then
+    return M.unlock_file(vim.fn.getcharstr())
+  elseif (_17_ == "\13") then
+    return M.select()
+  elseif (nil ~= _17_) then
+    local char = _17_
+    return M.goto_file(char)
+  else
+    return nil
+  end
+end
+M.setup = function()
+  return vim.api.nvim_create_autocmd("FileType", {pattern = "*", callback = M.add_file})
 end
 return M

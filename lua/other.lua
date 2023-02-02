@@ -12,7 +12,7 @@ vim.g.loaded_netrwPlugin=1
 vim.g.loaded_tutor_mode_plugin=1
 vim.g.loaded_remote_plugins=1
 --vim.g.loaded_fzf=1
-vim.g.rplugins={'aerojump.nvim','lista.nvim','vim-ghost','pyro'}
+vim.g.rplugins={'lista.nvim','vim-ghost','pyro'}
 local fn=vim.fn
 fn.timer_start(1000,function() vim.cmd"doautocmd User s1" end)
 local fastfoldtimer
@@ -38,6 +38,9 @@ require'self_plugins.tabline'
 require'self_plugins.textobj'
 require'self_plugins.unimpaired'
 require'self_plugins.builder'
+require'self_plugins.swapapos'
+require'self_plugins.bookend'.setup()
+require'self_plugins.tabbm'
 local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
   if fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg"},vim.o.filetype)~=-1 then
     vim.cmd"syntax off"
@@ -58,3 +61,12 @@ end
 function vim.oprint(...)
   return vim.fn.writefile(vim.fn.split(vim.inspect(...),'\n'),'out')
 end
+
+
+
+vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ultimate-autopair.nvim')
+local a
+a=vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function()--TODO temp
+  require'ultimate-autopair'.setup()
+  vim.api.nvim_del_autocmd(a)
+end})

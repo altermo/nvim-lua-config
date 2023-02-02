@@ -45,7 +45,9 @@ lnno('<M-x>',':lua=')
 ------alt-gr
 nno('π','yyp')
 ------other
---nno('s','') -- TODO
+if pcall(require,'hop') then
+  nno('s',':lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
+end
 lnno('gR',':%s/\\<<C-r>=expand("<cword>")\r\\>/<C-r>=expand("<cword>")\r/g<Left><Left>')
 lnno('<A-f>',':%s///g<Left><Left><Left>')
 nno('¤','gvo<esc>')
