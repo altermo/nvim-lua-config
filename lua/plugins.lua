@@ -37,6 +37,9 @@ local extend=vim.fn.extend
 require'packer'.startup(function (use)
 
   ----TEST
+  use{'altermo/ultimate-autopair.nvim',
+    event={'InsertEnter','CmdlineEnter'},config=get_setup'ultimate-autopair',
+}
 
   ----colorschm
   --use 'base16-project/base16-vim'
@@ -50,17 +53,17 @@ require'packer'.startup(function (use)
   use 'gbprod/nord.nvim'
   use 'rafamadriz/neon'
   use 'luisiacc/gruvbox-baby'
-  use{'edeneast/nightfox.nvim',event='User s1'}
-  use{'fenetikm/falcon',event='User s1'}
   use 'ellisonleao/gruvbox.nvim'
   use 'kuznetsss/meadow-nvim'
   use 'matsuuu/pinkmare'
   use 'jaredgorski/spacecamp'
-  use{'vigoux/oak',event='User s1'}
   use 'mjlbach/onedark.nvim'
   use'bluz71/vim-nightfly-colors'
   use'rakr/vim-one'
+  use{'edeneast/nightfox.nvim',event='User s1'}
+  use{'fenetikm/falcon',event='User s1'}
   use{'folke/lsp-colors.nvim',event='User s1'}
+  use{'vigoux/oak',event='User s1'}
   use{'folke/styler.nvim',config=get_setup('styler',{themes={}}),cmd='Styler'}
 
   ----zen
@@ -72,7 +75,7 @@ require'packer'.startup(function (use)
 
   ----visual
   use{'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cmd={'G','V','Norm'}}
-  use{'lukas-reineke/indent-blankline.nvim',config=get_setup('indent_blankline',{show_current_context=true})}
+  use{'lukas-reineke/indent-blankline.nvim',config=get_setup('indent_blankline',{show_current_context=true}),event='User s1'}
   use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
     vim.g.Hexokinase_highlighters={'backgroundfull'}
   end,event='User s1'}
@@ -265,7 +268,7 @@ require'packer'.startup(function (use)
   use{'andrewradev/linediff.vim',cmd={'Linediff','LinediffReset'}}
   use{'jbyuki/instant.nvim',config=function ()
     vim.g.instant_username='UsEr'
-  end} --NULL
+  end,opt=true}
   use{'tpope/vim-dadbod',cmd='DB'}
   use{'danymat/neogen',module='neogen',config=get_setup('neogen',{snippet_engine='snippy'})}
   use{'https://gitlab.com/Groctel/jobsplit.nvim',cmd='Jobsplit'}
@@ -286,7 +289,14 @@ require'packer'.startup(function (use)
   end}
   use{'ntbbloodbath/color-converter.nvim',opt=true}
   use{'amadeus/vim-convert-color-to',cmd='ConvertColorTo'}
-  use{'roosta/fzf-folds.vim',cmd='Folds'}
+  use{'roosta/fzf-folds.vim',cmd='Folds',config=function ()
+    vim.cmd[[
+      if g:loaded_fzf==1
+      unlet g:loaded_fzf
+      source /usr/share/vim/vimfiles/plugin/fzf.vim
+      endif
+      ]]
+  end}
   use{'everduin94/nvim-quick-switcher',module='nvim-quick-switcher'}
   use{'stevearc/stickybuf.nvim',cmd=extend(cexp('Pin',{'Buffer','Buftype','Filetype'}),{'UnpinBuffer'})}
 
@@ -399,7 +409,6 @@ require'packer'.startup(function (use)
   end,keys={{'n','K'}}}
   use{'echasnovski/mini.nvim',config=get_config'mini'}
   use{'shaeinst/penvim',config=get_setup('penvim',{rooter={enable=false},project_env={enable=false}})}
-  use 'wsdjeg/vim-fetch'
   use{'norcalli/nvim-terminal.lua',ft='terminal'}
   use{'raghur/vim-ghost',run=':GhostInstall',cmd='GhostStart',config=get_rplugin()}
   use{'andweeb/presence.nvim',module='presence'}

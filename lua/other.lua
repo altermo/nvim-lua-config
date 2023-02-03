@@ -11,7 +11,7 @@ vim.g.loaded_netrw=1
 vim.g.loaded_netrwPlugin=1
 vim.g.loaded_tutor_mode_plugin=1
 vim.g.loaded_remote_plugins=1
---vim.g.loaded_fzf=1
+vim.g.loaded_fzf=1
 vim.g.rplugins={'lista.nvim','vim-ghost','pyro'}
 local fn=vim.fn
 fn.timer_start(1000,function() vim.cmd"doautocmd User s1" end)
@@ -64,9 +64,11 @@ end
 
 
 
-vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ultimate-autopair.nvim')
-local a
-a=vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function()--TODO temp
-  require'ultimate-autopair'.setup()
-  vim.api.nvim_del_autocmd(a)
-end})
+
+
+--vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ultimate-autopair.nvim')
+--local a
+--a=vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function()--TODO temp
+  --require'ultimate-autopair'.setup()
+  --vim.api.nvim_del_autocmd(a)
+--end})
