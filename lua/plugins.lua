@@ -37,9 +37,9 @@ local extend=vim.fn.extend
 require'packer'.startup(function (use)
 
   ----TEST
-  use{'altermo/ultimate-autopair.nvim',
-    event={'InsertEnter','CmdlineEnter'},config=get_setup'ultimate-autopair',
-}
+  --use{'altermo/ultimate-autopair.nvim',opt=true,
+    --event={'InsertEnter','CmdlineEnter'},config=get_setup'ultimate-autopair',
+--}
 
   ----colorschm
   --use 'base16-project/base16-vim'

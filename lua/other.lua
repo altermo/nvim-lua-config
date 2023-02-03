@@ -66,9 +66,9 @@ end
 
 
 
---vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ultimate-autopair.nvim')
---local a
---a=vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function()--TODO temp
-  --require'ultimate-autopair'.setup()
-  --vim.api.nvim_del_autocmd(a)
---end})
+vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ultimate-autopair.nvim')
+local a
+a=vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function()--TODO temp
+  require'ultimate-autopair'.setup()
+  vim.api.nvim_del_autocmd(a)
+end})
