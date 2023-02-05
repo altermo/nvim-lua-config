@@ -9,6 +9,7 @@ require'nvim-treesitter.configs'.setup({
         navigation={enable=true,keymaps={goto_definition_lsp_fallback='gd'}}
     },
     playground={enable=true},
+    endwise={enable=true},
 })
 function _G.TSUpadte()
     require'nvim-treesitter.configs'.setup({

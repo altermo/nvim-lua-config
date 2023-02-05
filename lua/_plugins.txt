@@ -1,19 +1,6 @@
-cbochs/grapple.nvim
-cbochs/portal.nvim
-# chrisgrieser/nvim-genghis #later
-krady21/compiler-explorer.nvim
-mrcjkb/haskell-tools.nvim
-nvim-zh/colorful-winsep.nvim
 ofirgall/open.nvim
 otavioschwanck/telescope-alternate.nvim
 ray-x/sad.nvim
-ray-x/web-tools.nvim
-rktjmp/shenzhen-solitaire.nvim
-shortcuts/no-neck-pain.nvim
-smzm/hydrovim
-uga-rosa/ccc.nvim
-vim-latex/vim-latex
-xxiaoa/ns-textobject.nvim
 #macro
 chrisgrieser/nvim-recorder
 svermeulen/vim-macrobatics

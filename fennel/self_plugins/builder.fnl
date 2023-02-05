@@ -5,9 +5,10 @@
        :fennel true
        :cs ["csharp"]
        :rust ["cargo run"]
-       :cpp "AsyncRun g++ % -o __tmp;./__tmp;rm __tmp"
-       :c "AsyncRun gcc % -o __tmp;./__tmp;rm __tmp"
+       :cpp "AsyncRun zig c++ -O2 % -o __tmp;./__tmp;rm __tmp"
+       :c "AsyncRun zig cc -O2 % -o __tmp;./__tmp;rm __tmp"
        :vim "so %"
+       :zig ["zig run"]
        })
 (fn eval []
   (match vim.o.filetype

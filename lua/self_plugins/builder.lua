@@ -1,4 +1,4 @@
-local BUILDERS = {python = true, fish = true, lua = true, fennel = true, cs = {"csharp"}, rust = {"cargo run"}, cpp = "AsyncRun g++ % -o __tmp;./__tmp;rm __tmp", c = "AsyncRun gcc % -o __tmp;./__tmp;rm __tmp", vim = "so %"}
+local BUILDERS = {python = true, fish = true, lua = true, fennel = true, cs = {"csharp"}, rust = {"cargo run"}, cpp = "AsyncRun zig c++ -O2 % -o __tmp;./__tmp;rm __tmp", c = "AsyncRun zig cc -O2 % -o __tmp;./__tmp;rm __tmp", vim = "so %", zig = {"zig run"}}
 local function eval()
   local _1_ = vim.o.filetype
   if (_1_ == "vim") then

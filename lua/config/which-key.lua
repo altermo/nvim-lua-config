@@ -40,6 +40,7 @@ require'which-key'.register({[' ']=format({
     ----other
     b={require'self_plugins.bookend'.run,'bookmarks'},
     ['\r']={'',''},
+    u={':Scratch\r','scratch'},
     ------file
     W={function ()
         local tmp=vim.fn.tempname()
@@ -148,11 +149,13 @@ require'which-key'.register({[' ']=format({
     f={name='+files',
         s={':! "%"<Left><Left><Left><Left>','shell-file',silent=false},
         b={':!cp "%" "%".bak\r','backup'},
-        r={':Rename <C-r>=expand("%")\r','rename',silent=false},
-        c={':!echo "%:p"|xclip -selection c\r','copy-path'},
+        r={require'genghis'.renameFile,'rename',silent=false},
+        d={require'genghis'.duplicateFile,'duplicate'},
+        C={':!echo "%:p"|xclip -selection c\r','copy-path'},
         p={':exe(\'vnew|call termopen("bat -pp \'.expand(\'<cfile>\').\'")\')\r','preview-under-cursor'},
         T={':execute("edit ".tempname())\r','tempfile'},
         f={':Telescope find_files\r','find'},
+        R={require'spectre'.open,'replace-all-files'},
         t={name='+set-type',
             o={':setf ','other',silent=false},
             _=cmap({p='python',t='txt',v='vim',s='fish',f='fennel',r='rust',l='lua',m='markdown',c='cpp',h='html',n="norg"},':set filetype=%s\r','%s')
@@ -168,7 +171,7 @@ require'which-key'.register({[' ']=format({
             local tbl={}
             for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
                 o='oldfiles',s={'live_grep_args'},b='buffers', u={'undo'},
-                H='harpoon marks',p={'project'},y={'yank_history'},n={'notify'},
+                p={'project'},y={'yank_history'},n={'notify'},
                 T='tele_tabby list',B='vim_bookmarks all',
                 P={'packer'},a='asynctasks all',w={'file_browser'},
                 k='current_buffer_fuzzy_find',h='help_tags',K='symbols',
@@ -238,6 +241,7 @@ require'which-key'.register({[' ']=format({
         t={':Tagbar\r','tagbar'},
         u={':MundoToggle\r','undotree'},
         c={':HexokinaseToggle\r','color-name-highlight'},
+        a={':TableModeToggle\r','table-mode'},
         C={function()
             local b=vim.fn.bufnr()
             if azz[b] then
@@ -254,6 +258,9 @@ require'which-key'.register({[' ']=format({
             m={':TZFocus\r','max-mode'},
             p={':Peepsight\r','peepsight'},
             l={':Limelight!!\r','limelight'},
+            c={':NoNeckPain\r','center'},
+            ['3']={':Accordion 3\r','3-windows'},
+            ['0']={':AccordionStop\r','any-windows'},
         },
     },
 
@@ -268,12 +275,14 @@ require'which-key'.register({[' ']=format({
         },'%s\r','%s')
     },
 
-    ----harpoon
-    h={name='+harpoon',
-        a={':lua require"harpoon.mark".add_file()\r','add'},
-        f={':lua require"harpoon.ui".toggle_quick_menu()\r','find'},
-        n={':lua require"harpoon.ui".nav_next()\r','next'},
-        p={':lua require"harpoon.ui".nav_next()\r','prev'},
+    ----grapple
+    g={name='+h',
+        t={require'grapple'.tag,'tag'},
+        u={require'grapple'.untag,'untag'},
+        ['\r']={require'grapple'.tag,'toggle'},
+        s={require'grapple'.popup_tags,'select'},
+        n={require'grapple'.cycle_forward,'next'},
+        p={require'grapple'.cycle_backward,'previous'},
     },
 
     ----highlight
@@ -288,8 +297,8 @@ require'which-key'.register({[' ']=format({
         q={':lua vim.diagnostic.setqflist()\r','quickfix'},
     },
 
-    ----goto
-    g={name='+goto',
+    ----hop
+    h={name='+hop',
         w={':lua require"hop".hint_words({ multi_windows = true })\r','word'},
         t={':lua require"tsht".nodes()\r','TSHT'},
         r={':lua require"hop".hint_patterns()\r','regex'},
@@ -324,12 +333,14 @@ require'which-key'.register({[' ']=format({
         C={':set guicursor=a:ver1\r','hide-cursor'}, --TODO
         c={':set guicursor&\r','reset-cursor'},
         f={':set guifont=*\r','select-font'},
-        ['8']={':call overlength#toggle()\r','toggle highlight past 80'}, --TODO
+        ['8']={':OverlengthToggle\r','toggle highlight past 80'}, --TODO
         i={':IndentBlanklineToggle!\r','toggle highlight indent level'},
         w={':let b:minicursorword_disable=luaeval("not vim.b.minicursorword_disable")\r','toggle highlight cursor word'},
         n={':lua require"notify".dismiss()\r','dismiss notify'},
         r={':TSToggle rainbow\r','toggle rainbow'},
         p={':TSToggle pairs\r','toggle pairs'},
+        [' ']={':lua require "mini.trailspace".unhighlight()\r','unhighlight spaces'},
+        ['<c- >']={':lua require "mini.trailspace".highlight()\r','highlight spaces'},
     }
 })})
 -- vim:fen:

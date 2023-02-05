@@ -19,6 +19,8 @@ nno('\r','dd',{})
 xno('s',':Norm ',{})
 
 ----nno
+nno('cw','dwi')
+nno('cW','dWi')
 ------alt/ctrl
 for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical resize +'}) do
   nno('<C-'..k..'>','<C-w>'..k..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
@@ -101,7 +103,7 @@ nno('<C-z>',function ()
 end)
 nno('ghk',':execute("h ".nr2char(getchar()))\r')
 ------lsp
-nno('gd',':lua vim.lsp.buf.definition()\r')
+--nno('gd',':lua vim.lsp.buf.definition()\r')
 --nno('gr',':lua vim.lsp.buf.rename()\r')
 nno('gC',':lua vim.lsp.buf.code_action()\r')
 

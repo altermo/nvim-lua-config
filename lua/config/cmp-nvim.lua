@@ -39,12 +39,12 @@ cmp.setup({
         {name='buffer'},
     }),
     mapping=cmp.mapping.preset.insert({
-        --['<CR>']=cmp.mapping(function()
-            --if cmp.get_active_entry() and ({snippy=true,path=true,nvim_lsp=true,cmp_tabnine=true})[cmp.get_selected_entry().source.name] then
-                --cmp.confirm()
-            --else
-                --vim.fn.feedkeys'o'
-            --end end),
+        ['<CR>']=cmp.mapping(function()
+            if cmp.get_active_entry() and ({snippy=true,path=true,nvim_lsp=true,cmp_tabnine=true})[cmp.get_selected_entry().source.name] then
+                cmp.confirm()
+            else
+                require'ultimate-autopair.maps.cr'.newline()
+            end end),
         ['<Tab>']=cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()

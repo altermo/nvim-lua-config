@@ -13,7 +13,7 @@ vim.api.nvim_create_user_command('ToggleAutocd',function()
         vim.api.nvim_del_autocmd(autocd)
         autocd=nil
     else
-        autocd=autocmd('BufEnter',{command='if bufname("") !~ "^\\[A-Za-z0-9\\]*://" | lcd %:p:h | endif'})
+        autocd=autocmd('BufEnter',{command='if &buftype==""|lcd %:p:h|endif'})
     end
 end,{})
 vim.cmd'ToggleAutocd'
