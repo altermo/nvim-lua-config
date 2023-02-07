@@ -55,6 +55,7 @@
     "\t" (M.lock_file (vim.fn.getcharstr))
     "\x80kB" (M.unlock_file (vim.fn.getcharstr))
     "\r" (M.select)
+    "\x80kb" (tset M :select_file (vim.list_slice M.select_file (- (length M.select_file) 10)))
     char (M.goto_file char)
     ))
 (fn M.setup []

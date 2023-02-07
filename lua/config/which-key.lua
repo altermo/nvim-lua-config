@@ -214,20 +214,26 @@ require'which-key'.register({[' ']=format({
 
     ----text
     y={name='+text',
+        S={':call v:lua.SwapLang()\r','swap-lang'},
+        T={':Pantran\r','translate-window'},
+        f={name='+translate-from',
+            f={':let g:translator_source_lang=""<Left>','other',silent=false},
+            _=cmap(spell,':let g:translator_source_lang="%s"\r','lang=%s',{silent=false})
+        },
         s={name='+spell',
             _=cmap(spell,':set spelllang=%s\r','lang=%s',{silent=false})
         },
-        t={name='+translate',
-            s={':call v:lua.SwapLang()\r','swap_lang'},
-            A={':vsplit|term set a (mktemp);while :;cat "%"|trans "es:sv" -b>$a;clear;cat $a;end\r:wincmd p\r','async-tranlate'}, --TODO better alternative
-            f={name='+from',
-                f={':let g:translator_source_lang=""<Left>','other',silent=false},
-                _=cmap(spell,':let g:translator_source_lang="%s"\r','lang=%s',{silent=false})
-            },
-            t={name='+to',
-                t={':let g:translator_target_lang=""<Left>','other',silent=false},
-                _=cmap(spell,':let g:translator_target_lang="%s"\r','lang=%s',{silent=false})
-            },
+        g={name='grammar',
+            w={':Wordy weak\r','wordy on'},
+            W={':NoWordy\r','wordy off'},
+            d={':ToggleDitto\r','ditto'},
+            g={':GrammarousCheck --lang=sv\r','grammar'},
+            l={':GrammarousCheck --lang=','grammar-lang',{silent=false}},
+            G={':GrammarousReset\r','grammar-off'},
+        },
+        t={name='+translate-to',
+            t={':let g:translator_target_lang=""<Left>','other',silent=false},
+            _=cmap(spell,':let g:translator_target_lang="%s"\r','lang=%s',{silent=false})
         },
     },
 
@@ -276,7 +282,7 @@ require'which-key'.register({[' ']=format({
     },
 
     ----grapple
-    g={name='+h',
+    g={name='+grapple',
         t={require'grapple'.tag,'tag'},
         u={require'grapple'.untag,'untag'},
         ['\r']={require'grapple'.tag,'toggle'},

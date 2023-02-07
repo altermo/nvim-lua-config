@@ -13,7 +13,7 @@
 (fn hig []
   (let [vis (get_visual)]
     (if (and id (~= id 1)) (vim.fn.matchdelete id))
-    (set id (vim.fn.matchadd "visual" (. vis 1) ));TODO escape and \< \> if wordstart or wordend maybe
+    (set id (vim.fn.matchadd "visual" (.. "\\V" (vim.fn.escape (. vis 1) "\\")) ));TODO \< \> if wordstart or wordend maybe
     ))
 (fn clhig []
   (when (and id (~= id 1))

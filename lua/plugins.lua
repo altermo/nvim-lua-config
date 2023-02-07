@@ -73,6 +73,7 @@ require'packer'.startup(function (use)
 
   ----visual
   ------fun
+  use 'sunjon/stylish.nvim'
   use{'lukas-reineke/indent-blankline.nvim',config=get_setup('indent_blankline',{show_current_context=true}),event='User s1'}
   use{'nvim-zh/colorful-winsep.nvim',config=get_setup'colorful-winsep',event='WinNew'}
   use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
@@ -98,6 +99,7 @@ require'packer'.startup(function (use)
     vim.g.HiFind='M<tab>'
   end,keys=mexp('x',{'M<CR>','M<BS>','M<C-l>','M<Tab>'})}
   use{'Pocco81/HighStr.nvim',cmd={'HSHighlight','HSRmHighlight'}}
+  use{'dbmrq/vim-redacted',cmd='Redact'}
   use{'monkoose/matchparen.nvim',config=get_setup'matchparen',event='User s1'}
   use{'nvim-lualine/lualine.nvim',config=get_setup('lualine',{options={theme='powerline'}})}
   use{'0styx0/abbreinder.nvim',requires='0styx0/abbremand.nvim',config=get_setup'abbreinder',event='User s1'}
@@ -106,6 +108,7 @@ require'packer'.startup(function (use)
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
 
   ----keys
+  use{'chrisgrieser/nvim-recorder',config=get_setup('recorder',{slots={'a','b','c'}}),keys=mexp('n',{'q','Q','cq','yq','<C-q>'})}
   use{'junegunn/vim-easy-align',config=function ()
     local k=require 'utils.keymap'
     k.nno('gb','<Plug>(LiveEasyAlign)')
@@ -315,6 +318,7 @@ require'packer'.startup(function (use)
     'debugloop/telescope-undo.nvim',
     'desdic/telescope-rooter.nvim', --TODO
     'axkirillov/easypick.nvim',
+    'otavioschwanck/telescope-alternate.nvim',
   },config=function ()
       local telescope=require'telescope'
       telescope.load_extension'fzf'
@@ -359,7 +363,7 @@ require'packer'.startup(function (use)
   },config=get_config'treesitter'}
   use{'booperlv/nvim-gomove',config=get_setup('gomove',{map_defaults=false}),keys=extend(mexp('n',{'<Plug>GoNDLineDown','<Plug>GoNDLineUp','<Plug>GoNMLineDown','<Plug>GoNMLineUp'}),mexp('x',{'<Plug>GoVDLineDown','<Plug>GoVDLineUp','<Plug>GoVMLineDown','<Plug>GoVMLineUp','<Plug>GoVSDDown','<Plug>GoVSDLeft','<Plug>GoVSDRight','<Plug>GoVSDUp','<Plug>GoVSMDown','<Plug>GoVSMLeft','<Plug>GoVSMRight','<Plug>GoVSMUp'}))} --not treesitter
   use{'ziontee113/syntax-tree-surfer',config=get_config'gomove-treesurfer',
-    keys=extend(mexp('n',{'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','<C-S-o>','gFu','gFe','gFo','gFv','gFs','gFi','gFa','<A-i>','<A-o>'}),mexp('x',{'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','<A-S-k>','<A-S-j>'})),module='syntax-tree-surfer'}
+    keys=extend(mexp('n',{'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF'}),mexp('x',{'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>'})),module='syntax-tree-surfer'}
 
   ----other
   use{'neovim/nvim-lspconfig',config=get_config'lsp'..';vim.cmd"doautocmd BufReadPost"',requires={
@@ -390,7 +394,7 @@ require'packer'.startup(function (use)
   end,keys={{'n','K'}}}
   use{'echasnovski/mini.nvim',config=get_config'mini'}
   use{'shaeinst/penvim',config=get_setup('penvim',{project_env={enable=false},rooter={enable=false}})}
-  use{'norcalli/nvim-terminal.lua',ft='terminal'}
+  use{'norcalli/nvim-terminal.lua',config=get_setup'terminal',ft='terminal'}
   use{'raghur/vim-ghost',run=':GhostInstall',cmd='GhostStart',config=get_rplugin()}
   use{'andweeb/presence.nvim',module='presence'}
   use{'cbochs/grapple.nvim',confog=get_setup'grapple',module='grapple'}
@@ -469,17 +473,15 @@ require"packer.load"({"vim-flog"},{cmd="]]..cmd..[[",l1=<line1>,l2=<line2>,bang=
   --]]
 
   ----writing
-  use{'dbmrq/vim-ditto',cmd=extend(cexp('Ditto',{'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},true),{'NoDitto','ToggleDitto'})}
-  use{'dhruvasagar/vim-table-mode',cmd='TableModeToggle'}
-  use{'voldikss/vim-translator',config=get_config'translator'} --NULL
+  use{'voldikss/vim-translator',config=get_config'translator',keys=mexp('x',{'þ','Þ'})}
   use{'potamides/pantran.nvim',cmd='Pantran'}
-  use{'rhysd/vim-grammarous',cmd={'GrammarousCheck','GrammarousReset'}}
-  use{'fmoralesc/vim-pad',config=function ()
-    vim.g['pad#dir']='/home/user/.pad'
-  end,cmd='Pad'}
-  use{'ron89/thesaurus_query.vim',cmd=cexp('Thesaurus',{'QueryReplaceCurrentWord','QueryLookupCurrentWord','QueryReplace'},true)}
-  use{'reedes/vim-wordy',cmd='Wordy'}
   use{'jbyuki/venn.nvim',cmd=extend(cexp('VBox',{'D','H','O','DO','HO'},true),{'VFill'})}
+  use{'dhruvasagar/vim-table-mode',cmd='TableModeToggle'}
+  use{'dbmrq/vim-ditto',cmd=extend(cexp('Ditto',{'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},true),{'NoDitto','ToggleDitto'})}
+  use{'reedes/vim-wordy',cmd={'Wordy','NoWordy'}}
+  use{'rhysd/vim-grammarous',cmd={'GrammarousCheck','GrammarousReset'}}
+  use{'ron89/thesaurus_query.vim',cmd=cexp('Thesaurus',{'QueryReplaceCurrentWord','QueryLookupCurrentWord','QueryReplace'},true)}
+  use 'phaazon/mind.nvim'
 
   ----filetype
   use{'vim-latex/vim-latex',ft='latex'}
