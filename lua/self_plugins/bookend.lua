@@ -1,127 +1,98 @@
 local M = {}
-M["visited_files"] = {}
-M.open_file = function(file)
+M["locked-files"] = {b = "/home/user/.config/nvim/fennel/later/bookend.fnl"}
+local function get_list(key)
+  local tbl_17_auto = {}
+  local i_18_auto = #tbl_17_auto
+  for _, v in ipairs(vim.api.nvim_list_bufs()) do
+    local val_19_auto
+    if vim.api.nvim_buf_is_loaded(v) then
+      local filepath = vim.fn.fnamemodify(vim.fn.bufname(v), ":p")
+      local filename = vim.fn.fnamemodify(filepath, ":t")
+      if (vim.fn.filereadable(filepath) == 1) then
+        if key then
+          if (key == filename:sub(1, 1)) then
+            val_19_auto = filepath
+          else
+            val_19_auto = nil
+          end
+        else
+          val_19_auto = filepath
+        end
+      else
+        val_19_auto = nil
+      end
+    else
+      val_19_auto = nil
+    end
+    if (nil ~= val_19_auto) then
+      i_18_auto = (i_18_auto + 1)
+      do end (tbl_17_auto)[i_18_auto] = val_19_auto
+    else
+    end
+  end
+  return tbl_17_auto
+end
+local function open_file(file)
   return vim.cmd.edit(file)
 end
-M.lock_file = function(key)
-  local dict = M.visited_files[key]
-  if (#dict > 1) then
-    local function _1_(_241)
-      dict["lock"] = _241
+local function lock_file(key)
+  if (#get_list(key) > 1) then
+    local function _6_(_241)
+      M["locked-files"][key] = _241
       return nil
     end
-    return vim.ui.select(dict, {}, _1_)
+    return vim.ui.select(get_list(key), {}, _6_)
   else
-    dict["lock"] = dict[1]
+    M["locked-files"][key] = get_list(key)[1]
     return nil
   end
 end
-M.unlock_file = function(key)
-  M.visited_files[key]["lock"] = nil
+local function unlock_file(key)
+  M["locked-files"][key] = nil
   return nil
 end
-M.goto_file = function(key)
-  local dict = M.visited_files[key]
+local function goto_file(key)
+  local dict = get_list(key)
   if dict then
-    local _3_ = #dict
-    if (_3_ == 0) then
-      return nil
-    elseif (_3_ == 1) then
-      return M.open_file(dict[1])
-    elseif true then
-      local _ = _3_
-      if dict.lock then
-        return M.open_file(dict.lock)
-      else
-        return vim.ui.select(dict, {}, M.open_file)
-      end
+    if (#dict == 1) then
+      return open_file(dict[1])
     else
-      return nil
+      if (M["locked-files"])[key] then
+        return open_file((M["locked-files"])[key])
+      else
+        return vim.ui.select(dict, {}, open_file)
+      end
     end
   else
     return nil
   end
 end
-M.add_file = function()
-  local filename = vim.fn.expand("%:t")
-  local filepath = vim.fn.expand("%:p")
-  if ((filename ~= "") and (vim.fn.match(filepath, "^[A-Za-z0-9]*://") == -1)) then
-    local key = filename:sub(1, 1)
-    local dict = M.visited_files[key]
-    if (vim.fn.filereadable(filepath) == 1) then
-      if not dict then
-        M.visited_files[filename:sub(1, 1)] = {filepath}
-        return nil
-      else
-        if not vim.tbl_contains(dict, filepath) then
-          return table.insert(M.visited_files[key], filepath)
-        else
-          return nil
-        end
-      end
-    else
-      return nil
-    end
-  else
-    return nil
-  end
-end
-M.select = function()
-  local locked_files
-  do
-    local tbl_17_auto = {}
-    local i_18_auto = #tbl_17_auto
-    for _, v in pairs(M.visited_files) do
-      local val_19_auto = v.lock
-      if (nil ~= val_19_auto) then
-        i_18_auto = (i_18_auto + 1)
-        do end (tbl_17_auto)[i_18_auto] = val_19_auto
-      else
-      end
-    end
-    locked_files = tbl_17_auto
-  end
-  local function _12_()
-    local tbl_17_auto = {}
-    local i_18_auto = #tbl_17_auto
-    for _, v in pairs(M.visited_files) do
-      local val_19_auto = v
-      if (nil ~= val_19_auto) then
-        i_18_auto = (i_18_auto + 1)
-        do end (tbl_17_auto)[i_18_auto] = val_19_auto
-      else
-      end
-    end
-    return tbl_17_auto
-  end
-  local function _14_(file)
-    if vim.tbl_contains(locked_files, file) then
+local function select()
+  local function _11_(file)
+    if vim.tbl_contains(vim.tbl_values(M["locked-files"]), file) then
       return (">>" .. file)
     else
       return file
     end
   end
-  local function _16_(choice)
-    return M.open_file(choice)
+  local function _13_(choice)
+    return open_file(choice)
   end
-  return vim.ui.select(vim.tbl_flatten(_12_()), {format_item = _14_}, _16_)
+  return vim.ui.select(get_list(), {format_item = _11_}, _13_)
 end
 M.run = function()
-  local _17_ = vim.fn.getcharstr()
-  if (_17_ == "\9") then
-    return M.lock_file(vim.fn.getcharstr())
-  elseif (_17_ == "\128kB") then
-    return M.unlock_file(vim.fn.getcharstr())
-  elseif (_17_ == "\13") then
-    return M.select()
-  elseif (nil ~= _17_) then
-    local char = _17_
-    return M.goto_file(char)
+  local _14_ = vim.fn.getcharstr()
+  if (_14_ == "\9") then
+    return lock_file(vim.fn.getcharstr())
+  elseif (_14_ == "\128kB") then
+    return unlock_file(vim.fn.getcharstr())
+  elseif (_14_ == "\13") then
+    return select()
+  elseif (nil ~= _14_) then
+    local char = _14_
+    return goto_file(char)
   else
     return nil
   end
-end
-M.setup = function()
-  return vim.api.nvim_create_autocmd("FileType", {pattern = "*", callback = M.add_file})
 end
 return M

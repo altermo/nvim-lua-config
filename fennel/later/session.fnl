@@ -1,0 +1,1 @@
+(au VimExit (add mksession))

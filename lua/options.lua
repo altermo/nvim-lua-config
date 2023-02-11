@@ -1,7 +1,7 @@
 local set=vim.opt
 set.shiftwidth=4
 set.tabstop=4
-set.softtabstop=-1
+set.softtabstop=4
 set.smartindent=true
 set.breakindent=true
 set.cindent=true

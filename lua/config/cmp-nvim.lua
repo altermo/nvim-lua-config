@@ -43,7 +43,7 @@ cmp.setup({
             if cmp.get_active_entry() and ({snippy=true,path=true,nvim_lsp=true,cmp_tabnine=true})[cmp.get_selected_entry().source.name] then
                 cmp.confirm()
             else
-                require'ultimate-autopair.maps.cr'.newline()
+                require'ultimate-autopair.maps.cr'.cmpnewline()
             end end),
         ['<Tab>']=cmp.mapping(function(fallback)
             if cmp.visible() then
@@ -84,8 +84,8 @@ cmp.setup.cmdline(':',{
 cmp.setup.filetype({'AerojumpFilter'},{sources={}})
 local compare=require('cmp.config.compare')
 cmp.setup{sorting={priority_weight=2,comparators={
-    require('cmp_tabnine.compare'),
     compare.offset,
+    require('cmp_tabnine.compare'),
     compare.exact,
     compare.score,
     compare.recently_used,

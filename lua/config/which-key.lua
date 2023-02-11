@@ -164,9 +164,10 @@ require'which-key'.register({[' ']=format({
 
     ----search
     s={name='+search',
-        r={':ReachOpen colorschemes\r','reach-colorschemes'},
+        --r={':ReachOpen colorschemes\r','reach-colorschemes'}, --TODO: remove Reach
         F={':Folds\r','folds'},
         A={':Telescope\r','telescope'},
+        r={':Telescope colorscheme enable_preview=true\r','preview-colorscheme'},
         _=(function ()
             local tbl={}
             for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',

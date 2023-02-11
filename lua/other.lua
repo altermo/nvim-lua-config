@@ -39,7 +39,7 @@ require'self_plugins.textobj'
 require'self_plugins.unimpaired'
 require'self_plugins.builder'
 require'self_plugins.swapapos'
-require'self_plugins.bookend'.setup()
+require'self_plugins.bookend'
 require'self_plugins.tabbm'
 local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
   if fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg"},vim.o.filetype)~=-1 then

@@ -55,8 +55,8 @@ require'packer'.startup(function (use)
   use 'matsuuu/pinkmare'
   use 'jaredgorski/spacecamp'
   use 'mjlbach/onedark.nvim'
-  use'bluz71/vim-nightfly-colors'
-  use'rakr/vim-one'
+  use 'bluz71/vim-nightfly-colors'
+  use 'rakr/vim-one'
   use{'edeneast/nightfox.nvim',event='User s1'}
   use{'fenetikm/falcon',event='User s1'}
   use{'folke/lsp-colors.nvim',event='User s1'}
@@ -108,6 +108,7 @@ require'packer'.startup(function (use)
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
 
   ----keys
+  use{'weissle/easy-action',opt=true}
   use{'chrisgrieser/nvim-recorder',config=get_setup('recorder',{slots={'a','b','c'}}),keys=mexp('n',{'q','Q','cq','yq','<C-q>'})}
   use{'junegunn/vim-easy-align',config=function ()
     local k=require 'utils.keymap'
