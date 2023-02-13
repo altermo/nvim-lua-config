@@ -164,7 +164,6 @@ require'which-key'.register({[' ']=format({
 
     ----search
     s={name='+search',
-        --r={':ReachOpen colorschemes\r','reach-colorschemes'}, --TODO: remove Reach
         F={':Folds\r','folds'},
         A={':Telescope\r','telescope'},
         r={':Telescope colorscheme enable_preview=true\r','preview-colorscheme'},
@@ -340,7 +339,7 @@ require'which-key'.register({[' ']=format({
         C={':set guicursor=a:ver1\r','hide-cursor'}, --TODO
         c={':set guicursor&\r','reset-cursor'},
         f={':set guifont=*\r','select-font'},
-        ['8']={':OverlengthToggle\r','toggle highlight past 80'}, --TODO
+        ['8']={':OverlengthToggle\r','toggle highlight past 80'},
         i={':IndentBlanklineToggle!\r','toggle highlight indent level'},
         w={':let b:minicursorword_disable=luaeval("not vim.b.minicursorword_disable")\r','toggle highlight cursor word'},
         n={':lua require"notify".dismiss()\r','dismiss notify'},

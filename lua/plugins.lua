@@ -282,7 +282,6 @@ require'packer'.startup(function (use)
 
   ----search
   use{'nvim-pack/nvim-spectre',module='spectre'}
-  use{'toppair/reach.nvim',cmd='ReachOpen'}
   use{'roosta/fzf-folds.vim',cmd='Folds',config=function ()
     vim.cmd[[
       if g:loaded_fzf==1
