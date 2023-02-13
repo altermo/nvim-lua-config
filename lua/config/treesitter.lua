@@ -2,7 +2,7 @@ require'nvim-treesitter.configs'.setup({
     highlight={enable=true},
     indent={enable=true},
     rainbow={enable=true},
-    pairs={enable=true,highlight_pair_events={'CursorMoved'}},
+    --pairs={enable=true,highlight_pair_events={'CursorMoved'}}, --TODO
     context_commentstring={enable=true},
     refactor={
         smart_rename={enable=true,keymaps={smart_rename="gR"}},

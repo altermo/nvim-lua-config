@@ -368,7 +368,7 @@ require'packer'.startup(function (use)
 
   ----other
   use{'neovim/nvim-lspconfig',config=get_config'lsp'..';vim.cmd"doautocmd BufReadPost"',requires={
-    {'williamboman/nvim-lsp-installer',module='nvim-lsp-installer'},
+    {'williamboman/mason.nvim',module='mason'},
     'onsails/lspkind.nvim',module='lspkind'},event='User s1'}
   use{'rbong/vim-buffest',
     cmd=extend(cexp('Reg',{'split','vsplit','tabedit','edit','pedit'}),
