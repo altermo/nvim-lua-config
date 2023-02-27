@@ -47,6 +47,7 @@
                    )))
 (fn M.run []
   (match (vim.fn.getcharstr)
+    "" nil
     "\t" (lock_file (vim.fn.getcharstr))
     "\x80kB" (unlock_file (vim.fn.getcharstr))
     "\r" (select)

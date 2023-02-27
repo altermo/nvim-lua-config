@@ -314,13 +314,13 @@ require'which-key'.register({[' ']=format({
         f={':Lista\r','find-whole-file'},
         m={':lua require"mini.jump2d".start()\r','mini-jump'},
         s={':Smalls\r','smalls'},
-        A={':lua require"hop".hint_anywhere()\r','anywhere'},
+        a={':lua require"hop".hint_anywhere()\r','anywhere'},
         ------current-line
         c={name='+current line',
             c={':lua require"hop".hint_char1({ current_line_only = true })\r','1 char'},
             ['2']={':lua require"hop".hint_char2({ current_line_only = true })\r','2 char'},
             w={':lua require"hop".hint_words({ current_line_only = true })\r','word'},
-            A={':lua require"hop".hint_anywhere({ current_line_only = true })\r','anywhere'},
+            a={':lua require"hop".hint_anywhere({ current_line_only = true })\r','anywhere'},
         },
     },
 

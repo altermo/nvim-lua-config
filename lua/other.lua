@@ -9,7 +9,7 @@ vim.g.loaded_2html_plugin=1
 vim.g.loaded_spellfile_plugin=1
 vim.g.loaded_netrw=1
 vim.g.loaded_netrwPlugin=1
-vim.g.loaded_tutor_mode_plugin=1
+--vim.g.loaded_tutor_mode_plugin=1
 vim.g.loaded_remote_plugins=1
 vim.g.loaded_fzf=1
 vim.g.rplugins={'lista.nvim','vim-ghost','pyro'}
@@ -61,8 +61,6 @@ end
 function vim.oprint(...)
   return vim.fn.writefile(vim.fn.split(vim.inspect(...),'\n'),'out')
 end
-
-
 
 
 

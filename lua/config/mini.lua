@@ -31,26 +31,47 @@ for _,v in pairs({'gl','gL'}) do
     key.xno(v,fn)
 end
 
-
-require('mini.base16').setup({palette={
-    base00='#191919', --fourground
-    base01='#242424', --virtual fourground
-    base02='#600000', --visual mode
-    base03='#444444', --comments
-    base04='#555555', --numberline number (not relativenumber)
-    base05='#888888', --cursor and text
-    base06='#ffffff', --unused?
-    base07='#444444', --scroolbar
-    ---
-    base08='#ffa82b', --general text
-    base09='#cc7e46', --number
-    base0A='#46a436', --statment
-    base0B='#9ff895', --string
-    base0C='#ca6ecf', --statment
-    base0D='#42d08a', --statment
-    base0E='#ffc4ff', --statment
-    base0F='#00a5c5', --statment
-}})
+if tonumber(os.date('%H'))<8 or tonumber(os.date('%H'))>=16 then
+    require('mini.base16').setup({palette={
+        base00='#191919', --fourground
+        base01='#242424', --virtual fourground
+        base02='#600000', --visual mode
+        base03='#444444', --comments
+        base04='#555555', --numberline number (not relativenumber)
+        base05='#888888', --cursor and text
+        base06='#ffffff', --unused?
+        base07='#444444', --scroolbar
+        ---
+        base08='#ffa82b', --general text
+        base09='#cc7e46', --number
+        base0A='#46a436', --statment
+        base0B='#9ff895', --string
+        base0C='#ca6ecf', --statment
+        base0D='#42d08a', --statment
+        base0E='#ffc4ff', --statment
+        base0F='#00a5c5', --statment
+    }})
+else
+    require('mini.base16').setup({palette={
+        base00='#fbf1c7', --fourground
+        base01='#ebdbb2', --virtual fourground
+        base02='#600000', --visual mode
+        base03='#7bdbb1', --comments
+        base04='#555555', --numberline number (not relativenumber)
+        base05='#888888', --cursor and text
+        base06='#ffffff', --unused?
+        base07='#444444', --scroolbar
+        ---
+        base08='#ffa82b', --general text
+        base09='#cc7e46', --number
+        base0A='#46a436', --statment
+        base0B='#307121', --string
+        base0C='#ca6ecf', --statment
+        base0D='#42d08a', --statment
+        base0E='#FF1493', --statment
+        base0F='#00a5c5', --statment
+    }})
+end
 vim.g.terminal_color_0='#000000'
 vim.g.terminal_color_1='#FF0000'
 vim.g.terminal_color_2='#00FF00'

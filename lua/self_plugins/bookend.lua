@@ -82,7 +82,9 @@ local function select()
 end
 M.run = function()
   local _14_ = vim.fn.getcharstr()
-  if (_14_ == "\9") then
+  if (_14_ == "\27") then
+    return nil
+  elseif (_14_ == "\9") then
     return lock_file(vim.fn.getcharstr())
   elseif (_14_ == "\128kB") then
     return unlock_file(vim.fn.getcharstr())
