@@ -6,7 +6,7 @@ require'nvim-treesitter.configs'.setup({
     context_commentstring={enable=true},
     refactor={
         smart_rename={enable=true,keymaps={smart_rename="gR"}},
-        navigation={enable=true,keymaps={goto_definition_lsp_fallback='gd'}}
+        --navigation={enable=true,keymaps={goto_definition_lsp_fallback='gd'}}
     },
     playground={enable=true},
     endwise={enable=true},

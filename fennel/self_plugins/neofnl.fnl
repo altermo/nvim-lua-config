@@ -22,3 +22,4 @@
   (set vim.fennel M.FnlFile)
   )
 (M.setup)
+;; TODO: lazyloaded FENNEL object

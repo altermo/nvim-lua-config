@@ -81,10 +81,8 @@ local function mainloop(buf, ipath)
     do
       local tbl_14_auto = {}
       for _, v in pairs(parsed) do
-        local _10_, _11_ = v[1], v[3]
-        if ((nil ~= _10_) and (nil ~= _11_)) then
-          local k_15_auto = _10_
-          local v_16_auto = _11_
+        local k_15_auto, v_16_auto = v[1], v[3]
+        if ((k_15_auto ~= nil) and (v_16_auto ~= nil)) then
           tbl_14_auto[k_15_auto] = v_16_auto
         else
         end
@@ -96,17 +94,17 @@ local function mainloop(buf, ipath)
     api.nvim_buf_set_lines(buf, -1, -1, false, {(":" .. search)})
     vim.cmd.redraw()
     do
-      local _13_ = vf.getchar()
-      if (_13_ == 27) then
+      local _11_ = vf.getchar()
+      if (_11_ == 27) then
         return path
-      elseif (_13_ == "\128kb") then
+      elseif (_11_ == "\128kb") then
         if (search == "") then
           path = vf.fnamemodify(path, ":h")
         else
           search = search:sub(0, -2)
         end
-      elseif (nil ~= _13_) then
-        local char = _13_
+      elseif (nil ~= _11_) then
+        local char = _11_
         search = (search .. vf.nr2char(char))
       else
       end

@@ -10,11 +10,11 @@ local function Ranger(path)
   jobargs.on_exit = function(...)
     if (vf.filereadable(file) == 1) then
       cmd.enew()
-      cmd.bdelete({bang = true, buf})
+      cmd.bdelete({buf, bang = true})
       cmd.edit(vf.readfile(file)[1])
       return vf.delete(file)
     else
-      return cmd.bdelete({bang = true, buf})
+      return cmd.bdelete({buf, bang = true})
     end
   end
   while ((vf.filereadable(realpath) == 0) and (vf.isdirectory(realpath) == 0)) do

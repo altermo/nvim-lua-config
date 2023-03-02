@@ -1,5 +1,5 @@
 local M = {}
-M["locked-files"] = {b = "/home/user/.config/nvim/fennel/later/bookend.fnl"}
+M["locked-files"] = {}
 local function get_list(key)
   local tbl_17_auto = {}
   local i_18_auto = #tbl_17_auto

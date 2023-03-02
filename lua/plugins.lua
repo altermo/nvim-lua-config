@@ -35,12 +35,11 @@ local function moa(map)
 end
 local extend=vim.fn.extend
 require'packer'.startup(function (use)
-
   ----TEST
+  use 'windwp/nvim-autopairs'
 
   ----colorschm
-  --use 'base16-project/base16-vim'
-  --use'ray-x/starry.nvim'
+  use'ray-x/starry.nvim'
   use 'everblush/everblush.nvim'
   use 'lmburns/kimbox'
   use 'mhartington/oceanic-next'
@@ -66,16 +65,14 @@ require'packer'.startup(function (use)
   ----zen
   use{'folke/zen-mode.nvim',config=get_setup'zen-mode',cmd='ZenMode'}
   use{'folke/twilight.nvim',cmd='Twilight',module='twilight',config=get_setup'twilight'}
-  use{'pocco81/truezen.nvim',cmd={'TZMinimalist','TZFocus','TZAtaraxis'}}
   use{'junegunn/limelight.vim',cmd='Limelight'}
   use{'koenverburg/peepsight.nvim',config=get_setup('peepsight',{'function_definition'}),cmd=cexp('Peepsight',{'Enable','Disable'},true)}
-  use{'shortcuts/no-neck-pain.nvim',cmd='NoNeckPain'}
 
   ----visual
   ------fun
-  use 'sunjon/stylish.nvim'
   use{'lukas-reineke/indent-blankline.nvim',config=get_setup('indent_blankline',{show_current_context=true}),event='User s1'}
   use{'nvim-zh/colorful-winsep.nvim',config=get_setup'colorful-winsep',event='WinNew'}
+  use{'sunjon/Shade.nvim',config=get_setup'shade',opt=true}
   use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
     vim.g.Hexokinase_highlighters={'backgroundfull'}
   end,event='User s1'}
@@ -85,7 +82,6 @@ require'packer'.startup(function (use)
   use{'karb94/neoscroll.nvim',config=get_setup'neoscroll',keys={'<C-u>','<C-d>','<C-b>','<C-f>','<C-y>','<C-e>'},module='neoscroll'}
   use{'luukvbaal/stabilize.nvim',config=get_setup'stabilize',event='User s1'} --TODO: wait ('splitkeep')
   use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
-  use{'mawkler/modicator.nvim',config=get_setup('modicator',{show_warnings=false}),after='mini.nvim',event='ModeChanged'}
   use{'winston0410/range-highlight.nvim',config=get_setup'range-highlight',requires='winston0410/cmd-parser.nvim',event='CmdlineEnter'}
   use{'nacro90/numb.nvim',config=get_setup'numb',event='CmdlineEnter'}
   use{'kevinhwang91/nvim-hlslens',config=get_config'hlslens',event='CmdlineEnter'}
@@ -301,7 +297,6 @@ require'packer'.startup(function (use)
     'nvim-telescope/telescope-github.nvim',
     'nvim-telescope/telescope-live-grep-args.nvim',
     'nvim-telescope/telescope-packer.nvim',
-    {'nvim-telescope/telescope-rs.nvim',opt=true},
     {'nvim-telescope/telescope-ui-select.nvim',setup=function ()
       function vim.ui.select(...)
         local telescope=require "telescope"
@@ -358,7 +353,7 @@ require'packer'.startup(function (use)
     {'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
     {'mfussenegger/nvim-treehopper',module='tsht'},
     {'JoosepAlviste/nvim-ts-context-commentstring',event='User s1'},
-    {'nvim-treesitter/nvim-treesitter-refactor',keys={{'n','gd'},{'n','gR'}}},
+    {'nvim-treesitter/nvim-treesitter-refactor',keys={{'n','gR'}}},
     {'rrethy/nvim-treesitter-endwise',event='InsertEnter'},
   },config=get_config'treesitter'}
   use{'booperlv/nvim-gomove',config=get_setup('gomove',{map_defaults=false}),keys=extend(mexp('n',{'<Plug>GoNDLineDown','<Plug>GoNDLineUp','<Plug>GoNMLineDown','<Plug>GoNMLineUp'}),mexp('x',{'<Plug>GoVDLineDown','<Plug>GoVDLineUp','<Plug>GoVMLineDown','<Plug>GoVMLineUp','<Plug>GoVSDDown','<Plug>GoVSDLeft','<Plug>GoVSDRight','<Plug>GoVSDUp','<Plug>GoVSMDown','<Plug>GoVSMLeft','<Plug>GoVSMRight','<Plug>GoVSMUp'}))} --not treesitter
@@ -386,7 +381,6 @@ require'packer'.startup(function (use)
     xno('<leader>rv',[[<Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]])
     xno('<leader>ri',[[<Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]])
   end,keys=mexp('x',{'\\re','\\rf','\\rv','\\ri'})}
-  use{'ahmedkhalf/notif.nvim',opt=true}
   use{'m-demare/attempt.nvim',config=get_config'attempt',keys={{'n','\\a'}}}
   use{'rcarriga/nvim-notify',setup='vim.notify=function (...) require"notify"(...) end',module='notify'}
   use{'kkharji/lspsaga.nvim',config=function ()
@@ -443,18 +437,8 @@ require'packer'.startup(function (use)
 
   ----git
   use{'timuntersberger/neogit',cmd='Neogit'}
-  use{'rbong/vim-flog',setup=function ()
-    local function create_cmd(cmd)
-      vim.api.nvim_create_user_command(cmd,[[
-lua require"packer.load"({"vim-fugitive"},{},_G.packer_plugins)
-require"packer.load"({"vim-flog"},{cmd="]]..cmd..[[",l1=<line1>,l2=<line2>,bang=<q-bang>,args=<q-args>,mods="<mods>"},_G.packer_plugins)]],
-        {nargs='*',range=true,bang=true,complete='file'})
-    end
-    create_cmd'Flog'
-    create_cmd'Flogsplit'
-    create_cmd'Floggit'
-  end,opt=true}
-  use{'tpope/vim-fugitive',opt=true}
+  use{'rbong/vim-flog',after='vim-fugitive',cmd=cexp('Flog',{'git','split'},true)}
+  use{'tpope/vim-fugitive',cmd='Git',fn='FugitiveIsGitDir'}
   use{'sindrets/diffview.nvim',cmd=cexp('Diffview',{'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'})}
 
   ----debug

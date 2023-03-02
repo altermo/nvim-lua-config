@@ -1,7 +1,5 @@
 (local M {})
-(tset M :locked-files {
-      :b :/home/user/.config/nvim/fennel/later/bookend.fnl
-      })
+(tset M :locked-files {})
 (fn get_list [key]
   (icollect [_ v (ipairs (vim.api.nvim_list_bufs))]
     (if (vim.api.nvim_buf_is_loaded v)
