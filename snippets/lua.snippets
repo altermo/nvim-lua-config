@@ -1,34 +1,24 @@
+snippet INIT
+	local M={}
+	${0}
+	return M
 snippet pairs
     pairs(${0})
-snippet print
-    print(${0})
 snippet l
 	local ${0}
-snippet lfunc
+snippet lfun
     local function ${1:name}(${2})
         ${0}
     end
-snippet vksn
-    vim.keymap.set('n','${1}','${2}',{${3:noremap=true,silent=true}})
-snippet vksnc
-    vim.keymap.set('n','${1}',':${2}\r',{${3:noremap=true,silent=true}})
-snippet vksi
-    vim.keymap.set('i','${1}','${2}',{${3:noremap=true,silent=true}})
-snippet vksx
-    vim.keymap.set('x','${1}','${2}',{${3:noremap=true,silent=true}})
+snippet mfun
+    function M.${1:name}(${2})
+        ${0}
+    end
 snippet va
     vim.api.
-snippet vaac
-    vim.api.nvim_create_autocmd('${1}',{command='${2}'})
-snippet vacc
-    vim.api.nvim_create_user_command('${1}',{${2}})
 snippet vg
     vim.g.
 snippet vf
     vim.fn.
 snippet vc
-    vim.cmd
-snippet vMf
-    local fn=vim.fn
-snippet vMa
-    local fn=vim.api
+    vim.cmd.

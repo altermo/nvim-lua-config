@@ -70,3 +70,4 @@ a=vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function(
   require'ultimate-autopair'.setup()
   vim.api.nvim_del_autocmd(a)
 end})
+vim.cmd.colorscheme'mini'

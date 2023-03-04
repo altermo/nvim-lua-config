@@ -187,10 +187,8 @@ require'which-key'.register({[' ']=format({
         g={name='+git',
             s={':Telescope git_status\r','status'},
             c={':Telescope conventional_commits conventional_commits\r','conventional-commit'},
-            e={':Telescope gitmoji gitmoji\r','gitmoji-commit'},
             C={':Telescope git_commits\r','commits'},
             b={':Telescope git_branches\r','branches'},
-            --{'Telescope gh ...'} --TODO
         },
     },
 

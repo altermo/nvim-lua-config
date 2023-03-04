@@ -6,7 +6,7 @@
        :cs ["csharp"]
        :rust ["cargo run"]
        :cpp "AsyncRun zig c++ -O2 % -o __tmp;./__tmp;rm __tmp"
-       :c "AsyncRun zig cc -O2 % -o __tmp;./__tmp;rm __tmp"
+       :c "AsyncRun zig cc -O2 % -o __tmp -llua;./__tmp;rm __tmp"
        :vim "so %"
        :zig ["zig run"]
        })

@@ -163,7 +163,7 @@ require'packer'.startup(function (use)
   end}
   use{'iron-e/vim-tabmode',requires='Iron-E/vim-libmodal',cmd='TabmodeEnter',keys={{'n','\\<tab>'}}}
   --use{'altermo/ultimate-autopair.nvim',
-    --event={'InsertEnter','CmdlineEnter'},config=get_setup'ultimate-autopair',} --TODO
+  --event={'InsertEnter','CmdlineEnter'},config=get_setup'ultimate-autopair',} --TODO
 
   ----text object
   use{'s1n7ax/nvim-lazy-inner-block',config=get_setup'nvim-lazy-inner-block'}
@@ -182,7 +182,11 @@ require'packer'.startup(function (use)
   end,keys=extend(mexp('n',{'f','t','F','T'}),mexp('x',{'f','t','F','T'}))}
   use{'arp242/jumpy.vim',keys={'[[','<char-93><char-93>'}}
   use{'lambdalisue/lista.nvim',config=get_rplugin(),cmd='Lista'}
-  use{'t9md/vim-smalls',cmd={'Smalls','SmallsExcursion'}}
+  use{'t9md/vim-smalls',cmd={'Smalls','SmallsExcursion'},config=function ()
+    vim.g.smalls_auto_jump=1
+    vim.g.smalls_auto_jump_min_input_length=1
+    vim.g.smalls_jump_keys='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  end}
   use{'jeetsukumaran/vim-indentwise',keys=mexp('n',extend(cexp('[',{'-','+','=','_','%'}),cexp(']',{'-','+','=','_','%'})))}
   use{'mg979/vim-visual-multi',setup='vim.cmd"let g:VM_maps={}"',keys=mexp('n',{'\\\\','<C-n>'})}
   use{'xiyaowong/accelerated-jk.nvim',config=function ()
@@ -305,11 +309,9 @@ require'packer'.startup(function (use)
       end
     end
     },
-    'olacin/telescope-gitmoji.nvim',
     'tc72/telescope-tele-tabby.nvim',
     'nvim-telescope/telescope-file-browser.nvim',
     'GustavoKatel/telescope-asynctasks.nvim',
-    'nvim-telescope/telescope-hop.nvim',
     'debugloop/telescope-undo.nvim',
     'desdic/telescope-rooter.nvim', --TODO
     'axkirillov/easypick.nvim',
@@ -317,10 +319,7 @@ require'packer'.startup(function (use)
   },config=function ()
       local telescope=require'telescope'
       telescope.load_extension'fzf'
-      telescope.setup{
-        defaults={mappings={i={
-          ['<C-h>']=function (...)telescope.extensions.hop.hop(...)end
-        }}}}
+      telescope.setup{}
     end,cmd='Telescope',module='telescope'}
 
   ----window
