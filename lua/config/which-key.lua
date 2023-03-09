@@ -99,6 +99,12 @@ require'which-key'.register({[' ']=format({
         ['<tab>']={':exe "tabe ".expand("%:p")\r','new'},
         _=fmap(9,':tabnext %s\r','tab-%s'),
         ['0']={':tablast\r','tab-last'},
+        s={function()
+            vim.opt.showtabline=1
+            vim.defer_fn(function ()
+                vim.opt.showtabline=0
+            end,1000)
+        end,'show'},
         m={name='move-buffer',
             _=fmap(9,':TabBufMove %s\r','tab-%s'),
             ['0']={':TabBufMove $\r','last'},

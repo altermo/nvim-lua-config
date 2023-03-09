@@ -30,4 +30,3 @@ for _,v in pairs({'gl','gL'}) do
     key.nno(v,fn)
     key.xno(v,fn)
 end
-

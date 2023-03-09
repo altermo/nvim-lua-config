@@ -36,10 +36,9 @@ end
 local extend=vim.fn.extend
 require'packer'.startup(function (use)
   ----TEST
-  use 'windwp/nvim-autopairs'
 
   ----colorschm
-  use'ray-x/starry.nvim'
+  use 'ray-x/starry.nvim'
   use 'everblush/everblush.nvim'
   use 'lmburns/kimbox'
   use 'mhartington/oceanic-next'
@@ -106,11 +105,6 @@ require'packer'.startup(function (use)
   ----keys
   use{'weissle/easy-action',opt=true}
   use{'chrisgrieser/nvim-recorder',config=get_setup('recorder',{slots={'a','b','c'}}),keys=mexp('n',{'q','Q','cq','yq','<C-q>'})}
-  use{'junegunn/vim-easy-align',config=function ()
-    local k=require 'utils.keymap'
-    k.nno('gb','<Plug>(LiveEasyAlign)')
-    k.xno('gb','<Plug>(LiveEasyAlign)')
-  end,keys={{'x','gb'},{'n','gb'}},cmd={'EasyAlign','LiveEasyAlign'}}
   use{'tyru/open-browser.vim',config=function ()
     local k=require 'utils.keymap'
     k.nno('gx','<Plug>(openbrowser-smart-search)')
@@ -353,7 +347,7 @@ require'packer'.startup(function (use)
     {'mfussenegger/nvim-treehopper',module='tsht'},
     {'JoosepAlviste/nvim-ts-context-commentstring',event='User s1'},
     {'nvim-treesitter/nvim-treesitter-refactor',keys={{'n','gR'}}},
-    {'rrethy/nvim-treesitter-endwise',event='InsertEnter'},
+    {'rrethy/nvim-treesitter-endwise',event='InsertEnter',config='vim.cmd"TSEnable endwise"'},
   },config=get_config'treesitter'}
   use{'booperlv/nvim-gomove',config=get_setup('gomove',{map_defaults=false}),keys=extend(mexp('n',{'<Plug>GoNDLineDown','<Plug>GoNDLineUp','<Plug>GoNMLineDown','<Plug>GoNMLineUp'}),mexp('x',{'<Plug>GoVDLineDown','<Plug>GoVDLineUp','<Plug>GoVMLineDown','<Plug>GoVMLineUp','<Plug>GoVSDDown','<Plug>GoVSDLeft','<Plug>GoVSDRight','<Plug>GoVSDUp','<Plug>GoVSMDown','<Plug>GoVSMLeft','<Plug>GoVSMRight','<Plug>GoVSMUp'}))} --not treesitter
   use{'ziontee113/syntax-tree-surfer',config=get_config'gomove-treesurfer',

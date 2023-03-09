@@ -65,9 +65,11 @@ end
 
 
 vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ultimate-autopair.nvim')
+vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')
+vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
 local a
 a=vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function()--TODO temp
-  require'ultimate-autopair'.setup()
+  require'npairs-int-upair'.setup({npairs_conf={ignored_next_char=''}})
   vim.api.nvim_del_autocmd(a)
 end})
 vim.cmd.colorscheme'mini'

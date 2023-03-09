@@ -4,8 +4,8 @@ function Norm()
   local ino=require'utils.keymap'.ino
   ino('<left>','<left>')
   ino('<right>','<right>')
-  ino('<up>','<C-o>k')
-  ino('<down>','<C-o>j')
+  ino('<up>','<C-o>gk')
+  ino('<down>','<C-o>gj')
   vim.o.mouse='a'
 end
 function Fold(lnum)

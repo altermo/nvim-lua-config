@@ -8,7 +8,6 @@ local vno=key.xno
 local tno=key.tno
 local lnno=key.lnno
 local lcno=key.lcno
-
 vim.api.nvim_create_autocmd('FileType',{callback=function()
   nno('z','za',{nowait=true,buffer=true})
 end})
@@ -53,7 +52,7 @@ end
 lnno('gR',':%s/\\<<C-r>=expand("<cword>")\r\\>/<C-r>=expand("<cword>")\r/g<Left><Left>')
 lnno('<A-f>',':%s///g<Left><Left><Left>')
 nno('¤','gvo<esc>')
-nno('g=','magg=G`a')
+nno('g=','vgg=Gc')
 nno('<Home>',QuickFixToggle)
 nno('|','~')
 nno(',','<C-o>')
