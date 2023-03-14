@@ -23,7 +23,7 @@ else
         base00='#fbf1c7', --fourground
         base01='#ebdbb2', --virtual fourground
         base02='#600000', --visual mode
-        base03='#7bdbb1', --comments
+        base03='#7bdbb1', --comments (relativenumber)
         base04='#555555', --numberline number (not relativenumber)
         base05='#888888', --cursor and text
         base06='#ffffff', --unused?

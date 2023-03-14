@@ -1,5 +1,5 @@
 local key=require'utils.keymap'
-for k,v in pairs{cursorword={delay=0},trailspace={},ai={}} do --tabline={}
+for k,v in pairs{cursorword={delay=0},trailspace={},ai={},splitjoin={}} do --tabline={}
     require('mini.'..k).setup(v)
 end
 vim.cmd.hi'link MiniTrailspace NvimInternalError'

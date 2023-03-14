@@ -79,7 +79,6 @@ require'packer'.startup(function (use)
     config=get_setup'pretty-fold',event='User isfolded'}
   use{'https://gitlab.com/yorickpeterse/nvim-pqf',config=get_setup'pqf',event='User qfopen'}
   use{'karb94/neoscroll.nvim',config=get_setup'neoscroll',keys={'<C-u>','<C-d>','<C-b>','<C-f>','<C-y>','<C-e>'},module='neoscroll'}
-  use{'luukvbaal/stabilize.nvim',config=get_setup'stabilize',event='User s1'} --TODO: wait ('splitkeep')
   use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
   use{'winston0410/range-highlight.nvim',config=get_setup'range-highlight',requires='winston0410/cmd-parser.nvim',event='CmdlineEnter'}
   use{'nacro90/numb.nvim',config=get_setup'numb',event='CmdlineEnter'}
@@ -97,7 +96,7 @@ require'packer'.startup(function (use)
   use{'dbmrq/vim-redacted',cmd='Redact'}
   use{'monkoose/matchparen.nvim',config=get_setup'matchparen',event='User s1'}
   use{'nvim-lualine/lualine.nvim',config=get_setup('lualine',{options={theme='powerline'}})}
-  use{'0styx0/abbreinder.nvim',requires='0styx0/abbremand.nvim',config=get_setup'abbreinder',event='User s1'}
+  use{'0styx0/abbreinder.nvim',requires={'0styx0/abbremand.nvim',module='abbremand'},config=get_setup'abbreinder',event='InsertEnter'}
   use{'folke/which-key.nvim',config=get_config'which-key',keys={{'n','<space>'},{'n','g'},{'n','<char-92>'}},cmd='WhichKey'}
   use{'mattesgroeger/vim-bookmarks',keys=mexp('n',{'mg','mjj','mkk','mx','mc','mp','mn','mi','mm','ma'})}
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
@@ -134,11 +133,6 @@ require'packer'.startup(function (use)
   use{'allendang/nvim-expand-expr',config=function ()
     require'utils.keymap'.nno('gE',':lua require"expand_expr".expand()\r')
   end,keys={{'n','gE'}}}
-  use{'wansmer/treesj',config=function()
-    local tsj=require'treesj'
-    tsj.setup({use_default_keymaps=false})
-    require'utils.keymap'.nno('gS','<cmd>TSJToggle\n')
-  end,keys={{'n','gS'}}}
   use{'andrewradev/switch.vim',keys='gs',cmd=cexp('Switch',{'Extend','Reverse'},true)}
   use{'monaqa/dial.nvim',config=get_config'dial',keys={{'n','<C-a>'},{'n','<C-x>'},{'x','<C-a>'},{'x','<C-x>'}}}
   use{'glts/vim-radical',requires='glts/vim-magnum',keys=extend(mexp('n',{'gA','crx','cro','crd','crb'}),{{'x','gA'}})}
@@ -156,8 +150,6 @@ require'packer'.startup(function (use)
     require'utils.keymap'.nno('g/','<Plug>(tranquille_search)')
   end}
   use{'iron-e/vim-tabmode',requires='Iron-E/vim-libmodal',cmd='TabmodeEnter',keys={{'n','\\<tab>'}}}
-  --use{'altermo/ultimate-autopair.nvim',
-  --event={'InsertEnter','CmdlineEnter'},config=get_setup'ultimate-autopair',} --TODO
 
   ----text object
   use{'s1n7ax/nvim-lazy-inner-block',config=get_setup'nvim-lazy-inner-block'}
@@ -192,7 +184,7 @@ require'packer'.startup(function (use)
 
   ----utils
   use{'kazhala/close-buffers.nvim',cmd={'BDelete','BWipeout'}}
-  use{'chrisgrieser/nvim-genghis',module='genghis'} --TODO: wait
+  use{'chrisgrieser/nvim-genghis',module='genghis'} --TODO: implement commands
   use{'tpope/vim-abolish',cmd={'Abolish','Subvert'},keys={{'n','cr'}}}
   use{'sqve/sort.nvim',cmd='Sort'}
   use{'simonefranza/nvim-conv',cmd=cexp('Conv',{'Bin','Dec','Hex','Oct','Farenheit',
@@ -345,12 +337,11 @@ require'packer'.startup(function (use)
     {'theHamsta/nvim-treesitter-pairs',event='User s1'},
     {'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
     {'mfussenegger/nvim-treehopper',module='tsht'},
-    {'JoosepAlviste/nvim-ts-context-commentstring',event='User s1'},
+    {'JoosepAlviste/nvim-ts-context-commentstring',event='User s1'}, --TODO
     {'nvim-treesitter/nvim-treesitter-refactor',keys={{'n','gR'}}},
     {'rrethy/nvim-treesitter-endwise',event='InsertEnter',config='vim.cmd"TSEnable endwise"'},
   },config=get_config'treesitter'}
-  use{'booperlv/nvim-gomove',config=get_setup('gomove',{map_defaults=false}),keys=extend(mexp('n',{'<Plug>GoNDLineDown','<Plug>GoNDLineUp','<Plug>GoNMLineDown','<Plug>GoNMLineUp'}),mexp('x',{'<Plug>GoVDLineDown','<Plug>GoVDLineUp','<Plug>GoVMLineDown','<Plug>GoVMLineUp','<Plug>GoVSDDown','<Plug>GoVSDLeft','<Plug>GoVSDRight','<Plug>GoVSDUp','<Plug>GoVSMDown','<Plug>GoVSMLeft','<Plug>GoVSMRight','<Plug>GoVSMUp'}))} --not treesitter
-  use{'ziontee113/syntax-tree-surfer',config=get_config'gomove-treesurfer',
+  use{'ziontee113/syntax-tree-surfer',config=get_config'minimove-treesurfer',
     keys=extend(mexp('n',{'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF'}),mexp('x',{'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>'})),module='syntax-tree-surfer'}
 
   ----other
@@ -408,9 +399,7 @@ require'packer'.startup(function (use)
   use{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy',after='nvim-cmp'}
 
   ----improve
-  use{'antoinemadec/FixCursorHold.nvim',event='User s1'} --TODO: wait
   use{'brglng/vim-im-select',event='User s1'}
-  use{'jghauser/mkdir.nvim',event='User s1'} --TODO: wait
   use{'ethanholz/nvim-lastplace',config=get_setup'nvim-lastplace'}
 
   ----lua utils

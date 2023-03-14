@@ -1,6 +1,6 @@
 require'mason'.setup{}
 local lspconfig=require'lspconfig'
-lspconfig.pylsp.setup{settings={pylsp={plugins={pycodestyle={enabled=false}}}}}
+lspconfig.pyright.setup{}
 lspconfig.lua_ls.setup{settings={Lua={diagnostics={globals={'vim','unpack'}}}}}
 lspconfig.jsonls.setup{}
 lspconfig.clangd.setup{}

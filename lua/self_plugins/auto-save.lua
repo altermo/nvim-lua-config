@@ -1,6 +1,6 @@
 local function DoSave()
   if (vim.o.modified and not vim.o.readonly and (vim.o.buftype == "")) then
-    vim.cmd("silent! update")
+    vim.cmd("silent! update ++p")
     return vim.cmd.echon(("'" .. (("AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"))):sub(1, (vim.o.columns - 12)) .. "'"))
   else
     return nil

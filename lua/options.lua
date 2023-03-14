@@ -46,3 +46,4 @@ set.path:append('**')
 set.lazyredraw=true
 set.showmode=false
 set.modelineexpr=true
+set.statuscolumn = "%C%s%=%{v:relnum?v:relnum:v:lnum}"

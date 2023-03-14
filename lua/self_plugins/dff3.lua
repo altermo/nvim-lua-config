@@ -73,7 +73,6 @@ local function mainloop(buf, ipath)
     local parsed = recursive(vim.fn.readdir(path))
     local dictindex = create_index(parsed, "", "")
     vim.api.nvim_buf_set_lines(buf, 1, vim.api.nvim_buf_line_count(buf), false, {search})
-    vim.fn.writefile({search}, "out")
     out(parsed, "", buf, 1)
     vim.cmd.redraw()
     do

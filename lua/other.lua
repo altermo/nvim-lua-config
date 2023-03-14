@@ -31,6 +31,7 @@ qftimer=fn.timer_start(2000,function ()
 end,{['repeat']=-1})
 require'self_plugins.auto-save'
 require'self_plugins.dff'
+require'self_plugins.session'
 require'self_plugins.neofnl'
 require'self_plugins.labull'
 require'self_plugins.ranger'
@@ -52,8 +53,6 @@ vim.api.nvim_create_autocmd('User',{pattern='s1',callback=function ()
   vim.api.nvim_del_autocmd(so)
   vim.cmd'syntax on'
 end})
-vim.g.do_filetype_lua=1 --later TODO
-vim.g.do_legacy_filetype=nil --later TODO
 vim.filetype.add({extension={bf='bf',slisp='lisp'}})
 function vim.pprint(...)
   return vim.notify(vim.inspect(...))
@@ -67,9 +66,8 @@ end
 vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ultimate-autopair.nvim')
 vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')
 vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
-local a
-a=vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function()--TODO temp
-  require'npairs-int-upair'.setup({npairs_conf={ignored_next_char=''}})
-  vim.api.nvim_del_autocmd(a)
+vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function(ev)
+  require'npairs-int-upair'.setup({npairs_conf={ignored_next_char=''},bs='u'})
+  vim.api.nvim_del_autocmd(ev.id)
 end})
 vim.cmd.colorscheme'mini'
