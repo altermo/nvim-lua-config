@@ -38,6 +38,8 @@ require'packer'.startup(function (use)
   ----TEST
 
   ----colorschm
+  use 'sainnhe/sonokai'
+  use 'felipec/vim-felipec'
   use 'ray-x/starry.nvim'
   use 'everblush/everblush.nvim'
   use 'lmburns/kimbox'
@@ -71,7 +73,7 @@ require'packer'.startup(function (use)
   ------fun
   use{'lukas-reineke/indent-blankline.nvim',config=get_setup('indent_blankline',{show_current_context=true}),event='User s1'}
   use{'nvim-zh/colorful-winsep.nvim',config=get_setup'colorful-winsep',event='WinNew'}
-  use{'sunjon/Shade.nvim',config=get_setup'shade',opt=true}
+  use{'sunjon/Shade.nvim',config=get_setup'shade',event='WinNew'}
   use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
     vim.g.Hexokinase_highlighters={'backgroundfull'}
   end,event='User s1'}
@@ -102,7 +104,7 @@ require'packer'.startup(function (use)
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
 
   ----keys
-  use{'weissle/easy-action',opt=true}
+  use{'weissle/easy-action',opt=true} --TODO
   use{'chrisgrieser/nvim-recorder',config=get_setup('recorder',{slots={'a','b','c'}}),keys=mexp('n',{'q','Q','cq','yq','<C-q>'})}
   use{'tyru/open-browser.vim',config=function ()
     local k=require 'utils.keymap'
@@ -153,12 +155,22 @@ require'packer'.startup(function (use)
 
   ----text object
   use{'s1n7ax/nvim-lazy-inner-block',config=get_setup'nvim-lazy-inner-block'}
-  use{'michaeljsmith/vim-indent-object',keys=extend(moa'i',moa'I')}
   use{'coderifous/textobj-word-column.vim',keys=extend(moa'c',moa'C')}
   use{'deathlyfrantic/vim-textobj-blanklines',requires='kana/vim-textobj-user',keys=moa'<space>'}
   use{'Julian/vim-textobj-variable-segment',keys=moa'v'}
 
   ----movement
+  use{'ggandor/leap.nvim',module='leap',config=function()
+    require'leap'.opts.safe_labels=vim.split('abcdefghijklmnopqrstuvwxyz','')
+    require'leap'.opts.labels={}
+  end}
+  use{'haya14busa/vim-edgemotion',config=function()
+    local k=require 'utils.keymap'
+    k.nno('<S-A-n>','<Plug>(edgemotion-j)')
+    k.nno('<S-A-p>','<Plug>(edgemotion-k)')
+    k.xno('<S-A-n>','<Plug>(edgemotion-j)')
+    k.xno('<S-A-p>','<Plug>(edgemotion-k)')
+  end,keys=extend(mexp('x',{'<S-A-p>','<S-A-n>'}),mexp('n',{'<S-A-p>','<S-A-n>'}))}
   use{'abecodes/tabout.nvim',config=get_setup('tabout',{tabkey='<A-tab>',backwards_tabkey='<A-S-tab>',act_as_tab=false}),keys={{'i','<A-tab>'},{'i','<A-S-tab>'}}}
   use{'phaazon/hop.nvim',config=get_setup'hop',module='hop'}
   use{'rhysd/clever-f.vim',config=function ()
@@ -168,11 +180,6 @@ require'packer'.startup(function (use)
   end,keys=extend(mexp('n',{'f','t','F','T'}),mexp('x',{'f','t','F','T'}))}
   use{'arp242/jumpy.vim',keys={'[[','<char-93><char-93>'}}
   use{'lambdalisue/lista.nvim',config=get_rplugin(),cmd='Lista'}
-  use{'t9md/vim-smalls',cmd={'Smalls','SmallsExcursion'},config=function ()
-    vim.g.smalls_auto_jump=1
-    vim.g.smalls_auto_jump_min_input_length=1
-    vim.g.smalls_jump_keys='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  end}
   use{'jeetsukumaran/vim-indentwise',keys=mexp('n',extend(cexp('[',{'-','+','=','_','%'}),cexp(']',{'-','+','=','_','%'})))}
   use{'mg979/vim-visual-multi',setup='vim.cmd"let g:VM_maps={}"',keys=mexp('n',{'\\\\','<C-n>'})}
   use{'xiyaowong/accelerated-jk.nvim',config=function ()
@@ -223,6 +230,10 @@ require'packer'.startup(function (use)
   use{'nyngwang/neononame.lua',cmd='NeoNoName'}
 
   ----command
+  use{'cshuaimin/ssr.nvim',config=function()
+      require("ssr").setup {}
+      vim.keymap.set({'n','x'},'\\sr',require("ssr").open)
+    end,keys={{'n','\\sr'},{'x','\\sr'}}}
   use{'acksld/nvim-femaco.lua',config=get_setup'femaco',cmd='FeMaco'}
   use{'ray-x/web-tools.nvim',config=get_setup'web-tools',cmd='BrowserOpen'}
   use{'smjonas/inc-rename.nvim',config=function()
@@ -284,7 +295,6 @@ require'packer'.startup(function (use)
     'nvim-telescope/telescope-project.nvim',
     {'nvim-telescope/telescope-fzf-native.nvim',run='make'},
     'olacin/telescope-cc.nvim',
-    'nvim-telescope/telescope-github.nvim',
     'nvim-telescope/telescope-live-grep-args.nvim',
     'nvim-telescope/telescope-packer.nvim',
     {'nvim-telescope/telescope-ui-select.nvim',setup=function ()
@@ -299,8 +309,6 @@ require'packer'.startup(function (use)
     'nvim-telescope/telescope-file-browser.nvim',
     'GustavoKatel/telescope-asynctasks.nvim',
     'debugloop/telescope-undo.nvim',
-    'desdic/telescope-rooter.nvim', --TODO
-    'axkirillov/easypick.nvim',
     'otavioschwanck/telescope-alternate.nvim',
   },config=function ()
       local telescope=require'telescope'
@@ -332,7 +340,7 @@ require'packer'.startup(function (use)
   ----treesitter
   use{'nvim-treesitter/nvim-treesitter',run='vim.cmd"TSUpdate"',requires={
     'nvim-lua/plenary.nvim',
-    {'p00f/nvim-ts-rainbow',event='User s1',config='vim.cmd"TSEnable rainbow"'},
+    {'hiphish/nvim-ts-rainbow2',event='User s1',config='vim.cmd"TSEnable rainbow"'},
     {'nvim-treesitter/playground',requires={'nvim-lua/popup.nvim'},cmd='TSPlaygroundToggle'},
     {'theHamsta/nvim-treesitter-pairs',event='User s1'},
     {'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
@@ -371,7 +379,7 @@ require'packer'.startup(function (use)
     require'utils.keymap'.nno('K',':Lspsaga hover_doc\r')
   end,keys={{'n','K'}}}
   use{'echasnovski/mini.nvim',config=get_config'mini'}
-  use{'shaeinst/penvim',config=get_setup('penvim',{project_env={enable=false},rooter={enable=false}})}
+  use{'nmac427/guess-indent.nvim',config=get_setup'guess-indent'}
   use{'norcalli/nvim-terminal.lua',config=get_setup'terminal',ft='terminal'}
   use{'raghur/vim-ghost',run=':GhostInstall',cmd='GhostStart',config=get_rplugin()}
   use{'andweeb/presence.nvim',module='presence'}

@@ -66,7 +66,7 @@ local function _5_()
   return vim.cmd.edit(get_next_file(vf.expand("%:p"), true))
 end
 nno("[f", _5_)
-for k, v in pairs({b = {opt = "background", on = "light", off = "dark"}, c = "cursorline", h = "hlsearch", l = "list", i = "ignorecase", n = "number", r = "relativenumber", s = "spell", u = "cursorcolumn", w = "wrap", d = "diff", t = {opt = "colorcolumn", on = "1,41,81,121,161,201,241"}, v = {opt = "virtualedit", on = "block,onemore"}, m = {opt = "conceallevel", on = 2, off = 0}, f = "foldenable", e = "scrollbind", p = {opt = "matchpairs", on = "(:),{:},[:]", off = ""}, T = {opt = "showtabline", on = 1, off = 0}}) do
+for k, v in pairs({b = {opt = "background", on = "light", off = "dark"}, c = "cursorline", h = "hlsearch", l = "list", i = "ignorecase", n = "number", r = "relativenumber", s = "spell", u = "cursorcolumn", w = "wrap", d = "diff", t = {opt = "colorcolumn", on = "1,41,81,121,161,201,241"}, v = {opt = "virtualedit", on = "block,onemore"}, M = {opt = "mouse", on = "a"}, f = "foldenable", e = "scrollbind", m = {opt = "conceallevel", on = 2, off = 0}, p = {opt = "matchpairs", on = "(:),{:},[:]", off = ""}, T = {opt = "showtabline", on = 1, off = 0}}) do
   local opt = (v.opt or v)
   local function _6_()
     return seton(opt, v.on)

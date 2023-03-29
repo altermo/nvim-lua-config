@@ -13,7 +13,7 @@ vim.api.nvim_create_user_command('ToggleAutocd',function()
         vim.api.nvim_del_autocmd(autocd)
         autocd=nil
     else
-        autocd=autocmd('BufEnter',{callback=function ()
+        autocd=autocmd('BufRead',{callback=function ()
             if vim.o.buftype~='' then return end
             for dir in vim.fs.parents(vim.api.nvim_buf_get_name(0)) do
                 if vim.fn.isdirectory(dir .. "/.git")==1 then

@@ -9,7 +9,7 @@ vim.g.loaded_2html_plugin=1
 vim.g.loaded_spellfile_plugin=1
 vim.g.loaded_netrw=1
 vim.g.loaded_netrwPlugin=1
---vim.g.loaded_tutor_mode_plugin=1
+vim.g.loaded_tutor_mode_plugin=1
 vim.g.loaded_remote_plugins=1
 vim.g.loaded_fzf=1
 vim.g.rplugins={'lista.nvim','vim-ghost','pyro'}
@@ -55,19 +55,54 @@ vim.api.nvim_create_autocmd('User',{pattern='s1',callback=function ()
 end})
 vim.filetype.add({extension={bf='bf',slisp='lisp'}})
 function vim.pprint(...)
-  return vim.notify(vim.inspect(...))
+  local args={...}
+  vim.schedule(function ()
+    vim.notify(vim.inspect(unpack(args)))
+  end)
 end
 function vim.oprint(...)
   return vim.fn.writefile(vim.fn.split(vim.inspect(...),'\n'),'out')
 end
+local d=vim.deprecate
+function vim.deprecate(...)
+  local t={
+    'vim.treesitter.get_query()',
+    'vim.treesitter.get_query_files()',
+    'vim.treesitter.query.get_node_text()',
+    'vim.treesitter.query.get_query()',
+    'vim.treesitter.query.get_query_files()',
+    'vim.treesitter.query.parse_query()',
+    'vim.treesitter.query.set_query()',
+    'vim.treesitter.set_query()',
+  }
+  if vim.tbl_contains(t,...) then
+    if (tonumber(os.date('%y'))<24 and tonumber(os.date('%m'))<4) then
+      return
+    else
+      vim.notify("NOTE: the don't warn about deprecatinos has ended")
+      vim.notify("To increase the time, edit other.lua")
+      return
+    end
+  end
+  d(...)
+end
+vim.api.nvim_create_autocmd('BufReadPre',{callback=function(args)
+  if vim.loop.fs_stat(vim.api.nvim_buf_get_name(args.buf)).size>1024*1024*4 then
+    vim.api.nvim_buf_delete(args.buf,{})
+    vim.notify('file to big')
+  end
+end})
+
 
 
 
 vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ultimate-autopair.nvim')
+vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
 vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')
 vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function(ev)
-  require'npairs-int-upair'.setup({npairs_conf={ignored_next_char=''},bs='u'})
+  require'npairs-int-upair'.setup({npairs_conf={ignored_next_char=''},bs='u',map='n'})
+  --require'ua'.setup()
   vim.api.nvim_del_autocmd(ev.id)
 end})
 vim.cmd.colorscheme'mini'

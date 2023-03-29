@@ -71,7 +71,7 @@ require'which-key'.register({[' ']=format({
     d={':BDelete! this\r','buffer-close'},
     _=fmap(9,':%swincmd w\r','window %s'),
     ------move
-    [' ']={':lua require"hop".hint_char1()\r','Hop'},
+    [' ']={':lua require("hop").hint_char1()\r','hop'},
     ['<C- >']={':lua require"hop".hint_char1({multi_windows=true})\r','HopMW'},
     r={':Ranger\r','ranger'},
 
@@ -116,6 +116,12 @@ require'which-key'.register({[' ']=format({
     ----cother
     c={name='+otherc',
         d={':cd %:p:h|pwd\r','cd-to-file'},
+        r={':source /tmp/session.vim','reload-last-session'},
+        g={function()
+            local dir=vim.fs.dirname(vim.fs.find('.git',{upward=true})[1])
+            if dir then vim.cmd('cd '..dir) end
+            vim.cmd.pwd()
+        end,'cd-to-root'},
         c={':mod\r','redraw-screen'},
         T={':lua require "mini.trailspace".trim()\r','trim spaces'},
         ------treesitter
@@ -139,11 +145,6 @@ require'which-key'.register({[' ']=format({
             l={name='+foldlevel',
                 _=fmap(9,':set foldlevel=%s\r','%s')
             },
-        },
-        ------g
-        g={name='+fcreate',
-            f={':lua require"self_plugins.fcreate".func()\r','function'},
-            c={':lua require"self_plugins.fcreate".class()\r','class'},
         },
         ------indent
         i={name='+indent',
@@ -316,8 +317,8 @@ require'which-key'.register({[' ']=format({
         ['2']={':lua require"hop".hint_char2({ multi_windows = true })\r','2 char'},
         f={':Lista\r','find-whole-file'},
         m={':lua require"mini.jump2d".start()\r','mini-jump'},
-        s={':Smalls\r','smalls'},
         a={':lua require"hop".hint_anywhere()\r','anywhere'},
+        h={':lua require"hop".hint_char1()\r','1 char'},
         ------current-line
         c={name='+current line',
             c={':lua require"hop".hint_char1({ current_line_only = true })\r','1 char'},

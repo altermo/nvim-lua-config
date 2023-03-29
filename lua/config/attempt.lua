@@ -1,7 +1,7 @@
 local attempt=require'attempt'
 local nno=require'utils.keymap'.nno
 attempt.setup{
-    ext_options={'lua','js','py','fnl','cpp','c','norg','fish','zig'},
+    ext_options={'lua','js','py','fnl','cpp','c','norg','fish','zig','rs','go','java'},
     initial_content={zig=[[
 const std = @import("std");
 

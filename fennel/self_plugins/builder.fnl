@@ -4,7 +4,8 @@
        :lua true
        :fennel true
        :cs ["csharp"]
-       :rust ["cargo run"]
+       ;:rust ["cargo run"]
+       :rust "AsyncRun rustc % -o __tmp;./__tmp;rm __tmp"
        :cpp "AsyncRun zig c++ -O2 % -o __tmp;./__tmp;rm __tmp"
        :c "AsyncRun zig cc -O2 % -o __tmp -llua;./__tmp;rm __tmp"
        :vim "so %"

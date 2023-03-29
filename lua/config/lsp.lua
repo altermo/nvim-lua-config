@@ -6,6 +6,7 @@ lspconfig.jsonls.setup{}
 lspconfig.clangd.setup{}
 lspconfig.rust_analyzer.setup{} --TODO
 lspconfig['fennel_ls'].setup{}
+--lspconfig.grammarly.setup{} --TODO
 local nno=require'utils.keymap'.nno
 nno('[d',vim.diagnostic.goto_prev)
 nno(']d',vim.diagnostic.goto_next)

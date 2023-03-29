@@ -1,5 +1,5 @@
 local key=require'utils.keymap'
-for k,v in pairs{cursorword={delay=0},trailspace={},ai={},splitjoin={}} do --tabline={}
+for k,v in pairs{cursorword={delay=0},trailspace={},splitjoin={}} do --tabline={}
     require('mini.'..k).setup(v)
 end
 vim.cmd.hi'link MiniTrailspace NvimInternalError'
@@ -28,5 +28,31 @@ for _,v in pairs({'gl','gL'}) do
         vim.fn.feedkeys(v)
     end
     key.nno(v,fn)
+    key.xno(v,fn)
+end
+for _,v in pairs({'a','i'}) do
+    local fn=function ()
+        local ma=require'mini.ai'
+        ma.setup{}
+        local char=vim.fn.getcharstr(0)
+        if vim.v.operator~='' then
+            vim.fn.feedkeys((vim.v.operator=='c' and '' or '')..vim.v.operator..v..char,'n')
+        end
+        vim.fn.feedkeys(v..char)
+    end
+    key.ono(v,fn)
+    key.xno(v,fn)
+end
+for _,v in pairs({'ai','ii'}) do
+    local fn=function ()
+        local mi=require'mini.indentscope'
+        mi.setup{options={indent_at_cursor=false}}
+        vim.g.miniindentscope_disable=true
+        if vim.v.operator~='' then
+            vim.fn.feedkeys((vim.v.operator=='c' and '' or '')..vim.v.operator,'n')
+        end
+        vim.fn.feedkeys(v)
+    end
+    key.ono(v,fn)
     key.xno(v,fn)
 end

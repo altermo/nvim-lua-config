@@ -15,11 +15,13 @@ end})
 ----map
 xno('\r','d',{})
 nno('\r','dd',{})
-xno('s',':Norm ',{})
+xno('R',':Norm ',{})
 
 ----nno
 nno('cw','dwi')
 nno('cW','dWi')
+nno('=p',']p')
+nno('g:','q:')
 ------alt/ctrl
 for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical resize +'}) do
   nno('<C-'..k..'>','<C-w>'..k..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
@@ -48,6 +50,7 @@ nno('π','yyp')
 ------other
 if pcall(require,'hop') then
   nno('s',':lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
+  xno('s','<cmd>lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
 end
 lnno('gR',':%s/\\<<C-r>=expand("<cword>")\r\\>/<C-r>=expand("<cword>")\r/g<Left><Left>')
 lnno('<A-f>',':%s///g<Left><Left><Left>')
@@ -148,7 +151,7 @@ ino('<A-æ>','<C-o>z=')
 ino('¨','<esc>')
 ino('<A-BS>','<C-o>db')
 ino('<A-d>','<C-w>')
-ino('<A-c>','<C-o>ce')
+ino('<A-c>','<C-o>de')
 ino('<A-,>','<C-o>;')
 ino('<A-;>','<C-o>,')
 ino('<A-a>c','<C-o>0<C-o>D')
@@ -176,6 +179,7 @@ vno('gr','y:%s/<C-r>"/<C-r>"/g<Left><Left>',{noremap=true})
 vno('Ø',':sort',{noremap=true})
 vno('<A-f>',':s/\\%V//g<Left><Left><Left>',{noremap=true})
 vno('<A-r>',':G/',{noremap=true})
+vno('<A-e>',':G/ /norm! <S-left><bs>',{noremap=true})
 vno('.',':',{noremap=true})
 vno('&','<cmd>lua require"hop".hint_lines()\r')
 vno('gG','y:!setsid firefox https://www.github.com/<C-r>"\r')

@@ -1,6 +1,10 @@
 local M={}
 local function map(mode,lhs,rhs,opt)
-  vim.keymap.set(mode,lhs,rhs,opt)
+  if type(rhs)=='function' or opt.buffer then
+    vim.keymap.set(mode,lhs,rhs,opt)
+  else
+    vim.api.nvim_set_keymap(mode,lhs,rhs,opt)
+  end
 end
 function M.nno(lhs,rhs,opt)
   map('n',lhs,rhs,opt or {silent=true,noremap=true})
