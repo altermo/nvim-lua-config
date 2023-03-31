@@ -7,6 +7,7 @@ local xno=key.xno
 local vno=key.xno
 local tno=key.tno
 local lnno=key.lnno
+
 local lcno=key.lcno
 vim.api.nvim_create_autocmd('FileType',{callback=function()
   nno('z','za',{nowait=true,buffer=true})
@@ -22,6 +23,7 @@ nno('cw','dwi')
 nno('cW','dWi')
 nno('=p',']p')
 nno('g:','q:')
+nno("'",'`')
 ------alt/ctrl
 for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical resize +'}) do
   nno('<C-'..k..'>','<C-w>'..k..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
@@ -106,8 +108,13 @@ end)
 nno('ghk',':execute("h ".nr2char(getchar()))\r')
 ------lsp
 --nno('gr',':lua vim.lsp.buf.rename()\r')
---nno('gd',':lua vim.lsp.buf.definition()\r')
-nno('gd','<C-]>')
+nno('gd',function ()
+  if vim.lsp.buf.server_ready() or #vim.fn.tagfiles()>0 then
+    return '<C-]>'
+  else
+    return 'gd'
+  end
+end,{expr=true})
 nno('gC',':lua vim.lsp.buf.code_action()\r')
 
 ----ino/cno
@@ -120,14 +127,10 @@ lcno('<A-b>','<S-Left>')
 lcno('<A-e>','<S-Right>')
 lcno('<A-b>','<S-Left>')
 lcno('<A-w>','<S-Right>')
-lcno('<A-+>','<End>')
-lcno('<A-0>','<Home>')
 lcno('<C-e>','<End>')
 lcno('<C-a>','<Home>')
 lcno('<A-s>','<BS>')
 lcno('<A-x>','<Del>')
-ino('<C-e>','<End>')
-ino('<C-a>','<Home>')
 ino('ø','ö')
 ino('æ','ä')
 ino('Ø','Ö')
@@ -141,7 +144,7 @@ for i in ('hjklwbn'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
   ino('<A-S-'..i..'>','<C-o>5'..i)
 end
-for i in ('0u$_+-fvFVtTD'):gmatch('.') do
+for i in ('0u$_+-vVtTD'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
 end
 ino('<A-/>','<C-o>/',{noremap=true})
@@ -149,11 +152,9 @@ ino('<A-.>','<C-o>:',{noremap=true})
 ino('<A-ø>','<cmd>redo\r')
 ino('<A-æ>','<C-o>z=')
 ino('¨','<esc>')
-ino('<A-BS>','<C-o>db')
+ino('<A-BS>','<C-w>')
 ino('<A-d>','<C-w>')
 ino('<A-c>','<C-o>de')
-ino('<A-,>','<C-o>;')
-ino('<A-;>','<C-o>,')
 ino('<A-a>c','<C-o>0<C-o>D')
 ino('<A-a>d','<C-o>dd')
 ino('<A-a><A-c>','<C-o>0<C-o>D')
@@ -164,15 +165,21 @@ ino('<A-x>','<Del>')
 ino('<A-S-S>','<C-w>')
 ino('<A-S-X>','<C-o>dw')
 ino('<A-p>','()<Left>')
-ino('<A-P>',')')
-ino('<A-<>','<C-o><<')
-ino('<A->>','<C-o>>>')
-ino('<A-g>','<C-o>gg')
-ino('<A-G>','<C-o>G')
 ino('<A-n>','ä')
 ino('<A-S-n>','Ä')
 ino('<A-m>','å')
 ino('<A-S-m>','Å')
+--emacs
+ino('<A-b>','<C-o>b')
+ino('<A-f>','<C-o>w')
+ino('<C-n>','<C-o>k')
+ino('<C-p>','<C-o>j')
+ino('<C-b>','<C-o>h')
+ino('<C-f>','<C-o>l')
+ino('<A-<>','<C-o>gg')
+ino('<A->>','<C-o>G')
+ino('<C-e>','<End>')
+ino('<C-a>','<Home>')
 
 ----vno
 vno('gr','y:%s/<C-r>"/<C-r>"/g<Left><Left>',{noremap=true})

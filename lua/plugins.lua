@@ -353,7 +353,7 @@ require'packer'.startup(function (use)
     keys=extend(mexp('n',{'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF'}),mexp('x',{'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>'})),module='syntax-tree-surfer'}
 
   ----other
-  use{'neovim/nvim-lspconfig',config=get_config'lsp'..';vim.cmd"doautocmd BufReadPost"',requires={
+  use{'neovim/nvim-lspconfig',config=get_config'lsp',requires={
     {'williamboman/mason.nvim',module='mason'},
     'onsails/lspkind.nvim',module='lspkind'},event='User s1'}
   use{'rbong/vim-buffest',
