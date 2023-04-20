@@ -57,6 +57,7 @@ require'packer'.startup(function (use)
   use 'mjlbach/onedark.nvim'
   use 'bluz71/vim-nightfly-colors'
   use 'rakr/vim-one'
+  use 'preservim/vim-colors-pencil'
   use{'edeneast/nightfox.nvim',event='User s1'}
   use{'fenetikm/falcon',event='User s1'}
   use{'folke/lsp-colors.nvim',event='User s1'}
@@ -73,7 +74,6 @@ require'packer'.startup(function (use)
   ------fun
   use{'lukas-reineke/indent-blankline.nvim',config=get_setup('indent_blankline',{show_current_context=true}),event='User s1'}
   use{'nvim-zh/colorful-winsep.nvim',config=get_setup'colorful-winsep',event='WinNew'}
-  use{'sunjon/Shade.nvim',config=get_setup'shade',event='WinNew'}
   use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
     vim.g.Hexokinase_highlighters={'backgroundfull'}
   end,event='User s1'}
@@ -86,6 +86,7 @@ require'packer'.startup(function (use)
   use{'nacro90/numb.nvim',config=get_setup'numb',event='CmdlineEnter'}
   use{'kevinhwang91/nvim-hlslens',config=get_config'hlslens',event='CmdlineEnter'}
   ------important-info
+  use{'chentoast/marks.nvim',config=get_setup'marks',keys={{'n','m'}}}
   use{'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cmd={'G','V','Norm'}}
   use{'lcheylus/overlength.nvim',config=get_setup('overlength',{enabled=false,textwidth_mode=1}),cmd='OverlengthToggle'}
   use{'azabiong/vim-highlighter',setup=function ()
@@ -100,10 +101,23 @@ require'packer'.startup(function (use)
   use{'nvim-lualine/lualine.nvim',config=get_setup('lualine',{options={theme='powerline'}})}
   use{'0styx0/abbreinder.nvim',requires={'0styx0/abbremand.nvim',module='abbremand'},config=get_setup'abbreinder',event='InsertEnter'}
   use{'folke/which-key.nvim',config=get_config'which-key',keys={{'n','<space>'},{'n','g'},{'n','<char-92>'}},cmd='WhichKey'}
-  use{'mattesgroeger/vim-bookmarks',keys=mexp('n',{'mg','mjj','mkk','mx','mc','mp','mn','mi','mm','ma'})}
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
 
   ----keys
+  use{'Exafunction/codeium.vim',setup=function()
+    vim.g.codeium_disable_bindings=false
+    vim.g.codeium_manual=true
+  end,config=function ()
+      local ino=require 'utils.keymap'.ino
+      local function wrapper(f,...)
+        local args={...}
+        return function() return f(unpack(args)) end
+      end
+      ino('<A-cr>',wrapper(vim.fn['codeium#Accept']),{expr=true})
+      ino('<A-)>',wrapper(vim.fn['codeium#CycleCompletions'],1),{expr=true})
+      ino('<A-(>',wrapper(vim.fn['codeium#CycleCompletions'],-1),{expr=true})
+      ino('<A-\'>',wrapper(vim.fn['codeium#Complete']),{expr=true})
+    end,keys={{'i','<A-\'>'}}}
   use{'weissle/easy-action',opt=true} --TODO
   use{'chrisgrieser/nvim-recorder',config=get_setup('recorder',{slots={'a','b','c'}}),keys=mexp('n',{'q','Q','cq','yq','<C-q>'})}
   use{'tyru/open-browser.vim',config=function ()
@@ -231,9 +245,9 @@ require'packer'.startup(function (use)
 
   ----command
   use{'cshuaimin/ssr.nvim',config=function()
-      require("ssr").setup {}
-      vim.keymap.set({'n','x'},'\\sr',require("ssr").open)
-    end,keys={{'n','\\sr'},{'x','\\sr'}}}
+    require("ssr").setup {}
+    vim.keymap.set({'n','x'},'\\sr',require("ssr").open)
+  end,keys={{'n','\\sr'},{'x','\\sr'}}}
   use{'acksld/nvim-femaco.lua',config=get_setup'femaco',cmd='FeMaco'}
   use{'ray-x/web-tools.nvim',config=get_setup'web-tools',cmd='BrowserOpen'}
   use{'smjonas/inc-rename.nvim',config=function()
@@ -291,7 +305,6 @@ require'packer'.startup(function (use)
   use{'nvim-telescope/telescope.nvim',requires={
     'nvim-neorg/neorg-telescope',
     'nvim-telescope/telescope-symbols.nvim',
-    'tom-anders/telescope-vim-bookmarks.nvim',
     'nvim-telescope/telescope-project.nvim',
     {'nvim-telescope/telescope-fzf-native.nvim',run='make'},
     'olacin/telescope-cc.nvim',
@@ -384,6 +397,8 @@ require'packer'.startup(function (use)
   use{'raghur/vim-ghost',run=':GhostInstall',cmd='GhostStart',config=get_rplugin()}
   use{'andweeb/presence.nvim',module='presence'}
   use{'cbochs/grapple.nvim',confog=get_setup'grapple',module='grapple'}
+  use{'mickael-menu/shadowvim',opt=true}
+  use{'rest-nvim/rest.nvim',opt=true} --TODO
 
   ----auto complete (nvim-cmp & snippy)
   use{'hrsh7th/nvim-cmp',config=get_config('cmp-nvim'),requires={
@@ -401,8 +416,8 @@ require'packer'.startup(function (use)
     {'quangnguyen30192/cmp-nvim-tags',after='nvim-cmp'},
     {'ray-x/cmp-treesitter',after='nvim-cmp'},
     {'mtoohey31/cmp-fish',after='nvim-cmp'},
-    {'tzachar/cmp-fuzzy-buffer',requires='tzachar/fuzzy.nvim',after='nvim-cmp'},
     {'tzachar/cmp-tabnine',run='./install.sh',after='nvim-cmp',module='cmp_tabnine'},
+    {'jcdickinson/codeium.nvim',config=get_setup('codeium'),after='nvim-cmp'},
   },event={'InsertEnter','CmdlineEnter'}}
   use{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy',after='nvim-cmp'}
 
@@ -420,7 +435,6 @@ require'packer'.startup(function (use)
   use{'rrethy/nvim-animator',module='value_animator'}
 
   ----speed
-  use 'lewis6991/impatient.nvim'
   use{'Konfekt/FastFold',config=function ()
     require'utils.keymap'.nno('Z','<Plug>(FastFoldUpdate)')
   end,event='User isfolded',cmd='FastFoldUpdate',keys='Z'}
@@ -447,6 +461,7 @@ require'packer'.startup(function (use)
   --]]
 
   ----writing
+  use{'JellyApple102/easyread.nvim',config=get_setup('easyread',{fileTypes={'markdown','text'}}),ft={'markdown','text'}}
   use{'voldikss/vim-translator',config=get_config'translator',keys=mexp('x',{'þ','Þ'})}
   use{'potamides/pantran.nvim',cmd='Pantran'}
   use{'jbyuki/venn.nvim',cmd=extend(cexp('VBox',{'D','H','O','DO','HO'},true),{'VFill'})}

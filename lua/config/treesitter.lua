@@ -23,7 +23,7 @@ function _G.TSUpadte()
             'haskell','fennel','commonlisp',
             'llvm','tlaplus',
             --
-            'help','org','markdown',
+            'vimdoc','org','markdown',
             'json','toml','hjson',
             'jsonc','norg','jsdoc',
             'json5','rst','todotxt',

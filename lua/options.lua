@@ -23,7 +23,7 @@ set.smartcase=true
 if tonumber(os.date('%H'))<8 or tonumber(os.date('%H'))>=16 then
     set.background='dark'
 else
-    set.background='light'
+    --set.background='light'
 end
 set.termguicolors=true
 set.colorcolumn='1,41,81,121,161,201,241'

@@ -1,4 +1,4 @@
-vim.fn.timer_start(1000,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
+vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
 vim.g.loaded_matchparen=1
 vim.g.loaded_matchit=1
 vim.g.loaded_tarPlugin=1
@@ -29,19 +29,19 @@ qftimer=fn.timer_start(2000,function ()
     fn.timer_stop(qftimer)
   end
 end,{['repeat']=-1})
-require'self_plugins.auto-save'
-require'self_plugins.dff'
-require'self_plugins.session'
-require'self_plugins.neofnl'
-require'self_plugins.labull'
-require'self_plugins.ranger'
-require'self_plugins.tabline'
-require'self_plugins.textobj'
-require'self_plugins.unimpaired'
-require'self_plugins.builder'
-require'self_plugins.swapapos'
-require'self_plugins.bookend'
-require'self_plugins.tabbm'
+require'small_plugins.auto-save'
+require'small_plugins.dff'
+require'small_plugins.session'
+require'small_plugins.neofnl'
+require'small_plugins.labull'
+require'small_plugins.ranger'
+require'small_plugins.tabline'
+require'small_plugins.textobj'
+require'small_plugins.unimpaired'
+require'small_plugins.builder'
+require'small_plugins.swapapos'
+require'small_plugins.bookend'
+require'small_plugins.tabbm'
 local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
   if fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg"},vim.o.filetype)~=-1 then
     vim.cmd"syntax off"
@@ -63,20 +63,17 @@ end
 function vim.oprint(...)
   return vim.fn.writefile(vim.fn.split(vim.inspect(...),'\n'),'out')
 end
+function vim.aprint(...)
+  return vim.fn.writefile(vim.fn.split(vim.inspect(...),'\n'),'out','a')
+end
 local d=vim.deprecate
 function vim.deprecate(...)
   local t={
-    'vim.treesitter.get_query()',
-    'vim.treesitter.get_query_files()',
-    'vim.treesitter.query.get_node_text()',
     'vim.treesitter.query.get_query()',
-    'vim.treesitter.query.get_query_files()',
-    'vim.treesitter.query.parse_query()',
-    'vim.treesitter.query.set_query()',
-    'vim.treesitter.set_query()',
+    'vim.treesitter.get_query()',
   }
   if vim.tbl_contains(t,...) then
-    if (tonumber(os.date('%y'))<24 and tonumber(os.date('%m'))<4) then
+    if (tonumber(os.date('%y'))<24 and tonumber(os.date('%m'))<5) then
       return
     else
       vim.notify("NOTE: the don't warn about deprecatinos has ended")
@@ -96,13 +93,11 @@ end})
 
 
 
-vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ultimate-autopair.nvim')
-vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
-vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')
-vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function(ev)
-  --require'npairs-int-upair'.setup({npairs_conf={ignored_next_char=''},bs='u',map='n'})
-  require'ua'.setup()
+  vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
+  vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')
+  vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
+  require'npairs-int-upair'.setup({npairs_conf={enable_delete_pair_before=true,enable_abbr=true},bs='u',map='u',cr='u'})
   vim.api.nvim_del_autocmd(ev.id)
 end})
 vim.cmd.colorscheme'mini'

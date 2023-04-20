@@ -46,14 +46,14 @@ nno('<A-k>',':move -2\r')
 nno('<A-h>','<<')
 nno('<A-l>','>>')
 nno('<C-.>','.')
-lnno('<M-x>',':lua=')
+lnno('<M-x>',':=')
 ------alt-gr
 nno('π','yyp')
 ------other
-if pcall(require,'hop') then
+--if pcall(require,'hop') then --TODO
   nno('s',':lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
   xno('s','<cmd>lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
-end
+--end
 lnno('gR',':%s/\\<<C-r>=expand("<cword>")\r\\>/<C-r>=expand("<cword>")\r/g<Left><Left>')
 lnno('<A-f>',':%s///g<Left><Left><Left>')
 nno('¤','gvo<esc>')
@@ -135,10 +135,6 @@ ino('ø','ö')
 ino('æ','ä')
 ino('Ø','Ö')
 ino('Æ','Ä')
-ino('ö','ø')
-ino('ä','æ')
-ino('Ö','Ø')
-ino('Ä','Æ')
 ino('<C-w>','<C-o><C-w>')
 for i in ('hjklwbn'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
@@ -172,8 +168,8 @@ ino('<A-S-m>','Å')
 --emacs
 ino('<A-b>','<C-o>b')
 ino('<A-f>','<C-o>w')
-ino('<C-n>','<C-o>k')
-ino('<C-p>','<C-o>j')
+ino('<C-n>','<C-o>j')
+ino('<C-p>','<C-o>k')
 ino('<C-b>','<C-o>h')
 ino('<C-f>','<C-o>l')
 ino('<A-<>','<C-o>gg')

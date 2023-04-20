@@ -22,7 +22,11 @@ function M.timeout_input(timeout)
         first=false
         if status==-1 then break end
         if key=='\r' then break end
-        ret=ret..key
+        if key=='\x80kb' then
+            ret=ret:sub(1,-2)
+        else
+            ret=ret..key
+        end
     end
     vim.fn.inputrestore()
     return ret

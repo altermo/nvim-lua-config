@@ -14,8 +14,8 @@ cmp.setup({
             nvim_lua='NVL',
             treesitter='TS',
             tags='TGS',
-            --fuzzy_buffer='FB',
             buffer='BUF',
+            codeium='CI'
         },mode='text'})},
     snippet={
         expand=function(args)
@@ -30,20 +30,23 @@ cmp.setup({
         {name='calc'},
         {name='spell'},
         {name='path'},
-        {name='rg',option={additional_arguments='--hidden --max-depth 4'}},--cwd='..',
+        {name='rg',option={additional_arguments='--hidden --max-depth 4'}},
         {name='fish'},
         {name='nvim_lua'},
         {name='treesitter'},
         {name='tags'},
-        --{name='fuzzy_buffer'},
         {name='buffer'},
+        {name='codeium'},
     }),
-    mapping=cmp.mapping.preset.insert({
-        ['<CR>']=cmp.mapping(function()
+    mapping={
+        ['<CR>']=cmp.mapping(function(fallback)
             if cmp.get_active_entry() and ({snippy=true,path=true,nvim_lsp=true,cmp_tabnine=true})[cmp.get_selected_entry().source.name] then
                 cmp.confirm()
             else
-                require'ultimate-autopair.maps.cr'.cmpnewline()
+                local s=pcall(function()
+                    require 'ultimate-autopair.configs.default.maps.cr' . do_newline()
+                end)
+                if not s then fallback() end
             end end),
         ['<Tab>']=cmp.mapping(function(fallback)
             if cmp.visible() then
@@ -57,7 +60,7 @@ cmp.setup({
             else
                 fallback()
             end end,{'i','s'})
-    }),
+    },
 })
 cmp.setup.cmdline('/',{
     mapping=cmp.mapping.preset.cmdline(),
@@ -94,6 +97,6 @@ cmp.setup{sorting={priority_weight=2,comparators={
     compare.length,
     compare.order,
 }}}
-require'cmp_nvim_lua'.is_available=function ()
-    return vim.bo.filetype=='lua' or vim.bo.filetype=='fennel'
-end
+--require'cmp_nvim_lua'.is_available=function () --TODO
+    --return vim.bo.filetype=='lua' or vim.bo.filetype=='fennel'
+--end

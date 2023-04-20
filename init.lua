@@ -1,5 +1,4 @@
-require'utils.relib'
-require'impatient'
+vim.loader.enable()
 
 require'functions'
 --require'plugins'

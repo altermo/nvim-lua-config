@@ -38,7 +38,7 @@ local azz={}
 require'which-key'.register({[' ']=format({
 
     ----other
-    b={require'self_plugins.bookend'.run,'bookmarks'},
+    b={require'small_plugins.bookend'.run,'bookmarks'},
     ['\r']={'',''},
     u={':Scratch\r','scratch'},
     ------file
@@ -138,7 +138,7 @@ require'which-key'.register({[' ']=format({
             },
             --------foldexpr
             e={name='+foldexpr',
-                t={':set foldexpr=nvim_treesitter#foldexpr()\r','treesitter'},
+                t={':set foldexpr=v:lua.vim.treesitter.foldexpr()\r','treesitter'},
                 d={':set foldexpr=v:lua.Fold(v:lnum)\r','default'},
             },
             ---------foldlevel
@@ -158,7 +158,7 @@ require'which-key'.register({[' ']=format({
         b={':!cp "%" "%".bak\r','backup'},
         r={require'genghis'.renameFile,'rename',silent=false},
         d={require'genghis'.duplicateFile,'duplicate'},
-        C={':!echo "%:p"|xclip -selection c\r','copy-path'},
+        C={':!echo "%:p"|xsel -ib\r','copy-path'},
         p={':exe(\'vnew|call termopen("bat -pp \'.expand(\'<cfile>\').\'")\')\r','preview-under-cursor'},
         T={':execute("edit ".tempname())\r','tempfile'},
         f={':Telescope find_files\r','find'},
@@ -179,7 +179,7 @@ require'which-key'.register({[' ']=format({
             for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
                 o='oldfiles',s={'live_grep_args'},b='buffers', u={'undo'},
                 p={'project'},y={'yank_history'},n={'notify'},
-                T='tele_tabby list',B='vim_bookmarks all',
+                T='tele_tabby list',
                 P={'packer'},a='asynctasks all',w={'file_browser'},
                 k='current_buffer_fuzzy_find',h='help_tags',K='symbols',
             }) do

@@ -38,7 +38,6 @@ for _,v in pairs({'a','i'}) do
         if vim.v.operator~='' then
             vim.fn.feedkeys((vim.v.operator=='c' and '' or '')..vim.v.operator..v..char,'n')
         end
-        vim.fn.feedkeys(v..char)
     end
     key.ono(v,fn)
     key.xno(v,fn)
