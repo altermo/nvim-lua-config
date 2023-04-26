@@ -31,4 +31,12 @@ function M.timeout_input(timeout)
     vim.fn.inputrestore()
     return ret
 end
+function M.termrun(bin,mouse)
+  vim.cmd.enew()
+  local buf=vim.fn.bufnr()
+  vim.fn.termopen((mouse and "sleep 0.01;printf '\\e[?1000h';" or "")..bin,{on_exit=function (_,_,_)
+    vim.cmd.bdelete({buf,bang=true})
+  end})
+  vim.cmd.startinsert()
+end
 return M

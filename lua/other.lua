@@ -29,19 +29,17 @@ qftimer=fn.timer_start(2000,function ()
     fn.timer_stop(qftimer)
   end
 end,{['repeat']=-1})
-require'small_plugins.auto-save'
-require'small_plugins.dff'
-require'small_plugins.session'
-require'small_plugins.neofnl'
-require'small_plugins.labull'
-require'small_plugins.ranger'
-require'small_plugins.tabline'
-require'small_plugins.textobj'
-require'small_plugins.unimpaired'
-require'small_plugins.builder'
-require'small_plugins.swapapos'
-require'small_plugins.bookend'
-require'small_plugins.tabbm'
+require'small_plugins.auto-save'.setup()
+require'small_plugins.builder'.setup()
+require'small_plugins.dff'.setup()
+require'small_plugins.labull'.setup()
+require'small_plugins.neofnl'.setup()
+require'small_plugins.ranger'.setup()
+require'small_plugins.session'.setup()
+require'small_plugins.swapapos'.setup()
+require'small_plugins.tabbm'.setup()
+require'small_plugins.textobj'.setup()
+require'small_plugins.unimpaired'.setup()
 local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
   if fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg"},vim.o.filetype)~=-1 then
     vim.cmd"syntax off"

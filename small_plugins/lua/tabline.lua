@@ -14,7 +14,7 @@ M.MyTabLine=function()
         else
             char=file
         end
-        line=line..(i==curtab and '%#TabLineSel#' or '%#TabLine#')..'\226\157\172'..char..'\226\157\173'--❬❭❮❯❰❱
+        line=line..(i==curtab and '%#TabLineSel#' or '%#TabLine#')..'\226\157\172'..char..'\226\157\173' --❬❭❮❯❰❱
     end
     return line..'%#TabLine#'
 end

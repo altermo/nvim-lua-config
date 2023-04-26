@@ -51,14 +51,23 @@ lnno('<M-x>',':=')
 nno('π','yyp')
 ------other
 --if pcall(require,'hop') then --TODO
-  nno('s',':lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
-  xno('s','<cmd>lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
+nno('s',':lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
+xno('s','<cmd>lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
 --end
 lnno('gR',':%s/\\<<C-r>=expand("<cword>")\r\\>/<C-r>=expand("<cword>")\r/g<Left><Left>')
 lnno('<A-f>',':%s///g<Left><Left><Left>')
 nno('¤','gvo<esc>')
 nno('g=','vgg=Gc')
-nno('<Home>',QuickFixToggle)
+nno('<Home>',function ()
+  for _,v in pairs(fn.getwininfo()) do
+    if v.quickfix==1 then
+      vim.cmd.cclose()
+      return
+    end
+  end
+  vim.cmd.copen()
+  vim.cmd.wincmd('p')
+end)
 nno('|','~')
 nno(',','<C-o>')
 nno(';','<C-i>')

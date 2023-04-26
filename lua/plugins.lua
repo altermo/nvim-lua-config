@@ -484,9 +484,9 @@ require'packer'.startup(function (use)
       ['core.defaults']={},
       ['core.export']={},
       ['core.export.markdown']={},
-      ['core.norg.concealer']={},
+      ['core.concealer']={},
       --['core.presenter']={}, --TODO
-      --['core.norg.completion']={}, --TODO
+      --['core.completion']={}, --TODO
     }}),ft='norg'}
   use{'mzlogin/vim-markdown-toc',ft='markdown'}
   use{ "iamcco/markdown-preview.nvim", run = "cd app && npm install",ft='markdown'}

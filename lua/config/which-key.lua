@@ -65,8 +65,8 @@ require'which-key'.register({[' ']=format({
     ------buffer
     l={':ls\r','list-buffers'},
     o={':only\r','only-window'},
-    v={':vsplit\r','vertical'},
-    e={':split\r','horizontal'},
+    v={":lua require'small_plugins.splitbuf'.vsplit()\r",'vertical'},
+    e={":lua require'small_plugins.splitbuf'.split()\r",'vertical'},
     n={':enew\r','enew'},
     d={':BDelete! this\r','buffer-close'},
     _=fmap(9,':%swincmd w\r','window %s'),
@@ -86,6 +86,14 @@ require'which-key'.register({[' ']=format({
         E={':edit .\r','edir'},
         t={':Telescope file_browser file_browser hidden=true\r','telescope file_browser'},
         m={':MarkdownPreview\r','markdown-preview'},
+        N={function ()
+            local ino=require'utils.keymap'.ino
+            ino('<left>','<left>')
+            ino('<right>','<right>')
+            ino('<up>','<C-o>gk')
+            ino('<down>','<C-o>gj')
+            vim.o.mouse='a'
+        end,'set arrow keys'}
     },
 
     ----Tabe

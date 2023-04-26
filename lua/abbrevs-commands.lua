@@ -11,7 +11,7 @@ vim.cmd.cabbr('Wq','wq')
 vim.cmd.cabbr('qw','wq')
 
 ----commands
-command('Fish','lua TermAppRun(\'fish <args>\')',{nargs='*'})
+command('Fish','lua require("utils.lib").termrun(\'fish <args>\')',{nargs='*'})
 command('UpdateRemotePlugins',[[
     for i in g:rplugins
         call luaeval('require"packer.load"({"'.i.'"},{},_G.packer_plugins)')

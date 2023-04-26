@@ -9,6 +9,7 @@ set.expandtab=true
 set.linebreak=true
 set.fillchars='vert: ,eob: '
 set.foldmethod='expr'
+function Fold(lnum) return vim.fn.getline(lnum)=="" and '0' or '1' end
 set.foldexpr='v:lua.Fold(v:lnum)'
 set.foldenable=false
 set.relativenumber=true
@@ -23,7 +24,7 @@ set.smartcase=true
 if tonumber(os.date('%H'))<8 or tonumber(os.date('%H'))>=16 then
     set.background='dark'
 else
-    --set.background='light'
+    set.background='light'
 end
 set.termguicolors=true
 set.colorcolumn='1,41,81,121,161,201,241'
