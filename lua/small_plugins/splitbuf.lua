@@ -2,15 +2,15 @@ local M={}
 M.options={
     r={
         desc='ranger',
-        action=function() vim.cmd.Ranger(vim.fn.expand('#')) end,
+        action=function() require'small_plugins.ranger'.ranger(vim.fn.bufname('#')) end,
     },
     t={
         desc='terminal',
         action=vim.cmd.Fish,
     },
-    n={
+    ['*']={
         desc='nothing',
-        action=function() vim.cmd.edit('#') end,
+        action=function() vim.cmd.buffer('#') end,
     },
     q={
         desc='quit',
@@ -30,7 +30,7 @@ function M.open(Iwin)
     if M.options[char] then
         M.options[char].action()
     else
-        vim.cmd.edit('#')
+        vim.cmd.buffer('#')
         vim.api.nvim_feedkeys(char,'m',true)
     end
 end

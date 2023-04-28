@@ -8,7 +8,7 @@ M.c={
     lua='local ={}\rfunction :new()\rself.__index=self\rreturn setmetatable({},self)\rend\x1bkkkk0w',
 }
 function M.gototopnodeandexec(exec)
-    require'syntax-tree-surfer'.go_to_top_node_and_execute_commands(true,{'normal! o\x1bo',exec,'startinsert'}) --TODO
+    --TODO
 end
 function M.get_f()
     return M.f[vim.o.filetype] or '(){\r}\x1bk'

@@ -45,7 +45,7 @@ function M.toggle(opt,on,off)
     else
         vim.o[opt]=not vim.o[opt]
     end
-    print(opt..'='..vim.o.opt)
+    print(opt..'='..vim.inspect(vim.o[opt]))
 end
 function M.setup()
     nno(']f',function() vim.cmd.edit(M.get_next_file(vim.fn.expand('%'))) end)

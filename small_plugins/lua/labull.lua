@@ -17,7 +17,6 @@ function M.labull(inp)
     return (
         inp:match('^%s*[+%-]+ [[].[]] ') or
         inp:match('^%s*[+%-]+ ') or
-        (inp:match('^%s*[+%-]+ .*:$') and inp:gsub('^(%s*)([+%-]+) .*:$','%1    %2')) or
         (inp:match('^%s*%d+[.)] ') and inp:gsub('^(%s*)(%d+)([.)] ).*',function (indent,number,end_) return indent..(tonumber(number)+1)..end_ end)) or
         (inp:match('^%s*%a+[.)] ') and inp:gsub('^(%s*)(%a+)([.)] ).*',function (indent,number,end_) return indent..M.incahrs(number)..end_ end)))
 end

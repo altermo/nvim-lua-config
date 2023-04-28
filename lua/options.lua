@@ -47,5 +47,6 @@ set.path:append('**')
 set.lazyredraw=true
 set.showmode=false
 set.modelineexpr=true
-set.statuscolumn = "%C%s%=%{v:virtnum>0?'':v:relnum?v:relnum:v:lnum}"
+set.foldcolumn='auto:2'
+set.statuscolumn="%{%&foldenable?'%C':''%}%s%{&nu?v:virtnum>0?'':v:relnum?&rnu?v:relnum:v:lnum:v:lnum:v:virtnum>0?'':&rnu?v:relnum:''}"
 --set.shell='/bin/bash'

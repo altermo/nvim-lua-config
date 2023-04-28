@@ -468,9 +468,8 @@ require'packer'.startup(function (use)
   use{'dhruvasagar/vim-table-mode',cmd='TableModeToggle'}
   use{'dbmrq/vim-ditto',cmd=extend(cexp('Ditto',{'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},true),{'NoDitto','ToggleDitto'})}
   use{'reedes/vim-wordy',cmd={'Wordy','NoWordy'}}
-  use{'rhysd/vim-grammarous',cmd={'GrammarousCheck','GrammarousReset'}}
   use{'ron89/thesaurus_query.vim',cmd=cexp('Thesaurus',{'QueryReplaceCurrentWord','QueryLookupCurrentWord','QueryReplace'},true)}
-  use 'phaazon/mind.nvim'
+  use{'phaazon/mind.nvim',opt=true}
 
   ----filetype
   use{'vim-latex/vim-latex',ft='latex'}

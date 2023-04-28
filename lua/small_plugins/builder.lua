@@ -56,4 +56,3 @@ function M.setup()
     nno("<F8>",function () M.builders[vim.o.filetype].normal=vim.fn.input(':') end)
 end
 return M
---TODO: optimize

@@ -6,7 +6,6 @@ autocmd('CmdlineEnter',{pattern='/,\\?',command='set hlsearch'})
 autocmd('TermOpen',{command='set ft=term'})
 autocmd('FileType',{pattern='qf',command='nno <buffer><CR> <CR>'})
 --autocmd('BufWrite',{command='if &filetype=="help"|helptags .|endif'})
-autocmd('User',{pattern='isfolded',command='set foldcolumn=auto:2'}) --TODO
 local autocd
 vim.api.nvim_create_user_command('ToggleAutocd',function()
     if autocd then
