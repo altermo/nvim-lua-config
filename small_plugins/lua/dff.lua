@@ -30,7 +30,7 @@ function M.objectify(list)
         local c=-1
         local text=''
         local search=''
-        for j in (i..'\r'):gmatch('.') do --TODO: replace \r with / in filename
+        for j in (i:gsub('\r','/')..'\r'):gmatch('.') do
             text=text..j
             if not rep[text] then
                 table.insert(hig,2)
@@ -62,7 +62,7 @@ function M.create_text(parsed,search,path)
         :filter(function (v) return vim.startswith(v[3],search) end)
         :map(function (v)
             return (vim.fn.isdirectory(path..'/'..v[1])==1 and '/' or ' ')
-                ..v[1]
+                ..v[1]:gsub('\n','\r')
                 ..(vim.endswith(v[3],'\r') and '\r' or '')
         end)
         :totable()
@@ -74,7 +74,7 @@ function M.mainloop(buf,path)
         local indexdict=vim.iter(parsed):fold({},function(t,i) t[i[3]]=i[1] return t end)
         local text=M.create_text(parsed,search,path)
         vim.api.nvim_buf_set_lines(buf,0,-1,false,text)
-        vim.api.nvim_buf_set_lines(buf,-1,-1,false,{'',vim.fn.pathshorten(path,2)..' :'..search})
+        vim.api.nvim_buf_set_lines(buf,-1,-1,false,{'',vim.fn.pathshorten(path,2):gsub('\n','\r')..' :'..search})
         vim.cmd.redraw()
         local char=vim.fn.getcharstr()
         if char=='' then

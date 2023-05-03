@@ -35,7 +35,7 @@ else
         base0B='#307121', --string
         base0C='#ca6ecf', --statment
         base0D='#42d08a', --statment
-        base0E='#FF1493', --statment
+        base0E='#ff1493', --statment
         base0F='#00a5c5', --statment
     }})
 end

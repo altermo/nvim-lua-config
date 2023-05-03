@@ -7,7 +7,7 @@ function M.timeout_input(timeout)
     while true do
         vim.api.nvim_echo({},false,{})
         vim.cmd('redraw')
-        vim.api.nvim_echo({{'>', 'Question'},{ret}},false,{})
+        vim.api.nvim_echo({{'>','Question'},{ret}},false,{})
         local key=''
         local function f()
             key=vim.fn.getcharstr(0)
@@ -32,11 +32,18 @@ function M.timeout_input(timeout)
     return ret
 end
 function M.termrun(bin,mouse)
-  vim.cmd.enew()
-  local buf=vim.fn.bufnr()
-  vim.fn.termopen((mouse and "sleep 0.01;printf '\\e[?1000h';" or "")..bin,{on_exit=function (_,_,_)
-    vim.cmd.bdelete({buf,bang=true})
-  end})
-  vim.cmd.startinsert()
+    vim.cmd.enew()
+    local buf=vim.fn.bufnr()
+    vim.fn.termopen((mouse and "sleep 0.01;printf '\\e[?1000h';" or "")..bin,{on_exit=function (_,_,_)
+        vim.cmd.bdelete({buf,bang=true})
+    end})
+    vim.cmd.startinsert()
+end
+function M.utf8_sub(s,i,j)
+    j=j or -1
+    local pos=vim.str_utf_pos(s)
+    local start=pos[i]
+    local end_=pos[j]
+    return s:sub(start,end_+vim.str_utf_end(s,end_))
 end
 return M

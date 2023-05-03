@@ -73,7 +73,6 @@ require'packer'.startup(function (use)
   ----visual
   ------fun
   use{'lukas-reineke/indent-blankline.nvim',config=get_setup('indent_blankline',{show_current_context=true}),event='User s1'}
-  use{'nvim-zh/colorful-winsep.nvim',config=get_setup'colorful-winsep',event='WinNew'}
   use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
     vim.g.Hexokinase_highlighters={'backgroundfull'}
   end,event='User s1'}
@@ -205,7 +204,7 @@ require'packer'.startup(function (use)
 
   ----utils
   use{'kazhala/close-buffers.nvim',cmd={'BDelete','BWipeout'}}
-  use{'chrisgrieser/nvim-genghis',module='genghis'} --TODO: implement commands
+  use{'chrisgrieser/nvim-genghis',module='genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}}
   use{'tpope/vim-abolish',cmd={'Abolish','Subvert'},keys={{'n','cr'}}}
   use{'sqve/sort.nvim',cmd='Sort'}
   use{'simonefranza/nvim-conv',cmd=cexp('Conv',{'Bin','Dec','Hex','Oct','Farenheit',
@@ -355,7 +354,6 @@ require'packer'.startup(function (use)
     'nvim-lua/plenary.nvim',
     {'hiphish/nvim-ts-rainbow2',event='User s1',config='vim.cmd"TSEnable rainbow"'},
     {'nvim-treesitter/playground',requires={'nvim-lua/popup.nvim'},cmd='TSPlaygroundToggle'},
-    {'theHamsta/nvim-treesitter-pairs',event='User s1'},
     {'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
     {'mfussenegger/nvim-treehopper',module='tsht'},
     {'JoosepAlviste/nvim-ts-context-commentstring',event='User s1'}, --TODO

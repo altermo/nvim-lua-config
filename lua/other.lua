@@ -40,6 +40,7 @@ require'small_plugins.swapapos'.setup()
 require'small_plugins.tabbm'.setup()
 require'small_plugins.textobj'.setup()
 require'small_plugins.unimpaired'.setup()
+require'small_plugins.tabline'.setup()
 local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
   if fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg"},vim.o.filetype)~=-1 then
     vim.cmd"syntax off"
@@ -93,9 +94,10 @@ end})
 
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function(ev)
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
+  --vim.opt.runtimepath:append('/home/user/.config/nvim/.other/old-ultimate-autopair.nvim')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
-  require'npairs-int-upair'.setup({npairs_conf={enable_delete_pair_before=true,enable_abbr=true},bs='u',map='u',cr='u'})
+  require'npairs-int-upair'.setup({npairs_conf={enable_delete_pair_before=true,enable_abbr=true},bs='u',map='u',cr='u',cmap=false})
   vim.api.nvim_del_autocmd(ev.id)
 end})
 vim.cmd.colorscheme'mini'

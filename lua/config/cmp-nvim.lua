@@ -97,6 +97,6 @@ cmp.setup{sorting={priority_weight=2,comparators={
     compare.length,
     compare.order,
 }}}
---require'cmp_nvim_lua'.is_available=function () --TODO
+--require'cmp_nvim_lua'.is_available=function ()
     --return vim.bo.filetype=='lua' or vim.bo.filetype=='fennel'
 --end

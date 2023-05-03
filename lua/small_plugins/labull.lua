@@ -9,7 +9,7 @@ function M.incahrs(chars)
         i=i+1
         tbl[i]=(tbl[i] or differ-1)+1
     end
-    vim.iter(tbl):fold("",function (sum,_,v)
+    return vim.iter(tbl):fold("",function (sum,v)
         return sum..string.char(v)
     end):reverse()
 end

@@ -1,15 +1,15 @@
 local M={}
 M.builders={
-    python={normal='python',source='pyfile %'},
-    fish={normal='fish'},
-    lua={normal='lua',source='luafile %'},
-    fennel={normal='fennel',source='lua dofile("/usr/share/lua/5.4/fennel.lua").dofile(vim.fn.expand("%"))'},
-    cs={normal='csharp'},
-    rust={normal='rustc % -o __tmp;./__tmp;rm __tmp'},
-    cpp={normal='zig c++ -O2 % -o __tmp;./__tmp;rm __tmp'},
-    c={normal='zig cc -O2 % -o __tmp -llua;./__tmp;rm __tmp'},
+    python={normal='python %s',source='pyfile %'},
+    fish={normal='fish %s'},
+    lua={normal='lua %s',source='luafile %'},
+    fennel={normal='fennel %s',source='lua dofile("/usr/share/lua/5.4/fennel.lua").dofile(vim.fn.expand("%"))'},
+    cs={normal='csharp %s'},
+    rust={normal='rustc %s -o __tmp;./__tmp;rm __tmp'},
+    cpp={normal='zig c++ -O2 %s -o __tmp;./__tmp;rm __tmp'},
+    c={normal='zig cc -O2 %s -o __tmp;./__tmp;rm __tmp'},
     vim={source='so %'},
-    zig={normal='zig run'},
+    zig={normal='zig run %s'},
 }
 function M.eval()
     vim.cmd('silent! update')
@@ -29,7 +29,7 @@ function M.build()
         M.deferr(ft)
         return
     end
-    vim.cmd('AsyncRun time '..builder.normal..' "%"')
+    vim.cmd('AsyncRun '..builder.normal:format('"%"'))
 end
 function M.termbuild()
     vim.cmd('silent! update')
@@ -40,7 +40,7 @@ function M.termbuild()
         return
     end
     vim.cmd.vnew()
-    vim.fn.termopen('time '..builder.normal..' \"'..vim.fn.expand('#:p')..'\"')
+    vim.fn.termopen(builder.normal:format(vim.fn.expand('#:p')))
     vim.cmd.startinsert()
 end
 function M.deferr(ft)
