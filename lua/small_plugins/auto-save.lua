@@ -2,7 +2,7 @@ local M={}
 function M.dosave()
     if vim.o.modified and not vim.o.readonly and vim.o.buftype=='' then
         vim.cmd('silent! update ++p')
-        print("AutoSave: saved at "..vim.fn.strftime("%H:%M:%S"))
+        vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.o.columns-12).."'")
     end
 end
 function M.setup()

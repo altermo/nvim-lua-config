@@ -15,6 +15,14 @@ M.options={
     q={
         desc='quit',
         action=vim.cmd.quit,
+    },
+    s={
+        desc='scratch',
+        action=function ()
+            local buf=vim.api.nvim_create_buf(true,true)
+            vim.api.nvim_buf_set_option(buf,'bufhidden','wipe')
+            vim.api.nvim_win_set_buf(vim.api.nvim_get_current_win(),buf)
+        end
     }
 }
 function M.open(Iwin)

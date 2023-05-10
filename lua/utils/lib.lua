@@ -40,8 +40,10 @@ function M.termrun(bin,mouse)
     vim.cmd.startinsert()
 end
 function M.utf8_sub(s,i,j)
-    j=j or -1
     local pos=vim.str_utf_pos(s)
+    j=j or -1
+    if i<0 then i=#pos+i+1 end
+    if j<0 then j=#pos+j+1 end
     local start=pos[i]
     local end_=pos[j]
     return s:sub(start,end_+vim.str_utf_end(s,end_))

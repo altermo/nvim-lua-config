@@ -8,13 +8,6 @@ M.c={
     lua='local ={}\rfunction :new()\rself.__index=self\rreturn setmetatable({},self)\rend\x1bkkkk0w',
 }
 function M.gototopnodeandexec(exec)
-    local node=vim.treesitter.get_node()
-    local root=node:tree():root()
-    local parent=node:parent()
-    while not root:equal(parent) do
-        node=parent
-        parent=node:parent()
-    end
     --TODO
 end
 function M.get_f()

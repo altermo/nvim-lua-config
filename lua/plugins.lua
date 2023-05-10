@@ -84,6 +84,7 @@ require'packer'.startup(function (use)
   use{'winston0410/range-highlight.nvim',config=get_setup'range-highlight',requires='winston0410/cmd-parser.nvim',event='CmdlineEnter'}
   use{'nacro90/numb.nvim',config=get_setup'numb',event='CmdlineEnter'}
   use{'kevinhwang91/nvim-hlslens',config=get_config'hlslens',event='CmdlineEnter'}
+  use{'jxstxs/conceal.nvim',opt=true} --TODO
   ------important-info
   use{'chentoast/marks.nvim',config=get_setup'marks',keys={{'n','m'}}}
   use{'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cmd={'G','V','Norm'}}

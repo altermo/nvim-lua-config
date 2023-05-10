@@ -4,7 +4,7 @@ end
 autocmd('BufWinEnter',{command='if &filetype==""|set filetype=txt|endif'})
 autocmd('CmdlineEnter',{pattern='/,\\?',command='set hlsearch'})
 autocmd('TermOpen',{command='set ft=term'})
-autocmd('FileType',{pattern='qf',command='nno <buffer><CR> <CR>'})
+autocmd('FileType',{pattern='qf',command='nno <buffer><CR> <CR>'}) --TODO
 --autocmd('BufWrite',{command='if &filetype=="help"|helptags .|endif'})
 local autocd
 vim.api.nvim_create_user_command('ToggleAutocd',function()
