@@ -71,7 +71,8 @@ nno('|','~')
 nno(',','<C-o>')
 nno(';','<C-i>')
 lnno('.',':')
-nno('<BS>',':lua require("neoscroll").zz(250)\r')
+--nno('<BS>',':lua require("neoscroll").zz(250)\r')
+nno('<BS>','zz')
 nno('ø',':redo\r')
 nno('æ','z=')
 nno('å','"+p')
@@ -117,7 +118,7 @@ nno('ghk',':execute("h ".nr2char(getchar()))\r')
 ------lsp
 --nno('gr',':lua vim.lsp.buf.rename()\r')
 nno('gd',function ()
-  if vim.lsp.buf.server_ready() or #vim.fn.tagfiles()>0 then
+  if vim.lsp.buf_notify(0,'window/progress',{}) or #vim.fn.tagfiles()>0 then
     return '<C-]>'
   else
     return 'gd'

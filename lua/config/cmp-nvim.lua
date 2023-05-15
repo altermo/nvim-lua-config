@@ -43,10 +43,7 @@ cmp.setup({
             if cmp.get_active_entry() and ({snippy=true,path=true,nvim_lsp=true,cmp_tabnine=true})[cmp.get_selected_entry().source.name] then
                 cmp.confirm()
             else
-                local s=pcall(function()
-                    require 'ultimate-autopair.configs.default.maps.cr' . do_newline()
-                end)
-                if not s then fallback() end
+                fallback()
             end end),
         ['<Tab>']=cmp.mapping(function(fallback)
             if cmp.visible() then

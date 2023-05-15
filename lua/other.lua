@@ -65,6 +65,9 @@ end
 function vim.aprint(...)
   return vim.fn.writefile(vim.fn.split(vim.inspect(...),'\n'),'out','a')
 end
+function vim.traceback(mode)
+  return vim.fn.writefile(vim.fn.split(debug.traceback(),'\n'),'out',mode or 'a')
+end
 local d=vim.deprecate
 function vim.deprecate(...)
   local t={}
@@ -89,7 +92,7 @@ end})
 
 
 
-vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter'},{callback=function(ev)
+vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback=function(ev)
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
   --vim.opt.runtimepath:append('/home/user/.config/nvim/.other/old-ultimate-autopair.nvim')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')

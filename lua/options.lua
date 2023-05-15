@@ -49,4 +49,5 @@ set.showmode=false
 set.modelineexpr=true
 set.foldcolumn='auto:2'
 set.statuscolumn="%{%&foldenable?'%C':''%}%s%{&nu?v:virtnum>0?'':v:relnum?&rnu?v:relnum:v:lnum:v:lnum:v:virtnum>0?'':&rnu?v:relnum:''}"
+--set.smoothscroll=true
 --set.shell='/bin/bash'
