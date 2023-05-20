@@ -1,3 +1,8 @@
+require'neodev'.setup{
+    library={
+        plugins=false,
+    },
+}
 require'mason'.setup{}
 local lspconfig=require'lspconfig'
 lspconfig.pyright.setup{}

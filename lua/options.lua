@@ -7,6 +7,7 @@ set.breakindent=true
 set.cindent=true
 set.expandtab=true
 set.linebreak=true
+---@diagnostic disable-next-line: assign-type-mismatch
 set.fillchars='vert: ,eob: '
 set.foldmethod='expr'
 function Fold(lnum) return vim.fn.getline(lnum)=="" and '0' or '1' end

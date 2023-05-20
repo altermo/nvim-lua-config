@@ -32,7 +32,7 @@ cmp.setup({
         {name='path'},
         {name='rg',option={additional_arguments='--hidden --max-depth 4'}},
         {name='fish'},
-        {name='nvim_lua'},
+        --{name='nvim_lua'},
         {name='treesitter'},
         {name='tags'},
         {name='buffer'},

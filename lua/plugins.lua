@@ -311,6 +311,7 @@ require'packer'.startup(function (use)
     'nvim-telescope/telescope-live-grep-args.nvim',
     'nvim-telescope/telescope-packer.nvim',
     {'nvim-telescope/telescope-ui-select.nvim',setup=function ()
+      ---@diagnostic disable-next-line: duplicate-set-field
       function vim.ui.select(...)
         local telescope=require "telescope"
         telescope.load_extension'ui-select'
@@ -367,14 +368,15 @@ require'packer'.startup(function (use)
   ----other
   use{'neovim/nvim-lspconfig',config=get_config'lsp',requires={
     {'williamboman/mason.nvim',module='mason'},
-    'onsails/lspkind.nvim',module='lspkind'},event='User s1'}
+    {'folke/neodev.nvim',module='neodev'},
+    {'onsails/lspkind.nvim',module='lspkind'}},event='User s1'}
   use{'rbong/vim-buffest',
     cmd=extend(cexp('Reg',{'split','vsplit','tabedit','edit','pedit'}),
       extend(cexp('Qflist',{'split','vsplit','tabedit','edit'}),
         cexp('Loclist',{'split','vsplit','tabedit','edit'})))}
   use{'glepnir/dashboard-nvim',config=get_config('dashboard'),cmd={'Dashboard','DashboardNewFile'},setup=function ()
     vim.api.nvim_create_autocmd({'Vimenter'},{callback=function()
-      if vim.fn.argc()==0 and vim.fn.line2byte('$')==-1 then
+      if vim.fn.argc()==0 and vim.api.nvim_buf_line_count(0)==1 and vim.api.nvim_get_current_line()=='' and vim.api.nvim_buf_get_name(0)=='' then
         vim.cmd('Dashboard')
       end end})end}
   use{'metakirby5/codi.vim',cmd=cexp('Codi',{'New','Expand','Select','Update'},true)}

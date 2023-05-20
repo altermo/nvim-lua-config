@@ -69,6 +69,7 @@ function vim.traceback(mode)
   return vim.fn.writefile(vim.fn.split(debug.traceback(),'\n'),'out',mode or 'a')
 end
 local d=vim.deprecate
+---@diagnostic disable-next-line: duplicate-set-field
 function vim.deprecate(...)
   local t={}
   if vim.tbl_contains(t,...) then
@@ -97,7 +98,7 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback
   --vim.opt.runtimepath:append('/home/user/.config/nvim/.other/old-ultimate-autopair.nvim')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
-  require'npairs-int-upair'.setup({npairs_conf={enable_delete_pair_before=true,enable_abbr=true},bs='u',map='u',cr='u'})
+  require'npairs-int-upair'.setup({npairs_conf={enable_delete_pair_before=true,enable_abbr=true},space='u',upair_conf={space2={enable=false}},bs='u',map='u',cr='u'})
   vim.api.nvim_del_autocmd(ev.id)
 end})
 vim.cmd.colorscheme'mini'

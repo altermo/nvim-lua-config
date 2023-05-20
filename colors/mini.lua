@@ -1,5 +1,5 @@
-if vim.o.background=='dark' then
-    require('mini.base16').setup({palette={
+local bcolors={
+    {
         base00='#191919', --fourground
         base01='#242424', --virtual fourground
         base02='#600000', --visual mode
@@ -8,7 +8,6 @@ if vim.o.background=='dark' then
         base05='#888888', --cursor and text
         base06='#ffffff', --unused?
         base07='#444444', --scroolbar
-        ---
         base08='#ffa82b', --general text
         base09='#cc7e46', --number
         base0A='#46a436', --statment
@@ -17,7 +16,28 @@ if vim.o.background=='dark' then
         base0D='#42d08a', --statment
         base0E='#ffc4ff', --statment
         base0F='#00a5c5', --statment
-    }})
+    },
+    {--TODO
+        base00 = '#0a3a2a',
+        base01 = '#324747',
+        base02 = '#000a2a',
+        base03 = '#788a8a',
+        base04 = '#bbbbbb',
+        base05 = '#d0d0d0',
+        base06 = '#ffffff',
+        base07 = '#fcfcfc',
+        base08 = '#ebcd91',
+        base09 = '#9f8340',
+        base0A = '#209870',
+        base0B = '#82e3ba',
+        base0C = '#bb6d9b',
+        base0D = '#a9d4ff',
+        base0E = '#ffb9e5',
+        base0F = '#598ab9',
+    },
+}
+if vim.o.background=='dark' then
+    require('mini.base16').setup({palette=bcolors[vim.fn.rand()%2+1]})
 else
     require('mini.base16').setup({palette={
         base00='#fbf1c7', --fourground
