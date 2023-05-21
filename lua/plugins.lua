@@ -58,6 +58,7 @@ require'packer'.startup(function (use)
   use 'bluz71/vim-nightfly-colors'
   use 'rakr/vim-one'
   use 'preservim/vim-colors-pencil'
+  use 'projekt0n/github-nvim-theme'
   use{'edeneast/nightfox.nvim',event='User s1'}
   use{'fenetikm/falcon',event='User s1'}
   use{'folke/lsp-colors.nvim',event='User s1'}
