@@ -6,6 +6,10 @@ M.options={
     },
     t={
         desc='terminal',
+        action=vim.cmd.terminal,
+    },
+    f={
+        desc='terminal',
         action=vim.cmd.Fish,
     },
     ['*']={
