@@ -353,7 +353,7 @@ require'packer'.startup(function (use)
   use{"anuvyklack/windows.nvim",config=get_setup'windows',requires={"anuvyklack/middleclass","anuvyklack/animation.nvim"},cmd='WindowsToggleAutowidth'}
 
   ----treesitter
-  use{'nvim-treesitter/nvim-treesitter',run='vim.cmd"TSUpdate"',requires={
+  use{'nvim-treesitter/nvim-treesitter',requires={
     'nvim-lua/plenary.nvim',
     {'hiphish/nvim-ts-rainbow2',event='User s1',config='vim.cmd"TSEnable rainbow"'},
     {'nvim-treesitter/playground',requires={'nvim-lua/popup.nvim'},cmd='TSPlaygroundToggle'},

@@ -6,7 +6,7 @@ function M.dosave()
     end
 end
 function M.setup()
-    local AutoSave vim.api.nvim_create_augroup('AutoSave',{clear=true})
+    local AutoSave=vim.api.nvim_create_augroup('AutoSave',{clear=true})
     vim.api.nvim_create_autocmd({'InsertLeave','TextChanged'},{callback=M.dosave,group=AutoSave})
 end
 return M

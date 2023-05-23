@@ -1,4 +1,4 @@
-function SwapLang()
+function _G.SwapLang()
   vim.g.translator_target_lang,vim.g.translator_source_lang=vim.g.translator_source_lang,vim.g.translator_target_lang
   vim.notify(vim.g.translator_source_lang..'>'..vim.g.translator_target_lang)
 end

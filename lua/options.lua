@@ -10,8 +10,8 @@ set.linebreak=true
 ---@diagnostic disable-next-line: assign-type-mismatch
 set.fillchars='vert: ,eob: '
 set.foldmethod='expr'
-function Fold(lnum) return vim.fn.getline(lnum)=="" and '0' or '1' end
-set.foldexpr='v:lua.Fold(v:lnum)'
+function _G.Fold(lnum) return vim.fn.getline(lnum)=="" and '0' or '1' end
+set.foldexpr='v:lua._G.Fold(v:lnum)'
 set.foldenable=false
 set.relativenumber=true
 set.number=true

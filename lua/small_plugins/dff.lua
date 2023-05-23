@@ -1,20 +1,19 @@
 local M={}
-function M._create_repeat(list,_x,_nmin,_nmax)
+function M._create_repeat(list,x,nmin,nmax)
     local ret={}
-    local n=_nmin
-    local nmax=_nmax
+    local n=nmin
     while n<=nmax do
-        local i=list[n]:sub(1,_x)
+        local i=list[n]:sub(1,x)
         local count=0
         local nm=n
-        while list[n]:sub(1,_x)==i do
+        while list[n]:sub(1,x)==i do
             count=count+1
             n=n+1
             if n>#list then break end
         end
         if count>1 then
             ret[i]=count
-            ret=vim.tbl_extend('force',ret,M._create_repeat(list,_x+1,nm,n-1))
+            ret=vim.tbl_extend('force',ret,M._create_repeat(list,x+1,nm,n-1))
         end
     end
     return ret

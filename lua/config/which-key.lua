@@ -1,7 +1,4 @@
 ----init--
-local function wip()
-    vim.notify'work in progress'
-end
 local function fmap(num,cmd,name)
     local tbl={}
     for i=1,num do

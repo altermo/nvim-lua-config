@@ -1,9 +1,8 @@
 local key=require'utils.keymap'
-for k,v in pairs{cursorword={delay=0},trailspace={},splitjoin={}} do --tabline={}
+for k,v in pairs{cursorword={delay=0},splitjoin={}} do --trailspace={},tabline={}
     require('mini.'..k).setup(v)
 end
 vim.cmd.hi'link MiniTrailspace NvimInternalError'
-vim.api.nvim_create_autocmd('FileType',{pattern='dashboard',command='lua MiniTrailspace.unhighlight()'})
 local loaded=false
 local function lazy_load_jump2d(name)
     if loaded then return end
