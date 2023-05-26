@@ -79,15 +79,12 @@ require'packer'.startup(function (use)
   end,event='User s1'}
   use{'anuvyklack/pretty-fold.nvim',
     config=get_setup'pretty-fold',event='User isfolded'}
-  use{'https://gitlab.com/yorickpeterse/nvim-pqf',config=get_setup'pqf',event='User qfopen'}
   use{'karb94/neoscroll.nvim',config=get_setup'neoscroll',keys={'<C-u>','<C-d>','<C-b>','<C-f>','<C-y>','<C-e>'},module='neoscroll'}
   use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
   use{'winston0410/range-highlight.nvim',config=get_setup'range-highlight',requires='winston0410/cmd-parser.nvim',event='CmdlineEnter'}
   use{'nacro90/numb.nvim',config=get_setup'numb',event='CmdlineEnter'}
-  use{'kevinhwang91/nvim-hlslens',config=get_config'hlslens',event='CmdlineEnter'}
-  use{'jxstxs/conceal.nvim',opt=true} --TODO
   ------important-info
-  use{'chentoast/marks.nvim',config=get_setup'marks',keys={{'n','m'}}}
+  use{'chentoast/marks.nvim',config=get_setup'marks',keys={{'n','m'},{'n','dm'}}}
   use{'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cmd={'G','V','Norm'}}
   use{'lcheylus/overlength.nvim',config=get_setup('overlength',{enabled=false,textwidth_mode=1}),cmd='OverlengthToggle'}
   use{'azabiong/vim-highlighter',setup=function ()

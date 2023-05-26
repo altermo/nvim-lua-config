@@ -99,9 +99,20 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
   --require'npairs-int-upair'.setup({npairs_conf={enable_delete_pair_before=true,enable_abbr=true},space='u',bs='u',map='u',cr='u'})
-  require'ultimate-autopair'.setup(
-    {{'"','"',p=11,fly=true},extensions={fly={nofilter=true}}}
-  )
+  require'ultimate-autopair'.setup({
+    {'"','"',p=11,fly=true},
+    extensions={
+      fly={nofilter=true},
+      sub={
+        p=200,
+        ext={
+          filetype={p=2,ft={'lua'}},
+          fly={p=1,other_char={',',' '}}
+        }
+      }
+    }
+  })
+  require'ultimate-autopair.experimental.terminal'.setup()
   vim.api.nvim_del_autocmd(ev.id)
 end})
 vim.cmd.colorscheme'mini'

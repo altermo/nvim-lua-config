@@ -249,7 +249,7 @@ require'which-key'.register({[' ']=format({
 
     ----toggle
     t={name='+toggle',
-        ['\r']={':set hls!\r:lua require("hlslens").start()\r','highlight'},
+        ['\r']={':set hls!\r','highlight'},
         T={':TSPlaygroundToggle\r','TSPlayground'},
         e={':Neotree\r','explorer'},
         h={':TSToggle highlight\r','TS-highlight'},
