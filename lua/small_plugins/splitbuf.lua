@@ -27,6 +27,12 @@ M.options={
             vim.api.nvim_buf_set_option(buf,'bufhidden','wipe')
             vim.api.nvim_win_set_buf(vim.api.nvim_get_current_win(),buf)
         end
+    },
+    a={
+        desc='find',
+        action=function()
+            require("utils.lib").termrun('fish -ic fsf')
+        end
     }
 }
 function M.open(Iwin)

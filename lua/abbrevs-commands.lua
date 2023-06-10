@@ -1,14 +1,17 @@
 ----init--
 local function command(cmd,bin,opt)
-  vim.api.nvim_create_user_command(cmd,bin,opt or {})
+    vim.api.nvim_create_user_command(cmd,bin,opt or {})
+end
+local function cabbr(lhs,rhs)
+    vim.cmd.cabbr('<expr>',lhs,('(getcmdtype()==":"&&getcmdline()=="%s")?"%s":"%s"'):format(lhs,rhs,lhs))
 end
 
 ----cabbrev
-vim.cmd.cabbr('W','w')
-vim.cmd.cabbr('Q','q')
-vim.cmd.cabbr('WQ','wq')
-vim.cmd.cabbr('Wq','wq')
-vim.cmd.cabbr('qw','wq')
+cabbr('W','w')
+cabbr('Q','q')
+cabbr('WQ','wq')
+cabbr('Wq','wq')
+cabbr('qw','wq')
 
 ----commands
 command('Fish','lua require("utils.lib").termrun(\'fish <args>\')',{nargs='*'})

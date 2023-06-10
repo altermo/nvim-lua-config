@@ -7,12 +7,10 @@ local function get_setup(name,conf)
 end
 local function get_rplugin()
   return function()
-    vim.cmd[[
-      if g:loaded_remote_plugins==1
-      unlet g:loaded_remote_plugins
-      source /usr/share/nvim/runtime/plugin/rplugin.vim
-      endif
-      ]]
+    if vim.g.loaded_remote_plugins==1 then
+      vim.g.loaded_remote_plugins=nil
+      vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim')
+    end
   end
 end
 local function cexp(part,exp,inc)
