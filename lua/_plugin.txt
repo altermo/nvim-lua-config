@@ -19,3 +19,10 @@ acksld/muren.nvim
 antonk52/bad-practices.nvim
 chomosuke/term-edit.nvim
 chrisgrieser/nvim-alt-substitute
+dharmx/nvim-colo
+dmmulroy/tsc.nvim
+dnlhc/glance.nvim
+doctorfree/nvim-lazyman
+dundargoc/gh.nvim
+eandrju/cellular-automaton.nvim
+alexis12119/nightly.nvim

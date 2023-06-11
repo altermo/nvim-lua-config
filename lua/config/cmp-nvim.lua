@@ -97,3 +97,12 @@ cmp.setup{sorting={priority_weight=2,comparators={
 --require'cmp_nvim_lua'.is_available=function ()
     --return vim.bo.filetype=='lua' or vim.bo.filetype=='fennel'
 --end
+if vim.o.filetype=='dirbuf' then
+    vim.api.nvim_create_autocmd('FileType',{pattern='conf',
+        callback=function()
+            if vim.fn.isdirectory(vim.api.nvim_buf_get_name(0)) then
+                vim.o.filetype='dirbuf'
+            end
+        end
+    })
+end
