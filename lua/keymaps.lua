@@ -112,7 +112,7 @@ nno('<C-z>',function ()
     vim.api.nvim_create_autocmd('CursorMoved,CursorMovedI',{once=true,callback=function() zo=0 end,group=vim.api.nvim_create_augroup('Cz',{clear=true})})
   end
 end)
-nno('ghk',':execute("h ".nr2char(getchar()))\r')
+nno('gh',':execute("h ".expand("<cword>"))\r')
 ------lsp
 --nno('gr',':lua vim.lsp.buf.rename()\r')
 nno('gd',function ()

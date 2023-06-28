@@ -2,7 +2,7 @@ local M={}
 M.builders={
     python={normal='python %s',source='pyfile %'},
     fish={normal='fish %s'},
-    lua={normal='lua %s',source='luafile %'},
+    lua={normal='lua5.1 %s',source='luafile %'},
     fennel={normal='fennel %s',source='lua dofile("/usr/share/lua/5.4/fennel.lua").dofile(vim.fn.expand("%"))'},
     cs={normal='csharp %s'},
     rust={normal='rustc %s -o __tmp;./__tmp;rm __tmp'},

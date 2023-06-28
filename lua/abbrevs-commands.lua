@@ -3,7 +3,9 @@ local function command(cmd,bin,opt)
     vim.api.nvim_create_user_command(cmd,bin,opt or {})
 end
 local function cabbr(lhs,rhs)
-    vim.cmd.cabbr('<expr>',lhs,('(getcmdtype()==":"&&getcmdline()=="%s")?"%s":"%s"'):format(lhs,rhs,lhs))
+    vim.keymap.set('ca',lhs,function()
+        return vim.fn.getcmdtype()==':' and vim.fn.getcmdline()==lhs and rhs or lhs
+    end,{expr=true})
 end
 
 ----cabbrev

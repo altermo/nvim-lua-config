@@ -95,13 +95,18 @@ end})
 
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback=function(ev)
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
-  --vim.opt.runtimepath:append('/home/user/.config/nvim/.other/old-ultimate-autopair.nvim')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
   --require'npairs-int-upair'.setup({npairs_conf={enable_delete_pair_before=true,enable_abbr=true},space='u',bs='u',map='u',cr='u'})
   require'ultimate-autopair'.setup({
     extensions={
-    }
+      fly={nofilter=true},
+      tsnode={outside={'comment'},p=50},
+    },
+    config_internal_pairs={
+      {'"','"',fly=true},
+      {"'","'",fly=true},
+    },
   })
   require'ultimate-autopair.experimental.terminal'.setup()
   require'ultimate-autopair.experimental.close'.setup()

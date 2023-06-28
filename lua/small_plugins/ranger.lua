@@ -25,6 +25,7 @@ function M.ranger(path)
         vim.fn.termopen(ranger_command..' --cmd "select_file '..realpath..'" --choosefiles='..file,jobargs)
     end
     buf=vim.fn.bufnr()
+    vim.api.nvim_set_option_value('bufhidden','wipe',{buf=buf})
     vim.cmd.startinsert()
 end
 function M.runranger(args)

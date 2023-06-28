@@ -100,7 +100,7 @@ require'packer'.startup(function (use)
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
 
   ----keys
-  use{'Exafunction/codeium.vim',setup=function()
+  use{'Exafunction/codeium.vim',setup=function() --https://github.com/Exafunction/codeium.vim/issues/118
     vim.g.codeium_disable_bindings=false
     vim.g.codeium_manual=true
   end,config=function ()

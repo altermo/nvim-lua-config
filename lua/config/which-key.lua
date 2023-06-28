@@ -186,7 +186,7 @@ require'which-key'.register({[' ']=format({
                 p={'project'},y={'yank_history'},n={'notify'},
                 T='tele_tabby list',
                 P={'packer'},a='asynctasks all',w={'file_browser'},
-                k='current_buffer_fuzzy_find',h='help_tags',K='symbols',
+                h='help_tags',K='symbols',
             }) do
                 if type(v)=='string' then
                     tbl[k]={':Telescope '..v..' theme=ivy hidden=true\r',v}
