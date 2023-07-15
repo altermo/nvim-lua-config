@@ -40,7 +40,7 @@ cmp.setup({
     }),
     mapping={
         ['<CR>']=cmp.mapping(function(fallback)
-            if cmp.get_active_entry() and ({snippy=true,path=true,nvim_lsp=true,cmp_tabnine=true})[cmp.get_selected_entry().source.name] then
+            if cmp.get_active_entry() and ({snippy=true,path=true,nvim_lsp=true,cmp_tabnine=true,codeium=true})[cmp.get_selected_entry().source.name] then
                 cmp.confirm()
             else
                 fallback()

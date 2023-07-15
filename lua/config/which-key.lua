@@ -36,7 +36,6 @@ require'which-key'.register({[' ']=format({
 
     ----other
     b={require'small_plugins.bookend'.run,'bookmarks'},
-    ['\r']={'',''},
     u={':Scratch\r','scratch'},
     ------file
     W={function ()
@@ -63,7 +62,7 @@ require'which-key'.register({[' ']=format({
     l={':ls\r','list-buffers'},
     o={':only\r','only-window'},
     v={":lua require'small_plugins.splitbuf'.vsplit()\r",'vertical'},
-    e={":lua require'small_plugins.splitbuf'.split()\r",'vertical'},
+    e={":lua require'small_plugins.splitbuf'.split()\r",'horizontal'},
     n={':enew\r','enew'},
     d={':BDelete! this\r','buffer-close'},
     _=fmap(9,':%swincmd w\r','window %s'),
@@ -77,7 +76,7 @@ require'which-key'.register({[' ']=format({
         T={':FloatermToggle\r','terminal'},
         d={':Dff\r','dff'},
         e={':silent !emacsclient %&\r','send-emacs'},
-        f={':Fish\r','fish-shell'},
+        f={':Shell\r','shell'},
         r={':Ranger\r','ranger'},
         w={':call execute("terminal curl \'wttr.in/?nQF&lang=es\' -s")|startinsert\r','weather'},
         E={':edit .\r','edir'},
@@ -126,7 +125,7 @@ require'which-key'.register({[' ']=format({
             local dir=vim.fs.dirname(vim.fs.find('.git',{upward=true})[1])
             if dir then vim.cmd('cd '..dir) end
             vim.cmd.pwd()
-        end,'cd-to-root'},
+        end,'cd-to-project-root'},
         c={':mod\r','redraw-screen'},
         T={':lua require "mini.trailspace".trim()\r','trim spaces'},
         ------treesitter
@@ -164,10 +163,10 @@ require'which-key'.register({[' ']=format({
         r={require'genghis'.renameFile,'rename',silent=false},
         d={require'genghis'.duplicateFile,'duplicate'},
         C={':!echo "%:p"|xsel -ib\r','copy-path'},
-        p={':exe(\'vnew|call termopen("bat -pp \'.expand(\'<cfile>\').\'")\')\r','preview-under-cursor'},
+        --p={':exe(\'vnew|call termopen("bat -pp \'.expand(\'<cfile>\').\'")\')\r','preview-under-cursor'},
         T={':execute("edit ".tempname())\r','tempfile'},
         f={':Telescope find_files\r','find'},
-        R={require'spectre'.open,'replace-all-files'},
+        R={require'spectre'.open,'search-replace-all-files'},
         t={name='+set-type',
             o={':setf ','other',silent=false},
             _=cmap({p='python',t='txt',v='vim',s='fish',f='fennel',r='rust',l='lua',m='markdown',c='cpp',h='html',n="norg"},':set filetype=%s\r','%s')
@@ -237,9 +236,8 @@ require'which-key'.register({[' ']=format({
             w={':Wordy weak\r','wordy on'},
             W={':NoWordy\r','wordy off'},
             d={':ToggleDitto\r','ditto'},
-            g={':GrammarousCheck --lang=sv\r','grammar'},
-            l={':GrammarousCheck --lang=','grammar-lang',{silent=false}},
-            G={':GrammarousReset\r','grammar-off'},
+            g={':LspStart Grammarly\r','grammar'},
+            s={':LspStop Grammarly\r','grammar-stop'},
         },
         t={name='+translate-to',
             t={':let g:translator_target_lang=""<Left>','other',silent=false},
@@ -283,8 +281,7 @@ require'which-key'.register({[' ']=format({
     G={name='+browser--',
         _=cmap({
             p='yi\':!setsid firefox https://www.github.com/<C-r>"\r',
-            P='yi":!setsid firefox https://www.github.com/<C-r>"\r',
-            ["π"]='0Y:!setsid firefox https://www.github.com/<C-r>"\r',
+            P=':!setsid firefox https://www.github.com/<C-r>"\r',
             w='lbyw:!setsid firefox "https://en.wikipedia.org/w/index.php?search=<C-r>""\r',
             q='lbyw:!setsid firefox "https://docs.qtile.org/en/latest/search.html?q=<C-r>"&check_keywords=yes&area=default"\r',
         },'%s\r','%s')
@@ -309,7 +306,12 @@ require'which-key'.register({[' ']=format({
 
     ----lsp
     L={name='+lsp',
-        q={':lua vim.diagnostic.setqflist()\r','quickfix'},
+        q={':lua vim.diagnostic.setqflist()\r','list-diagnostics'},
+        r={':lua vim.lsp.buf.references()\r','references'},
+        h={':lua vim.lsp.buf.hover()\r','hover'},
+        f={':lua vim.lsp.buf.format()\r','format'},
+        c={':lua vim.lsp.buf.code_action()\r','code-action'},
+        i={':lua vim.lsp.buf.implementation()\r','implementation'},
     },
 
     ----hop
@@ -351,9 +353,8 @@ require'which-key'.register({[' ']=format({
         ['8']={':OverlengthToggle\r','toggle highlight past 80'},
         i={':IndentBlanklineToggle!\r','toggle highlight indent level'},
         w={':let b:minicursorword_disable=luaeval("not vim.b.minicursorword_disable")\r','toggle highlight cursor word'},
-        n={':lua require"notify".dismiss()\r','dismiss notify'},
+        n={':lua require"notify".dismiss({pending=true,silent=true})\r','dismiss notify'},
         r={':TSToggle rainbow\r','toggle rainbow'},
-        p={':TSToggle pairs\r','toggle pairs'},
         [' ']={':lua require "mini.trailspace".unhighlight()\r','unhighlight spaces'},
         ['<c- >']={':lua require "mini.trailspace".highlight()\r','highlight spaces'},
     }

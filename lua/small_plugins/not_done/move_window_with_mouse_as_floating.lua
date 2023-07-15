@@ -16,7 +16,7 @@ function M.make_floating(win)
         width=width,
         height=height,
         row=row,
-        col=col
+        col=col,
     })
 end
 function M.move_floating_window(win)

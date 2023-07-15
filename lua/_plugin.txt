@@ -54,3 +54,17 @@ jinzhongjia/lspui.nvim
 justinhj/battery.nvim
 jxstxs/conceal.nvim
 kiran94/edit-markdown-table.nvim
+archibate/nvim-gpt
+jesseleite/nvim-noirbuddy
+jmbuhr/otter.nvim
+ktunprasert/gui-font-resize.nvim
+leonheidelbach/trailblazer.nvim
+levouh/tint.nvim
+lewis6991/hover.nvim
+liangxianzhe/nap.nvim
+linrongbin16/lsp-progress.nvim
+lucastavaresa/simpleindentguides.nvim
+lucastavaresa/singlecomment.nvim
+lukaspietzschmann/telescope-tabs
+m4xshen/hardtime.nvim
+m4xshen/smartcolumn.nvim

@@ -116,7 +116,7 @@ require'packer'.startup(function (use)
     end,keys={{'i','<A-\'>'}}}
   use{'weissle/easy-action',opt=true} --TODO
   use{'chrisgrieser/nvim-recorder',config=get_setup('recorder',{slots={'a','b','c'}}),keys=mexp('n',{'q','Q','cq','yq','<C-q>'})}
-  use{'tyru/open-browser.vim',config=function ()
+  use{'tyru/open-browser.vim',config=function () --TODO: replace with vim.ui.open
     local k=require 'utils.keymap'
     k.nno('gx','<Plug>(openbrowser-smart-search)')
     k.xno('gx','<Plug>(openbrowser-smart-search)')
@@ -412,7 +412,7 @@ require'packer'.startup(function (use)
     {'lukas-reineke/cmp-rg',after='nvim-cmp'},
     {'quangnguyen30192/cmp-nvim-tags',after='nvim-cmp'},
     {'ray-x/cmp-treesitter',after='nvim-cmp'},
-    {'mtoohey31/cmp-fish',after='nvim-cmp'},
+    --{'mtoohey31/cmp-fish',after='nvim-cmp'},
     {'tzachar/cmp-tabnine',run='./install.sh',after='nvim-cmp',module='cmp_tabnine'},
     {'jcdickinson/codeium.nvim',config=get_setup('codeium'),after='nvim-cmp'},
   },event={'InsertEnter','CmdlineEnter'}}
@@ -469,6 +469,7 @@ require'packer'.startup(function (use)
   use{'phaazon/mind.nvim',opt=true}
 
   ----filetype
+  use{'lhkipp/nvim-nu',ft='nu',config=get_setup('nu',{use_lsp_features=false})}
   use{'vim-latex/vim-latex',ft='latex'}
   use{'mrcjkb/haskell-tools.nvim',ft='haskell'}
   use{'nvim-orgmode/orgmode',config=function ()

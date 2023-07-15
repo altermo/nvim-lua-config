@@ -9,8 +9,8 @@ M.options={
         action=vim.cmd.terminal,
     },
     f={
-        desc='terminal',
-        action=vim.cmd.Fish,
+        desc='shell',
+        action=vim.cmd.Shell,
     },
     ['*']={
         desc='nothing',

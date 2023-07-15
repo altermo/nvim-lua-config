@@ -56,7 +56,7 @@ vim.filetype.add({extension={bf='bf',slisp='lisp'}})
 function vim.pprint(...)
   local args={...}
   vim.schedule(function ()
-    vim.notify(vim.inspect(unpack(args)))
+    vim.notify(vim.inspect(#args<2 and unpack(args) or args))
   end)
 end
 function vim.oprint(...)
@@ -68,27 +68,6 @@ end
 function vim.traceback(mode)
   return vim.fn.writefile(vim.fn.split(debug.traceback(),'\n'),'out',mode or 'a')
 end
-local d=vim.deprecate
----@diagnostic disable-next-line: duplicate-set-field
-function vim.deprecate(...)
-  local t={}
-  if vim.tbl_contains(t,...) then
-    if (tonumber(os.date('%y'))<24 and tonumber(os.date('%m'))<5) then
-      return
-    else
-      vim.notify("NOTE: the don't warn about deprecatinos has ended")
-      vim.notify("To increase the time, edit other.lua")
-      return
-    end
-  end
-  d(...)
-end
-vim.api.nvim_create_autocmd('BufReadPre',{callback=function(args)
-  if vim.loop.fs_stat(vim.api.nvim_buf_get_name(args.buf)).size>1024*1024*4 then
-    vim.api.nvim_buf_delete(args.buf,{})
-    vim.notify('file to big')
-  end
-end})
 
 
 
@@ -97,8 +76,12 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
-  --require'npairs-int-upair'.setup({npairs_conf={enable_delete_pair_before=true,enable_abbr=true},space='u',bs='u',map='u',cr='u'})
-  require'ultimate-autopair'.setup({
+  --require'npairs-int-upair'.setup({npairs_conf={enable_delete_pair_before=true,enable_abbr=true},bs='u',map='n'})
+  local upair=require'ultimate-autopair'
+  upair.setup({
+    space2={
+      enable=true
+    },
     extensions={
       fly={nofilter=true},
       tsnode={outside={'comment'},p=50},
@@ -109,7 +92,6 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback
     },
   })
   require'ultimate-autopair.experimental.terminal'.setup()
-  require'ultimate-autopair.experimental.close'.setup()
   vim.api.nvim_del_autocmd(ev.id)
 end})
 vim.cmd.colorscheme'mini'

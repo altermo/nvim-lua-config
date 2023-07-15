@@ -1,4 +1,4 @@
-local set=vim.opt
+local set=vim.o
 set.shiftwidth=4
 set.tabstop=4
 set.softtabstop=4
@@ -44,11 +44,11 @@ set.shortmess='aToOAFW'
 set.completeopt='menu,menuone,noselect'
 set.virtualedit='block,onemore'
 set.nrformats='bin,hex,alpha'
-set.path:append('**')
+vim.opt.path:append('**')
 set.lazyredraw=true
 set.showmode=false
 set.modelineexpr=true
 set.foldcolumn='auto:2'
 set.statuscolumn="%{%&foldenable?'%C':''%}%s%{&nu?v:virtnum>0?'':v:relnum?&rnu?v:relnum:v:lnum:v:lnum:v:virtnum>0?'':&rnu?v:relnum:''}"
+set.shell='/bin/fish'
 --set.smoothscroll=true
---set.shell='/bin/bash'

@@ -10,7 +10,7 @@ require'nvim-treesitter.configs'.setup({
     playground={enable=true},
     endwise={enable=true},
 })
-function _G.TSUpadte()
+vim.api.nvim_create_user_command('TSUpadte',function()
     require'nvim-treesitter.configs'.setup({
         ensure_installed={
             'python','lua','fish',
@@ -31,5 +31,4 @@ function _G.TSUpadte()
             'comment','regex','query',
         }})
     require'nvim-treesitter.install'.commands.TSUpdate['run']()
-end
-vim.api.nvim_create_user_command('TSUpadte',':lua _G.TSUpadte()\r',{})
+end,{})

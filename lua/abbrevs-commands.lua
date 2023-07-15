@@ -16,14 +16,15 @@ cabbr('Wq','wq')
 cabbr('qw','wq')
 
 ----commands
-command('Fish','lua require("utils.lib").termrun(\'fish <args>\')',{nargs='*'})
-command('UpdateRemotePlugins',[[
-    for i in g:rplugins
-        call luaeval('require"packer.load"({"'.i.'"},{},_G.packer_plugins)')
-    endfor
-    if g:loaded_remote_plugins==1
-        unlet g:loaded_remote_plugins
-        source /usr/share/nvim/runtime/plugin/rplugin.vim
-    endif
-    UpdateRemotePlugins
-]])
+command('Shell',function (opts) require'utils.lib'.termrun('fish '..opts.args) end,{nargs='*'})
+command('UpdateRemotePlugins',function ()
+    for _,i in ipairs(vim.g.rplugins) do
+        ---@diagnostic disable-next-line: undefined-field
+        require'packer.load'({i},{},_G.packer_plugins)
+    end
+    if vim.g.loaded_remote_plugins==1 then
+        vim.g.loaded_remote_plugins=nil
+        vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim')
+    end
+    vim.cmd.UpdateRemotePlugins()
+end,{nargs='*'})
