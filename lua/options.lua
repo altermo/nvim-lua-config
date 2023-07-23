@@ -7,7 +7,6 @@ set.breakindent=true
 set.cindent=true
 set.expandtab=true
 set.linebreak=true
----@diagnostic disable-next-line: assign-type-mismatch
 set.fillchars='vert: ,eob: '
 set.foldmethod='expr'
 function _G.Fold(lnum) return vim.fn.getline(lnum)=="" and '0' or '1' end
@@ -51,4 +50,4 @@ set.modelineexpr=true
 set.foldcolumn='auto:2'
 set.statuscolumn="%{%&foldenable?'%C':''%}%s%{&nu?v:virtnum>0?'':v:relnum?&rnu?v:relnum:v:lnum:v:lnum:v:virtnum>0?'':&rnu?v:relnum:''}"
 set.shell='/bin/fish'
---set.smoothscroll=true
+set.smoothscroll=true

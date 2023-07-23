@@ -36,6 +36,7 @@ M.options={
     }
 }
 function M.open(Iwin)
+    local c=vim.fn.getpos('.')
     local buf=vim.api.nvim_create_buf(false,true)
     vim.api.nvim_buf_set_option(buf,'bufhidden','wipe')
     local win=Iwin or vim.api.nvim_get_current_win()
@@ -49,6 +50,7 @@ function M.open(Iwin)
         M.options[char].action()
     else
         vim.cmd.buffer('#')
+        vim.fn.setpos('.',c)
         vim.api.nvim_feedkeys(char,'m',true)
     end
 end

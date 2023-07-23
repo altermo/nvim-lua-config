@@ -56,10 +56,9 @@ require'packer'.startup(function (use)
   use 'bluz71/vim-nightfly-colors'
   use 'rakr/vim-one'
   use 'preservim/vim-colors-pencil'
-  use 'projekt0n/github-nvim-theme'
+  use{'projekt0n/github-nvim-theme',event='User s1'}
   use{'edeneast/nightfox.nvim',event='User s1'}
   use{'fenetikm/falcon',event='User s1'}
-  use{'folke/lsp-colors.nvim',event='User s1'}
   use{'vigoux/oak',event='User s1'}
   use{'folke/styler.nvim',config=get_setup('styler',{themes={}}),cmd='Styler'}
 
@@ -350,7 +349,7 @@ require'packer'.startup(function (use)
   ----treesitter
   use{'nvim-treesitter/nvim-treesitter',requires={
     'nvim-lua/plenary.nvim',
-    {'hiphish/nvim-ts-rainbow2',event='User s1',config='vim.cmd"TSEnable rainbow"'},
+    {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='User s1',config='vim.cmd"TSEnable rainbow"'},
     {'nvim-treesitter/playground',requires={'nvim-lua/popup.nvim'},cmd='TSPlaygroundToggle'},
     {'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
     {'mfussenegger/nvim-treehopper',module='tsht'},
@@ -476,15 +475,15 @@ require'packer'.startup(function (use)
     require('orgmode').setup_ts_grammar()
     require('orgmode').setup{}
   end,ft='org'}
-  use{'nvim-neorg/neorg',config=get_setup(
-    'neorg',{load={
-      ['core.defaults']={},
-      ['core.export']={},
-      ['core.export.markdown']={},
-      ['core.concealer']={},
-      --['core.presenter']={}, --TODO
-      --['core.completion']={}, --TODO
-    }}),ft='norg'}
+  --use{'nvim-neorg/neorg',config=get_setup(
+    --'neorg',{load={
+      --['core.defaults']={},
+      --['core.export']={},
+      --['core.export.markdown']={},
+      --['core.concealer']={},
+      ----['core.presenter']={}, --TODO
+      ----['core.completion']={}, --TODO
+    --}}),ft='norg'} --TODO
   use{'mzlogin/vim-markdown-toc',ft='markdown'}
   use{ "iamcco/markdown-preview.nvim", run = "cd app && npm install",ft='markdown'}
   use{'weirongxu/plantuml-previewer.vim',requires='tyru/open-browser.vim',ft='puml'}

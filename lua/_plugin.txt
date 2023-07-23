@@ -68,3 +68,10 @@ lucastavaresa/singlecomment.nvim
 lukaspietzschmann/telescope-tabs
 m4xshen/hardtime.nvim
 m4xshen/smartcolumn.nvim
+eraserhd/parinfer-rust
+folke/flash.nvim
+mattn/webapi-vim
+max397574/dyn_help.nvim
+max397574/footprints.nvim
+max397574/hangman.nvim
+max397574/healthy.nvim

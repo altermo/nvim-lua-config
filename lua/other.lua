@@ -42,7 +42,7 @@ require'small_plugins.textobj'.setup()
 require'small_plugins.unimpaired'.setup()
 require'small_plugins.tabline'.setup()
 local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
-  if fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg"},vim.o.filetype)~=-1 then
+  if fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg","zig"},vim.o.filetype)~=-1 then
     vim.cmd"syntax off"
   else
     vim.cmd"syntax on"
@@ -52,11 +52,17 @@ vim.api.nvim_create_autocmd('User',{pattern='s1',callback=function ()
   vim.api.nvim_del_autocmd(so)
   vim.cmd'syntax on'
 end})
-vim.filetype.add({extension={bf='bf',slisp='lisp'}})
+vim.api.nvim_create_autocmd('FileType',{callback=function()
+  vim.filetype.add({extension={bf='bf'}})
+end,pattern='bf',once=true})
+vim.api.nvim_create_autocmd({'BufRead','BufNewFile','StdinReadPost'},{
+  callback=function()
+    vim.cmd.setf('bf')
+  end,once=true,pattern='*.bf'})
 function vim.pprint(...)
   local args={...}
   vim.schedule(function ()
-    vim.notify(vim.inspect(#args<2 and unpack(args) or args))
+    vim.notify(vim.inspect(#args==1 and unpack(args) or args))
   end)
 end
 function vim.oprint(...)
@@ -68,13 +74,20 @@ end
 function vim.traceback(mode)
   return vim.fn.writefile(vim.fn.split(debug.traceback(),'\n'),'out',mode or 'a')
 end
+function vim.dprint(...)
+  if _G.__A then return end
+  _G.__A=true
+  local args={...}
+  vim.schedule(function ()
+    vim.notify(vim.inspect(#args<2 and unpack(args) or args))
+  end)
+end
 
 
 
 
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback=function(ev)
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
-  vim.opt.runtimepath:append('/home/user/.config/nvim/.other/nvim-autopairs-fork')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
   --require'npairs-int-upair'.setup({npairs_conf={enable_delete_pair_before=true,enable_abbr=true},bs='u',map='n'})
   local upair=require'ultimate-autopair'
@@ -92,6 +105,6 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback
     },
   })
   require'ultimate-autopair.experimental.terminal'.setup()
+  require'ultimate-autopair.experimental.tabout'.setup()
   vim.api.nvim_del_autocmd(ev.id)
 end})
-vim.cmd.colorscheme'mini'

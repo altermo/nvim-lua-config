@@ -1,3 +1,4 @@
+vim.cmd.iabbrev'<buffer> re return'
 vim.cmd.iabbrev'<buffer> l local'
 vim.cmd.iabbrev'<buffer> fu function'
 vim.cmd.iabbrev'<buffer> vpp vim.pprint'

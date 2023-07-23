@@ -7,7 +7,7 @@ function M.get_list(key)
         if vim.fn.filereadable(filepath)~=1 then return end
         if key and key~=filename:sub(1,1) then return end
         return filepath
-    end):totable()
+    end):rev():totable()
 end
 function M.unlock_file(key)
     M.locked_files[key]=nil

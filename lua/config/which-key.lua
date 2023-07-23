@@ -306,12 +306,14 @@ require'which-key'.register({[' ']=format({
 
     ----lsp
     L={name='+lsp',
+        [' ']={':LspStart\r','start-lsp'},
         q={':lua vim.diagnostic.setqflist()\r','list-diagnostics'},
         r={':lua vim.lsp.buf.references()\r','references'},
         h={':lua vim.lsp.buf.hover()\r','hover'},
         f={':lua vim.lsp.buf.format()\r','format'},
         c={':lua vim.lsp.buf.code_action()\r','code-action'},
         i={':lua vim.lsp.buf.implementation()\r','implementation'},
+        I={':lua vim.lsp.inlay_hint(0)\r','toggle-inlay-hint'},
     },
 
     ----hop

@@ -10,4 +10,4 @@ vim.pprint(os.clock()-t1)
 local t2=os.clock()
 for _=1,rep do f2() end
 vim.pprint(os.clock()-t2)
-vim.tbl_contains=cvim.tbl_contains
+--vim.tbl_contains=cvim.tbl_contains

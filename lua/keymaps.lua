@@ -118,11 +118,15 @@ nno('gh',function ()
   local word=vim.fn.expand('<cword>')
   vim.o.iskeyword=iskeyword
   if vim.regex([[vim\.api\.]]):match_str(word) then
-    word=vim.fn.expand('<cword>')
+    word=vim.fn.expand('<cword>')..'()'
   elseif vim.regex([[vim\.fn\.]]):match_str(word) then
     word=vim.fn.expand('<cword>')..'()'
   elseif vim.regex([[vim\.cmd\.]]):match_str(word) then
     word=':'..vim.fn.expand('<cword>')
+  elseif vim.regex([[vim\.o\.]]):match_str(word) then
+    word="'"..vim.fn.expand('<cword>').."'"
+  elseif vim.regex([[vim\.opt\.]]):match_str(word) then
+    word="'"..vim.fn.expand('<cword>').."'"
   end
   vim.cmd.help(word)
 end)
@@ -209,7 +213,7 @@ vno('gG','y:!setsid firefox https://www.github.com/<C-r>"\r')
 vno('å','"+y')
 vno('<','<gv')
 vno('>','>gv')
-vno('<A-w>','<cmd>w !wc\r')
+vno('<A-w>',':w !wc\r')
 vno('<A-j>',':move \'>+1\rgv')
 vno('<A-k>',':move \'<-2\rgv')
 vno('<A-h>','<gv')
