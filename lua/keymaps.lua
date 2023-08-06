@@ -200,6 +200,7 @@ ino('<A-<>','<C-o>gg')
 ino('<A->>','<C-o>G')
 ino('<C-e>','<End>')
 ino('<C-a>','<Home>')
+ino('<C-g>','<esc>')
 
 ----vno
 vno('gr','y:%s/<C-r>"/<C-r>"/g<Left><Left>',{noremap=true})

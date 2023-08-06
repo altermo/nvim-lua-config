@@ -1,12 +1,33 @@
-require'neodev'.setup{
-    library={
-        plugins=false,
-    },
-}
+---@type uv --Temp
+vim.uv=vim.uv
+--require'neodev'.setup{
+    --library={
+        --plugins=false,
+    --},
+--}
 require'mason'.setup{}
 local lspconfig=require'lspconfig'
 lspconfig.pyright.setup{}
-lspconfig.lua_ls.setup{settings={Lua={diagnostics={globals={'vim','unpack'}}}}}
+lspconfig.lua_ls.setup{
+    settings={
+        Lua={
+            runtime={
+                version='LuaJIT',
+            },
+            diagnostics={
+                globals={'vim'},
+            },
+            workspace={
+                library={
+                    '/usr/local/share/nvim/runtime/lua',
+                    '${3rd}/luv/library',
+                    '/home/user/.local/share/nvim/site/pack/packer/opt/neodev.nvim/types/nightly',
+                    '~/.config/nvim/lua',
+                }
+            }
+        }
+    }
+}
 lspconfig.jsonls.setup{}
 lspconfig.clangd.setup{}
 lspconfig.rust_analyzer.setup{} --TODO

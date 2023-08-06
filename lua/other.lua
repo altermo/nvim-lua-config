@@ -17,23 +17,26 @@ local fn=vim.fn
 fn.timer_start(1000,function() vim.cmd"doautocmd User s1" end)
 local fastfoldtimer
 fastfoldtimer=fn.timer_start(2000,function()
-  if #fn.filter(fn.range(1,fn.line'$'),'foldlevel(v:val)>0')>0 then
+  if vim.o.foldenable then
     vim.cmd('doautocmd User isfolded')
     fn.timer_stop(fastfoldtimer)
   end
 end,{['repeat']=-1})
 local qftimer
 qftimer=fn.timer_start(2000,function ()
+  ---@diagnostic disable-next-line: param-type-mismatch
   if next(fn.filter(fn.getwininfo(),'v:val.quickfix && !v:val.loclist')) then
     vim.cmd'doautocmd User qfopen'
     fn.timer_stop(qftimer)
   end
 end,{['repeat']=-1})
+require'small_plugins.auto-cd'.setup()
+require'small_plugins.highlight-selected'.setup()
 require'small_plugins.auto-save'.setup()
 require'small_plugins.builder'.setup()
 require'small_plugins.dff'.setup()
 require'small_plugins.labull'.setup()
-require'small_plugins.neofnl'.setup()
+require'small_plugins.large-file'.setup()
 require'small_plugins.ranger'.setup()
 require'small_plugins.session'.setup()
 require'small_plugins.swapapos'.setup()
@@ -41,6 +44,7 @@ require'small_plugins.tabbm'.setup()
 require'small_plugins.textobj'.setup()
 require'small_plugins.unimpaired'.setup()
 require'small_plugins.tabline'.setup()
+require'small_plugins.onelinecomment'.setup()
 local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
   if fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg","zig"},vim.o.filetype)~=-1 then
     vim.cmd"syntax off"
@@ -65,29 +69,33 @@ function vim.pprint(...)
     vim.notify(vim.inspect(#args==1 and unpack(args) or args))
   end)
 end
-function vim.oprint(...)
-  return vim.fn.writefile(vim.fn.split(vim.inspect(...),'\n'),'out')
+function vim.traceback()
+  return vim.lg(debug.traceback())
 end
-function vim.aprint(...)
-  return vim.fn.writefile(vim.fn.split(vim.inspect(...),'\n'),'out','a')
+function vim.lg(...)
+  local d=debug.getinfo(2)
+  return vim.fn.writefile(vim.fn.split(
+    ':'..d.short_src..':'..d.currentline..':\n'..
+    vim.inspect(#{...}==1 and ... or {...}),'\n'
+  ),'/tmp/nlog','a')
 end
-function vim.traceback(mode)
-  return vim.fn.writefile(vim.fn.split(debug.traceback(),'\n'),'out',mode or 'a')
+local input=vim.ui.input
+---@diagnostic disable-next-line: duplicate-set-field
+vim.ui.input=function (opts,f)
+  --Note: replacing with <C-v>digits also works
+  --Example for esace: replace(default,'','027')
+  if opts.default then
+    local default=vim.fn.keytrans(opts.default)
+    if default~=opts.default then
+      local fun=f
+      f=function (inp) fun(inp and vim.keycode(inp) or inp) end
+      opts.default=default
+    end
+  end
+  input(opts,f)
 end
-function vim.dprint(...)
-  if _G.__A then return end
-  _G.__A=true
-  local args={...}
-  vim.schedule(function ()
-    vim.notify(vim.inspect(#args<2 and unpack(args) or args))
-  end)
-end
-
-
-
-
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback=function(ev)
-  vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
+  vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua_')
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/npairs-integrate-upair')
   --require'npairs-int-upair'.setup({npairs_conf={enable_delete_pair_before=true,enable_abbr=true},bs='u',map='n'})
   local upair=require'ultimate-autopair'
@@ -97,14 +105,19 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback
     },
     extensions={
       fly={nofilter=true},
-      tsnode={outside={'comment'},p=50},
+      --tsnode={outside={'comment'},p=50,filter=true},
+      [require'ultimate-autopair.experimental.cond']={p=55},
     },
     config_internal_pairs={
       {'"','"',fly=true},
-      {"'","'",fly=true},
+      {"'","'",fly=true,cond={function(o,_,fns)
+        return not fns.in_lisp(o) or fns.in_string(o)
+      end}},
     },
   })
   require'ultimate-autopair.experimental.terminal'.setup()
   require'ultimate-autopair.experimental.tabout'.setup()
   vim.api.nvim_del_autocmd(ev.id)
+  vim.opt.runtimepath:remove('/home/user/.config/nvim/.other/ua_')
+  vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
 end})

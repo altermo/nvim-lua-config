@@ -4,3 +4,8 @@ snippet INIT
 	return M
 snippet pairs
     pairs(${0})
+snippet vgetline
+	vim.api.nvim_buf_get_lines(0,$1,$2,false)
+snippet vmapset
+	vim.keymap.set('$1','$2',$3)
+	

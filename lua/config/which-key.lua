@@ -32,11 +32,14 @@ local function format(tbl)
 end
 local spell={s='es',e='en',v='sv',n='nb'}
 local azz={}
+local pos
 require'which-key'.register({[' ']=format({
 
     ----other
-    b={require'small_plugins.bookend'.run,'bookmarks'},
+    b={require'small_plugins.bookend'.run,'bookend'},
     u={':Scratch\r','scratch'},
+    L={':Luapad\r','luapad'},
+    ['.']={'@:','run-prev-cmd'},
     ------file
     W={function ()
         local tmp=vim.fn.tempname()
@@ -59,7 +62,6 @@ require'which-key'.register({[' ']=format({
     z={'zM100zo','close-all-folds-but-cursor'},
     Z={'zM','close-all-folds'},
     ------buffer
-    l={':ls\r','list-buffers'},
     o={':only\r','only-window'},
     v={":lua require'small_plugins.splitbuf'.vsplit()\r",'vertical'},
     e={":lua require'small_plugins.splitbuf'.split()\r",'horizontal'},
@@ -70,6 +72,17 @@ require'which-key'.register({[' ']=format({
     [' ']={':lua require("hop").hint_char1()\r','hop'},
     ['<C- >']={':lua require"hop".hint_char1({multi_windows=true})\r','HopMW'},
     r={':Ranger\r','ranger'},
+    ['<A- >']={function()
+        pos=vim.api.nvim_win_get_cursor(0)
+        require("hop").hint_char1()
+    end,'save-and-hop'},
+    ['<']={function()
+        if not pos then return end
+        vim.api.nvim_win_set_cursor(0,pos)
+    end,'load'},
+    ['>']={function()
+        pos=vim.api.nvim_win_get_cursor(0)
+    end,'save'},
 
     ----apps
     a={name='+apps',
@@ -82,6 +95,7 @@ require'which-key'.register({[' ']=format({
         E={':edit .\r','edir'},
         t={':Telescope file_browser file_browser hidden=true\r','telescope file_browser'},
         m={':MarkdownPreview\r','markdown-preview'},
+        c={':Calendar\r','calendar'},
         N={function ()
             local ino=require'utils.keymap'.ino
             ino('<left>','<left>')
@@ -109,7 +123,7 @@ require'which-key'.register({[' ']=format({
                 vim.opt.showtabline=0
             end,1000)
         end,'show'},
-        m={name='move-buffer',
+        m={name='+move-buffer',
             _=fmap(9,':TabBufMove %s\r','tab-%s'),
             ['0']={':TabBufMove $\r','last'},
             ['<']={':TabBufMove -\r','prev'},
@@ -120,8 +134,9 @@ require'which-key'.register({[' ']=format({
     ----cother
     c={name='+otherc',
         d={':cd %:p:h|pwd\r','cd-to-file'},
+        l={':edit /tmp/nlog\r','open-nlog'},
         r={':source /tmp/session.vim','reload-last-session'},
-        g={function()
+        G={function()
             local dir=vim.fs.dirname(vim.fs.find('.git',{upward=true})[1])
             if dir then vim.cmd('cd '..dir) end
             vim.cmd.pwd()
@@ -154,6 +169,12 @@ require'which-key'.register({[' ']=format({
         i={name='+indent',
             _=fmap(9,':set sw=%s ts=%s sts=%s\r','set indent=%s'),
         },
+        ------git
+        g={name='+git',
+            g={':Neogit\r','neogit'},
+            d={':DiffviewOpen\r','diff'},
+            b={':Flog\r','branches'},
+        },
     },
 
     ----files
@@ -176,16 +197,16 @@ require'which-key'.register({[' ']=format({
     ----search
     s={name='+search',
         F={':Folds\r','folds'},
-        A={':Telescope\r','telescope'},
-        r={':Telescope colorscheme enable_preview=true\r','preview-colorscheme'},
+        a={':Telescope\r','telescope'},
+        q={':Telescope colorscheme enable_preview=true\r','preview-colorscheme'},
         _=(function ()
             local tbl={}
             for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
                 o='oldfiles',s={'live_grep_args'},b='buffers', u={'undo'},
                 p={'project'},y={'yank_history'},n={'notify'},
                 T='tele_tabby list',
-                P={'packer'},a='asynctasks all',w={'file_browser'},
-                h='help_tags',K='symbols',
+                P={'packer'},w={'file_browser'},
+                h='help_tags',k='symbols',
             }) do
                 if type(v)=='string' then
                     tbl[k]={':Telescope '..v..' theme=ivy hidden=true\r',v}
@@ -197,10 +218,16 @@ require'which-key'.register({[' ']=format({
         end)(),
         g={name='+git',
             s={':Telescope git_status\r','status'},
-            c={':Telescope conventional_commits conventional_commits\r','conventional-commit'},
-            C={':Telescope git_commits\r','commits'},
+            c={':Telescope git_commits\r','commits'},
             b={':Telescope git_branches\r','branches'},
         },
+        r={name='+replace',
+            s={require("ssr").open,'structural'},
+            l={':IncRename <C-r>=expand("<cword>")\r','lsp',silent=false},
+            p={':pyro/gr\r','pyro'},
+            r={':lua require("spectre").toggle()\r','specter'},
+            w={':%s/\\<<C-r>=expand("<cword>")\r\\>//<Left>','word',silent=false},
+        }
     },
 
     ----buffer-delete
@@ -232,7 +259,7 @@ require'which-key'.register({[' ']=format({
         s={name='+spell',
             _=cmap(spell,':set spelllang=%s\r','lang=%s',{silent=false})
         },
-        g={name='grammar',
+        g={name='+grammar',
             w={':Wordy weak\r','wordy on'},
             W={':NoWordy\r','wordy off'},
             d={':ToggleDitto\r','ditto'},
@@ -305,7 +332,7 @@ require'which-key'.register({[' ']=format({
     },
 
     ----lsp
-    L={name='+lsp',
+    l={name='+lsp',
         [' ']={':LspStart\r','start-lsp'},
         q={':lua vim.diagnostic.setqflist()\r','list-diagnostics'},
         r={':lua vim.lsp.buf.references()\r','references'},
@@ -314,6 +341,7 @@ require'which-key'.register({[' ']=format({
         c={':lua vim.lsp.buf.code_action()\r','code-action'},
         i={':lua vim.lsp.buf.implementation()\r','implementation'},
         I={':lua vim.lsp.inlay_hint(0)\r','toggle-inlay-hint'},
+        s={':LspInfo\r','status'},
     },
 
     ----hop
@@ -359,6 +387,13 @@ require'which-key'.register({[' ']=format({
         r={':TSToggle rainbow\r','toggle rainbow'},
         [' ']={':lua require "mini.trailspace".unhighlight()\r','unhighlight spaces'},
         ['<c- >']={':lua require "mini.trailspace".highlight()\r','highlight spaces'},
-    }
+    },
+
+    -----refactoring
+    R={
+        name='+refactor',
+        f={':Refactor extract ','extract',silent=false},
+        i={':Refactor inline_var ','inline-var',silent=false},
+    },
 })})
 -- vim:fen:

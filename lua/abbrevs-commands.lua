@@ -9,7 +9,8 @@ local function cabbr(lhs,rhs)
 end
 
 ----cabbrev
-cabbr('W','w')
+--cabbr('W','w')
+cabbr('w','=vim.fn.input("Stop:")')
 cabbr('Q','q')
 cabbr('WQ','wq')
 cabbr('Wq','wq')

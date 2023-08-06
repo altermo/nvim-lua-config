@@ -19,11 +19,13 @@ function M.ranger(path)
     while vim.fn.filereadable(realpath)==0 and vim.fn.isdirectory(realpath)==0 do
         realpath=vim.fn.fnamemodify(realpath,':h')
     end
+    local ranger_full_cmd=ranger_command..' --cmd "map r chain cd ..;open_with" --choosefiles='..file
     if vim.fn.isdirectory(realpath)==1 then
-        vim.fn.termopen(ranger_command..' "'..realpath..'" --choosefiles='..file,jobargs)
+        ranger_full_cmd=ranger_full_cmd..' "'..realpath..'"'
     else
-        vim.fn.termopen(ranger_command..' --cmd "select_file '..realpath..'" --choosefiles='..file,jobargs)
+        ranger_full_cmd=ranger_full_cmd..' --cmd "select_file '..realpath..'"'
     end
+    vim.fn.termopen(ranger_full_cmd,jobargs)
     buf=vim.fn.bufnr()
     vim.api.nvim_set_option_value('bufhidden','wipe',{buf=buf})
     vim.cmd.startinsert()

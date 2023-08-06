@@ -17,7 +17,7 @@ local bcolors={
         base0E='#ffc4ff', --statment
         base0F='#00a5c5', --statment
     },
-    {--TODO
+    {
         base00 = '#0a3a2a',
         base01 = '#324747',
         base02 = '#000a2a',
