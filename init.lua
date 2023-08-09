@@ -1,6 +1,5 @@
 vim.loader.enable()
 
---require'lazy'
 --require'plugins'
 require'utils.empty'
 require'options'

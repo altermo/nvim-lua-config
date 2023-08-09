@@ -3,9 +3,6 @@ require'nvim-treesitter.configs'.setup({
     indent={enable=true},
     rainbow={enable=true},
     context_commentstring={enable=true},
-    --refactor={
-        --highlight_current_scope={enable=true},
-    --},
     playground={enable=true},
     endwise={enable=true},
 })

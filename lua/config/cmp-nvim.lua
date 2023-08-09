@@ -1,40 +1,47 @@
 local cmp=require'cmp'
-local lspkind=require'lspkind'
+local menu={
+    snippy='SNIP',
+    cmp_tabnine='TN',
+    nvim_lsp='LSP',
+    calc='CALC',
+    spell='SP',
+    async_path='PATH',
+    rg='RG',
+    fish='FISH',
+    treesitter='TS',
+    tags='TGS',
+    buffer='BUF',
+    codeium='CI',
+    obsidian='OBS',
+    cmdline_history='CLH',
+    cmdline='CL',
+}
+local function format(entry,item)
+    item.dup=0
+    item.menu=menu[entry.source.name]
+    return item
+end
 cmp.setup({
-    formatting={
-        format=lspkind.cmp_format({menu={
-            snippy='SNIP',
-            cmp_tabnine='TN',
-            nvim_lsp='LSP',
-            calc='CALC',
-            spell='SP',
-            path='PATH',
-            rg='RG',
-            fish='FISH',
-            treesitter='TS',
-            tags='TGS',
-            buffer='BUF',
-            codeium='CI'
-        },mode='text'})},
+    formatting={format=format},
     snippet={
         expand=function(args)
             require('snippy').expand_snippet(args.body)
         end
     },
     sources=cmp.config.sources({
-        {name='snippy'},
-        {name='cmp_tabnine'},
-        {name='nvim_lsp'},
-        {name='nvim_lsp_signature_help'},
-        {name='calc'},
-        {name='spell'},
-        {name='path'},
-        {name='rg',option={additional_arguments='--hidden --max-depth 4'}},
-        {name='fish'},
-        {name='treesitter'},
-        {name='tags'},
         {name='buffer'},
+        {name='nvim_lsp'},
+        {name='treesitter'},
+        {name='cmp_tabnine'},
         {name='codeium'},
+        {name='snippy'},
+        {name='obsidian'},
+        {name='spell'},
+        {name='async_path'},
+        {name='tags'},
+        {name='calc'},
+        {name='rg',option={additional_arguments='--hidden --max-depth 4'}},
+        {name='nvim_lsp_signature_help'},
     }),
     mapping={
         ['<CR>']=cmp.mapping(function(fallback)
@@ -58,25 +65,20 @@ cmp.setup({
     },
 })
 cmp.setup.cmdline('/',{
+    formatting={format=format},
     mapping=cmp.mapping.preset.cmdline(),
     sources=cmp.config.sources({
         {name='buffer'},
     })
 })
 cmp.setup.cmdline(':',{
-    formatting={
-        format=lspkind.cmp_format({menu={
-            path='PATH',
-            cmdline='CL',
-            cmdline_history='CLH',
-            cmp_tabnine='TN',
-        },mode='text'})},
+    formatting={format=format},
     mapping=cmp.mapping.preset.cmdline(),
     sources=cmp.config.sources({
         {name='path'},
         {name='cmdline'},
-        {name='cmdline_history'},
         {name='cmp_tabnine'},
+        {name='cmdline_history'},
     })
 })
 cmp.setup.filetype({'AerojumpFilter'},{sources={}})
@@ -93,7 +95,7 @@ cmp.setup{sorting={priority_weight=2,comparators={
     compare.order,
 }}}
 --require'cmp_nvim_lua'.is_available=function ()
-    --return vim.bo.filetype=='lua' or vim.bo.filetype=='fennel'
+--return vim.bo.filetype=='lua' or vim.bo.filetype=='fennel'
 --end
 if vim.o.filetype=='dirbuf' then
     vim.api.nvim_create_autocmd('FileType',{pattern='conf',

@@ -34,6 +34,9 @@ end
 local extend=vim.fn.extend
 require'packer'.startup(function (use)
   ----TEST
+  use{'windwp/nvim-autopairs',module'nvim-autopairs'}
+  use{'altermo/ultimate-autopair',opt=true}
+  use{'00sapo/visual.nvim',config=get_setup('visual'),opt=true}
 
   ----colorschm
   use 'sainnhe/sonokai'
@@ -70,7 +73,7 @@ require'packer'.startup(function (use)
 
   ----visual
   ------fun
-  use{'lukas-reineke/indent-blankline.nvim',config=get_setup('indent_blankline',{show_current_context=true}),event='User s1'}
+  use{'lukas-reineke/indent-blankline.nvim',config='vim.g.indent_blankline_filetype_exclude={"dashboard"};'..get_setup('indent_blankline',{show_current_context=true}),event='User s1'}
   use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
     vim.g.Hexokinase_highlighters={'backgroundfull'}
   end,event='User s1'}
@@ -172,7 +175,7 @@ require'packer'.startup(function (use)
   use{'arp242/jumpy.vim',keys={'[[','<char-93><char-93>'}}
   use{'lambdalisue/lista.nvim',config=get_rplugin(),cmd='Lista'}
   use{'jeetsukumaran/vim-indentwise',keys=mexp('n',extend(cexp('[',{'-','+','=','_','%'}),cexp(']',{'-','+','=','_','%'})))}
-  use{'mg979/vim-visual-multi',setup='vim.cmd"let g:VM_maps={}"',keys=mexp('n',{'\\\\','<C-n>'})}
+  use{'mg979/vim-visual-multi',setup='vim.cmd"let g:VM_maps={}"',keys=extend(mexp('n',{'\\\\','<C-n>'}),{'x','<C-n>'})}
   use{'xiyaowong/accelerated-jk.nvim',config=function ()
     require('accelerated-jk').setup{}
     local xno=require'utils.keymap'.xno
@@ -232,7 +235,7 @@ require'packer'.startup(function (use)
   use{"ellisonleao/carbon-now.nvim", config = function() require('carbon-now').setup() end,cmd='CarbonNow'}
   use{'andrewradev/linediff.vim',cmd={'Linediff','LinediffReset'}}
   use{'jbyuki/instant.nvim',config=function ()
-    vim.g.instant_username='UsEr'
+    vim.g.instant_username='User'
   end,opt=true}
   use{'tpope/vim-dadbod',cmd='DB'}
   use{'danymat/neogen',module='neogen',config=get_setup('neogen',{snippet_engine='snippy'}),cmd='Neogen'}
@@ -316,7 +319,6 @@ require'packer'.startup(function (use)
     {'nvim-treesitter/playground',requires={'nvim-lua/popup.nvim'},cmd='TSPlaygroundToggle'},
     {'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
     {'mfussenegger/nvim-treehopper',module='tsht'},
-    {'nvim-treesitter/nvim-treesitter-refactor',event='User s1'},
     {'rrethy/nvim-treesitter-endwise',event='InsertEnter',config='vim.cmd"TSEnable endwise"'},
   },config=get_config'treesitter'}
   use{'ziontee113/syntax-tree-surfer',config=get_config'minimove-treesurfer',
@@ -329,8 +331,8 @@ require'packer'.startup(function (use)
   use{'stevearc/stickybuf.nvim',config=get_setup'stickybuf',cmd=extend(cexp('Pin',{'Buffer','Buftype','Filetype'}),{'Unpin'})}
   use{'neovim/nvim-lspconfig',config=get_config'lsp',requires={
     {'williamboman/mason.nvim',module='mason'},
-    {'folke/neodev.nvim',module='neodev'},
-    {'onsails/lspkind.nvim',module='lspkind' --[[TODO]]}},event='User s1'}
+    {'kosayoda/nvim-lightbulb',module='nvim-lightbulb'},
+    {'folke/neodev.nvim',module='neodev'}},event='User s1',cmd='LspStart'}
   use{'glepnir/dashboard-nvim',config=get_config('dashboard'),cmd={'Dashboard','DashboardNewFile'},setup=function ()
     vim.api.nvim_create_autocmd({'Vimenter'},{callback=function()
       if vim.fn.argc()==0 and vim.api.nvim_buf_line_count(0)==1 and vim.api.nvim_get_current_line()=='' and vim.api.nvim_buf_get_name(0)=='' then
@@ -367,11 +369,10 @@ require'packer'.startup(function (use)
     {'hrsh7th/cmp-buffer',after='nvim-cmp'},
     {'hrsh7th/cmp-nvim-lsp',after='nvim-cmp'},
     {'hrsh7th/cmp-nvim-lsp-signature-help',after='nvim-cmp'},
-    {'hrsh7th/cmp-path',after='nvim-cmp'},
+    {'FelipeLema/cmp-async-path',after='nvim-cmp'},
     {'lukas-reineke/cmp-rg',after='nvim-cmp'},
     {'quangnguyen30192/cmp-nvim-tags',after='nvim-cmp'},
     {'ray-x/cmp-treesitter',after='nvim-cmp'},
-    --{'mtoohey31/cmp-fish',after='nvim-cmp'}, --TODO
     {'tzachar/cmp-tabnine',run='./install.sh',after='nvim-cmp',module='cmp_tabnine'},
     {'jcdickinson/codeium.nvim',config=get_setup('codeium'),after='nvim-cmp'},
   },event={'InsertEnter','CmdlineEnter'}}
@@ -391,19 +392,16 @@ require'packer'.startup(function (use)
   --use{'sindrets/diffview.nvim',cmd=cexp('Diffview',{'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'}),requires={'nvim-tree/nvim-web-devicons',module='nvim-web-devicons'}} --TODO
 
   ----debug
+  use{'xeluxee/competitest.nvim',requires='MunifTanjim/nui.nvim',
+    config=get_setup'competitest',cmd='CompetiTest'} --TODO
   --TODO
   --[[
-  puremourning/vimspector
-  nvim-neotest/neotest
-  xeluxee/competitest.nvim
+  ofirgall/goto-breakpoints.nvim
   mfussenegger/nvim-dap
-  pocco81/dap-buddy.nvim
-  andythigpen/nvim-coverage
-  nvim-telescope/telescope-vimspector.nvim
   nvim-telescope/telescope-dap.nvim
+  pocco81/dap-buddy.nvim
   thehamsta/nvim-dap-virtual-text
   rcarriga/nvim-dap-ui
-  ofirgall/goto-breakpoints.nvim
   --]]
 
   ----writing
@@ -415,7 +413,7 @@ require'packer'.startup(function (use)
   use{'dbmrq/vim-ditto',cmd=extend(cexp('Ditto',{'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},true),{'NoDitto','ToggleDitto'})}
   use{'reedes/vim-wordy',cmd={'Wordy','NoWordy'}}
   use{'ron89/thesaurus_query.vim',cmd=cexp('Thesaurus',{'QueryReplaceCurrentWord','QueryLookupCurrentWord','QueryReplace'},true)} --TODO
-  use{'phaazon/mind.nvim',opt=true} --TODO
+  use{'epwalsh/obsidian.nvim',config=get_setup('obsidian'),ft='markdown'}
 
   ----filetype
   use{'lhkipp/nvim-nu',ft='nu',config=get_setup('nu',{use_lsp_features=false})} --TODO: enable log

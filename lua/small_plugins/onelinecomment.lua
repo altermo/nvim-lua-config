@@ -14,7 +14,7 @@ function M._langauge_for_range(self,range,_s)
     end
     return _s
 end
-function M.get_ft() --TODO: fix for empty lines
+function M.get_ft()
     local stat,parser=pcall(vim.treesitter.get_parser,0)
     if not stat then
         return vim.o.filetype

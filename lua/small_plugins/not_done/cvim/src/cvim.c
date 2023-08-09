@@ -27,8 +27,8 @@ void cvim_internal_check (lua_State *L,int idx,enum cvim_internal_is is){
     lua_error(L);
 };
 void cvim_internal_check_exsists(lua_State *L,int idx){
-    if (lua_isnoneornil(L,idx)){
-        lua_pushstring(L,"argument is nil");
+    if (lua_isnone(L,idx)){
+        lua_pushstring(L,"argument is none");
         lua_error(L);
     }
 }

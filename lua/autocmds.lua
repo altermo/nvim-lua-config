@@ -17,4 +17,7 @@ autocmd('BufWinEnter',{callback=function()
         end
     end)
 end})
+vim.api.nvim_create_autocmd('VimLeave',{callback=function()
+    vim.cmd.mksession({'/tmp/session.vim',bang=true})
+end})
 --autocmd('BufWrite',{command='if &filetype=="help"|helptags .|endif'})

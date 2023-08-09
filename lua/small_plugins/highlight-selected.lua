@@ -23,14 +23,13 @@ function M.do_highlight()
     M.prev_match=vim.fn.matchadd('Visual','\\M'..vim.fn.escape(line,'\\'))
 end
 function M.setup()
-    pcall(vim.api.nvim_del_augroup_by_name,'Alla')
-    vim.api.nvim_create_augroup('Alla',{})
+    vim.api.nvim_create_augroup('hisel',{})
     local id
-    vim.api.nvim_create_autocmd('ModeChanged',{group='Alla',callback=function ()
+    vim.api.nvim_create_autocmd('ModeChanged',{group='hisel',callback=function ()
         M.do_highlight()
         id=vim.api.nvim_create_autocmd('CursorMoved',{callback=M.do_highlight})
     end,pattern='*:[v\x16]'})
-    vim.api.nvim_create_autocmd('ModeChanged',{group='Alla',callback=function ()
+    vim.api.nvim_create_autocmd('ModeChanged',{group='hisel',callback=function ()
         if id then vim.api.nvim_del_autocmd(id) end
         M.clear()
     end,pattern='[v\x16]:*'})

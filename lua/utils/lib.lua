@@ -48,4 +48,11 @@ function M.utf8_sub(s,i,j)
     local end_=pos[j]
     return s:sub(start,end_+vim.str_utf_end(s,end_))
 end
+function M.tabbufmove(num)
+    local buf=vim.fn.bufnr()
+    local win=vim.api.nvim_get_current_win()
+    vim.cmd.tabnext(num)
+    vim.cmd('vert sbuf'..buf)
+    vim.api.nvim_win_close(win,true)
+end
 return M

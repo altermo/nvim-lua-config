@@ -10,7 +10,8 @@ end
 
 ----cabbrev
 --cabbr('W','w')
-cabbr('w','=vim.fn.input("Stop:")')
+--cabbr('w','=vim.fn.input(("PLEAS STOP PRESSING :W\\n"):rep(200))')
+cabbr('w','stop')
 cabbr('Q','q')
 cabbr('WQ','wq')
 cabbr('Wq','wq')

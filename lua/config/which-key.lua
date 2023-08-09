@@ -124,10 +124,10 @@ require'which-key'.register({[' ']=format({
             end,1000)
         end,'show'},
         m={name='+move-buffer',
-            _=fmap(9,':TabBufMove %s\r','tab-%s'),
-            ['0']={':TabBufMove $\r','last'},
-            ['<']={':TabBufMove -\r','prev'},
-            ['>']={':TabBufMove +\r','next'},
+            _=fmap(9,':lua require"utils.lib".tabbufmove(%s)\r','tab-%s'),
+            ['0']={function() require'utils.lib'.tabbufmove'$' end,'last'},
+            ['<']={function() require'utils.lib'.tabbufmove'-' end,'prev'},
+            ['>']={function() require'utils.lib'.tabbufmove'+' end,'next'},
         },
     },
 
@@ -224,7 +224,7 @@ require'which-key'.register({[' ']=format({
         r={name='+replace',
             s={require("ssr").open,'structural'},
             l={':IncRename <C-r>=expand("<cword>")\r','lsp',silent=false},
-            p={':pyro/gr\r','pyro'},
+            p={':Pyro/gr\r','pyro'},
             r={':lua require("spectre").toggle()\r','specter'},
             w={':%s/\\<<C-r>=expand("<cword>")\r\\>//<Left>','word',silent=false},
         }
