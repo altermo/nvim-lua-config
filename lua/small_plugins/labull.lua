@@ -18,12 +18,14 @@ function M.labull(inp)
         inp:match('^%s*[+%-]+ [[].[]] ') or
         inp:match('^%s*[+%-]+ ') or
         (inp:match('^%s*%d+[.)] ') and inp:gsub('^(%s*)(%d+)([.)] ).*',function (indent,number,end_) return indent..(tonumber(number)+1)..end_ end)) or
-        (inp:match('^%s*%a+[.)] ') and inp:gsub('^(%s*)(%a+)([.)] ).*',function (indent,number,end_) return indent..M.incahrs(number)..end_ end)))
+        (inp:match('^%s*%a+[.)] ') and inp:gsub('^(%s*)(%a+)([.)] ).*',function (indent,number,end_) return indent..M.incahrs(number)..end_ end))) or
+        (vim.o.filetype=='lua' and inp:match('---(@field )')) or
+        (vim.o.filetype=='lua' and inp:match('---(@param )'))
 end
 function M.main()
     local line=vim.fn.getline('.')
     local laline=M.labull(line)
-    return 'o'..(laline and ('<esc>I'..laline) or '') --hack
+    return 'o'..(laline and ('<esc>A'..laline) or '')
 end
 function M.setup()
     vim.keymap.set('n','o',M.main,{noremap=true,expr=true})

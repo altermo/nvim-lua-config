@@ -33,10 +33,11 @@ function M.timeout_input(timeout)
 end
 function M.termrun(bin,mouse)
     vim.cmd.enew()
-    local buf=vim.fn.bufnr()
+    local buf=vim.fn.bufnr() or 0
     vim.fn.termopen((mouse and "sleep 0.01;printf '\\e[?1000h';" or "")..bin,{on_exit=function (_,_,_)
         vim.cmd.bdelete({buf,bang=true})
     end})
+    vim.api.nvim_buf_set_option(buf,'bufhidden','wipe')
     vim.cmd.startinsert()
 end
 function M.utf8_sub(s,i,j)

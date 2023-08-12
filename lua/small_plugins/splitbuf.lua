@@ -39,7 +39,7 @@ M.options={
         action=function ()
             vim.cmd.bdelete()
             vim.cmd.vnew()
-            require'small_plugins.dff'.dff()
+            require'dff.file_expl'.open(vim.fn.expand('#:p:h') --[[@as string]])
         end,
     },
 }

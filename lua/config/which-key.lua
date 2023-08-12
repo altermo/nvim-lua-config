@@ -304,7 +304,7 @@ require'which-key'.register({[' ']=format({
         },
     },
 
-    ----browser
+    -----browser
     G={name='+browser--',
         _=cmap({
             p='yi\':!setsid firefox https://www.github.com/<C-r>"\r',

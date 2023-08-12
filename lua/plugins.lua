@@ -37,34 +37,18 @@ require'packer'.startup(function (use)
   use{'windwp/nvim-autopairs',module'nvim-autopairs'}
   use{'altermo/ultimate-autopair.nvim',opt=true}
   use{'00sapo/visual.nvim',config=get_setup('visual'),opt=true}
-  use 'wuelnerdotexe/vim-enfocado'
 
   ----colorschm
-  use 'sainnhe/sonokai'
-  use 'felipec/vim-felipec'
-  use 'ray-x/starry.nvim'
-  use 'everblush/everblush.nvim'
-  use 'lmburns/kimbox'
-  use 'mhartington/oceanic-next'
-  use 'folke/tokyonight.nvim'
-  use 'challenger-deep-theme/vim'
-  use 'NTBBloodbath/doom-one.nvim'
-  use 'gbprod/nord.nvim'
-  use 'rafamadriz/neon'
-  use 'luisiacc/gruvbox-baby'
-  use 'ellisonleao/gruvbox.nvim'
-  use 'kuznetsss/meadow-nvim'
-  use 'matsuuu/pinkmare'
-  use 'jaredgorski/spacecamp'
-  use 'mjlbach/onedark.nvim'
-  use 'bluz71/vim-nightfly-colors'
-  use 'rakr/vim-one'
-  use 'preservim/vim-colors-pencil'
-  use{'projekt0n/github-nvim-theme',event='User s1'}
-  use{'edeneast/nightfox.nvim',event='User s1'}
-  use{'fenetikm/falcon',event='User s1'}
-  use{'vigoux/oak',event='User s1'}
   use{'folke/styler.nvim',config=get_setup('styler',{themes={}}),cmd='Styler'}
+  use 'folke/tokyonight.nvim'
+  use 'ray-x/starry.nvim'
+  use{'edeneast/nightfox.nvim',event='User s1'}
+  use{'projekt0n/github-nvim-theme',event='User s1'}
+  use 'bluz71/vim-nightfly-colors'
+  use 'matsuuu/pinkmare'
+  use 'lifepillar/vim-gruvbox8'
+  use 'NTBBloodbath/doom-one.nvim'
+  use 'hoprr/calvera-dark.nvim'
 
   ----zen
   use{'folke/zen-mode.nvim',config=get_setup'zen-mode',cmd='ZenMode'}
@@ -74,7 +58,12 @@ require'packer'.startup(function (use)
 
   ----visual
   ------fun
-  use{'lukas-reineke/indent-blankline.nvim',config='vim.g.indent_blankline_filetype_exclude={"dashboard"};'..get_setup('indent_blankline',{show_current_context=true}),event='User s1'}
+  use{'lukas-reineke/indent-blankline.nvim',config=function()
+    vim.g.indent_blankline_filetype_exclude={'dashboard'}
+    local ib=require'indent_blankline'
+    ib.setup{show_current_context=true}
+    vim.cmd.IndentBlanklineRefresh()
+  end,event='User s1'}
   use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
     vim.g.Hexokinase_highlighters={'backgroundfull'}
   end,event='User s1'}
@@ -97,7 +86,7 @@ require'packer'.startup(function (use)
   end,keys=mexp('x',{'M<CR>','M<BS>','M<C-l>','M<Tab>'})}
   use{'Pocco81/HighStr.nvim',cmd={'HSHighlight','HSRmHighlight'}}
   use{'monkoose/matchparen.nvim',config=get_setup'matchparen',event='User s1'}
-  use{'nvim-lualine/lualine.nvim',config=get_setup('lualine',{options={theme='powerline'}})}
+  use{'nvim-lualine/lualine.nvim',config=get_setup'lualine'}
   use{'folke/which-key.nvim',config=get_config'which-key',keys={{'n','<space>'},{'n','g'},{'n','<char-92>'}},cmd='WhichKey'}
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
 

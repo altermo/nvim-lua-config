@@ -29,20 +29,23 @@ qftimer=vim.fn.timer_start(2000,function ()
     vim.fn.timer_stop(qftimer)
   end
 end,{['repeat']=-1})
-require'small_plugins.auto-cd'.setup()
-require'small_plugins.auto-save'.setup()
-require'small_plugins.builder'.setup()
-require'small_plugins.dff'.setup()
-require'small_plugins.highlight-selected'.setup()
-require'small_plugins.labull'.setup()
-require'small_plugins.large-file'.setup()
-require'small_plugins.match_all'.setup()
-require'small_plugins.onelinecomment'.setup()
-require'small_plugins.ranger'.setup()
-require'small_plugins.tabline'.setup()
-require'small_plugins.textobj'.setup()
-require'small_plugins.unimpaired'.setup()
-require'small_plugins.macroend'.setup()
+require'small_plugins'.setup({
+  'own',
+  'auto_cd',
+  'auto_save',
+  'builder',
+  'dff',
+  'highlight_selected',
+  'labull',
+  'large_file',
+  'matchall',
+  'onelinecomment',
+  'ranger',
+  'tabline',
+  'textobj',
+  'unimpaired',
+  'macroend'
+})
 local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
   if vim.fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg","zig"},vim.o.filetype)~=-1 then
     vim.cmd"syntax off"
@@ -84,24 +87,26 @@ function vim.req(source)
 end
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback=function(ev)
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
+  --vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua_')
   local upair=require'ultimate-autopair'
   _G.UA_DEV='ok'
-  table.insert(upair.configs,upair.extend_default{
+   table.insert(upair.configs,upair.extend_default{
     --space2={
-      --enable=true
+    --enable=true
     --},
     --extensions={
     --fly={nofilter=true},
     --tsnode={outside={'comment'},p=50,filter=true},
     --[require'ultimate-autopair.experimental.cond']={p=55},
     --},
-    config_internal_pairs={
+    -- config_internal_pairs={
       --{'"','"',fly=true},
       --{"'","'",fly=true,cond={function(fns)
       --return not fns.in_lisp() or fns.in_string()
       --end}},
-    },
-  })
+    -- },
+    {'<<','>>',suround=true},
+   })
   upair.init()
   --require'ultimate-autopair.experimental.terminal'.setup()
   --require'ultimate-autopair.experimental.tabout'.setup()
