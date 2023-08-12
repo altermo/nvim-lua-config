@@ -35,8 +35,9 @@ local extend=vim.fn.extend
 require'packer'.startup(function (use)
   ----TEST
   use{'windwp/nvim-autopairs',module'nvim-autopairs'}
-  use{'altermo/ultimate-autopair',opt=true}
+  use{'altermo/ultimate-autopair.nvim',opt=true}
   use{'00sapo/visual.nvim',config=get_setup('visual'),opt=true}
+  use 'wuelnerdotexe/vim-enfocado'
 
   ----colorschm
   use 'sainnhe/sonokai'
@@ -115,7 +116,6 @@ require'packer'.startup(function (use)
       ino('<A-(>',wrapper(vim.fn['codeium#CycleCompletions'],-1),{expr=true})
       ino('<A-\'>',wrapper(vim.fn['codeium#Complete']),{expr=true})
     end,keys={{'i','<A-\'>'}}}
-  use{'chrisgrieser/nvim-recorder',config=get_setup('recorder',{slots={'a','b','c'}}),keys=mexp('n',{'q','Q','cq','yq','<C-q>'})}
   use{'tpope/vim-characterize',keys={{'n','ga'}},config=function ()
     require'utils.keymap'.nno('ga','<Plug>(characterize)')
   end}
@@ -219,6 +219,7 @@ require'packer'.startup(function (use)
   use{'voldikss/vim-floaterm',cmd='FloatermToggle'}
 
   ----command
+  use{'acksld/muren.nvim',cmd=cexp('Muren',{'Toggle','Open','Close','Fresh','Unique'})}
   use{'cshuaimin/ssr.nvim',config=get_setup('ssr'),module='ssr'}
   use{'acksld/nvim-femaco.lua',config=get_setup'femaco',cmd='FeMaco'} --TODO: maybe better alternative
   use{'ray-x/web-tools.nvim',config=get_setup'web-tools',cmd='BrowserOpen'}
@@ -440,6 +441,7 @@ require'packer'.startup(function (use)
   use{'jakewvincent/mkdnflow.nvim',ft='markdown'} --TODO
   use{'scrooloose/vim-slumlord',ft='puml'}
   use{'ahmedkhalf/jupyter-nvim',ft='ipynb'}
+  use{'andrewradev/tagalong.vim',ft='html'}
 
   ----end--
   use 'wbthomason/packer.nvim'

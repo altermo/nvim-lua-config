@@ -187,7 +187,6 @@ require'which-key'.register({[' ']=format({
         --p={':exe(\'vnew|call termopen("bat -pp \'.expand(\'<cfile>\').\'")\')\r','preview-under-cursor'},
         T={':execute("edit ".tempname())\r','tempfile'},
         f={':Telescope find_files\r','find'},
-        R={require'spectre'.open,'search-replace-all-files'},
         t={name='+set-type',
             o={':setf ','other',silent=false},
             _=cmap({p='python',t='txt',v='vim',s='fish',f='fennel',r='rust',l='lua',m='markdown',c='cpp',h='html',n="norg"},':set filetype=%s\r','%s')
@@ -227,6 +226,7 @@ require'which-key'.register({[' ']=format({
             p={':Pyro/gr\r','pyro'},
             r={':lua require("spectre").toggle()\r','specter'},
             w={':%s/\\<<C-r>=expand("<cword>")\r\\>//<Left>','word',silent=false},
+            m={':MurenToggle\r','mutli'},
         }
     },
 
@@ -284,7 +284,7 @@ require'which-key'.register({[' ']=format({
         c={':HexokinaseToggle\r','color-name-highlight'},
         a={':TableModeToggle\r','table-mode'},
         C={function()
-            local b=vim.fn.bufnr()
+            local b=vim.fn.bufnr() --[[@as number]]
             if azz[b] then
                 vim.api.nvim_del_autocmd(azz[b])
                 azz[b]=nil
@@ -341,7 +341,7 @@ require'which-key'.register({[' ']=format({
         c={':lua vim.lsp.buf.code_action()\r','code-action'},
         i={':lua vim.lsp.buf.implementation()\r','implementation'},
         I={':lua vim.lsp.inlay_hint(0)\r','toggle-inlay-hint'},
-        s={':LspInfo\r','status'},
+        s={':LspStop\r','stop'},
     },
 
     ----hop
@@ -377,7 +377,7 @@ require'which-key'.register({[' ']=format({
         ['0']={function()
             vim.o.guifont=vim.fn.substitute(vim.o.guifont,[[\vh(\d+)]],'h11','')
         end,'zoom reset'},
-        C={':set guicursor=a:ver1\r','hide-cursor'}, --TODO
+        C={':set guicursor=a:ver1\r','hide-cursor'}, --TODO [https://github.com/neovim/neovim/discussions/24612]
         c={':set guicursor&\r','reset-cursor'},
         f={':set guifont=*\r','select-font'},
         ['8']={':OverlengthToggle\r','toggle highlight past 80'},
@@ -389,11 +389,14 @@ require'which-key'.register({[' ']=format({
         ['<c- >']={':lua require "mini.trailspace".highlight()\r','highlight spaces'},
     },
 
-    -----refactoring
+    ----refactoring
     R={
         name='+refactor',
         f={':Refactor extract ','extract',silent=false},
         i={':Refactor inline_var ','inline-var',silent=false},
     },
+
+    ----macro
+    m={require'small_plugins.macroend'.run,'macro'},
 })})
 -- vim:fen:

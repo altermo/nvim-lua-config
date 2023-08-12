@@ -1,6 +1,7 @@
 local M={}
 M.comments={
     lua='--%s',
+    luadoc='---%s',
     python='#%s',
     [true]='/*%s*/'
 }

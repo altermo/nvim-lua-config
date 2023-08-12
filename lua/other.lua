@@ -42,6 +42,7 @@ require'small_plugins.ranger'.setup()
 require'small_plugins.tabline'.setup()
 require'small_plugins.textobj'.setup()
 require'small_plugins.unimpaired'.setup()
+require'small_plugins.macroend'.setup()
 local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
   if vim.fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg","zig"},vim.o.filetype)~=-1 then
     vim.cmd"syntax off"
@@ -54,6 +55,7 @@ vim.api.nvim_create_autocmd('User',{pattern='s1',callback=function ()
   vim.cmd'syntax on'
 end})
 vim.api.nvim_create_autocmd('FileType',{callback=function()
+  ---@diagnostic disable-next-line: missing-fields
   vim.filetype.add({extension={bf='bf'}})
 end,pattern='bf',once=true})
 vim.api.nvim_create_autocmd({'BufRead','BufNewFile','StdinReadPost'},{
@@ -80,40 +82,27 @@ function vim.req(source)
   package.loaded[source]=nil
   return require(source)
 end
-local input=vim.ui.input
----@diagnostic disable-next-line: duplicate-set-field
-vim.ui.input=function (opts,f)
-  --Note: replacing with <C-v>digits also works
-  --Example for esace: replace(default,'','027')
-  if opts.default then
-    local default=vim.fn.keytrans(opts.default)
-    if default~=opts.default then
-      local fun=f
-      f=function (inp) fun(inp and vim.keycode(inp) or inp) end
-      opts.default=default
-    end
-  end
-  input(opts,f)
-end
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback=function(ev)
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
   local upair=require'ultimate-autopair'
-  upair.setup({
-    space2={
-      enable=true
-    },
-    extensions={
-      --fly={nofilter=true},
-      --tsnode={outside={'comment'},p=50,filter=true},
-      --[require'ultimate-autopair.experimental.cond']={p=55},
-    },
+  _G.UA_DEV='ok'
+  table.insert(upair.configs,upair.extend_default{
+    --space2={
+      --enable=true
+    --},
+    --extensions={
+    --fly={nofilter=true},
+    --tsnode={outside={'comment'},p=50,filter=true},
+    --[require'ultimate-autopair.experimental.cond']={p=55},
+    --},
     config_internal_pairs={
-      {'"','"',fly=true},
-      {"'","'",fly=true,cond={function(o,_,fns)
-        return not fns.in_lisp(o) or fns.in_string(o)
-      end}},
+      --{'"','"',fly=true},
+      --{"'","'",fly=true,cond={function(fns)
+      --return not fns.in_lisp() or fns.in_string()
+      --end}},
     },
   })
+  upair.init()
   --require'ultimate-autopair.experimental.terminal'.setup()
   --require'ultimate-autopair.experimental.tabout'.setup()
   vim.api.nvim_del_autocmd(ev.id)

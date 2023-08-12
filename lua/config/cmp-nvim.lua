@@ -29,8 +29,8 @@ cmp.setup({
         end
     },
     sources=cmp.config.sources({
-        {name='buffer'},
         {name='nvim_lsp'},
+        {name='buffer'},
         {name='treesitter'},
         {name='cmp_tabnine'},
         {name='codeium'},
@@ -40,7 +40,7 @@ cmp.setup({
         {name='async_path'},
         {name='tags'},
         {name='calc'},
-        {name='rg',option={additional_arguments='--hidden --max-depth 4'}},
+        {name='rg',option={additional_arguments='--max-depth 4'}},
         {name='nvim_lsp_signature_help'},
     }),
     mapping={

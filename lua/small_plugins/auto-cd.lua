@@ -7,7 +7,7 @@ function M.autocd()
         vim.cmd.lcd(dir)
         return
     end
-    vim.cmd.lcd(vim.fn.expand('%:p:h'))
+    pcall(vim.cmd.lcd,vim.fn.expand('%:p:h'))
 end
 function M.toggle_autocd()
     M._dont_autocd=not M._dont_autocd

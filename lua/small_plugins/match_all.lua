@@ -43,7 +43,6 @@ end
 function M.highlight()
     if M.is_still_on_word() then return end
     M.clear()
-    --if vim.o.hlsearch then return end --TODO: how did mini.cursorword do it
     if not M.check_on_word() then return end
     M.set_save()
     M.highlight_lsp()
@@ -60,5 +59,4 @@ function M.setup()
     vim.api.nvim_create_autocmd({'TextChanged','CmdLineLeave'},{group='matchall',callback=M.redraw})
     M.highlight()
 end
-M.setup()
 return M

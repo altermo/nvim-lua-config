@@ -67,6 +67,7 @@ function M.create_text(parsed,search,path)
         :totable()
 end
 function M.mainloop(buf,path)
+    --TODO: if multi then dont require starting char if all starting char are same
     local search=''
     while vim.fn.isdirectory(path)==1 do
         local parsed=M.parse(vim.fn.readdir(path))

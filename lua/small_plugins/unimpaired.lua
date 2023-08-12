@@ -63,8 +63,8 @@ function M.set_opt()
     vim.schedule(function ()
         local char=vim.fn.getcharstr()
         local v=opts[char]
-        if not v then return end
         vim.api.nvim_win_close(win,true)
+        if not v then return end
         M.toggle(v.opt or v,v.on,v.off)
     end)
 end

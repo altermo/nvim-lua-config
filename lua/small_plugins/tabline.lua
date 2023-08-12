@@ -5,7 +5,7 @@ M.MyTabLine=function()
     for i, _ in ipairs(vim.fn.gettabinfo()) do
         local file=vim.fn.bufname(vim.fn.tabpagebuflist(i)[vim.fn.tabpagewinnr(i)])
         local char
-        if file=='' then
+        if file=='' or not file then
             char='N'
         elseif file:match('^term://') then
             char=file:match('ranger') and 'R' or 'T'

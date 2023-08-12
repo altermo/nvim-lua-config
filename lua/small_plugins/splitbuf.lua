@@ -33,7 +33,15 @@ M.options={
         action=function()
             require("utils.lib").termrun('fish -ic fsf')
         end
-    }
+    },
+    d={
+        desc='dff',
+        action=function ()
+            vim.cmd.bdelete()
+            vim.cmd.vnew()
+            require'small_plugins.dff'.dff()
+        end,
+    },
 }
 function M.open(Iwin)
     local c=vim.fn.getpos('.')

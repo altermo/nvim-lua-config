@@ -30,3 +30,8 @@ command('UpdateRemotePlugins',function ()
     end
     vim.cmd.UpdateRemotePlugins()
 end,{nargs='*'})
+vim.api.nvim_create_user_command('L',function (opt)
+    if not pcall(vim.cmd['='],opt.args) then
+        vim.cmd.lua(opt.args)
+    end
+end,{complete='lua',nargs='+',})
