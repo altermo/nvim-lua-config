@@ -23,7 +23,11 @@ function M.setup(theme)
         if vim.fn.filereadable('/tmp/night')==1 then
             theme='midnight'
         else
-            theme=({'day','evening'})[vim.fn.rand()%2+1]
+            if vim.o.background=='light' then
+                theme='day'
+            else
+                theme='evening'
+            end
         end
     end
     M.load(theme)

@@ -69,13 +69,13 @@ require'which-key'.register({[' ']=format({
     d={':BDelete! this\r','buffer-close'},
     _=fmap(9,':%swincmd w\r','window %s'),
     ------move
-    [' ']={':lua require("hop").hint_char1()\r','hop'},
+    ['<A- >']={':lua require("hop").hint_char1()\r','hop'},
     ['<C- >']={':lua require"hop".hint_char1({multi_windows=true})\r','HopMW'},
     r={':Ranger\r','ranger'},
-    ['<A- >']={function()
+    [' ']={function()
         pos=vim.api.nvim_win_get_cursor(0)
         require("hop").hint_char1()
-    end,'save-and-hop'},
+    end,'save-hop'},
     ['<']={function()
         if not pos then return end
         vim.api.nvim_win_set_cursor(0,pos)
@@ -135,6 +135,7 @@ require'which-key'.register({[' ']=format({
     c={name='+otherc',
         d={':cd %:p:h|pwd\r','cd-to-file'},
         l={':edit /tmp/nlog\r','open-nlog'},
+        L={':ls\r','ls'},
         r={':source /tmp/session.vim','reload-last-session'},
         G={function()
             local dir=vim.fs.dirname(vim.fs.find('.git',{upward=true})[1])
@@ -203,7 +204,7 @@ require'which-key'.register({[' ']=format({
             for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
                 o='oldfiles',s={'live_grep_args'},b='buffers', u={'undo'},
                 p={'project'},y={'yank_history'},n={'notify'},
-                T='tele_tabby list',
+                T='telescope-tabs list_tabs',
                 P={'packer'},w={'file_browser'},
                 h='help_tags',k='symbols',
             }) do
@@ -377,7 +378,10 @@ require'which-key'.register({[' ']=format({
         ['0']={function()
             vim.o.guifont=vim.fn.substitute(vim.o.guifont,[[\vh(\d+)]],'h11','')
         end,'zoom reset'},
-        C={':set guicursor=a:ver1\r','hide-cursor'}, --TODO [https://github.com/neovim/neovim/discussions/24612]
+        C={function ()
+            vim.cmd.hi('Cursor blend=100')
+            vim.o.guicursor='a:Cursor/lCursor,a:ver1'
+        end,'hide-cursor'},
         c={':set guicursor&\r','reset-cursor'},
         f={':set guifont=*\r','select-font'},
         ['8']={':OverlengthToggle\r','toggle highlight past 80'},

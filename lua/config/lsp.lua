@@ -32,10 +32,10 @@ lspconfig.lua_ls.setup{
 }
 lspconfig.jsonls.setup{}
 lspconfig.clangd.setup{}
-lspconfig.rust_analyzer.setup{} --TODO
+lspconfig.rust_analyzer.setup{}
 lspconfig['fennel_ls'].setup{}
 lspconfig.grammarly.setup{autostart=false}
-lspconfig.zls.setup{} --TODO
+lspconfig.zls.setup{} --TODO something is slowing it down
 local nno=require'utils.keymap'.nno
 nno('[d',vim.diagnostic.goto_prev)
 nno(']d',vim.diagnostic.goto_next)

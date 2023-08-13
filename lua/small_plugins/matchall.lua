@@ -19,7 +19,9 @@ function M.highlight_word()
     M.save.matchid=match
 end
 function M.highlight_lsp()
-    vim.lsp.buf.document_highlight()
+    if vim.lsp.get_clients()[1] and vim.tbl_contains({'lua_ls','pyright'},vim.lsp.get_clients()[1].name) then
+        vim.lsp.buf.document_highlight()
+    end
 end
 function M.check_on_word()
     local col=vim.fn.col('.') --[[@as number]]

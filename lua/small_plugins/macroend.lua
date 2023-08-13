@@ -2,10 +2,9 @@ local M={}
 M.path=vim.fs.joinpath(vim.fn.stdpath('data'),'macroend.json')
 function M._load_save()
     local fs=io.open(M.path)
-    if not fs then return {old={}} end
+    if not fs then return {} end
     local jsondata=fs:read('a*')
     local tbl=vim.json.decode(jsondata)
-    if not tbl.old then tbl.old={} end
     return tbl
 end
 function M._save_save(save)
@@ -20,14 +19,9 @@ function M.load_save(fn)
     M._save_save(save)
     return unpack(ret)
 end
-function M.backup(tbl,macro)
-    if #tbl>10 then table.remove(tbl,1) end
-    table.insert(tbl,macro)
-end
 function M.save_macro(macro,key)
     M.load_save(function (save)
-        if save[key] then M.backup(save.old,macro) end
-        save[key]={macro=macro,key=key}
+        save[key]=macro
     end)
 end
 function M.toggle_rec()
@@ -51,7 +45,7 @@ function M.get_macro(key)
     local macro
     M.load_save(function(save)
         if not save[key] then return end
-        macro=save[key].macro
+        macro=save[key]
     end)
     return macro
 end
@@ -101,18 +95,11 @@ function M.save_rec(key)
     M.save_macro(vim.fn.getreg('q'),key)
 end
 function M.list()
-    vim.cmd.vsplit()
-    local buf=vim.api.nvim_create_buf(true,true)
-    vim.api.nvim_buf_set_option(buf,'bufhidden','wipe')
-    local win=vim.api.nvim_get_current_win()
-    vim.api.nvim_win_set_buf(win,buf)
-    M.load_save(function (save)
-        for k,v in pairs(save) do
-            if k~='old' then
-                vim.api.nvim_buf_set_lines(buf,0,0,false,{k..' : '..v.macro})
-            end
-        end
-    end)
+    vim.cmd.vnew(M.path)
+    vim.api.nvim_buf_set_option(0,'bufhidden','wipe')
+    vim.api.nvim_create_autocmd('BufEnter',{callback=function ()
+        vim.cmd'%!python -m json.tool'
+    end,buffer=vim.api.nvim_get_current_buf()})
 end
 function M.setup()
     vim.keymap.set('n','q',M.toggle_rec)

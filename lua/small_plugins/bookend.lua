@@ -13,21 +13,22 @@ function M.unlock_file(key)
     M.locked_files[key]=nil
 end
 function M.lock_file(key)
-    if #M.get_list(key)==1 then
-        M.locked_files[key]=M.get_list(key)[1]
-        return
-    end
-    vim.ui.select(M.get_list(key),{},function (i) M.locked_files[key]=i end)
+    vim.ui.select(M.get_list(),{},function (i) M.locked_files[key]=i end)
 end
 function M.goto_file(key)
     local dict=M.get_list(key)
-    if not dict then return end
-    if #dict==1 then
-        vim.cmd.edit(dict[1])
+    if #dict==0 then
+        if vim.regex('\\v[a-z.-_]'):match_str(key) then
+            vim.ui.select(vim.fn.glob('**/'..key..'*',true,true),{},function (file) vim.cmd.edit(file) end)
+        end
         return
     end
     if M.locked_files[key] then
         vim.cmd.edit(M.locked_files[key])
+        return
+    end
+    if #dict==1 then
+        vim.cmd.edit(dict[1])
         return
     end
     vim.ui.select(dict,{},function (file) vim.cmd.edit(file) end)

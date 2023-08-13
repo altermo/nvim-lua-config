@@ -27,7 +27,7 @@ function M.wordrow()
     local col1=vim.fn.virtcol('v')
     local col2=vim.fn.virtcol('.')
     if col1>col2 then col2,col1=col1,col2 end
-    local line=vim.fn.line(".")
+    local line=vim.fn.line(".") --[[@as number]]
     local char=getchar(col1, line)
     while col1>1 and getchar(col1-1,line)==char do
         col1=col1-1

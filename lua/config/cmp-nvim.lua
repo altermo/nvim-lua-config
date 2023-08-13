@@ -48,7 +48,8 @@ cmp.setup({
             if cmp.get_active_entry() and ({snippy=true,path=true,nvim_lsp=true,cmp_tabnine=true,codeium=true})[cmp.get_selected_entry().source.name] then
                 cmp.confirm()
             else
-                fallback()
+                vim.api.nvim_feedkeys('\r','n',false) --TODO: temp
+                --fallback()
             end end),
         ['<Tab>']=cmp.mapping(function(fallback)
             if cmp.visible() then

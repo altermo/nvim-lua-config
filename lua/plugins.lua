@@ -36,7 +36,7 @@ require'packer'.startup(function (use)
   ----TEST
   use{'windwp/nvim-autopairs',module'nvim-autopairs'}
   use{'altermo/ultimate-autopair.nvim',opt=true}
-  use{'00sapo/visual.nvim',config=get_setup('visual'),opt=true}
+  use{'00sapo/visual.nvim',config=get_setup('visual'),opt=true} --TODO
 
   ----colorschm
   use{'folke/styler.nvim',config=get_setup('styler',{themes={}}),cmd='Styler'}
@@ -69,7 +69,7 @@ require'packer'.startup(function (use)
   end,event='User s1'}
   use{'anuvyklack/pretty-fold.nvim',
     config=get_setup'pretty-fold',event='User isfolded'}
-  use{'karb94/neoscroll.nvim',config=get_setup'neoscroll',keys={'<C-u>','<C-d>','<C-b>','<C-f>','<C-y>','<C-e>'},module='neoscroll'}
+  --use{'karb94/neoscroll.nvim',config=get_setup'neoscroll',keys={'<C-u>','<C-d>','<C-b>','<C-f>','<C-y>','<C-e>'},module='neoscroll'}
   use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
   use{'winston0410/range-highlight.nvim',config=get_setup'range-highlight',requires='winston0410/cmd-parser.nvim',event='CmdlineEnter'}
   use{'nacro90/numb.nvim',config=get_setup'numb',event='CmdlineEnter'}
@@ -183,12 +183,8 @@ require'packer'.startup(function (use)
   use{'tyru/capture.vim',cmd='Capture'}
   use{'johmsalas/text-case.nvim',module='textcase'}
 
-  ----file
-  use{'everduin94/nvim-quick-switcher',module='nvim-quick-switcher'} --TODO: maybe even write own
-  use{'will133/vim-dirdiff',cmd='DirDiff'}
-  use{'pianocomposer321/project-templates.nvim',cmd={'LoadTemplate','DeleteTemplate','SaveAsTemplate'}} --TODO
-
   ----buf-app
+  use{'will133/vim-dirdiff',cmd='DirDiff'}
   use{'krady21/compiler-explorer.nvim',cmd='CECompile'}
   use{'felipec/notmuch-vim',cmd='NotMuch'}
   use{'rbtnn/vim-mario',requires='rbtnn/vim-game_engine',cmd='Mario'}
@@ -208,9 +204,8 @@ require'packer'.startup(function (use)
   use{'voldikss/vim-floaterm',cmd='FloatermToggle'}
 
   ----command
-  use{'acksld/muren.nvim',cmd=cexp('Muren',{'Toggle','Open','Close','Fresh','Unique'})}
+  use{'acksld/muren.nvim',config=get_setup'muren',cmd=cexp('Muren',{'Toggle','Open','Close','Fresh','Unique'})}
   use{'cshuaimin/ssr.nvim',config=get_setup('ssr'),module='ssr'}
-  use{'acksld/nvim-femaco.lua',config=get_setup'femaco',cmd='FeMaco'} --TODO: maybe better alternative
   use{'ray-x/web-tools.nvim',config=get_setup'web-tools',cmd='BrowserOpen'}
   use{'smjonas/inc-rename.nvim',config=function()
     require'inc_rename'.setup{}
@@ -230,7 +225,6 @@ require'packer'.startup(function (use)
   use{'tpope/vim-dadbod',cmd='DB'}
   use{'danymat/neogen',module='neogen',config=get_setup('neogen',{snippet_engine='snippy'}),cmd='Neogen'}
   use{'lifepillar/vim-colortemplate',opt=true}
-  use{'tommcdo/vim-express',cmd={'MapExpress','MapSubpress'}} --TODO: there is better
   use{'sbdchd/neoformat',cmd='Neoformat'}
   use{'rraks/pyro',cmd='Pyro',config=get_rplugin(),setup=function ()
     vim.g.pyro_macro_path='/home/user/.macro'
@@ -275,7 +269,7 @@ require'packer'.startup(function (use)
       end
     end
     },
-    'tc72/telescope-tele-tabby.nvim', --TODO: maybe better alternative
+    'lukaspietzschmann/telescope-tabs',
     'nvim-telescope/telescope-file-browser.nvim',
     'debugloop/telescope-undo.nvim',
     'otavioschwanck/telescope-alternate.nvim', --TODO: look into it
@@ -328,7 +322,6 @@ require'packer'.startup(function (use)
       if vim.fn.argc()==0 and vim.api.nvim_buf_line_count(0)==1 and vim.api.nvim_get_current_line()=='' and vim.api.nvim_buf_get_name(0)=='' then
         vim.cmd('Dashboard')
       end end})end}
-  --use{'metakirby5/codi.vim',cmd=cexp('Codi',{'New','Expand','Select','Update'},true)} --TODO create own plugin which is not slow (python)
   use{'rafcamlet/nvim-luapad',module='luapad',cmd='Luapad'}
   use{'ThePrimeagen/refactoring.nvim',config=function ()
     require'refactoring'.setup()
@@ -343,7 +336,7 @@ require'packer'.startup(function (use)
   use{'echasnovski/mini.nvim',config=get_config'mini'}
   use{'nmac427/guess-indent.nvim',config=get_setup'guess-indent'}
   use{'norcalli/nvim-terminal.lua',config=get_setup'terminal',ft='terminal'}
-  use{'raghur/vim-ghost',run=':GhostInstall',cmd='GhostStart',config=get_rplugin()} --TODO: maybe better alternative
+  use{'raghur/vim-ghost',run=':GhostInstall',cmd='GhostStart',config=get_rplugin()}
   use{'andweeb/presence.nvim',module='presence'}
   use{'cbochs/grapple.nvim',confog=get_setup'grapple',module='grapple'}
   use{'mickael-menu/shadowvim',opt=true}
@@ -366,7 +359,7 @@ require'packer'.startup(function (use)
     {'tzachar/cmp-tabnine',run='./install.sh',after='nvim-cmp',module='cmp_tabnine'},
     {'jcdickinson/codeium.nvim',config=get_setup('codeium'),after='nvim-cmp'},
   },event={'InsertEnter','CmdlineEnter'}}
-  use{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy',after='nvim-cmp'} --TODO
+  use{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy',after='nvim-cmp'}
 
   ----lua utils
   use{'ido-nvim/ido.nvim',module='ido'} --TODO
@@ -379,7 +372,8 @@ require'packer'.startup(function (use)
   ----git
   use{'timuntersberger/neogit',cmd='Neogit',config=get_setup'neogit'}
   use{'rbong/vim-flog',after='vim-fugitive',cmd=cexp('Flog',{'git','split'},true),requires={'tpope/vim-fugitive'}}
-  --use{'sindrets/diffview.nvim',cmd=cexp('Diffview',{'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'}),requires={'nvim-tree/nvim-web-devicons',module='nvim-web-devicons'}} --TODO
+  use{'sindrets/diffview.nvim',cmd=cexp('Diffview',{'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'}),
+    config=get_setup('diffview',{use_icons=false})}
 
   ----debug
   use{'xeluxee/competitest.nvim',requires='MunifTanjim/nui.nvim',
@@ -396,7 +390,7 @@ require'packer'.startup(function (use)
 
   ----writing
   use{'JellyApple102/easyread.nvim',config=get_setup('easyread',{fileTypes={'markdown','text'}}),ft={'markdown','text'}}
-  use{'voldikss/vim-translator',config=get_config'translator',keys=mexp('x',{'þ','Þ'})} --TODO
+  use{'voldikss/vim-translator',config=get_config'translator',keys=mexp('x',{'þ','Þ'})} --TODO better version
   use{'potamides/pantran.nvim',cmd='Pantran'} --TODO
   use{'jbyuki/venn.nvim',cmd=extend(cexp('VBox',{'D','H','O','DO','HO'},true),{'VFill'})}
   use{'dhruvasagar/vim-table-mode',cmd='TableModeToggle'}
@@ -406,28 +400,27 @@ require'packer'.startup(function (use)
   use{'epwalsh/obsidian.nvim',config=get_setup('obsidian'),ft='markdown'}
 
   ----filetype
-  use{'lhkipp/nvim-nu',ft='nu',config=get_setup('nu',{use_lsp_features=false})} --TODO: enable log
+  use{'lhkipp/nvim-nu',ft='nu',config=get_setup('nu',{use_lsp_features=false})}
   use{'vim-latex/vim-latex',ft='latex'}
   use{'mrcjkb/haskell-tools.nvim',ft='haskell'}
   use{'nvim-orgmode/orgmode',config=function ()
     require('orgmode').setup_ts_grammar()
     require('orgmode').setup{}
-  end,ft='org'} --TODO
-  --use{'nvim-neorg/neorg',config=get_setup(
-    --'neorg',{load={
-      --['core.defaults']={},
-      --['core.export']={},
-      --['core.export.markdown']={},
-      --['core.concealer']={},
-      ----['core.presenter']={}, --TODO
-      ----['core.completion']={}, --TODO
-    --}}),ft='norg'} --TODO
+  end,ft='org'}
+  use{'nvim-neorg/neorg',config=get_setup(
+    'neorg',{load={
+      ['core.defaults']={},
+      ['core.export']={},
+      ['core.export.markdown']={},
+      ['core.concealer']={},
+      --['core.presenter']={},
+      --['core.completion']={},
+    }}),ft='norg'}
   use{'mzlogin/vim-markdown-toc',ft='markdown'} --TODO: maybe better alternative
   use{ "iamcco/markdown-preview.nvim", run = "cd app && npm install",ft='markdown'}
   use{'weirongxu/plantuml-previewer.vim',requires='tyru/open-browser.vim',ft='puml'}
   use{'renerocksai/telekasten.nvim',cmd='Telekasten'}
   use{'aklt/plantuml-syntax',ft='puml'}
-  use{'jakewvincent/mkdnflow.nvim',ft='markdown'} --TODO
   use{'scrooloose/vim-slumlord',ft='puml'}
   use{'ahmedkhalf/jupyter-nvim',ft='ipynb'}
   use{'andrewradev/tagalong.vim',ft='html'}

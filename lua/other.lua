@@ -45,6 +45,7 @@ require'small_plugins'.setup({
   'textobj',
   'unimpaired',
   'macroend'
+  --'iabbrev'
 })
 local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
   if vim.fn.index({"fennel","sh","bash","python","lua","cpp","c","rust","fish","term","vim","java","html","javascript","norg","zig"},vim.o.filetype)~=-1 then
@@ -85,6 +86,10 @@ function vim.req(source)
   package.loaded[source]=nil
   return require(source)
 end
+function vim.curpos()
+  local row,col=unpack(vim.api.nvim_win_get_cursor(0))
+  return {row-1,col,row-1,col}
+end
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback=function(ev)
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
   --vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua_')
@@ -96,7 +101,6 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback
     --},
     --extensions={
     --fly={nofilter=true},
-    --tsnode={outside={'comment'},p=50,filter=true},
     --[require'ultimate-autopair.experimental.cond']={p=55},
     --},
     -- config_internal_pairs={

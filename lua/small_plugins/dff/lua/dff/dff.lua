@@ -4,9 +4,7 @@ main.c
 lib/
 >> c >>
 main.c
--- If char not in next_possible_chars then go_deeper()
 --]]
---TODO: if multi then dont require starting char if all starting char are same
 ---@class dff.search_obj
 ---@field list string[] sorted
 ---@field range table<number,number>
@@ -32,6 +30,11 @@ function M.create_search(list,opt)
         opt=opt,
         col=1,
     }
+    if #list==1 and opt.skipsingle then
+        while M.all_same(obj) do
+            obj.col=obj.col+1
+        end
+    end
     return obj
 end
 ---@param obj dff.search_obj
