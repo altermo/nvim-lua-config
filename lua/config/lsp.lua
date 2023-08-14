@@ -13,12 +13,25 @@ lspconfig.pyright.setup{}
 lspconfig.lua_ls.setup{
     settings={
         Lua={
+            hint={
+                enable=true,
+            },
+            completion={
+                displayContext=30,
+                postfix=':',
+            },
+            --misc={
+                --parameters={
+                    --'--develop=true',
+                --},
+            --},
             runtime={
                 version='LuaJIT',
+                --plugin='/home/user/.config/nvim/lua/utils/lua_ls-plugin.lua'
             },
-            diagnostics={
-                globals={'vim'},
-            },
+            --diagnostics={
+                --globals={'vim'},
+            --},
             workspace={
                 library={
                     '/home/user/.local/share/nvim/site/pack/packer/opt/neodev.nvim/types/nightly',

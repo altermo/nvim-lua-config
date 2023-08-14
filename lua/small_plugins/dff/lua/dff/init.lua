@@ -3,13 +3,13 @@
 ---@field wjust number
 ---@field hjust number
 ---@field ending string
----@field skipsingle boolean
+---@field skipsingle boolean --TODO: implement proparly (no hack, can back)
 local default_conf={
     wintype='current',
     wjust=10,
     hjust=3,
     ending='\n',
-    skipstring=true,
+    skipsingle=true,
 }
 
 local file_expl=require'dff.file_expl'

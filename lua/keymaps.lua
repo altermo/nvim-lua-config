@@ -23,6 +23,8 @@ nno('cw','dwi')
 nno('cW','dWi')
 nno('=p',']p')
 nno('g:','q:')
+nno('g/','q/')
+nno('gp','`[v`]')
 nno("'",'`')
 nno("' ",":s/['\"]/\\=submatch(0)=='\"'?\"'\":'\"'/g\r")
 ------alt/ctrl
@@ -121,6 +123,8 @@ nno('gh',function ()
   vim.o.iskeyword=iskeyword
   if vim.regex([[vim\.api\.]]):match_str(word) then
     word=vim.fn.expand('<cword>')..'()'
+  elseif vim.regex([[vim\.uv\.]]):match_str(word) then
+    word='uv.'..vim.fn.expand('<cword>')..'()'
   elseif vim.regex([[vim\.fn\.]]):match_str(word) then
     word=vim.fn.expand('<cword>')..'()'
   elseif vim.regex([[vim\.cmd\.]]):match_str(word) then

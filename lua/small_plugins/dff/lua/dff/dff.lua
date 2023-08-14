@@ -30,7 +30,7 @@ function M.create_search(list,opt)
         opt=opt,
         col=1,
     }
-    if #list==1 and opt.skipsingle then
+    if #list~=1 then
         while M.all_same(obj) do
             obj.col=obj.col+1
         end

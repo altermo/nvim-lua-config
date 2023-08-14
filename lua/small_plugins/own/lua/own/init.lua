@@ -17,8 +17,20 @@
 ---@field green string
 
 local M={}
+M.auto=true
+function M.create_fs_watcher()
+    M.poll=vim.uv.new_fs_poll()
+        :start('/tmp/night',1000,function()
+        vim.schedule(function ()
+            vim.cmd.colorscheme'own'
+        end)
+    end)
+end
 ---@param theme 'day'|'midnight'|'evening'|nil
 function M.setup(theme)
+    if not M.poll and M.auto then
+        M.create_fs_watcher()
+    end
     if not theme then
         if vim.fn.filereadable('/tmp/night')==1 then
             theme='midnight'

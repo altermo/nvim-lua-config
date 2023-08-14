@@ -19,7 +19,8 @@ function M.highlight_word()
     M.save.matchid=match
 end
 function M.highlight_lsp()
-    if vim.lsp.get_clients()[1] and vim.tbl_contains({'lua_ls','pyright'},vim.lsp.get_clients()[1].name) then
+    local clients=vim.iter(vim.lsp.get_clients()):map(function (lsp) return lsp.name end)
+    if not vim.tbl_contains(clients,'jsonls') then
         vim.lsp.buf.document_highlight()
     end
 end

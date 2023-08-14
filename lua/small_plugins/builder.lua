@@ -19,7 +19,9 @@ function M.eval()
         M.deferr(ft)
         return
     end
+    vim.dev=true
     vim.cmd(builder.source)
+    vim.dev=nil
 end
 function M.build()
     vim.cmd('silent! update')

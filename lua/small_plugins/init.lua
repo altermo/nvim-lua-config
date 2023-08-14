@@ -8,7 +8,9 @@ function M.require(name,conf)
     vim.opt.runtimepath:append(
         vim.fs.joinpath(vim.fn.stdpath'config','/lua/small_plugins',name)
     )
-    require(name).setup(conf)
+    if conf then
+        require(name).setup(conf)
+    end
 end
 function M.setup(conf)
     for k,v in pairs(conf) do

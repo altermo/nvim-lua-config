@@ -132,9 +132,6 @@ require'packer'.startup(function (use)
   use{'gennaro-tedesco/nvim-peekup',keys={{'n','<char-34><char-34>'}}}
   use{'mattn/emmet-vim',keys={{'i','<C-y>'}}}
   use{'kylechui/nvim-surround',config=get_setup'nvim-surround',keys={{'n','ys'},{'n','yS'},{'x','S'},{'x','gS'},{'n','cs'},{'n','ds'}}}
-  use{'rrethy/vim-tranquille',keys='g/',config=function ()
-    require'utils.keymap'.nno('g/','<Plug>(tranquille_search)')
-  end}
   use{'iron-e/vim-tabmode',requires='Iron-E/vim-libmodal',cmd='TabmodeEnter',keys={{'n','\\<tab>'}}}
 
   ----text object
@@ -309,6 +306,7 @@ require'packer'.startup(function (use)
     keys=extend(mexp('n',{'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF','gX'}),mexp('x',{'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','gX'})),module='syntax-tree-surfer'}
 
   ----other
+  use{'xeluxee/competitest.nvim',requires='MunifTanjim/nui.nvim',config=get_setup'competitest',cmd='CompetiTest',opt=true} --TODO
   use{'Konfekt/FastFold',config=function ()
     require'utils.keymap'.nno('Z','<Plug>(FastFoldUpdate)')
   end,event='User isfolded',cmd='FastFoldUpdate',keys='Z'}
@@ -374,19 +372,6 @@ require'packer'.startup(function (use)
   use{'rbong/vim-flog',after='vim-fugitive',cmd=cexp('Flog',{'git','split'},true),requires={'tpope/vim-fugitive'}}
   use{'sindrets/diffview.nvim',cmd=cexp('Diffview',{'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'}),
     config=get_setup('diffview',{use_icons=false})}
-
-  ----debug
-  use{'xeluxee/competitest.nvim',requires='MunifTanjim/nui.nvim',
-    config=get_setup'competitest',cmd='CompetiTest'} --TODO
-  --TODO
-  --[[
-  ofirgall/goto-breakpoints.nvim
-  mfussenegger/nvim-dap
-  nvim-telescope/telescope-dap.nvim
-  pocco81/dap-buddy.nvim
-  thehamsta/nvim-dap-virtual-text
-  rcarriga/nvim-dap-ui
-  --]]
 
   ----writing
   use{'JellyApple102/easyread.nvim',config=get_setup('easyread',{fileTypes={'markdown','text'}}),ft={'markdown','text'}}

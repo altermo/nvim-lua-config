@@ -36,6 +36,17 @@ function M.mainloop(buf,path,conf)
     local ns=vim.api.nvim_create_namespace('')
     local search=dff.create_search(vim.fn.readdir(path),conf)
     local function fn()
+        if #search.list==1 then
+            path=vim.fs.joinpath(path,search.list[1])
+            if vim.fn.isdirectory(path)==0 then
+                vim.cmd.edit(path)
+                return
+            end
+            search=dff.create_search(vim.fn.readdir(path),conf)
+            M.draw(buf,search,path,ns)
+            vim.schedule(fn)
+            return
+        end
         local key=vim.fn.getcharstr() or ''
         if key=='\r' then key='\n' end
         if key=='' then
