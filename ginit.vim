@@ -14,6 +14,8 @@ elseif exists("g:neovide")
   let g:neovide_refresh_rate=20
   let g:neovide_refresh_rate_idle=10
   let g:neovide_cursor_animation_length=0
+  let g:neovide_hide_mouse_when_typing=v:true
+
   nnoremap <silent><F11> <cmd>let g:neovide_fullscreen=!g:neovide_fullscreen<CR>
   tnoremap <silent><F11> <cmd>let g:neovide_fullscreen=!g:neovide_fullscreen<CR>
 endif

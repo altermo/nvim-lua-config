@@ -320,7 +320,7 @@ require'packer'.startup(function (use)
       if vim.fn.argc()==0 and vim.api.nvim_buf_line_count(0)==1 and vim.api.nvim_get_current_line()=='' and vim.api.nvim_buf_get_name(0)=='' then
         vim.cmd('Dashboard')
       end end})end}
-  use{'rafcamlet/nvim-luapad',module='luapad',cmd='Luapad'}
+  use{'rafcamlet/nvim-luapad',module='luapad',cmd='Luapad',config=get_config'luapad'}
   use{'ThePrimeagen/refactoring.nvim',config=function ()
     require'refactoring'.setup()
     local xno=require'utils.keymap'.xno
@@ -352,10 +352,10 @@ require'packer'.startup(function (use)
     {'hrsh7th/cmp-nvim-lsp-signature-help',after='nvim-cmp'},
     {'FelipeLema/cmp-async-path',after='nvim-cmp'},
     {'lukas-reineke/cmp-rg',after='nvim-cmp'},
-    {'quangnguyen30192/cmp-nvim-tags',after='nvim-cmp'},
+    {'quangnguyen30192/cmp-nvim-tags',after='nvim-cmp' },
     {'ray-x/cmp-treesitter',after='nvim-cmp'},
-    {'tzachar/cmp-tabnine',run='./install.sh',after='nvim-cmp',module='cmp_tabnine'},
-    {'jcdickinson/codeium.nvim',config=get_setup('codeium'),after='nvim-cmp'},
+    --{'tzachar/cmp-tabnine',run='./install.sh',after='nvim-cmp',module='cmp_tabnine'},
+    --{'jcdickinson/codeium.nvim',config=get_setup('codeium'),after='nvim-cmp'},
   },event={'InsertEnter','CmdlineEnter'}}
   use{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy',after='nvim-cmp'}
 

@@ -2,7 +2,7 @@ local M={}
 function M.autocd()
     if M._dont_autocd then return end
     if vim.o.buftype~='' then return end
-    local dir=vim.fs.dirname(vim.fs.find('.git',{upward=true})[1])
+    local dir=vim.fs.dirname(vim.fs.find('.git',{upward=true,path=vim.fs.dirname(vim.api.nvim_buf_get_name(0))})[1])
     if dir then
         vim.cmd.lcd(dir)
         return

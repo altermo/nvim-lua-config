@@ -2,7 +2,6 @@ require'nvim-treesitter.configs'.setup({
     highlight={enable=true},
     indent={enable=true},
     rainbow={enable=true},
-    context_commentstring={enable=true},
     playground={enable=true},
     endwise={enable=true},
 })

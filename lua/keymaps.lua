@@ -51,6 +51,9 @@ nno('<A-l>','>>')
 nno('<C-.>','.')
 lnno('<M-x>',':L ')
 ------other
+for i=1,9 do
+  nno('<A-'..i..'>',':tabnext '..i..'\r')
+end
 nno('s',':lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
 xno('s','<cmd>lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
 nno('dq','viwf(<esc>%xgvx')

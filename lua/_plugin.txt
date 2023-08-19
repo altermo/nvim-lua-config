@@ -9,9 +9,6 @@ doctorfree/nvim-lazyman
 ecthelionvi/neocolumn.nvim
 bekaboo/deadcolumn.nvim
 #later
-folke/flash.nvim
-folke/drop.nvim
-equilibris/nx.nvim
 aaronhallaert/advanced-git-search.nvim
 axkirillov/hbac.nvim
 ashfinal/qfview.nvim
@@ -69,11 +66,11 @@ stevearc/oil.nvim
 tobinpalmer/rayso.nvim
 turbio/bracey.vim
 utilyre/sentiment.nvim
-vidocqh/lsp-lens.nvim --?has neovim this already?
 willothy/moveline.nvim
 willothy/veil.nvim
 zdcthomas/yop.nvim
 ziontee113/selectease
+folke/flash.nvim --better than hop?
 ##shadow window
 jceb/blinds.nvim
 levouh/tint.nvim
@@ -83,9 +80,10 @@ jim-fx/sudoku.nvim
 cademichael/zig.nvim
 ntbbloodbath/zig-tools.nvim
 dnlhc/glance.nvim
-eandrju/cellular-automaton.nvim
-ecthelionvi/neocomposer.nvim
-jmbuhr/otter.nvim
+jmbuhr/otter.nvim --use to create own
 m4xshen/hardtime.nvim
-michaelb/do-nothing.vim
 romgrk/kui.nvim
+##fun
+folke/drop.nvim
+eandrju/cellular-automaton.nvim
+michaelb/do-nothing.vim

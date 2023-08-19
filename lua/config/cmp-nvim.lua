@@ -32,8 +32,8 @@ cmp.setup({
         {name='nvim_lsp'},
         {name='buffer'},
         {name='treesitter'},
-        {name='cmp_tabnine'},
-        {name='codeium'},
+        --{name='cmp_tabnine'},
+        --{name='codeium'},
         {name='snippy'},
         {name='obsidian'},
         {name='spell'},
@@ -48,8 +48,7 @@ cmp.setup({
             if cmp.get_active_entry() and ({snippy=true,path=true,nvim_lsp=true,cmp_tabnine=true,codeium=true})[cmp.get_selected_entry().source.name] then
                 cmp.confirm()
             else
-                vim.api.nvim_feedkeys('\r','n',false) --TODO: temp
-                --fallback()
+                fallback()
             end end),
         ['<Tab>']=cmp.mapping(function(fallback)
             if cmp.visible() then
@@ -78,7 +77,7 @@ cmp.setup.cmdline(':',{
     sources=cmp.config.sources({
         {name='path'},
         {name='cmdline'},
-        {name='cmp_tabnine'},
+        --{name='cmp_tabnine'},
         {name='cmdline_history'},
     })
 })
@@ -86,7 +85,7 @@ cmp.setup.filetype({'AerojumpFilter'},{sources={}})
 local compare=require('cmp.config.compare')
 cmp.setup{sorting={priority_weight=2,comparators={
     compare.offset,
-    require('cmp_tabnine.compare'),
+    --require('cmp_tabnine.compare'),
     compare.exact,
     compare.score,
     compare.recently_used,
