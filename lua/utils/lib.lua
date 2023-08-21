@@ -8,6 +8,7 @@ function M.timeout_input(timeout)
         vim.api.nvim_echo({},false,{})
         vim.cmd('redraw')
         vim.api.nvim_echo({{'>','Question'},{ret}},false,{})
+        ---@type string|nil
         local key=''
         local function f()
             key=vim.fn.getcharstr(0)
@@ -24,7 +25,7 @@ function M.timeout_input(timeout)
         if key=='\r' then break end
         if key=='\x80kb' then
             ret=ret:sub(1,-2)
-        else
+        elseif key then
             ret=ret..key
         end
     end
@@ -41,7 +42,7 @@ function M.termrun(bin,mouse)
     vim.cmd.startinsert()
 end
 function M.utf8_sub(s,i,j)
-    local pos=vim.str_utf_pos(s)
+    local pos=vim.str_utf_pos(s) --[[@as number[]]
     j=j or -1
     if i<0 then i=#pos+i+1 end
     if j<0 then j=#pos+j+1 end
@@ -55,5 +56,13 @@ function M.tabbufmove(num)
     vim.cmd.tabnext(num)
     vim.cmd('vert sbuf'..buf)
     vim.api.nvim_win_close(win,true)
+end
+function M.get_tree_lang()
+    local stat,parser=pcall(vim.treesitter.get_parser,0)
+    if not stat then return end
+    local curpos=vim.api.nvim_win_get_cursor(0)
+    local row,col=curpos[1]-1,curpos[2]
+    local lang=parser:language_for_range({row,col,row,col})
+    return lang:lang()
 end
 return M

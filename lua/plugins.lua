@@ -37,6 +37,7 @@ require'packer'.startup(function (use)
   use{'windwp/nvim-autopairs',module'nvim-autopairs'}
   use{'altermo/ultimate-autopair.nvim',opt=true}
   use{'00sapo/visual.nvim',config=get_setup('visual'),opt=true} --TODO
+  use{'ggandor/flit.nvim',config=get_setup('flit',{labeled_modes='nvo'})}
 
   ----colorschm
   use{'folke/styler.nvim',config=get_setup('styler',{themes={}}),cmd='Styler'}
@@ -151,13 +152,7 @@ require'packer'.startup(function (use)
     k.xno('<S-A-n>','<Plug>(edgemotion-j)')
     k.xno('<S-A-p>','<Plug>(edgemotion-k)')
   end,keys=extend(mexp('x',{'<S-A-p>','<S-A-n>'}),mexp('n',{'<S-A-p>','<S-A-n>'}))}
-  use{'abecodes/tabout.nvim',config=get_setup('tabout',{tabkey='<A-tab>',backwards_tabkey='<A-S-tab>',act_as_tab=false}),keys={{'i','<A-tab>'},{'i','<A-S-tab>'}}}
   use{'phaazon/hop.nvim',config=get_setup'hop',module='hop'}
-  use{'rhysd/clever-f.vim',config=function ()
-    vim.g.clever_f_smart_case=1
-    vim.g.clever_f_mark_direct=1
-    require'utils.keymap'.nno('<esc>','<Plug>(clever-f-reset)')
-  end,keys=extend(mexp('n',{'f','t','F','T'}),mexp('x',{'f','t','F','T'}))}
   use{'arp242/jumpy.vim',keys={'[[','<char-93><char-93>'}}
   use{'lambdalisue/lista.nvim',config=get_rplugin(),cmd='Lista'}
   use{'jeetsukumaran/vim-indentwise',keys=mexp('n',extend(cexp('[',{'-','+','=','_','%'}),cexp(']',{'-','+','=','_','%'})))}
@@ -296,7 +291,10 @@ require'packer'.startup(function (use)
   ----treesitter
   use{'nvim-treesitter/nvim-treesitter',requires={
     'nvim-lua/plenary.nvim',
-    {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='User s1',config='vim.cmd"TSEnable rainbow"'},
+    {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='User s1',config=function()
+      vim.g.rainbow_delimiters={blacklist={'zig'}}
+      vim.cmd'TSEnable rainbow'
+    end},
     {'nvim-treesitter/playground',requires={'nvim-lua/popup.nvim'},cmd='TSPlaygroundToggle'},
     {'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
     {'mfussenegger/nvim-treehopper',module='tsht'},
@@ -341,7 +339,7 @@ require'packer'.startup(function (use)
   use{'rest-nvim/rest.nvim',opt=true} --TODO
 
   ----auto complete (nvim-cmp & snippy)
-  use{'hrsh7th/nvim-cmp',config=get_config('cmp-nvim'),requires={
+  use{'hrsh7th/nvim-cmp',commit='6c84bc7',config=get_config('cmp-nvim'),requires={ --TODO: temp commit; https://github.com/jcdickinson/codeium.nvim/issues/80
     {'hrsh7th/cmp-cmdline',after='nvim-cmp'},
     {'dmitmel/cmp-cmdline-history',after='nvim-cmp'},
     {'dcampos/cmp-snippy',after='nvim-cmp'},
@@ -354,8 +352,7 @@ require'packer'.startup(function (use)
     {'lukas-reineke/cmp-rg',after='nvim-cmp'},
     {'quangnguyen30192/cmp-nvim-tags',after='nvim-cmp' },
     {'ray-x/cmp-treesitter',after='nvim-cmp'},
-    --{'tzachar/cmp-tabnine',run='./install.sh',after='nvim-cmp',module='cmp_tabnine'},
-    --{'jcdickinson/codeium.nvim',config=get_setup('codeium'),after='nvim-cmp'},
+    {'jcdickinson/codeium.nvim',config=get_setup('codeium'),after='nvim-cmp'},
   },event={'InsertEnter','CmdlineEnter'}}
   use{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy',after='nvim-cmp'}
 

@@ -1,83 +1,83 @@
 local M={}
---[[
----@param a number
----@param b table
-function M.test(a,b)
-end
---]]
-M.pos=nil
-function M.enter()
-    local linenr=vim.fn.line('.') --[[@as number]]
-    M.buf=vim.api.nvim_get_current_buf()
-    local line=vim.api.nvim_get_current_line()
-    M.pos={linenr,M.buf,line}
-end
 function M.getline(linenr)
-    return vim.api.nvim_buf_get_lines(M.buf,linenr-1,linenr,false)[1]
+    return vim.api.nvim_buf_get_lines(0,linenr-1,linenr,false)[1]
 end
-function M.setline(linenr,line)
-    return vim.api.nvim_buf_set_lines(M.buf,linenr-1,linenr,false,{line})
+function M.in_lua()
+    local stat,parser=pcall(vim.treesitter.get_parser,0)
+    if not stat then return vim.o.filetype=='lua' end
+    local curpos=vim.api.nvim_win_get_cursor(0)
+    local row,col=curpos[1]-1,curpos[2]
+    local lang=parser:language_for_range({row,col,row,col})
+    return lang:lang()=='lua'
 end
-function M.addline(linenr,line)
-    return vim.api.nvim_buf_set_lines(M.buf,linenr,linenr,false,{line})
+function M.in_statment()
+    local node=vim.treesitter.get_node()
+    if not node then return end
+    if node:type()~='parameters' then return end
+    local par=node:parent()
+    if not par then return end
+    if par:type()~='function_declaration' then return end
+    return true
 end
-function M.get_c(linenr)
-    local ret={off=0}
-    if M.getline(linenr-1):find('---@return ') then
-        ret.off=1
-        linenr=linenr-1
-    end
+function M.run_statment()
+    vim.schedule(M.open_statment_win)
+end
+function M.get_name()
+    local curpos=vim.api.nvim_win_get_cursor(0)
+    local node=vim.treesitter.get_node({pos={curpos[1]-1,curpos[2]-1}})
+    if not node then return end
+    local _,start,_,end_=node:range()
+    return vim.api.nvim_get_current_line():sub(start+1,end_)
+end
+function M.has_return(linenr)
+    return linenr>1 and M.getline(linenr-1):find('---@return ')
+end
+function M.get_param_pos(name,linenr)
     while M.getline(linenr-1) and M.getline(linenr-1):find('---@param') do
         linenr=linenr-1
-        local _,_,var,typ=M.getline(linenr):find('---@param ([^ ]*) (.*)')
-        ret[var]={row=linenr,type=typ,doc=''}
+        local _,_,var,_=M.getline(linenr):find('---@param ([^ ]*) (.*)')
+        if var==name then
+            return linenr,11+#name
+        end
     end
-    return ret
 end
-function M.leave()
-    if not M.pos then return end
-    local linenr,buf,_=unpack(M.pos)
-    M.buf=buf
-    if not vim.api.nvim_buf_is_loaded(buf) then return end
-    local line=vim.api.nvim_buf_get_lines(buf,linenr-1,linenr,false)[1]
-    if not line or not line:find('^%s*function.*') then return end
-    local mod={}
-    local of=0
-    for var,st,ty,en in line:gmatch('[(,]([^,)]*)():([^,)]*)()') do
-        line=line:sub(1,st-of-1)..line:sub(en-of)
-        of=of+(en-st)
-        table.insert(mod,1,{var,ty})
+function M.default_get_param_pos(name)
+    local linenr=vim.api.nvim_win_get_cursor(0)[1]
+    local off=M.has_return(linenr) and 1 or 0
+    local linenr_,col=M.get_param_pos(name,linenr-off)
+    if not linenr_ then
+        vim.api.nvim_buf_set_lines(0,linenr-off-1,linenr-off-1,true,{'---@param '..name..' '})
+        M.cur[1]=M.cur[1]+1
+        return linenr-off+1,11+#name
     end
-    local rst,rty=line:match('%)():([^()]*)$')
-    if rty then
-        line=line:sub(1,rst-of-1)
-        if M.getline(linenr-1) and M.getline(linenr-1):find('---@return ') then
-            M.setline(linenr-1,'---@return '..rty)
-        else
-            M.addline(linenr-1,'---@return '..rty)
-            linenr=linenr+1
-        end
+    return linenr,col
+end
+function M.open_statment_win()
+    M.cur=vim.api.nvim_win_get_cursor(0)
+    local name=M.get_name()
+    local linenr,col=M.default_get_param_pos(name)
+    vim.api.nvim_win_set_cursor(0,{linenr-1,col})
+    vim.cmd.norm{'$l',bang=true}
+    vim.api.nvim_create_autocmd('InsertLeave',{callback=function(au)
+        vim.api.nvim_win_set_cursor(0,M.cur)
+        vim.cmd.startinsert()
+        vim.api.nvim_del_autocmd(au.id)
+    end})
+end
+function M.run()
+    if not M.in_lua() then return ':' end
+    if M.in_statment() then
+        M.run_statment()
+    --elseif M.in_return() then
+        --M.run_return()
+    else
+        return ':'
     end
-    local c=M.get_c(linenr)
-    for _,v in ipairs(mod) do
-        local var,typ=unpack(v)
-        if c[var] then
-            M.setline(c[var].row,'---@param '..var..' '..typ)
-        else
-            M.addline(linenr-1-c.off,'---@param '..var..' '..typ)
-            linenr=linenr+1
-        end
-    end
-    M.setline(linenr,line)
-    M.pos=nil
 end
 function M.setup()
-    local group=vim.api.nvim_create_augroup('Whint',{})
-    vim.api.nvim_create_autocmd('InsertEnter',{callback=M.enter,group=group})
-    vim.api.nvim_create_autocmd('InsertLeave',{callback=M.leave,group=group})
+    vim.keymap.set('i',':',M.run,{expr=true})
 end
 if vim.dev then
     M.setup()
-    vim.cmd.norm{'5gg',bang=true}
 end
 return M

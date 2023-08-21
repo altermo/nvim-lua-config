@@ -1,7 +1,6 @@
 local cmp=require'cmp'
 local menu={
     snippy='SNIP',
-    cmp_tabnine='TN',
     nvim_lsp='LSP',
     calc='CALC',
     spell='SP',
@@ -32,8 +31,7 @@ cmp.setup({
         {name='nvim_lsp'},
         {name='buffer'},
         {name='treesitter'},
-        --{name='cmp_tabnine'},
-        --{name='codeium'},
+        {name='codeium'},
         {name='snippy'},
         {name='obsidian'},
         {name='spell'},

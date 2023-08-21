@@ -7,4 +7,8 @@ require'keymaps'
 require'abbrevs-commands'
 require'autocmds'
 require'other'
-vim.cmd.colorscheme'own'
+pcall(vim.cmd.colorscheme,'own')
+if vim.g.colors_name~='own' then
+    vim.o.background='dark'
+    vim.cmd.colorscheme'tokyonight'
+end

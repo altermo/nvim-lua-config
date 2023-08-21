@@ -1,33 +1,20 @@
-#probably not
-t-troebst/perfanno.nvim
-prochri/telescope-all-recent.nvim
-kaitlynethylia/treepin
-cassin01/wf.nvim
-danielo515/haxe-nvim
-dmmulroy/tsc.nvim
-doctorfree/nvim-lazyman
-ecthelionvi/neocolumn.nvim
-bekaboo/deadcolumn.nvim
-#later
-aaronhallaert/advanced-git-search.nvim
+##auto buf delete
 axkirillov/hbac.nvim
-ashfinal/qfview.nvim
-aznhe21/actions-preview.nvim
-bekaboo/dropbar.nvim
-charludo/projectmgr.nvim
-chomosuke/term-edit.nvim
-chrisgrieser/nvim-alt-substitute
 chrisgrieser/nvim-early-retirement
-chrisgrieser/nvim-spider
+##projectmgr
+charludo/projectmgr.nvim
+gennaro-tedesco/nvim-possession
+#probably not
+#later
+aznhe21/actions-preview.nvim
+chrisgrieser/nvim-alt-substitute
 ckolkey/ts-node-action
 delphinus/dwm.nvim
 desdic/agrolens.nvim
-gennaro-tedesco/nvim-possession
-ggandor/flit.nvim --actually set up good hop system of editing
 jcdickinson/http.nvim
 jxstxs/conceal.nvim --create own plugin if not work
-malbertzard/inline-fold.nvim --maybe use instead of conceal.nvim
 llllvvuu/nvim-js-actions
+malbertzard/inline-fold.nvim --maybe use instead of conceal.nvim
 max397574/footprints.nvim
 max397574/hangman.nvim
 max397574/vmath.nvim
@@ -43,12 +30,15 @@ sbulav/jump-ray.nvim
 segeljakt/vim-silicon
 smiteshp/nvim-navbuddy
 spolu/dwm.vim
+t-troebst/perfanno.nvim
 tzachar/highlight-undo.nvim
 uga-rosa/utf8.nvim
 yaocccc/nvim-foldsign --write own
 zeioth/compiler.nvim --check out, do not use
 yagiziskirik/airsupport.nvim
 yaocccc/nvim-hl-mdcodeblock.lua --TODO: create own highlight
+ray-x/navigator.lua
+dawsers/navigator.nvim
 #replace exsisting one
 ecthelionvi/neoswap.nvim
 dundargoc/gh.nvim
@@ -71,6 +61,7 @@ willothy/veil.nvim
 zdcthomas/yop.nvim
 ziontee113/selectease
 folke/flash.nvim --better than hop?
+ashfinal/qfview.nvim
 ##shadow window
 jceb/blinds.nvim
 levouh/tint.nvim

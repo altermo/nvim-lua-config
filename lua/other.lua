@@ -92,12 +92,11 @@ require'small_plugins'.setup({
   'textobj',
   'unimpaired',
   'macroend',
-  'whint',
-  --'iabbrev'
+  'whint', --TODO: is currently a big hack
+  --'iabbrev' --TODO
 })
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback=function(ev)
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
-  --vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua_')
   local upair=require'ultimate-autopair'
   --_G.UA_DEV='ok'
   _G.UA_DEV=true
@@ -125,9 +124,13 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback
         rcmap='<C-A-S-e>',
       },
     },
+    tabout={
+      enable=true,
+      hopout=true,
+    },
     extensions={
-      --fly={nofilter=true},
-      --cond={cond=function(fn) return fn.get_tsnode_type()~='comment' and fn.get_tsnode_type()~='html_block' end},
+      fly={nofilter=true},
+      cond={cond=function(fn) return fn.get_tsnode_type()~='comment' and fn.get_tsnode_type()~='html_block' end},
     },
     config_internal_pairs={
       {'"','"',fly=true,bs_overjumps=true,multiline=true},
@@ -135,13 +138,11 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback
         return not fns.in_lisp() or fns.in_string()
       end}},
     },
-    {'<<','>>',suround=true,fastwarp=true,space=true},
+    {'<<','>>',suround=true,fastwarp=true,space=true,disable_end=true},
     {'<>','<>',bs_overjumps=true,fastwarp=true,space=true},
+    {'$','$',ft={'r'}},
   })
   upair.setup(configs[1])
   require'ultimate-autopair.experimental.terminal'.setup()
-  --require'ultimate-autopair.experimental.tabout'.setup()
   vim.api.nvim_del_autocmd(ev.id)
-  --vim.opt.runtimepath:remove('/home/user/.config/nvim/.other/ua_')
-  --vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
 end})

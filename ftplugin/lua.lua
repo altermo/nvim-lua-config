@@ -1,5 +1,5 @@
 vim.cmd.iabbrev'<buffer> re return'
-vim.cmd.iabbrev'<buffer> ree return end'
+vim.cmd.iabbrev'<buffer> tre then return end'
 vim.cmd.iabbrev'<buffer> l local'
 vim.cmd.iabbrev'<buffer> fu function'
 vim.cmd.iabbrev'<buffer> fum function M'
