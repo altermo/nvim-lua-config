@@ -4,41 +4,41 @@ chrisgrieser/nvim-early-retirement
 ##projectmgr
 charludo/projectmgr.nvim
 gennaro-tedesco/nvim-possession
+##action
+aznhe21/actions-preview.nvim
+ckolkey/ts-node-action
+llllvvuu/nvim-js-actions
+##fun
+folke/drop.nvim
+eandrju/cellular-automaton.nvim
+michaelb/do-nothing.vim
+##shadow window
+jceb/blinds.nvim
+levouh/tint.nvim
 #probably not
 #later
-aznhe21/actions-preview.nvim
-chrisgrieser/nvim-alt-substitute
-ckolkey/ts-node-action
-delphinus/dwm.nvim
+chrisgrieser/nvim-alt-substitute --lua regex :s
+delphinus/dwm.nvim --window manager
 desdic/agrolens.nvim
 jcdickinson/http.nvim
 jxstxs/conceal.nvim --create own plugin if not work
-llllvvuu/nvim-js-actions
 malbertzard/inline-fold.nvim --maybe use instead of conceal.nvim
-max397574/footprints.nvim
-max397574/hangman.nvim
 max397574/vmath.nvim
 misanthropicbit/decipher.nvim
 mrshmllow/open-handlers.nvim --create own open_handalers, don't use
-neovim/node-client
 nvim-neorocks/luarocks-tag-release
 rawnly/gist.nvim
-romgrk/kirby.nvim
-rutatang/compter.nvim
+romgrk/kirby.nvim --fuzzy finder
 saverio976/music.nvim
-sbulav/jump-ray.nvim
-segeljakt/vim-silicon
+sbulav/jump-ray.nvim --visual jump list
 smiteshp/nvim-navbuddy
-spolu/dwm.vim
 t-troebst/perfanno.nvim
 tzachar/highlight-undo.nvim
 uga-rosa/utf8.nvim
 yaocccc/nvim-foldsign --write own
 zeioth/compiler.nvim --check out, do not use
 yagiziskirik/airsupport.nvim
-yaocccc/nvim-hl-mdcodeblock.lua --TODO: create own highlight
 ray-x/navigator.lua
-dawsers/navigator.nvim
 #replace exsisting one
 ecthelionvi/neoswap.nvim
 dundargoc/gh.nvim
@@ -60,11 +60,10 @@ willothy/moveline.nvim
 willothy/veil.nvim
 zdcthomas/yop.nvim
 ziontee113/selectease
-folke/flash.nvim --better than hop?
+folke/flash.nvim --yes, better than hop (use flash.junp for keymap s)(https://github.com/mrjones2014/legendary.nvim)
 ashfinal/qfview.nvim
-##shadow window
-jceb/blinds.nvim
-levouh/tint.nvim
+rutatang/compter.nvim
+segeljakt/vim-silicon
 #definet
 lewis6991/hover.nvim --use to create own hovers, like help
 jim-fx/sudoku.nvim
@@ -74,7 +73,3 @@ dnlhc/glance.nvim
 jmbuhr/otter.nvim --use to create own
 m4xshen/hardtime.nvim
 romgrk/kui.nvim
-##fun
-folke/drop.nvim
-eandrju/cellular-automaton.nvim
-michaelb/do-nothing.vim

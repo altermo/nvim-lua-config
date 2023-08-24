@@ -1,5 +1,6 @@
 local luapad=require'luapad'
 luapad.setup{
+    preview=false,
     context={
         getns=function (buf)
             local ns=vim.api.nvim_create_namespace('luapad_scratch_namespace')

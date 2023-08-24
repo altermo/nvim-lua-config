@@ -142,7 +142,7 @@ require'packer'.startup(function (use)
 
   ----movement
   use{'ggandor/leap.nvim',module='leap',config=function()
-    require'leap'.opts.safe_labels=vim.split('abcdefghijklmnopqrstuvwxyz','')
+    require'leap'.opts.safe_labels=vim.split('ABCDEFGHIJKLMNOPQRSTUVWXYZ','')
     require'leap'.opts.labels={}
   end}
   use{'haya14busa/vim-edgemotion',config=function()

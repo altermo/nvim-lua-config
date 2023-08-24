@@ -7,7 +7,9 @@ if exists(':GuiTabline') && exists(':GuiPopupmenu')
   tnoremap <silent><F11> <cmd>call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
   lua vim.cmd.GuiFont{'Source Code Pro:h11',bang=true}
 elseif exists("g:neovide")
-  lua vim.o.guifont='Source Code Pro:h11'
+  "lua vim.o.guifont='Source Code Pro:h11'
+  lua vim.o.guifont='Fira Code:h10'
+  "lua vim.o.guifont='Fira Code:h16'
   set linespace=-1
   let g:neovide_scale_factor=0.7
   let g:neovide_transparency=0.9 "TODO: set global transparency

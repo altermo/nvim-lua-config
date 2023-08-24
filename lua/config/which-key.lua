@@ -69,13 +69,9 @@ require'which-key'.register({[' ']=format({
     d={':BDelete! this\r','buffer-close'},
     _=fmap(9,':%swincmd w\r','window %s'),
     ------move
-    ['<A- >']={':lua require("hop").hint_char1()\r','hop'},
+    [' ']={':lua require("hop").hint_char1()\r','hop'},
     ['<C- >']={':lua require"hop".hint_char1({multi_windows=true})\r','HopMW'},
     r={':Ranger\r','ranger'},
-    [' ']={function()
-        pos=vim.api.nvim_win_get_cursor(0)
-        require("hop").hint_char1()
-    end,'save-hop'},
     ['<']={function()
         if not pos then return end
         vim.api.nvim_win_set_cursor(0,pos)
@@ -133,6 +129,14 @@ require'which-key'.register({[' ']=format({
 
     ----cother
     c={name='+otherc',
+        D={function ()
+            local tomorrow=os.time()+24*60*60
+            return '/'..os.date('@%Y-%m-%d')..'\rlc5e'..os.date('%Y-%m-%d',tomorrow)..''
+        end,'increment-date',expr=true},
+        ['<C-d>']={function ()
+            local yesterday=os.time()-24*60*60
+            return '/'..os.date('@%Y-%m-%d',yesterday)..'\rlc5e'..os.date('%Y-%m-%d')..''
+        end,'increment-date',expr=true},
         d={':cd %:p:h|pwd\r','cd-to-file'},
         l={':edit /tmp/nlog\r','open-nlog'},
         L={':ls\r','ls'},
