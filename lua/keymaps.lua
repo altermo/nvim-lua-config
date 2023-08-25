@@ -54,8 +54,8 @@ lnno('<M-x>',':L ')
 for i=1,9 do
   nno('<A-'..i..'>',':tabnext '..i..'\r')
 end
-nno('s',':lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
-xno('s','<cmd>lua require"hop".hint_char1{current_line_only=true,keys="asdfhjkl"}\r')
+nno('s',function () require'flash'.jump({labels='asdfhjkl'}) end)
+xno('s',function () require'flash'.jump({labels='asdfhjkl'}) end)
 nno('dq','viwf(<esc>%xgvx')
 lnno('gR',':%s/\\<<C-r>=expand("<cword>")\r\\>/<C-r>=expand("<cword>")\r/g<Left><Left>')
 lnno('<A-f>',':%s///g<Left><Left><Left>')
@@ -98,7 +98,7 @@ nno('cd',function ()
       fn.chdir(path)
       goto End
     end
-    path=fn.fnamemodify(path,':h')
+    path=fn.fnamemodify(path,':h') --[[@as string]]
   end
   fn.chdir('..')
   ::End::
@@ -122,7 +122,7 @@ end)
 nno('gh',function ()
   local iskeyword=vim.o.iskeyword
   vim.opt.iskeyword:append('.')
-  local word=vim.fn.expand('<cword>')
+  local word=vim.fn.expand('<cword>') --[[@as string]]
   vim.o.iskeyword=iskeyword
   if vim.regex([[vim\.api\.]]):match_str(word) then
     word=vim.fn.expand('<cword>')..'()'

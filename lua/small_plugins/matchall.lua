@@ -1,7 +1,7 @@
 local M={}
 M.save=nil
 function M.clear_word()
-    vim.fn.matchdelete(M.save.matchid,M.save.window)
+    pcall(vim.fn.matchdelete,M.save.matchid,M.save.window)
 end
 function M.clear_lsp()
     vim.api.nvim_win_call(M.save.window,vim.lsp.buf.clear_references)
@@ -20,9 +20,10 @@ function M.highlight_word()
 end
 function M.highlight_lsp()
     local clients=vim.iter(vim.lsp.get_clients()):map(function (lsp) return lsp.name end)
-    if not vim.tbl_contains(clients,'jsonls') then
-        vim.lsp.buf.document_highlight()
+    for _,v in ipairs(clients:totable()) do
+        if not vim.tbl_contains({'luals','pyright','clangd'},v) then return end
     end
+    vim.lsp.buf.document_highlight()
 end
 function M.check_on_word()
     local col=vim.fn.col('.') --[[@as number]]

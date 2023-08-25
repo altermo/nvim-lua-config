@@ -38,6 +38,7 @@ require'packer'.startup(function (use)
   use{'altermo/ultimate-autopair.nvim',opt=true}
   use{'00sapo/visual.nvim',config=get_setup('visual'),opt=true} --TODO
   use{'ggandor/flit.nvim',config=get_setup('flit',{labeled_modes='nvo'})}
+  use{'folke/flash.nvim',module='flash'}
 
   ----colorschm
   use{'folke/styler.nvim',config=get_setup('styler',{themes={}}),cmd='Styler'}

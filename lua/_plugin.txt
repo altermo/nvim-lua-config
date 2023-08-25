@@ -60,7 +60,6 @@ willothy/moveline.nvim
 willothy/veil.nvim
 zdcthomas/yop.nvim
 ziontee113/selectease
-folke/flash.nvim --yes, better than hop (use flash.junp for keymap s)(https://github.com/mrjones2014/legendary.nvim)
 ashfinal/qfview.nvim
 rutatang/compter.nvim
 segeljakt/vim-silicon
