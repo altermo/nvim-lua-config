@@ -18,7 +18,7 @@ cabbr('Wq','wq')
 cabbr('qw','wq')
 
 ----commands
-command('Shell',function (opts) require'utils.lib'.termrun('fish '..opts.args) end,{nargs='*'})
+command('Shell',function (opts) require'utils.lib'.termrun('fish '..opts.args,{close_single=true}) end,{nargs='*'})
 command('UpdateRemotePlugins',function ()
     for _,i in ipairs(vim.g.rplugins) do
         ---@diagnostic disable-next-line: undefined-field

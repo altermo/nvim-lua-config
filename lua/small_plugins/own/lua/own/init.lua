@@ -67,7 +67,7 @@ function M.set_highlights(p)
     ---NORMAL
     set_hl('Normal',{bg=p.mainbg,fg=p.mainfg})
     set_hl('NormalFloat',{bg=p.secondbg,fg=p.mainfg})
-    set_hl('EndOfBuffer',{bg='bg',fg='bg'})
+    set_hl('EndOfBuffer',{})
     ---VISUAL
     set_hl('Visual',{bg=p.visual})
     ---CURSOR/COLUM

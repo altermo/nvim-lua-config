@@ -48,8 +48,6 @@ mr-lllll/interestingwords.nvim
 niuiic/translate.nvim
 nvchad/nvim-colorizer.lua
 olical/nfnl
-pocco81/high-str.nvim
-pocco81/true-zen.nvim
 richardbizik/nvim-toc
 shellraining/hlchunk.nvim
 stevearc/oil.nvim
@@ -66,9 +64,6 @@ segeljakt/vim-silicon
 #definet
 lewis6991/hover.nvim --use to create own hovers, like help
 jim-fx/sudoku.nvim
-cademichael/zig.nvim
-ntbbloodbath/zig-tools.nvim
 dnlhc/glance.nvim
 jmbuhr/otter.nvim --use to create own
-m4xshen/hardtime.nvim
 romgrk/kui.nvim

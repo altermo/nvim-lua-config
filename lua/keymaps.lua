@@ -7,11 +7,16 @@ local xno=key.xno
 local vno=key.xno
 local tno=key.tno
 local lnno=key.lnno
-
 local lcno=key.lcno
+local ono=key.ono
+
 vim.api.nvim_create_autocmd('FileType',{callback=function()
   nno('z','za',{nowait=true,buffer=true})
 end})
+for i in ([['"`()[]{}<>]]):gmatch('.') do
+  ono(i,'i'..i)
+  xno(i,'i'..i)
+end
 
 ----map
 xno('\r','d',{})

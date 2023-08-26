@@ -36,63 +36,46 @@ require'packer'.startup(function (use)
   ----TEST
   use{'windwp/nvim-autopairs',module'nvim-autopairs'}
   use{'altermo/ultimate-autopair.nvim',opt=true}
-  use{'00sapo/visual.nvim',config=get_setup('visual'),opt=true} --TODO
   use{'ggandor/flit.nvim',config=get_setup('flit',{labeled_modes='nvo'})}
-  use{'folke/flash.nvim',module='flash'}
+  use{'folke/flash.nvim',module='flash',config=get_setup('flash',{modes={char={keys={}}}})}
 
   ----colorschm
-  use{'folke/styler.nvim',config=get_setup('styler',{themes={}}),cmd='Styler'}
   use 'folke/tokyonight.nvim'
   use 'ray-x/starry.nvim'
-  use{'edeneast/nightfox.nvim',event='User s1'}
-  use{'projekt0n/github-nvim-theme',event='User s1'}
+  use 'edeneast/nightfox.nvim'
+  use 'projekt0n/github-nvim-theme'
   use 'bluz71/vim-nightfly-colors'
   use 'matsuuu/pinkmare'
   use 'lifepillar/vim-gruvbox8'
   use 'NTBBloodbath/doom-one.nvim'
   use 'hoprr/calvera-dark.nvim'
 
-  ----zen
-  use{'folke/zen-mode.nvim',config=get_setup'zen-mode',cmd='ZenMode'}
-  use{'folke/twilight.nvim',cmd='Twilight',module='twilight',config=get_setup'twilight'}
-  use{'junegunn/limelight.vim',cmd='Limelight'}
-  use{'koenverburg/peepsight.nvim',config=get_setup('peepsight',{'function_definition'}),cmd=cexp('Peepsight',{'Enable','Disable'},true)}
-
   ----visual
-  ------fun
+  use{'folke/twilight.nvim',cmd='Twilight',module='twilight',config=get_setup'twilight'}
   use{'lukas-reineke/indent-blankline.nvim',config=function()
     vim.g.indent_blankline_filetype_exclude={'dashboard'}
     local ib=require'indent_blankline'
     ib.setup{show_current_context=true}
     vim.cmd.IndentBlanklineRefresh()
   end,event='User s1'}
-  use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
-    vim.g.Hexokinase_highlighters={'backgroundfull'}
-  end,event='User s1'}
-  use{'anuvyklack/pretty-fold.nvim',
-    config=get_setup'pretty-fold',event='User isfolded'}
-  --use{'karb94/neoscroll.nvim',config=get_setup'neoscroll',keys={'<C-u>','<C-d>','<C-b>','<C-f>','<C-y>','<C-e>'},module='neoscroll'}
+  use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function () vim.g.Hexokinase_highlighters={'backgroundfull'} end,event='User s1'}
+  use{'anuvyklack/pretty-fold.nvim',config=get_setup'pretty-fold',event='User isfolded'}
   use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
-  use{'winston0410/range-highlight.nvim',config=get_setup'range-highlight',requires='winston0410/cmd-parser.nvim',event='CmdlineEnter'}
-  use{'nacro90/numb.nvim',config=get_setup'numb',event='CmdlineEnter'}
-  use{'dbmrq/vim-redacted',cmd='Redact'}
-  ------important-info
   use{'chentoast/marks.nvim',config=get_setup'marks',keys={{'n','m'},{'n','dm'}}}
   use{'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cmd={'G','V','Norm'}}
-  use{'lcheylus/overlength.nvim',config=get_setup('overlength',{enabled=false,textwidth_mode=1}),cmd='OverlengthToggle'}
   use{'azabiong/vim-highlighter',setup=function ()
     vim.g.HiSet='M<CR>'
     vim.g.HiErase='M<BS>'
     vim.g.HiClear='M<C-L>'
     vim.g.HiFind='M<tab>'
   end,keys=mexp('x',{'M<CR>','M<BS>','M<C-l>','M<Tab>'})}
-  use{'Pocco81/HighStr.nvim',cmd={'HSHighlight','HSRmHighlight'}}
   use{'monkoose/matchparen.nvim',config=get_setup'matchparen',event='User s1'}
-  use{'nvim-lualine/lualine.nvim',config=get_setup'lualine'}
+  use{'nvim-lualine/lualine.nvim',config=get_setup'lualine',event='User s1'}
   use{'folke/which-key.nvim',config=get_config'which-key',keys={{'n','<space>'},{'n','g'},{'n','<char-92>'}},cmd='WhichKey'}
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
 
   ----keys
+  use{'Julian/vim-textobj-variable-segment',keys=moa'v'}
   use{'Exafunction/codeium.vim',setup=function() --https://github.com/Exafunction/codeium.vim/issues/118
     vim.g.codeium_disable_bindings=false
     vim.g.codeium_manual=true
@@ -107,15 +90,7 @@ require'packer'.startup(function (use)
       ino('<A-(>',wrapper(vim.fn['codeium#CycleCompletions'],-1),{expr=true})
       ino('<A-\'>',wrapper(vim.fn['codeium#Complete']),{expr=true})
     end,keys={{'i','<A-\'>'}}}
-  use{'tpope/vim-characterize',keys={{'n','ga'}},config=function ()
-    require'utils.keymap'.nno('ga','<Plug>(characterize)')
-  end}
   use{'tommcdo/vim-exchange',keys={{'n','cx'},{'x','X'}}}
-  use{'AndrewRadev/sideways.vim',config=function ()
-    local nno=require 'utils.keymap'.nno
-    nno('>A',':SidewaysRight\r')
-    nno('<A',':SidewaysLeft\r')
-  end,keys=mexp('n',{'>A','<A'})}
   use{'wansmer/sibling-swap.nvim',requires='nvim-treesitter',config=function()
     local swap=require('sibling-swap')
     local nno=require'utils.keymap'.nno
@@ -125,21 +100,10 @@ require'packer'.startup(function (use)
   end,keys=mexp('n',{'>a','<a'})}
   use{'gbprod/yanky.nvim',config=get_config'yanky',event='TextYankPost',
     keys=extend(mexp('n',{'p','P','<A-p>','<A-P>'}),{{'x','p'},{'x','P'}})}
-  use{'allendang/nvim-expand-expr',config=function ()
-    require'utils.keymap'.nno('gE',':lua require"expand_expr".expand()\r')
-  end,keys={{'n','gE'}}}
   use{'andrewradev/switch.vim',keys='gs',cmd=cexp('Switch',{'Extend','Reverse'},true)}
   use{'monaqa/dial.nvim',config=get_config'dial',keys={{'n','<C-a>'},{'n','<C-x>'},{'x','<C-a>'},{'x','<C-x>'}}}
-  use{'glts/vim-radical',requires='glts/vim-magnum',keys=extend(mexp('n',{'gA','crx','cro','crd','crb'}),{{'x','gA'}})}
-  use{'gennaro-tedesco/nvim-peekup',keys={{'n','<char-34><char-34>'}}}
-  use{'mattn/emmet-vim',keys={{'i','<C-y>'}}}
+  use{'mattn/emmet-vim',keys={{'i','<C-y>'},{'x','<C-y>'}}}
   use{'kylechui/nvim-surround',config=get_setup'nvim-surround',keys={{'n','ys'},{'n','yS'},{'x','S'},{'x','gS'},{'n','cs'},{'n','ds'}}}
-  use{'iron-e/vim-tabmode',requires='Iron-E/vim-libmodal',cmd='TabmodeEnter',keys={{'n','\\<tab>'}}}
-
-  ----text object
-  use{'s1n7ax/nvim-lazy-inner-block',config=get_setup'nvim-lazy-inner-block'}
-  use{'deathlyfrantic/vim-textobj-blanklines',requires='kana/vim-textobj-user',keys=moa'<space>'}
-  use{'Julian/vim-textobj-variable-segment',keys=moa'v'}
 
   ----movement
   use{'ggandor/leap.nvim',module='leap',config=function()
@@ -154,9 +118,7 @@ require'packer'.startup(function (use)
     k.xno('<S-A-p>','<Plug>(edgemotion-k)')
   end,keys=extend(mexp('x',{'<S-A-p>','<S-A-n>'}),mexp('n',{'<S-A-p>','<S-A-n>'}))}
   use{'phaazon/hop.nvim',config=get_setup'hop',module='hop'}
-  use{'arp242/jumpy.vim',keys={'[[','<char-93><char-93>'}}
   use{'lambdalisue/lista.nvim',config=get_rplugin(),cmd='Lista'}
-  use{'jeetsukumaran/vim-indentwise',keys=mexp('n',extend(cexp('[',{'-','+','=','_','%'}),cexp(']',{'-','+','=','_','%'})))}
   use{'mg979/vim-visual-multi',setup='vim.cmd"let g:VM_maps={}"',keys=extend(mexp('n',{'\\\\','<C-n>'}),{'x','<C-n>'})}
   use{'xiyaowong/accelerated-jk.nvim',config=function ()
     require('accelerated-jk').setup{}
@@ -168,54 +130,34 @@ require'packer'.startup(function (use)
   ----utils
   use{'kazhala/close-buffers.nvim',cmd={'BDelete','BWipeout'}}
   use{'chrisgrieser/nvim-genghis',module='genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}}
-  use{'tpope/vim-abolish',cmd={'Abolish','Subvert'},keys={{'n','cr'}}}
-  use{'sqve/sort.nvim',cmd='Sort'}
-  use{'simonefranza/nvim-conv',cmd=cexp('Conv',{'Bin','Dec','Hex','Oct','Farenheit',
-    'Celsius','Str','Bytes','MetricImperial','DataTransRate','Color','SetPrecision'})}
-  use{'nanotee/zoxide.vim',cmd={'Z'}}
   use{'tyru/capture.vim',cmd='Capture'}
   use{'johmsalas/text-case.nvim',module='textcase'}
 
   ----buf-app
   use{'will133/vim-dirdiff',cmd='DirDiff'}
   use{'krady21/compiler-explorer.nvim',cmd='CECompile'}
-  use{'felipec/notmuch-vim',cmd='NotMuch'}
-  use{'rbtnn/vim-mario',requires='rbtnn/vim-game_engine',cmd='Mario'}
-  use{'rbtnn/vim-puyo',requires='rbtnn/vim-game_engine',cmd='Puyo'}
-  use{'rktjmp/shenzhen-solitaire.nvim',cmd='ShenzhenSolitaireNewGame'}
-  use{'alec-gibson/nvim-tetris',cmd='Tetris'}
-  use{'seandewar/killersheep.nvim',cmd='KillKillKill'}
-  use{'seandewar/nvimesweeper',cmd='Nvimesweeper'}
   use{'kassio/neoterm',cmd={'T','Tnew','Topen','Texec'}}
   use{'elihunter173/dirbuf.nvim',cmd='Dirbuf',setup=function()
     vim.api.nvim_create_autocmd('BufEnter',{
       command="if isdirectory(expand('%')) && !&modified|execute 'Dirbuf'|endif"
     })end}
-  use{'mtth/scratch.vim',cmd=cexp('Scratch',{'Insert','Preview','Selection'},true),setup=function ()
-    vim.g.scratch_no_mappings=1
-  end}
-  use{'voldikss/vim-floaterm',cmd='FloatermToggle'}
 
   ----command
   use{'acksld/muren.nvim',config=get_setup'muren',cmd=cexp('Muren',{'Toggle','Open','Close','Fresh','Unique'})}
   use{'cshuaimin/ssr.nvim',config=get_setup('ssr'),module='ssr'}
-  use{'ray-x/web-tools.nvim',config=get_setup'web-tools',cmd='BrowserOpen'}
   use{'smjonas/inc-rename.nvim',config=function()
     require'inc_rename'.setup{}
     require'utils.keymap'.nno('gr',':IncRename <C-r>=expand("<cword>")\r',{noremap=true})
   end,cmd='IncRename',keys={{'n','gr'}}}
-  use{'ludopinelli/comment-box.nvim',module='comment-box'}
-  use{'s1n7ax/nvim-comment-frame',module='nvim-comment-frame'}
   use{'nvim-colortils/colortils.nvim',cmd="Colortils",config=get_setup'colortils'}
   use{'skywind3000/asyncrun.vim',cmd={'AsyncRun','AsyncStop'}}
   use{'michaelb/sniprun',run='bash ./install.sh',cmd=cexp('Snip',{'Run','Info','Close','Reset','Terminate','ReplMemoryClean'})}
   use{'godlygeek/tabular',cmd='Tabularize'}
-  use{"ellisonleao/carbon-now.nvim", config = function() require('carbon-now').setup() end,cmd='CarbonNow'}
-  use{'andrewradev/linediff.vim',cmd={'Linediff','LinediffReset'}}
+  use{'ellisonleao/carbon-now.nvim', config = function() require('carbon-now').setup() end,cmd='CarbonNow'}
   use{'jbyuki/instant.nvim',config=function ()
     vim.g.instant_username='User'
   end,opt=true}
-  use{'tpope/vim-dadbod',cmd='DB'}
+  --TODO: continue
   use{'danymat/neogen',module='neogen',config=get_setup('neogen',{snippet_engine='snippy'}),cmd='Neogen'}
   use{'lifepillar/vim-colortemplate',opt=true}
   use{'sbdchd/neoformat',cmd='Neoformat'}
@@ -367,7 +309,7 @@ require'packer'.startup(function (use)
 
   ----git
   use{'timuntersberger/neogit',cmd='Neogit',config=get_setup'neogit'}
-  use{'rbong/vim-flog',after='vim-fugitive',cmd=cexp('Flog',{'git','split'},true),requires={'tpope/vim-fugitive'}}
+  --use{'rbong/vim-flog',after='vim-fugitive',cmd=cexp('Flog',{'git','split'},true),requires={'tpope/vim-fugitive',opt=true}}
   use{'sindrets/diffview.nvim',cmd=cexp('Diffview',{'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'}),
     config=get_setup('diffview',{use_icons=false})}
 

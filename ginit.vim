@@ -8,7 +8,7 @@ if exists(':GuiTabline') && exists(':GuiPopupmenu')
   lua vim.cmd.GuiFont{'Source Code Pro:h11',bang=true}
 elseif exists("g:neovide")
   "lua vim.o.guifont='Source Code Pro:h11'
-  lua vim.o.guifont='Fira Code:h10'
+  lua vim.o.guifont='Fira Code:h9'
   "lua vim.o.guifont='Fira Code:h16'
   set linespace=-1
   let g:neovide_scale_factor=0.7

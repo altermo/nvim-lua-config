@@ -32,10 +32,12 @@ function M.timeout_input(timeout)
     vim.fn.inputrestore()
     return ret
 end
-function M.termrun(bin,mouse)
+function M.termrun(bin,opt)
+    opt=opt or {}
     vim.cmd.enew()
     local buf=vim.fn.bufnr() or 0
-    vim.fn.termopen((mouse and "sleep 0.01;printf '\\e[?1000h';" or "")..bin,{on_exit=function (_,_,_)
+    vim.fn.termopen((opt.mouse and "sleep 0.01;printf '\\e[?1000h';" or "")..bin,{on_exit=function (_,_,_)
+        if opt.close_single and #vim.fn.getbufinfo()==1 then vim.cmd.quitall() end
         vim.cmd.bdelete({buf,bang=true})
     end})
     vim.api.nvim_buf_set_option(buf,'bufhidden','wipe')

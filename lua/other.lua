@@ -13,16 +13,16 @@ vim.g.loaded_tutor_mode_plugin=1
 vim.g.loaded_remote_plugins=1
 vim.g.loaded_fzf=1
 vim.g.rplugins={'lista.nvim','vim-ghost','pyro'}
-vim.fn.timer_start(1000,function() vim.cmd"doautocmd User s1" end)
+vim.fn.timer_start(250,function() vim.cmd"doautocmd User s1" end)
 local fastfoldtimer
-fastfoldtimer=vim.fn.timer_start(2000,function()
+fastfoldtimer=vim.fn.timer_start(250,function()
   if vim.o.foldenable then
     vim.cmd('doautocmd User isfolded')
     vim.fn.timer_stop(fastfoldtimer)
   end
 end,{['repeat']=-1})
 local qftimer
-qftimer=vim.fn.timer_start(2000,function ()
+qftimer=vim.fn.timer_start(250,function ()
   ---@diagnostic disable-next-line: param-type-mismatch
   if next(vim.fn.filter(vim.fn.getwininfo(),'v:val.quickfix && !v:val.loclist')) then
     vim.cmd'doautocmd User qfopen'
@@ -41,7 +41,6 @@ vim.api.nvim_create_autocmd('User',{pattern='s1',callback=function ()
   vim.cmd'syntax on'
 end})
 vim.api.nvim_create_autocmd('FileType',{callback=function()
-  ---@diagnostic disable-next-line: missing-fields
   vim.filetype.add({extension={bf='bf'}})
 end,pattern='bf',once=true})
 vim.api.nvim_create_autocmd({'BufRead','BufNewFile','StdinReadPost'},{
@@ -55,7 +54,10 @@ function vim.pprint(...)
   end)
 end
 function vim.traceback()
-  return vim.lg(debug.traceback())
+  local d=debug.getinfo(2)
+  return vim.fn.writefile(vim.fn.split(
+    ':'..d.short_src..':'..d.currentline..':\n'..debug.traceback(),'\n'),
+    '/tmp/nlog','a')
 end
 function vim.lgclear()
   vim.fn.writefile({},'/tmp/nlog')
@@ -70,10 +72,6 @@ end
 function vim.req(source)
   package.loaded[source]=nil
   return require(source)
-end
-function vim.curpos()
-  local row,col=unpack(vim.api.nvim_win_get_cursor(0))
-  return {row-1,col,row-1,col}
 end
 require'small_plugins'.setup({
   'own',

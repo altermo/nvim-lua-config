@@ -37,7 +37,6 @@ require'which-key'.register({[' ']=format({
 
     ----other
     b={require'small_plugins.bookend'.run,'bookend'},
-    u={':Scratch\r','scratch'},
     L={':Luapad\r','luapad'},
     ['.']={'@:','run-prev-cmd'},
     ------file
@@ -69,8 +68,8 @@ require'which-key'.register({[' ']=format({
     d={':BDelete! this\r','buffer-close'},
     _=fmap(9,':%swincmd w\r','window %s'),
     ------move
-    [' ']={':lua require("hop").hint_char1()\r','hop'},
-    ['<C- >']={':lua require"hop".hint_char1({multi_windows=true})\r','HopMW'},
+    --[' ']={':lua require("hop").hint_char1()\r','hop'},
+    --['<C- >']={':lua require"hop".hint_char1({multi_windows=true})\r','HopMW'},
     r={':Ranger\r','ranger'},
     ['<']={function()
         if not pos then return end
@@ -300,10 +299,8 @@ require'which-key'.register({[' ']=format({
         end,'centermouse'},
         z={name='+zen',
             t={':Twilight\r','twilight'},
-            z={':ZenMode\r','zen-mode'},
+            z={require'small_plugins.zen'.run,'zen'},
             m={':lua require "mini.misc".zoom(0,{})\r','max-mode'},
-            p={':Peepsight\r','peepsight'},
-            l={':Limelight!!\r','limelight'},
             ['3']={':Accordion 3\r','3-windows'},
             ['0']={':AccordionStop\r','any-windows'},
         },
@@ -327,13 +324,6 @@ require'which-key'.register({[' ']=format({
         s={require'grapple'.popup_tags,'select'},
         n={require'grapple'.cycle_forward,'next'},
         p={require'grapple'.cycle_backward,'previous'},
-    },
-
-    ----highlight
-    H={name='+highlight',
-        r={':HSRmHighlight\r','remove'},
-        R={':HSRmHighlight rm_all\r','remove-all'},
-        _=fmap(9,':HSHighlight %s\r','color %s')
     },
 
     ----lsp
@@ -388,13 +378,14 @@ require'which-key'.register({[' ']=format({
         end,'hide-cursor'},
         c={':set guicursor&\r','reset-cursor'},
         f={':set guifont=*\r','select-font'},
-        ['8']={':OverlengthToggle\r','toggle highlight past 80'},
         i={':IndentBlanklineToggle!\r','toggle highlight indent level'},
         w={':let b:minicursorword_disable=luaeval("not vim.b.minicursorword_disable")\r','toggle highlight cursor word'},
         n={':lua require"notify".dismiss({pending=true,silent=true})\r','dismiss notify'},
         r={':TSToggle rainbow\r','toggle rainbow'},
         [' ']={':lua require "mini.trailspace".unhighlight()\r','unhighlight spaces'},
         ['<c- >']={':lua require "mini.trailspace".highlight()\r','highlight spaces'},
+        ['<C-t>']={':let g:neovide_transparency=1\r','no-transparency'},
+        t={':let g:neovide_transparency=0.9\r','transparency'}
     },
 
     ----refactoring

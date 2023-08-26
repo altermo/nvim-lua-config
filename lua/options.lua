@@ -47,8 +47,8 @@ vim.opt.path:append('**')
 vim.o.lazyredraw=true
 vim.o.showmode=false
 vim.o.modelineexpr=true
-vim.o.foldcolumn='auto:2'
-vim.o.statuscolumn="%{%&foldenable?'%C':''%}%s%{&nu?v:virtnum>0?'':v:relnum?&rnu?v:relnum:v:lnum:v:lnum:v:virtnum>0?'':&rnu?v:relnum:''}"
+vim.o.foldcolumn='0'
+vim.o.statuscolumn="%C%s%{&nu?v:virtnum>0?'':v:relnum?&rnu?v:relnum:v:lnum:v:lnum:v:virtnum>0?'':&rnu?v:relnum:''}"
 vim.o.shell='/bin/fish'
 vim.o.smoothscroll=true
 vim.o.shada="'100,/5,:500,<50,@0,s10"
