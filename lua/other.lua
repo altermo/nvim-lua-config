@@ -90,8 +90,7 @@ require'small_plugins'.setup({
   'textobj',
   'unimpaired',
   'macroend',
-  'whint', --TODO: is currently a big hack
-  --'iabbrev' --TODO
+  'whint',
 })
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback=function(ev)
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
@@ -128,7 +127,7 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback
     },
     extensions={
       fly={nofilter=true},
-      cond={cond=function(fn) return fn.get_tsnode_type()~='comment' and fn.get_tsnode_type()~='html_block' end},
+      cond={cond=function(fn) return not fn.in_node({'comment','html_block'}) end},
     },
     config_internal_pairs={
       {'"','"',fly=true,bs_overjumps=true,multiline=true},

@@ -151,24 +151,12 @@ require'packer'.startup(function (use)
   end,cmd='IncRename',keys={{'n','gr'}}}
   use{'nvim-colortils/colortils.nvim',cmd="Colortils",config=get_setup'colortils'}
   use{'skywind3000/asyncrun.vim',cmd={'AsyncRun','AsyncStop'}}
-  use{'michaelb/sniprun',run='bash ./install.sh',cmd=cexp('Snip',{'Run','Info','Close','Reset','Terminate','ReplMemoryClean'})}
   use{'godlygeek/tabular',cmd='Tabularize'}
   use{'ellisonleao/carbon-now.nvim', config = function() require('carbon-now').setup() end,cmd='CarbonNow'}
-  use{'jbyuki/instant.nvim',config=function ()
-    vim.g.instant_username='User'
-  end,opt=true}
-  --TODO: continue
-  use{'danymat/neogen',module='neogen',config=get_setup('neogen',{snippet_engine='snippy'}),cmd='Neogen'}
-  use{'lifepillar/vim-colortemplate',opt=true}
-  use{'sbdchd/neoformat',cmd='Neoformat'}
-  use{'rraks/pyro',cmd='Pyro',config=get_rplugin(),setup=function ()
-    vim.g.pyro_macro_path='/home/user/.macro'
-  end}
-  use{'amadeus/vim-convert-color-to',cmd='ConvertColorTo'}
+  use{'jbyuki/instant.nvim',config=function () vim.g.instant_username='User' end,opt=true}
+  use{'rraks/pyro',cmd='Pyro',config=get_rplugin(),setup=function () vim.g.pyro_macro_path='/home/user/.macro' end}
 
   ----sidepannel
-  use{'majutsushi/tagbar',cmd='TagbarToggle'}
-  use{'itchyny/calendar.vim',cmd='Calendar'}
   use{'simnalamburt/vim-mundo',cmd='MundoToggle'}
   use{'nvim-neo-tree/neo-tree.nvim',requires='MunifTanjim/nui.nvim',config=get_config'neotree',cmd='Neotree'}
   use{'gorbit99/codewindow.nvim',config=function()
@@ -179,14 +167,6 @@ require'packer'.startup(function (use)
 
   ----search
   use{'nvim-pack/nvim-spectre',module='spectre'}
-  use{'roosta/fzf-folds.vim',cmd='Folds',config=function ()
-    vim.cmd[[
-      if g:loaded_fzf==1
-      unlet g:loaded_fzf
-      source /usr/share/vim/vimfiles/plugin/fzf.vim
-      endif
-      ]]
-  end}
   ------telescope
   use{'nvim-telescope/telescope.nvim',requires={
     'nvim-neorg/neorg-telescope',
@@ -194,7 +174,6 @@ require'packer'.startup(function (use)
     'nvim-telescope/telescope-project.nvim',
     {'nvim-telescope/telescope-fzf-native.nvim',run='make'},
     'nvim-telescope/telescope-live-grep-args.nvim',
-    'nvim-telescope/telescope-packer.nvim',
     {'nvim-telescope/telescope-ui-select.nvim',setup=function ()
       ---@diagnostic disable-next-line: duplicate-set-field
       function vim.ui.select(...)
@@ -206,8 +185,6 @@ require'packer'.startup(function (use)
     },
     'lukaspietzschmann/telescope-tabs',
     'nvim-telescope/telescope-file-browser.nvim',
-    'debugloop/telescope-undo.nvim',
-    'otavioschwanck/telescope-alternate.nvim', --TODO: look into it
   },config=function ()
       local telescope=require'telescope'
       telescope.load_extension'fzf'
@@ -215,9 +192,6 @@ require'packer'.startup(function (use)
     end,cmd='Telescope',module='telescope'}
 
   ----window
-  use{'wellle/visual-split.vim',keys={{'n','<C-W>gr'},{'n','<C-W>gss'},{'n','<C-W>gsa'},
-    {'n','<C-W>gsb'},{'x','<C-W>gr'},{'x','<C-W>gss'},{'x','<C-W>gsa'},{'x','<C-W>gsb'}},
-    cmd=extend(cexp('VSSplit',{'Above','Below'},true),{'VSResize'})}
   use{'mattboehm/vim-accordion',cmd=cexp('Accordion',{'All','Diff','Stop','ZoomIn','ZoomOut','Once','Clear'},true)}
   use{'sindrets/winshift.nvim',config=function ()
     require'winshift'.setup{}
@@ -229,7 +203,7 @@ require'packer'.startup(function (use)
     vim.g.choosewin_overlay_enable=1
     require'utils.keymap'.nno('<C-w> ',':ChooseWin\r')
   end,keys='<C-w><space>',command=':ChooseWin'}
-  use{"anuvyklack/windows.nvim",config=get_setup'windows',requires={"anuvyklack/middleclass","anuvyklack/animation.nvim"},cmd='WindowsToggleAutowidth'}
+  use{'anuvyklack/windows.nvim',config=get_setup'windows',requires={"anuvyklack/middleclass","anuvyklack/animation.nvim"},cmd='WindowsToggleAutowidth'}
 
   ----treesitter
   use{'nvim-treesitter/nvim-treesitter',requires={
@@ -238,19 +212,15 @@ require'packer'.startup(function (use)
       vim.g.rainbow_delimiters={blacklist={'zig'}}
       vim.cmd'TSEnable rainbow'
     end},
-    {'nvim-treesitter/playground',requires={'nvim-lua/popup.nvim'},cmd='TSPlaygroundToggle'},
     {'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
-    {'mfussenegger/nvim-treehopper',module='tsht'},
     {'rrethy/nvim-treesitter-endwise',event='InsertEnter',config='vim.cmd"TSEnable endwise"'},
   },config=get_config'treesitter'}
   use{'ziontee113/syntax-tree-surfer',config=get_config'minimove-treesurfer',
     keys=extend(mexp('n',{'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF','gX'}),mexp('x',{'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','gX'})),module='syntax-tree-surfer'}
 
   ----other
+  --TODO: continue
   use{'xeluxee/competitest.nvim',requires='MunifTanjim/nui.nvim',config=get_setup'competitest',cmd='CompetiTest',opt=true} --TODO
-  use{'Konfekt/FastFold',config=function ()
-    require'utils.keymap'.nno('Z','<Plug>(FastFoldUpdate)')
-  end,event='User isfolded',cmd='FastFoldUpdate',keys='Z'}
   use{'stevearc/stickybuf.nvim',config=get_setup'stickybuf',cmd=extend(cexp('Pin',{'Buffer','Buftype','Filetype'}),{'Unpin'})}
   use{'neovim/nvim-lspconfig',config=get_config'lsp',requires={
     {'williamboman/mason.nvim',module='mason'},
@@ -262,14 +232,6 @@ require'packer'.startup(function (use)
         vim.cmd('Dashboard')
       end end})end}
   use{'rafcamlet/nvim-luapad',module='luapad',cmd='Luapad',config=get_config'luapad'}
-  use{'ThePrimeagen/refactoring.nvim',config=function ()
-    require'refactoring'.setup()
-    local xno=require'utils.keymap'.xno
-    xno('<leader>re',[[<Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]])
-    xno('<leader>rf',[[<Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]])
-    xno('<leader>rv',[[<Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]])
-    xno('<leader>ri',[[<Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]])
-  end,keys=mexp('x',{'\\re','\\rf','\\rv','\\ri'}),module='refactoring',cmd='Refactor'}
   use{'m-demare/attempt.nvim',config=get_config'attempt',keys={{'n','\\a'}}}
   use{'rcarriga/nvim-notify',setup='vim.notify=function (...) require"notify"(...) end',module='notify'}
   use{'echasnovski/mini.nvim',config=get_config'mini'}
@@ -348,7 +310,6 @@ require'packer'.startup(function (use)
   use{'aklt/plantuml-syntax',ft='puml'}
   use{'scrooloose/vim-slumlord',ft='puml'}
   use{'ahmedkhalf/jupyter-nvim',ft='ipynb'}
-  use{'andrewradev/tagalong.vim',ft='html'}
 
   ----end--
   use 'wbthomason/packer.nvim'

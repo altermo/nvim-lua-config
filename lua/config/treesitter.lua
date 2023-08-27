@@ -2,7 +2,6 @@ require'nvim-treesitter.configs'.setup({
     highlight={enable=true},
     indent={enable=true},
     rainbow={enable=true},
-    playground={enable=true},
     endwise={enable=true},
 })
 vim.api.nvim_create_user_command('TSUpadte',function()

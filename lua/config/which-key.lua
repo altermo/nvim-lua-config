@@ -38,6 +38,7 @@ require'which-key'.register({[' ']=format({
     ----other
     b={require'small_plugins.bookend'.run,'bookend'},
     L={':Luapad\r','luapad'},
+    C={require'small_plugins.chat'.run,'chat'},
     ['.']={'@:','run-prev-cmd'},
     ------file
     W={function ()
@@ -154,7 +155,6 @@ require'which-key'.register({[' ']=format({
         },
         ------fold
         f={name='+fold',
-            u={':FastFoldUpdate\r','fast-fold-update'},
             --------foldmethod
             m={name='+foldmethod',
                 _=cmap({m='manual',i='indent',e='expr',M='marker',S='syntex',d='diff'},':set foldmethod=%s\r','%s'),
@@ -208,7 +208,7 @@ require'which-key'.register({[' ']=format({
                 o='oldfiles',s={'live_grep_args'},b='buffers', u={'undo'},
                 p={'project'},y={'yank_history'},n={'notify'},
                 T='telescope-tabs list_tabs',
-                P={'packer'},w={'file_browser'},
+                w={'file_browser'},
                 h='help_tags',k='symbols',
             }) do
                 if type(v)=='string' then
@@ -242,11 +242,11 @@ require'which-key'.register({[' ']=format({
 
     ----packer
     p={name='+packer',
-        s={':call luaeval("require \'plugins\'")|PackerSync\r','sync'},
-        p={':call luaeval("require \'plugins\'")|PackerCompile\r','compile'},
-        P={':call luaeval("require \'plugins\'")|PackerCompile profile=true\r','compile-profile'},
-        i={':call luaeval("require \'plugins\'")|PackerInstall\r','install'},
-        c={':call luaeval("require \'plugins\'")|PackerClean\r','clean'},
+        s={':lua vim.req("plugins") vim.cmd"PackerSync"\r','sync'},
+        p={':lua vim.req("plugins") vim.cmd"PackerCompile"\r','compile'},
+        P={':lua vim.req("plugins") vim.cmd"PackerCompile" profile=true\r','compile-profile'},
+        i={':lua vim.req("plugins") vim.cmd"PackerInstall"\r','install'},
+        c={':lua vim.req("plugins") vim.cmd"PackerClean"\r','clean'},
         S={name='+special',
             f={':v/\\//d|%s/\\v^.{-}([a-zA-Z0-9._-]+\\/[a-zA-Z0-9._-]+).*/\\1/g\r','extraxt-plugs'},
         },
@@ -279,7 +279,7 @@ require'which-key'.register({[' ']=format({
     ----toggle
     t={name='+toggle',
         ['\r']={':set hls!\r','highlight'},
-        T={':TSPlaygroundToggle\r','TSPlayground'},
+        T={':InspectTree\r','TSPlayground'},
         e={':Neotree\r','explorer'},
         h={':TSToggle highlight\r','TS-highlight'},
         m={':CodeWindow\r','minimap'},
@@ -342,7 +342,7 @@ require'which-key'.register({[' ']=format({
     ----hop
     h={name='+hop',
         w={':lua require"hop".hint_words({ multi_windows = true })\r','word'},
-        t={':lua require"tsht".nodes()\r','TSHT'},
+        t={'<cmd>lua require"flash".treesitter()\r','tree'},
         r={':lua require"hop".hint_patterns()\r','regex'},
         l={':lua require"hop".hint_lines({ multi_windows = true })\r','line'},
         v={':lua require"hop".hint_vertical()\r','vertical'},

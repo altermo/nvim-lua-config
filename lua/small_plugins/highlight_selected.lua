@@ -9,7 +9,7 @@ function M.get_visual()
 end
 function M.clear()
     if M.prev_match then
-        vim.fn.matchdelete(M.prev_match)
+        pcall(vim.fn.matchdelete,M.prev_match)
         M.prev_match=nil
     end
 end
