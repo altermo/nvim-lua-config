@@ -92,13 +92,11 @@ require'small_plugins'.setup({
   'macroend',
   'whint',
 })
-vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback=function(ev)
+vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},{callback=function()
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
   local upair=require'ultimate-autopair'
-  --_G.UA_DEV='ok'
   _G.UA_DEV=true
-  local configs={}
-  table.insert(configs,upair.extend_default{
+  local configs={upair.extend_default{
     space2={
       enable=true
     },
@@ -138,8 +136,12 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback
     {'<<','>>',suround=true,fastwarp=true,space=true,disable_end=true},
     {'<>','<>',bs_overjumps=true,fastwarp=true,space=true},
     {'$','$',ft={'r'}},
-  })
-  upair.setup(configs[1])
+  },{
+    profile='raw',
+    require'ultimate-autopair.experimental.matchpair_'.init()
+  }}
+  if not upair._check_depreciated(configs[1]) then
+    upair.init(configs)
+  end
   require'ultimate-autopair.experimental.terminal'.setup()
-  vim.api.nvim_del_autocmd(ev.id)
-end})
+end,once=true})

@@ -28,16 +28,10 @@ local function mexp(mode,exp)
   end
   return ret
 end
-local function moa(map)
-  return {{'o','i'..map},{'o','a'..map},{'x','i'..map},{'x','a'..map}}
-end
 local extend=vim.fn.extend
 require'packer'.startup(function (use)
   ----TEST
-  use{'windwp/nvim-autopairs',module'nvim-autopairs'}
   use{'altermo/ultimate-autopair.nvim',opt=true}
-  use{'ggandor/flit.nvim',config=get_setup('flit',{labeled_modes='nvo'})}
-  use{'folke/flash.nvim',module='flash',config=get_setup('flash',{modes={char={keys={}}}})}
 
   ----colorschm
   use 'folke/tokyonight.nvim'
@@ -58,24 +52,15 @@ require'packer'.startup(function (use)
     ib.setup{show_current_context=true}
     vim.cmd.IndentBlanklineRefresh()
   end,event='User s1'}
-  use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function () vim.g.Hexokinase_highlighters={'backgroundfull'} end,event='User s1'}
   use{'anuvyklack/pretty-fold.nvim',config=get_setup'pretty-fold',event='User isfolded'}
-  use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
+  --use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
   use{'chentoast/marks.nvim',config=get_setup'marks',keys={{'n','m'},{'n','dm'}}}
   use{'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cmd={'G','V','Norm'}}
-  use{'azabiong/vim-highlighter',setup=function ()
-    vim.g.HiSet='M<CR>'
-    vim.g.HiErase='M<BS>'
-    vim.g.HiClear='M<C-L>'
-    vim.g.HiFind='M<tab>'
-  end,keys=mexp('x',{'M<CR>','M<BS>','M<C-l>','M<Tab>'})}
-  use{'monkoose/matchparen.nvim',config=get_setup'matchparen',event='User s1'}
   use{'nvim-lualine/lualine.nvim',config=get_setup'lualine',event='User s1'}
   use{'folke/which-key.nvim',config=get_config'which-key',keys={{'n','<space>'},{'n','g'},{'n','<char-92>'}},cmd='WhichKey'}
   use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
 
   ----keys
-  use{'Julian/vim-textobj-variable-segment',keys=moa'v'}
   use{'Exafunction/codeium.vim',setup=function() --https://github.com/Exafunction/codeium.vim/issues/118
     vim.g.codeium_disable_bindings=false
     vim.g.codeium_manual=true
@@ -102,22 +87,9 @@ require'packer'.startup(function (use)
     keys=extend(mexp('n',{'p','P','<A-p>','<A-P>'}),{{'x','p'},{'x','P'}})}
   use{'andrewradev/switch.vim',keys='gs',cmd=cexp('Switch',{'Extend','Reverse'},true)}
   use{'monaqa/dial.nvim',config=get_config'dial',keys={{'n','<C-a>'},{'n','<C-x>'},{'x','<C-a>'},{'x','<C-x>'}}}
-  use{'mattn/emmet-vim',keys={{'i','<C-y>'},{'x','<C-y>'}}}
-  use{'kylechui/nvim-surround',config=get_setup'nvim-surround',keys={{'n','ys'},{'n','yS'},{'x','S'},{'x','gS'},{'n','cs'},{'n','ds'}}}
+  --use{'kylechui/nvim-surround',config=get_setup'nvim-surround',keys={{'n','ys'},{'n','yS'},{'x','S'},{'x','gS'},{'n','cs'},{'n','ds'}}}
 
   ----movement
-  use{'ggandor/leap.nvim',module='leap',config=function()
-    require'leap'.opts.safe_labels=vim.split('ABCDEFGHIJKLMNOPQRSTUVWXYZ','')
-    require'leap'.opts.labels={}
-  end}
-  use{'haya14busa/vim-edgemotion',config=function()
-    local k=require 'utils.keymap'
-    k.nno('<S-A-n>','<Plug>(edgemotion-j)')
-    k.nno('<S-A-p>','<Plug>(edgemotion-k)')
-    k.xno('<S-A-n>','<Plug>(edgemotion-j)')
-    k.xno('<S-A-p>','<Plug>(edgemotion-k)')
-  end,keys=extend(mexp('x',{'<S-A-p>','<S-A-n>'}),mexp('n',{'<S-A-p>','<S-A-n>'}))}
-  use{'phaazon/hop.nvim',config=get_setup'hop',module='hop'}
   use{'lambdalisue/lista.nvim',config=get_rplugin(),cmd='Lista'}
   use{'mg979/vim-visual-multi',setup='vim.cmd"let g:VM_maps={}"',keys=extend(mexp('n',{'\\\\','<C-n>'}),{'x','<C-n>'})}
   use{'xiyaowong/accelerated-jk.nvim',config=function ()
@@ -126,15 +98,15 @@ require'packer'.startup(function (use)
     xno('j','<cmd>lua require"accelerated-jk".command("gj")\r')
     xno('k','<cmd>lua require"accelerated-jk".command("gk")\r')
   end,keys={{'n','j'},{'n','k'},{'x','j'},{'x','j'}}}
+  use{'folke/flash.nvim',config=get_config'flash'}
 
   ----utils
   use{'kazhala/close-buffers.nvim',cmd={'BDelete','BWipeout'}}
   use{'chrisgrieser/nvim-genghis',module='genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}}
   use{'tyru/capture.vim',cmd='Capture'}
-  use{'johmsalas/text-case.nvim',module='textcase'}
+  --use{'johmsalas/text-case.nvim',module='textcase'}
 
   ----buf-app
-  use{'will133/vim-dirdiff',cmd='DirDiff'}
   use{'krady21/compiler-explorer.nvim',cmd='CECompile'}
   use{'kassio/neoterm',cmd={'T','Tnew','Topen','Texec'}}
   use{'elihunter173/dirbuf.nvim',cmd='Dirbuf',setup=function()
@@ -158,7 +130,6 @@ require'packer'.startup(function (use)
 
   ----sidepannel
   use{'simnalamburt/vim-mundo',cmd='MundoToggle'}
-  use{'nvim-neo-tree/neo-tree.nvim',requires='MunifTanjim/nui.nvim',config=get_config'neotree',cmd='Neotree'}
   use{'gorbit99/codewindow.nvim',config=function()
     local codewindow=require'codewindow'
     codewindow.setup()
@@ -169,7 +140,6 @@ require'packer'.startup(function (use)
   use{'nvim-pack/nvim-spectre',module='spectre'}
   ------telescope
   use{'nvim-telescope/telescope.nvim',requires={
-    'nvim-neorg/neorg-telescope',
     'nvim-telescope/telescope-symbols.nvim',
     'nvim-telescope/telescope-project.nvim',
     {'nvim-telescope/telescope-fzf-native.nvim',run='make'},
@@ -192,7 +162,6 @@ require'packer'.startup(function (use)
     end,cmd='Telescope',module='telescope'}
 
   ----window
-  use{'mattboehm/vim-accordion',cmd=cexp('Accordion',{'All','Diff','Stop','ZoomIn','ZoomOut','Once','Clear'},true)}
   use{'sindrets/winshift.nvim',config=function ()
     require'winshift'.setup{}
     for k,v in pairs({h='left',j='down',k='up',l='right'}) do
@@ -203,11 +172,10 @@ require'packer'.startup(function (use)
     vim.g.choosewin_overlay_enable=1
     require'utils.keymap'.nno('<C-w> ',':ChooseWin\r')
   end,keys='<C-w><space>',command=':ChooseWin'}
-  use{'anuvyklack/windows.nvim',config=get_setup'windows',requires={"anuvyklack/middleclass","anuvyklack/animation.nvim"},cmd='WindowsToggleAutowidth'}
 
   ----treesitter
   use{'nvim-treesitter/nvim-treesitter',requires={
-    'nvim-lua/plenary.nvim',
+    {'nvim-lua/plenary.nvim',module='plenary'},
     {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='User s1',config=function()
       vim.g.rainbow_delimiters={blacklist={'zig'}}
       vim.cmd'TSEnable rainbow'
@@ -219,9 +187,8 @@ require'packer'.startup(function (use)
     keys=extend(mexp('n',{'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF','gX'}),mexp('x',{'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','gX'})),module='syntax-tree-surfer'}
 
   ----other
-  --TODO: continue
-  use{'xeluxee/competitest.nvim',requires='MunifTanjim/nui.nvim',config=get_setup'competitest',cmd='CompetiTest',opt=true} --TODO
-  use{'stevearc/stickybuf.nvim',config=get_setup'stickybuf',cmd=extend(cexp('Pin',{'Buffer','Buftype','Filetype'}),{'Unpin'})}
+  use{'sindrets/diffview.nvim',cmd=cexp('Diffview',{'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'}),
+    config=get_setup('diffview',{use_icons=false})}
   use{'neovim/nvim-lspconfig',config=get_config'lsp',requires={
     {'williamboman/mason.nvim',module='mason'},
     {'kosayoda/nvim-lightbulb',module='nvim-lightbulb'},
@@ -236,18 +203,15 @@ require'packer'.startup(function (use)
   use{'rcarriga/nvim-notify',setup='vim.notify=function (...) require"notify"(...) end',module='notify'}
   use{'echasnovski/mini.nvim',config=get_config'mini'}
   use{'nmac427/guess-indent.nvim',config=get_setup'guess-indent'}
-  use{'norcalli/nvim-terminal.lua',config=get_setup'terminal',ft='terminal'}
   use{'raghur/vim-ghost',run=':GhostInstall',cmd='GhostStart',config=get_rplugin()}
-  use{'andweeb/presence.nvim',module='presence'}
-  use{'cbochs/grapple.nvim',confog=get_setup'grapple',module='grapple'}
-  use{'mickael-menu/shadowvim',opt=true}
-  use{'rest-nvim/rest.nvim',opt=true} --TODO
+  --use{'andweeb/presence.nvim',module='presence'}
 
   ----auto complete (nvim-cmp & snippy)
-  use{'hrsh7th/nvim-cmp',commit='6c84bc7',config=get_config('cmp-nvim'),requires={ --TODO: temp commit; https://github.com/jcdickinson/codeium.nvim/issues/80
+  use{'hrsh7th/nvim-cmp',config=get_config('cmp-nvim'),requires={ --TODO: temp commit; https://github.com/jcdickinson/codeium.nvim/issues/80
     {'hrsh7th/cmp-cmdline',after='nvim-cmp'},
     {'dmitmel/cmp-cmdline-history',after='nvim-cmp'},
-    {'dcampos/cmp-snippy',after='nvim-cmp'},
+    --{'dcampos/cmp-snippy',after='nvim-cmp'},
+    --{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy',after='nvim-cmp'},
     {'f3fora/cmp-spell',after='nvim-cmp'},
     {'hrsh7th/cmp-calc',after='nvim-cmp'},
     {'hrsh7th/cmp-buffer',after='nvim-cmp'},
@@ -255,25 +219,8 @@ require'packer'.startup(function (use)
     {'hrsh7th/cmp-nvim-lsp-signature-help',after='nvim-cmp'},
     {'FelipeLema/cmp-async-path',after='nvim-cmp'},
     {'lukas-reineke/cmp-rg',after='nvim-cmp'},
-    {'quangnguyen30192/cmp-nvim-tags',after='nvim-cmp' },
-    {'ray-x/cmp-treesitter',after='nvim-cmp'},
     {'jcdickinson/codeium.nvim',config=get_setup('codeium'),after='nvim-cmp'},
   },event={'InsertEnter','CmdlineEnter'}}
-  use{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy',after='nvim-cmp'}
-
-  ----lua utils
-  use{'ido-nvim/ido.nvim',module='ido'} --TODO
-  use{'nvim-lua/plenary.nvim',module='plenary'}
-  use{'s1n7ax/nvim-window-picker',module='window-picker'}
-  use{'rktjmp/fwatch.nvim',module='fwatch'}
-  use{'edluffy/hologram.nvim',module='hologram'}
-  use{'rrethy/nvim-animator',module='value_animator'}
-
-  ----git
-  use{'timuntersberger/neogit',cmd='Neogit',config=get_setup'neogit'}
-  --use{'rbong/vim-flog',after='vim-fugitive',cmd=cexp('Flog',{'git','split'},true),requires={'tpope/vim-fugitive',opt=true}}
-  use{'sindrets/diffview.nvim',cmd=cexp('Diffview',{'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'}),
-    config=get_setup('diffview',{use_icons=false})}
 
   ----writing
   use{'JellyApple102/easyread.nvim',config=get_setup('easyread',{fileTypes={'markdown','text'}}),ft={'markdown','text'}}
@@ -287,13 +234,6 @@ require'packer'.startup(function (use)
   use{'epwalsh/obsidian.nvim',config=get_setup('obsidian'),ft='markdown'}
 
   ----filetype
-  use{'lhkipp/nvim-nu',ft='nu',config=get_setup('nu',{use_lsp_features=false})}
-  use{'vim-latex/vim-latex',ft='latex'}
-  use{'mrcjkb/haskell-tools.nvim',ft='haskell'}
-  use{'nvim-orgmode/orgmode',config=function ()
-    require('orgmode').setup_ts_grammar()
-    require('orgmode').setup{}
-  end,ft='org'}
   use{'nvim-neorg/neorg',config=get_setup(
     'neorg',{load={
       ['core.defaults']={},
@@ -304,12 +244,7 @@ require'packer'.startup(function (use)
       --['core.completion']={},
     }}),ft='norg'}
   use{'mzlogin/vim-markdown-toc',ft='markdown'} --TODO: maybe better alternative
-  use{ "iamcco/markdown-preview.nvim", run = "cd app && npm install",ft='markdown'}
-  use{'weirongxu/plantuml-previewer.vim',requires='tyru/open-browser.vim',ft='puml'}
-  use{'renerocksai/telekasten.nvim',cmd='Telekasten'}
-  use{'aklt/plantuml-syntax',ft='puml'}
-  use{'scrooloose/vim-slumlord',ft='puml'}
-  use{'ahmedkhalf/jupyter-nvim',ft='ipynb'}
+  use{'iamcco/markdown-preview.nvim',run='cd app && npm install',ft='markdown'}
 
   ----end--
   use 'wbthomason/packer.nvim'

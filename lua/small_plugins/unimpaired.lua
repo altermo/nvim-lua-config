@@ -37,7 +37,12 @@ function M.toggle(opt,on,off)
     elseif on then
         vim.o[opt]=vim.o[opt]=='' and on or ''
     else
-        vim.o[opt]=not vim.o[opt]
+        if opt=='diff' then
+            vim.cmd'setl invdiff'
+        else
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            vim.o[opt]=not vim.o[opt]
+        end
     end
     print(opt..'='..vim.inspect(vim.o[opt]))
 end
@@ -52,14 +57,15 @@ function M.set_opt()
         p={opt="matchpairs",on="(:),{:},[:]",off=""},
         T={opt="showtabline",on=1,off=0}
     }
-    vim.cmd.vsplit()
     local buf=vim.api.nvim_create_buf(false,true)
     vim.api.nvim_buf_set_option(buf,'bufhidden','wipe')
-    local win=vim.api.nvim_get_current_win()
-    vim.api.nvim_win_set_buf(win,buf)
     for _,k in ipairs(vim.fn.reverse(vim.fn.sort(vim.tbl_keys(opts)))) do
         vim.api.nvim_buf_set_lines(buf,0,0,false,{k..' : '..(opts[k].opt or opts[k])})
     end
+    local win=vim.api.nvim_open_win(buf,false,{
+        relative='editor',width=vim.o.columns-20,height=vim.o.lines-20,col=10,row=10,
+        focusable=false,style='minimal',noautocmd=true
+    })
     vim.schedule(function ()
         local char=vim.fn.getcharstr()
         local v=opts[char]

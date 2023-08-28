@@ -9,9 +9,7 @@ aznhe21/actions-preview.nvim
 ckolkey/ts-node-action
 llllvvuu/nvim-js-actions
 ##fun
-folke/drop.nvim
 eandrju/cellular-automaton.nvim
-michaelb/do-nothing.vim
 ##shadow window
 jceb/blinds.nvim
 levouh/tint.nvim
@@ -41,29 +39,24 @@ yagiziskirik/airsupport.nvim
 ray-x/navigator.lua
 #replace exsisting one
 ecthelionvi/neoswap.nvim
-dundargoc/gh.nvim
 bennypowers/splitjoin.nvim
-leonheidelbach/trailblazer.nvim
+leonheidelbach/trailblazer.nvim --stack jumplist (create own)
 mr-lllll/interestingwords.nvim
 niuiic/translate.nvim
 nvchad/nvim-colorizer.lua
-olical/nfnl
 richardbizik/nvim-toc
 shellraining/hlchunk.nvim
-stevearc/oil.nvim
+stevearc/oil.nvim --Maybe create own, which works like ranger
 tobinpalmer/rayso.nvim
 turbio/bracey.vim
 utilyre/sentiment.nvim
 willothy/moveline.nvim
-willothy/veil.nvim
-zdcthomas/yop.nvim
 ziontee113/selectease
 ashfinal/qfview.nvim
 rutatang/compter.nvim
 segeljakt/vim-silicon
 #definet
 lewis6991/hover.nvim --use to create own hovers, like help
-jim-fx/sudoku.nvim
 dnlhc/glance.nvim
 jmbuhr/otter.nvim --use to create own
 romgrk/kui.nvim

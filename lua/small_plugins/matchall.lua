@@ -23,7 +23,7 @@ function M.highlight_lsp()
     for _,v in ipairs(clients:totable()) do
         if not vim.tbl_contains({'luals','pyright','clangd'},v) then return end
     end
-    vim.lsp.buf.document_highlight()
+    vim.lsp.buf.document_highlight() --TODO: not working
 end
 function M.check_on_word()
     local col=vim.fn.col('.') --[[@as number]]

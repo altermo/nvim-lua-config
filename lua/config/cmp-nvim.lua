@@ -6,9 +6,6 @@ local menu={
     spell='SP',
     async_path='PATH',
     rg='RG',
-    fish='FISH',
-    treesitter='TS',
-    tags='TGS',
     buffer='BUF',
     codeium='CI',
     obsidian='OBS',
@@ -30,13 +27,11 @@ cmp.setup({
     sources=cmp.config.sources({
         {name='nvim_lsp'},
         {name='buffer'},
-        {name='treesitter'},
         {name='codeium'},
         {name='snippy'},
         {name='obsidian'},
         {name='spell'},
         {name='async_path'},
-        {name='tags'},
         {name='calc'},
         {name='rg',option={additional_arguments='--max-depth 4'}},
         {name='nvim_lsp_signature_help'},
@@ -82,19 +77,15 @@ cmp.setup.cmdline(':',{
 cmp.setup.filetype({'AerojumpFilter'},{sources={}})
 local compare=require('cmp.config.compare')
 cmp.setup{sorting={priority_weight=2,comparators={
-    compare.offset,
-    --require('cmp_tabnine.compare'),
-    compare.exact,
     compare.score,
+    compare.offset,
+    compare.exact,
     compare.recently_used,
     compare.kind,
     compare.sort_text,
     compare.length,
     compare.order,
 }}}
---require'cmp_nvim_lua'.is_available=function ()
---return vim.bo.filetype=='lua' or vim.bo.filetype=='fennel'
---end
 if vim.o.filetype=='dirbuf' then
     vim.api.nvim_create_autocmd('FileType',{pattern='conf',
         callback=function()

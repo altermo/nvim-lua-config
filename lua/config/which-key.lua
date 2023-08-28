@@ -69,8 +69,6 @@ require'which-key'.register({[' ']=format({
     d={':BDelete! this\r','buffer-close'},
     _=fmap(9,':%swincmd w\r','window %s'),
     ------move
-    --[' ']={':lua require("hop").hint_char1()\r','hop'},
-    --['<C- >']={':lua require"hop".hint_char1({multi_windows=true})\r','HopMW'},
     r={':Ranger\r','ranger'},
     ['<']={function()
         if not pos then return end
@@ -174,11 +172,7 @@ require'which-key'.register({[' ']=format({
             _=fmap(9,':set sw=%s ts=%s sts=%s\r','set indent=%s'),
         },
         ------git
-        g={name='+git',
-            g={':Neogit\r','neogit'},
-            d={':DiffviewOpen\r','diff'},
-            b={':Flog\r','branches'},
-        },
+        g={':DiffviewOpen\r','git-diff'},
     },
 
     ----files
@@ -280,7 +274,6 @@ require'which-key'.register({[' ']=format({
     t={name='+toggle',
         ['\r']={':set hls!\r','highlight'},
         T={':InspectTree\r','TSPlayground'},
-        e={':Neotree\r','explorer'},
         h={':TSToggle highlight\r','TS-highlight'},
         m={':CodeWindow\r','minimap'},
         t={':Tagbar\r','tagbar'},
@@ -301,8 +294,6 @@ require'which-key'.register({[' ']=format({
             t={':Twilight\r','twilight'},
             z={require'small_plugins.zen'.run,'zen'},
             m={':lua require "mini.misc".zoom(0,{})\r','max-mode'},
-            ['3']={':Accordion 3\r','3-windows'},
-            ['0']={':AccordionStop\r','any-windows'},
         },
     },
 
@@ -314,16 +305,6 @@ require'which-key'.register({[' ']=format({
             w='lbyw:!setsid firefox "https://en.wikipedia.org/w/index.php?search=<C-r>""\r',
             q='lbyw:!setsid firefox "https://docs.qtile.org/en/latest/search.html?q=<C-r>"&check_keywords=yes&area=default"\r',
         },'%s\r','%s')
-    },
-
-    ----grapple
-    g={name='+grapple',
-        t={require'grapple'.tag,'tag'},
-        u={require'grapple'.untag,'untag'},
-        ['\r']={require'grapple'.tag,'toggle'},
-        s={require'grapple'.popup_tags,'select'},
-        n={require'grapple'.cycle_forward,'next'},
-        p={require'grapple'.cycle_backward,'previous'},
     },
 
     ----lsp
@@ -341,23 +322,10 @@ require'which-key'.register({[' ']=format({
 
     ----hop
     h={name='+hop',
-        w={':lua require"hop".hint_words({ multi_windows = true })\r','word'},
         t={'<cmd>lua require"flash".treesitter()\r','tree'},
-        r={':lua require"hop".hint_patterns()\r','regex'},
-        l={':lua require"hop".hint_lines({ multi_windows = true })\r','line'},
-        v={':lua require"hop".hint_vertical()\r','vertical'},
-        ['2']={':lua require"hop".hint_char2({ multi_windows = true })\r','2 char'},
         f={':Lista\r','find-whole-file'},
         m={':lua require"mini.jump2d".start()\r','mini-jump'},
-        a={':lua require"hop".hint_anywhere()\r','anywhere'},
-        h={':lua require"hop".hint_char1()\r','1 char'},
-        ------current-line
-        c={name='+current line',
-            c={':lua require"hop".hint_char1({ current_line_only = true })\r','1 char'},
-            ['2']={':lua require"hop".hint_char2({ current_line_only = true })\r','2 char'},
-            w={':lua require"hop".hint_words({ current_line_only = true })\r','word'},
-            a={':lua require"hop".hint_anywhere({ current_line_only = true })\r','anywhere'},
-        },
+        h={'<cmd>lua require"flash".jump()\r','1 char'},
     },
 
     ----theme
