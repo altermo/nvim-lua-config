@@ -4,12 +4,12 @@ local key=require'utils.keymap'
 local nno=key.nno
 local ino=key.ino
 local xno=key.xno
-local vno=key.xno
 local tno=key.tno
 local lnno=key.lnno
 local lcno=key.lcno
 local ono=key.ono
 
+----map
 vim.api.nvim_create_autocmd('FileType',{callback=function()
   nno('z','za',{nowait=true,buffer=true})
 end})
@@ -17,8 +17,6 @@ for i in ([['"`()[]{}<>]]):gmatch('.') do
   ono(i,'i'..i)
   xno(i,'i'..i)
 end
-
-----map
 xno('\r','d',{})
 nno('\r','dd',{})
 xno('R',':Norm ',{})
@@ -26,7 +24,6 @@ xno('R',':Norm ',{})
 ----nno
 nno('cw','dwi')
 nno('cW','dWi')
-nno('=p',']p')
 nno('g:','q:')
 nno('g/','q/')
 nno('gp','`[v`]')
@@ -41,28 +38,25 @@ for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical re
 end
 nno('<A-=>','<C-w>=')
 lnno('<A-e>','/')
-lnno('<A-r>',':G/')
-lnno('<A-S-a>',':% ')
 nno('<A-a>','GVgg')
 nno('<A-d>','0D"_dd')
-nno('<A-c>','yyp')
-nno('<A-S-c>','yyP')
 nno('<A-w>',':echo wordcount()\r')
 nno('<A-y>',':let @+=@"\r')
 nno('<A-j>',':move +1\r')
 nno('<A-k>',':move -2\r')
 nno('<A-h>','<<')
 nno('<A-l>','>>')
+nno('<A-.>','.')
 nno('<C-.>','.')
 lnno('<M-x>',':L ')
 ------other
 for i=1,9 do
   nno('<A-'..i..'>',':tabnext '..i..'\r')
 end
-nno('dq','viwf(<esc>%xgvx')
+nno('dq','viwf(<esc>%xgvx',{desc='delete function caller'})
 lnno('gR',':%s/\\<<C-r>=expand("<cword>")\r\\>/<C-r>=expand("<cword>")\r/g<Left><Left>')
 lnno('<A-f>',':%s///g<Left><Left><Left>')
-nno('¤','gvo<esc>')
+nno('~','gvo<esc>',{desc='jump to other end of last visual selected'})
 nno('g=','vgg=Gc')
 nno('<Home>',function ()
   for _,v in pairs(fn.getwininfo()) do
@@ -82,13 +76,10 @@ nno('ø',':redo\r')
 nno('æ','z=')
 nno('å','"+p')
 nno('π','yyp')
-nno('>w','"xdiw"axviw<esc>"ap"xp')
-nno('<w','viwo<esc>b"xdiw"axviw<esc>"ap"xpbb')
-nno('>W','"xdiW"axviW<esc>"ap"xp')
-nno('<W','viWo<esc>b"xdiW"axviW<esc>"ap"xpbb')
---nno('j','gj')
---nno('k','gk')
-nno('\t','<C-w>w')
+nno('Π','yyP')
+nno('j','gj')
+nno('k','gk')
+nno('\t','<C-w>w') --TODO
 nno('L','gt')
 nno('H','gT')
 --nno('zl','zL')
@@ -160,13 +151,12 @@ for k,v in pairs({h='Left',l='Right',j='Down',k='Up'}) do
 end
 lcno('<A-d>','<C-w>')
 lcno('<A-b>','<S-Left>')
-lcno('<A-e>','<S-Right>')
-lcno('<A-b>','<S-Left>')
 lcno('<A-w>','<S-Right>')
 lcno('<C-e>','<End>')
 lcno('<C-a>','<Home>')
 lcno('<A-s>','<BS>')
 lcno('<A-x>','<Del>')
+lcno('<C-S-v>','<C-r>+')
 lcno('<C-A-v>','<C-r>+')
 --ino('<tab>','<C-o>>><Right><Right><Right><Right>')
 --ino('<S-tab>','<C-o><<<Left><Left><Left><Left>')
@@ -179,9 +169,11 @@ for i in ('hjklwbn'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
   ino('<A-S-'..i..'>','<C-o>5'..i)
 end
-for i in ('0u$_+-vVtTD'):gmatch('.') do
+for i in ('0u$_+-vVD'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
 end
+ino('<A-t>','<C-o>f')
+ino('<A-T>','<C-o>T')
 ino('<A-/>','<C-o>/',{noremap=true})
 ino('<A-.>','<C-o>:',{noremap=true})
 ino('<A-ø>','<cmd>redo\r')
@@ -217,22 +209,19 @@ ino('<C-e>','<End>')
 ino('<C-a>','<Home>')
 ino('<C-g>','<esc>')
 
-----vno
-vno('gr','y:%s/<C-r>"/<C-r>"/g<Left><Left>',{noremap=true})
-vno('Ø',':sort',{noremap=true})
-vno('<A-f>',':s/\\%V//g<Left><Left><Left>',{noremap=true})
-vno('<A-r>',':G/',{noremap=true})
-vno('<A-e>',':G/ /norm! <S-left><bs>',{noremap=true})
-vno('.',':',{noremap=true})
-vno('gG','y:!setsid firefox https://www.github.com/<C-r>"\r')
-vno('å','"+y')
-vno('<','<gv')
-vno('>','>gv')
-vno('<A-w>',':w !wc\r')
-vno('<A-j>',':move \'>+1\rgv')
-vno('<A-k>',':move \'<-2\rgv')
-vno('<A-h>','<gv')
-vno('<A-l>','>gv')
+----xno
+xno('gr','y:%s/<C-r>"/<C-r>"/g<Left><Left>',{noremap=true})
+xno('<A-f>',':s/\\%V//g<Left><Left><Left>',{noremap=true})
+xno('<A-e>',':G/ /norm! <S-left><bs>',{noremap=true})
+xno('.',':',{noremap=true})
+xno('å','"+y')
+xno('<','<gv')
+xno('>','>gv')
+xno('<A-w>',':w !wc\r')
+xno('<A-j>',':move \'>+1\rgv')
+xno('<A-k>',':move \'<-2\rgv')
+xno('<A-h>','<gv')
+xno('<A-l>','>gv')
 --vno('k','gk')
 --vno('j','gj')
 xno('A','mode()=="<C-v>"?"A":"<esc>:au InsertLeave * ++once :\'<+1,\'>norm! $\\".p\r\'<A"',{noremap=true,silent=true,expr=true})
@@ -252,16 +241,16 @@ tno('<A-S-k>','<S-Up>')
 for _,i in pairs({'<left>','<right>','<up>','<down>'}) do
   nno(i,'<nop>')
   ino(i,'<nop>')
-  vno(i,'<nop>')
+  xno(i,'<nop>')
   lcno(i,'<nop>')
 end
 
 ----may-be remapt
 nno('Å','"+')
 nno('-','_')
-vno('-','_')
+xno('-','_')
 nno('+','$')
-vno('+','$')
+xno('+','$')
 nno('v','v')
 nno('vv','V')
 nno('vvv','<C-v>')

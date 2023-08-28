@@ -52,7 +52,7 @@ require'packer'.startup(function (use)
     ib.setup{show_current_context=true}
     vim.cmd.IndentBlanklineRefresh()
   end,event='User s1'}
-  use{'anuvyklack/pretty-fold.nvim',config=get_setup'pretty-fold',event='User isfolded'}
+  use{'anuvyklack/pretty-fold.nvim',config=get_setup'pretty-fold',event='User s1'}
   --use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
   use{'chentoast/marks.nvim',config=get_setup'marks',keys={{'n','m'},{'n','dm'}}}
   use{'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cmd={'G','V','Norm'}}

@@ -67,4 +67,8 @@ function M.get_tree_lang()
     local lang=parser:language_for_range({row,col,row,col})
     return lang:lang()
 end
+function M.req(source)
+  package.loaded[source]=nil
+  return require(source)
+end
 return M

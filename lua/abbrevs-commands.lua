@@ -9,13 +9,15 @@ local function cabbr(lhs,rhs)
 end
 
 ----cabbrev
---cabbr('W','w')
 --cabbr('w','=vim.fn.input(("PLEAS STOP PRESSING :W\\n"):rep(200))')
-cabbr('w','stop')
+--cabbr('w','stop')
+cabbr('W','w')
 cabbr('Q','q')
 cabbr('WQ','wq')
 cabbr('Wq','wq')
 cabbr('qw','wq')
+cabbr('TSU','TSUpdate')
+cabbr('TSIA','TSInstall all')
 
 ----commands
 command('Shell',function (opts) require'utils.lib'.termrun('fish '..opts.args,{close_single=true}) end,{nargs='*'})
