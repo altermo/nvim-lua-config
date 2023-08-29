@@ -1,5 +1,5 @@
 local M={}
-function M.timeout_input(timeout)
+function M.timeout_input(timeout,update)
     timeout=timeout or 500
     vim.fn.inputsave()
     local ret=''
@@ -28,6 +28,7 @@ function M.timeout_input(timeout)
         elseif key then
             ret=ret..key
         end
+        if update then update(ret) end
     end
     vim.fn.inputrestore()
     return ret

@@ -192,7 +192,7 @@ require'packer'.startup(function (use)
   use{'neovim/nvim-lspconfig',config=get_config'lsp',requires={
     {'williamboman/mason.nvim',module='mason'},
     {'kosayoda/nvim-lightbulb',module='nvim-lightbulb'},
-    {'folke/neodev.nvim',module='neodev'}},event='User s1',cmd='LspStart'}
+    {'folke/neodev.nvim',module='neodev'}}}
   use{'glepnir/dashboard-nvim',config=get_config('dashboard'),cmd={'Dashboard','DashboardNewFile'},setup=function ()
     vim.api.nvim_create_autocmd({'Vimenter'},{callback=function()
       if vim.fn.argc()==0 and vim.api.nvim_buf_line_count(0)==1 and vim.api.nvim_get_current_line()=='' and vim.api.nvim_buf_get_name(0)=='' then
@@ -207,7 +207,7 @@ require'packer'.startup(function (use)
   --use{'andweeb/presence.nvim',module='presence'}
 
   ----auto complete (nvim-cmp & snippy)
-  use{'hrsh7th/nvim-cmp',config=get_config('cmp-nvim'),requires={ --TODO: temp commit; https://github.com/jcdickinson/codeium.nvim/issues/80
+  use{'hrsh7th/nvim-cmp',commit='6c84bc7',config=get_config('cmp-nvim'),requires={ --TODO: temp commit; https://github.com/jcdickinson/codeium.nvim/issues/80
     {'hrsh7th/cmp-cmdline',after='nvim-cmp'},
     {'dmitmel/cmp-cmdline-history',after='nvim-cmp'},
     --{'dcampos/cmp-snippy',after='nvim-cmp'},

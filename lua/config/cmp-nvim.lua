@@ -70,11 +70,9 @@ cmp.setup.cmdline(':',{
     sources=cmp.config.sources({
         {name='path'},
         {name='cmdline'},
-        --{name='cmp_tabnine'},
         {name='cmdline_history'},
     })
 })
-cmp.setup.filetype({'AerojumpFilter'},{sources={}})
 local compare=require('cmp.config.compare')
 cmp.setup{sorting={priority_weight=2,comparators={
     compare.score,
@@ -86,12 +84,12 @@ cmp.setup{sorting={priority_weight=2,comparators={
     compare.length,
     compare.order,
 }}}
-if vim.o.filetype=='dirbuf' then
-    vim.api.nvim_create_autocmd('FileType',{pattern='conf',
-        callback=function()
-            if vim.fn.isdirectory(vim.api.nvim_buf_get_name(0)) then
-                vim.o.filetype='dirbuf'
-            end
-        end
-    })
-end
+--if vim.o.filetype=='dirbuf' then
+    --vim.api.nvim_create_autocmd('FileType',{pattern='conf',
+        --callback=function()
+            --if vim.fn.isdirectory(vim.api.nvim_buf_get_name(0)) then
+                --vim.o.filetype='dirbuf'
+            --end
+        --end
+    --})
+--end

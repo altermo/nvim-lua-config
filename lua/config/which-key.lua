@@ -236,11 +236,11 @@ require'which-key'.register({[' ']=format({
 
     ----packer
     p={name='+packer',
-        s={':lua vim.req("plugins") vim.cmd"PackerSync"\r','sync'},
-        p={':lua vim.req("plugins") vim.cmd"PackerCompile"\r','compile'},
-        P={':lua vim.req("plugins") vim.cmd"PackerCompile" profile=true\r','compile-profile'},
-        i={':lua vim.req("plugins") vim.cmd"PackerInstall"\r','install'},
-        c={':lua vim.req("plugins") vim.cmd"PackerClean"\r','clean'},
+        s={':lua require("utils.lib").req("plugins") vim.cmd"PackerSync"\r','sync'},
+        p={':lua require("utils.lib").req("plugins") vim.cmd"PackerCompile"\r','compile'},
+        P={':lua require("utils.lib").req("plugins") vim.cmd"PackerCompile" profile=true\r','compile-profile'},
+        i={':lua require("utils.lib").req("plugins") vim.cmd"PackerInstall"\r','install'},
+        c={':lua require("utils.lib").req("plugins") vim.cmd"PackerClean"\r','clean'},
         S={name='+special',
             f={':v/\\//d|%s/\\v^.{-}([a-zA-Z0-9._-]+\\/[a-zA-Z0-9._-]+).*/\\1/g\r','extraxt-plugs'},
         },
