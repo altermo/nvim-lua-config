@@ -2,9 +2,8 @@ local sts=require'syntax-tree-surfer'
 local k=require'utils.keymap'
 k.nno('vx','<cmd>STSSelectMasterNode\r')
 k.nno('vn','<cmd>STSSelectCurrentNode\r')
-local move=require'mini.move'
-k.nno('<A-k>',function() move.move_line('up') end)
-k.nno('<A-j>',function() move.move_line('down') end)
+k.nno('<A-k>',function() require'mini.move'.move_line('up') end)
+k.nno('<A-j>',function() require'mini.move'.move_line('down') end)
 k.xno('<A-k>',":move '<-2\rgv")
 k.xno('<A-j>',":move '>+1\rgv")
 k.xbmap('<C-j>','<cmd>STSSelectNextSiblingNode\r','<cmd>lua require("mini.move").move_selection("down")\r')

@@ -42,7 +42,6 @@ ecthelionvi/neoswap.nvim
 bennypowers/splitjoin.nvim
 leonheidelbach/trailblazer.nvim --stack jumplist (create own)
 mr-lllll/interestingwords.nvim
-niuiic/translate.nvim
 nvchad/nvim-colorizer.lua
 richardbizik/nvim-toc
 shellraining/hlchunk.nvim

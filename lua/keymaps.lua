@@ -147,7 +147,7 @@ nno('gC',':lua vim.lsp.buf.code_action()\r')
 ----ino/cno
 for k,v in pairs({h='Left',l='Right',j='Down',k='Up'}) do
   lcno('<A-'..k..'>','<'..v..'>')
-  lcno('<A-S-'..k..'>','<S-'..v..'>')
+  lcno('<A-S-'..k..'>',('<'..v..'>'):rep(5))
 end
 lcno('<A-d>','<C-w>')
 lcno('<A-b>','<S-Left>')

@@ -17,28 +17,38 @@ local function format(entry,item)
     item.menu=menu[entry.source.name]
     return item
 end
+local function snippet(args)
+    local line_num,col=unpack(vim.api.nvim_win_get_cursor(0))
+    local line_text=vim.api.nvim_buf_get_lines(0,line_num-1,line_num,true)[1]
+    local indent=line_text:match('^%s*')
+    local pos=args.body:find('$1')
+    local replace=vim.split(args.body:gsub('$%d',''),'\n')
+    local f=replace[1]
+    replace[1]=line_text:sub(0,col):gsub('^%s*','')..replace[1]
+    replace[#replace]=replace[#replace]..line_text:sub(col+1)
+    for i,line in ipairs(replace) do replace[i]=indent..line end
+    vim.api.nvim_buf_set_lines(0,line_num-1,line_num,true,replace)
+    vim.api.nvim_win_set_cursor(0,{line_num,pos and pos+col-1 or col+#f})
+end
 cmp.setup({
     formatting={format=format},
-    snippet={
-        expand=function(args)
-            require('snippy').expand_snippet(args.body)
-        end
-    },
+    snippet={expand=snippet},
     sources=cmp.config.sources({
-        {name='nvim_lsp'},
         {name='buffer'},
+        {name='nvim_lsp'},
         {name='codeium'},
         {name='snippy'},
         {name='obsidian'},
         {name='spell'},
         {name='async_path'},
         {name='calc'},
-        {name='rg',option={additional_arguments='--max-depth 4'}},
+        {name='rg',option={additional_arguments='--max-depth 4'},max_item_count=20},
+        --{name='rg',option={additional_arguments='--max-depth 4'},max_item_count=100,keyword_length=5},
         {name='nvim_lsp_signature_help'},
     }),
     mapping={
         ['<CR>']=cmp.mapping(function(fallback)
-            if cmp.get_active_entry() and ({snippy=true,path=true,nvim_lsp=true,cmp_tabnine=true,codeium=true})[cmp.get_selected_entry().source.name] then
+            if cmp.get_active_entry() and ({snippy=true,async_path=true,nvim_lsp=true,codeium=true})[cmp.get_selected_entry().source.name] then
                 cmp.confirm()
             else
                 fallback()
@@ -48,13 +58,13 @@ cmp.setup({
                 cmp.select_next_item()
             else
                 fallback()
-            end end,{'i','s'}),
+            end end),
         ['<S-Tab>']=cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
             else
                 fallback()
-            end end,{'i','s'})
+            end end)
     },
 })
 cmp.setup.cmdline('/',{
@@ -84,12 +94,3 @@ cmp.setup{sorting={priority_weight=2,comparators={
     compare.length,
     compare.order,
 }}}
---if vim.o.filetype=='dirbuf' then
-    --vim.api.nvim_create_autocmd('FileType',{pattern='conf',
-        --callback=function()
-            --if vim.fn.isdirectory(vim.api.nvim_buf_get_name(0)) then
-                --vim.o.filetype='dirbuf'
-            --end
-        --end
-    --})
---end

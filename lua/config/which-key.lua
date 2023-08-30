@@ -31,8 +31,8 @@ local function format(tbl)
     return tbl
 end
 local spell={s='es',e='en',v='sv',n='nb'}
-local azz={}
-local pos
+local mouse_center={}
+local saved_pos={}
 require'which-key'.register({[' ']=format({
 
     ----other
@@ -70,12 +70,20 @@ require'which-key'.register({[' ']=format({
     _=fmap(9,':%swincmd w\r','window %s'),
     ------move
     r={':Ranger\r','ranger'},
-    ['<']={function()
-        if not pos then return end
-        vim.api.nvim_win_set_cursor(0,pos)
-    end,'load'},
     ['>']={function()
-        pos=vim.api.nvim_win_get_cursor(0)
+        if not saved_pos[1] then
+            vim.notify"stack empty"
+            return
+        end
+        vim.api.nvim_set_current_buf(saved_pos[#saved_pos].buf)
+        vim.api.nvim_win_set_cursor(0,saved_pos[#saved_pos].cur)
+        table.remove(saved_pos,#saved_pos)
+    end,'load'},
+    ['<']={function()
+        saved_pos[#saved_pos+1]={
+            cur=vim.api.nvim_win_get_cursor(0),
+            buf=vim.api.nvim_get_current_buf(),
+        }
     end,'save'},
 
     ----apps
@@ -138,7 +146,7 @@ require'which-key'.register({[' ']=format({
         d={':cd %:p:h|pwd\r','cd-to-file'},
         l={':edit /tmp/nlog\r','open-nlog'},
         L={':ls\r','ls'},
-        r={':source /tmp/session.vim','reload-last-session'},
+        r={':source /tmp/session.vim','reload-last-session',silent=false},
         G={function()
             local dir=vim.fs.dirname(vim.fs.find('.git',{upward=true})[1])
             if dir then vim.cmd('cd '..dir) end
@@ -281,12 +289,12 @@ require'which-key'.register({[' ']=format({
         c={':HexokinaseToggle\r','color-name-highlight'},
         a={':TableModeToggle\r','table-mode'},
         C={function()
-            local b=vim.fn.bufnr() --[[@as number]]
-            if azz[b] then
-                vim.api.nvim_del_autocmd(azz[b])
-                azz[b]=nil
+            local buf=vim.fn.bufnr() --[[@as number]]
+            if mouse_center[buf] then
+                vim.api.nvim_del_autocmd(mouse_center[buf])
+                mouse_center[buf]=nil
             else
-                azz[b]=vim.api.nvim_create_autocmd('CursorMoved,CursorMovedI',{command='norm! zz',buffer=b})
+                mouse_center[buf]=vim.api.nvim_create_autocmd('CursorMoved,CursorMovedI',{command='norm! zz',buffer=buf})
                 vim.cmd.norm {'zz',bang=true}
             end
         end,'centermouse'},

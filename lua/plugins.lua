@@ -76,17 +76,27 @@ require'packer'.startup(function (use)
       ino('<A-\'>',wrapper(vim.fn['codeium#Complete']),{expr=true})
     end,keys={{'i','<A-\'>'}}}
   use{'tommcdo/vim-exchange',keys={{'n','cx'},{'x','X'}}}
-  use{'wansmer/sibling-swap.nvim',requires='nvim-treesitter',config=function()
-    local swap=require('sibling-swap')
-    local nno=require'utils.keymap'.nno
-    swap.setup({use_default_keymaps=false})
-    nno('>a',swap.swap_with_right)
-    nno('<a',swap.swap_with_left)
-  end,keys=mexp('n',{'>a','<a'})}
-  use{'gbprod/yanky.nvim',config=get_config'yanky',event='TextYankPost',
+  use{'gbprod/yanky.nvim',config=function()
+    require'yanky'.setup{}
+    local k=require'utils.keymap'
+    k.nno('p','<Plug>(YankyPutAfter)')
+    k.nno('P','<Plug>(YankyPutBefore)')
+    k.xno('p','<Plug>(YankyPutAfter)')
+    k.xno('P','<Plug>(YankyPutBefore)')
+    k.nno('<A-p>','<Plug>(YankyCycleForward)')
+    k.nno('<A-P>','<Plug>(YankyCycleBackward)')
+  end,event='TextYankPost',
     keys=extend(mexp('n',{'p','P','<A-p>','<A-P>'}),{{'x','p'},{'x','P'}})}
   use{'andrewradev/switch.vim',keys='gs',cmd=cexp('Switch',{'Extend','Reverse'},true)}
-  use{'monaqa/dial.nvim',config=get_config'dial',keys={{'n','<C-a>'},{'n','<C-x>'},{'x','<C-a>'},{'x','<C-x>'}}}
+  use{'monaqa/dial.nvim',config=function()
+    local k=require'utils.keymap'
+    local dialmap=require'dial.map'
+    k.nno('<C-a>',dialmap.inc_normal())
+    k.nno('<C-x>',dialmap.dec_normal())
+    k.xno('<C-a>',dialmap.inc_visual())
+    k.xno('<C-x>',dialmap.dec_visual())
+  end,keys={{'n','<C-a>'},{'n','<C-x>'},{'x','<C-a>'},{'x','<C-x>'}}
+  }
   --use{'kylechui/nvim-surround',config=get_setup'nvim-surround',keys={{'n','ys'},{'n','yS'},{'x','S'},{'x','gS'},{'n','cs'},{'n','ds'}}}
 
   ----movement
@@ -104,7 +114,7 @@ require'packer'.startup(function (use)
   use{'kazhala/close-buffers.nvim',cmd={'BDelete','BWipeout'}}
   use{'chrisgrieser/nvim-genghis',module='genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}}
   use{'tyru/capture.vim',cmd='Capture'}
-  --use{'johmsalas/text-case.nvim',module='textcase'}
+ --use{'johmsalas/text-case.nvim',module='textcase'}
 
   ----buf-app
   use{'krady21/compiler-explorer.nvim',cmd='CECompile'}
@@ -183,7 +193,7 @@ require'packer'.startup(function (use)
     {'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
     {'rrethy/nvim-treesitter-endwise',event='InsertEnter',config='vim.cmd"TSEnable endwise"'},
   },config=get_config'treesitter'}
-  use{'ziontee113/syntax-tree-surfer',config=get_config'minimove-treesurfer',
+  use{'ziontee113/syntax-tree-surfer',config=get_config'surfer',
     keys=extend(mexp('n',{'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF','gX'}),mexp('x',{'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','gX'})),module='syntax-tree-surfer'}
 
   ----other
@@ -192,7 +202,7 @@ require'packer'.startup(function (use)
   use{'neovim/nvim-lspconfig',config=get_config'lsp',requires={
     {'williamboman/mason.nvim',module='mason'},
     {'kosayoda/nvim-lightbulb',module='nvim-lightbulb'},
-    {'folke/neodev.nvim',module='neodev'}}}
+    {'folke/neodev.nvim',opt=true}},event='User s1'}
   use{'glepnir/dashboard-nvim',config=get_config('dashboard'),cmd={'Dashboard','DashboardNewFile'},setup=function ()
     vim.api.nvim_create_autocmd({'Vimenter'},{callback=function()
       if vim.fn.argc()==0 and vim.api.nvim_buf_line_count(0)==1 and vim.api.nvim_get_current_line()=='' and vim.api.nvim_buf_get_name(0)=='' then
@@ -224,7 +234,6 @@ require'packer'.startup(function (use)
 
   ----writing
   use{'JellyApple102/easyread.nvim',config=get_setup('easyread',{fileTypes={'markdown','text'}}),ft={'markdown','text'}}
-  use{'voldikss/vim-translator',config=get_config'translator',keys=mexp('x',{'þ','Þ'})} --TODO better version
   use{'potamides/pantran.nvim',cmd='Pantran'} --TODO
   use{'jbyuki/venn.nvim',cmd=extend(cexp('VBox',{'D','H','O','DO','HO'},true),{'VFill'})}
   use{'dhruvasagar/vim-table-mode',cmd='TableModeToggle'}

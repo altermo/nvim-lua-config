@@ -1,3 +1,13 @@
+--TODO:
+--dff as file manager
+--have the ability to see a file with another name
+---EXAMPLE:
+---main_c.lua > c.lua
+---main_foo_b.lua > b.lua
+--or fast key (maybe autogenerate)
+---EXAMPLE:
+---main_c.lua > C
+---main_foo_b.lua > F
 local dff=require'dff.dff'
 local M={}
 ---@param path string?
