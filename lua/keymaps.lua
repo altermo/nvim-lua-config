@@ -22,6 +22,7 @@ nno('\r','dd',{})
 xno('R',':Norm ',{})
 
 ----nno
+nno('_','"_')
 nno('cw','dwi')
 nno('cW','dWi')
 nno('g:','q:')
@@ -150,6 +151,7 @@ for k,v in pairs({h='Left',l='Right',j='Down',k='Up'}) do
   lcno('<A-S-'..k..'>',('<'..v..'>'):rep(5))
 end
 lcno('<A-d>','<C-w>')
+lcno('<A-c>','<C-w>')
 lcno('<A-b>','<S-Left>')
 lcno('<A-w>','<S-Right>')
 lcno('<C-e>','<End>')
@@ -226,6 +228,7 @@ xno('<A-l>','>gv')
 --vno('j','gj')
 xno('A','mode()=="<C-v>"?"A":"<esc>:au InsertLeave * ++once :\'<+1,\'>norm! $\\".p\r\'<A"',{noremap=true,silent=true,expr=true})
 xno('I','mode()=="<C-v>"?"I":"<esc>:au InsertLeave * ++once :\'<+1,\'>norm! _\\".P\r\'<I"',{noremap=true,silent=true,expr=true})
+xno('_','"_')
 
 ----tno
 tno('<C-\\>','<C-\\><C-n>')

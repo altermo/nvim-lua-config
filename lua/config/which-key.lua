@@ -105,7 +105,8 @@ require'which-key'.register({[' ']=format({
             ino('<up>','<C-o>gk')
             ino('<down>','<C-o>gj')
             vim.o.mouse='a'
-        end,'set arrow keys'}
+        end,'set arrow keys'},
+        h={':Bracey\r','html-preview'},
     },
 
     ----Tabe
@@ -310,8 +311,6 @@ require'which-key'.register({[' ']=format({
         _=cmap({
             p='yi\':!setsid firefox https://www.github.com/<C-r>"\r',
             P=':!setsid firefox https://www.github.com/<C-r>"\r',
-            w='lbyw:!setsid firefox "https://en.wikipedia.org/w/index.php?search=<C-r>""\r',
-            q='lbyw:!setsid firefox "https://docs.qtile.org/en/latest/search.html?q=<C-r>"&check_keywords=yes&area=default"\r',
         },'%s\r','%s')
     },
 
@@ -320,6 +319,7 @@ require'which-key'.register({[' ']=format({
         [' ']={':LspStart\r','start-lsp'},
         q={':lua vim.diagnostic.setqflist()\r','list-diagnostics'},
         r={':lua vim.lsp.buf.references()\r','references'},
+        R={':Telescope lsp_references\r','search-references'},
         h={':lua vim.lsp.buf.hover()\r','hover'},
         f={':lua vim.lsp.buf.format()\r','format'},
         c={':lua vim.lsp.buf.code_action()\r','code-action'},
@@ -331,7 +331,7 @@ require'which-key'.register({[' ']=format({
     ----hop
     h={name='+hop',
         t={'<cmd>lua require"flash".treesitter()\r','tree'},
-        f={':Lista\r','find-whole-file'},
+        f={':Telescope current_buffer_fuzzy_find\r','find-whole-file'},
         m={':lua require"mini.jump2d".start()\r','mini-jump'},
         h={'<cmd>lua require"flash".jump()\r','1 char'},
     },
@@ -354,7 +354,8 @@ require'which-key'.register({[' ']=format({
         end,'hide-cursor'},
         c={':set guicursor&\r','reset-cursor'},
         f={':set guifont=*\r','select-font'},
-        i={':IndentBlanklineToggle!\r','toggle highlight indent level'},
+        i={':DisableHLIndent\r','disable highlight indent level'},
+        I={':EnableHLIndent\r','disable highlight indent level'},
         w={':let b:minicursorword_disable=luaeval("not vim.b.minicursorword_disable")\r','toggle highlight cursor word'},
         n={':lua require"notify".dismiss({pending=true,silent=true})\r','dismiss notify'},
         r={':TSToggle rainbow\r','toggle rainbow'},

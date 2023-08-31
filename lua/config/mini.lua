@@ -1,10 +1,20 @@
-local key=require'utils.keymap'
 for k,v in pairs{
-    splitjoin={},
+    --splitjoin={},
     jump2d={mappings={start_jumping=''}},
     align={mappings={start='gl',start_with_preview='gL'}},
     ai={},
     indentscope={indent_at_cursor=false},
+    surround={
+        mappings={
+            add='S',
+            delete='ds',
+            find='',
+            find_left='',
+            highlight='',
+            replace='cs',
+            update_n_lines='',
+        }
+    }
 } do
     require('mini.'..k).setup(v)
 end

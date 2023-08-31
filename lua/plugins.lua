@@ -46,21 +46,28 @@ require'packer'.startup(function (use)
 
   ----visual
   use{'folke/twilight.nvim',cmd='Twilight',module='twilight',config=get_setup'twilight'}
-  use{'lukas-reineke/indent-blankline.nvim',config=function()
-    vim.g.indent_blankline_filetype_exclude={'dashboard'}
-    local ib=require'indent_blankline'
-    ib.setup{show_current_context=true}
-    vim.cmd.IndentBlanklineRefresh()
+  use{'rrethy/vim-hexokinase',run='make hexokinase',setup=function ()
+    vim.g.Hexokinase_highlighters={'backgroundfull'}
   end,event='User s1'}
   use{'anuvyklack/pretty-fold.nvim',config=get_setup'pretty-fold',event='User s1'}
-  --use{'m-demare/hlargs.nvim',config=get_setup'hlargs',event='User s1'}
+  use{'shellraining/hlchunk.nvim',config=get_setup('hlchunk',{
+    indent={chars={'│'}},
+    chunk={enable=false},
+    blank={enable=false},
+    line_num={enable=false},
+  })}
   use{'chentoast/marks.nvim',config=get_setup'marks',keys={{'n','m'},{'n','dm'}}}
   use{'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cmd={'G','V','Norm'}}
   use{'nvim-lualine/lualine.nvim',config=get_setup'lualine',event='User s1'}
   use{'folke/which-key.nvim',config=get_config'which-key',keys={{'n','<space>'},{'n','g'},{'n','<char-92>'}},cmd='WhichKey'}
-  use{'nfrid/due.nvim',config=get_setup('due_nvim',{update_rate=1000})..';require("due_nvim").async_update(0)',event='User s1'}
 
   ----keys
+  use{'ecthelionvi/neoswap.nvim',config=function()
+    require('NeoSwap').setup{}
+    local nno=require'utils.keymap'.nno
+    nno('>w','<cmd>NeoSwapNext<cr>')
+    nno('<w','<cmd>NeoSwapPrev<cr>')
+  end,keys={{'n','>w'},{'n','<w'}}}
   use{'Exafunction/codeium.vim',setup=function() --https://github.com/Exafunction/codeium.vim/issues/118
     vim.g.codeium_disable_bindings=false
     vim.g.codeium_manual=true
@@ -97,10 +104,8 @@ require'packer'.startup(function (use)
     k.xno('<C-x>',dialmap.dec_visual())
   end,keys={{'n','<C-a>'},{'n','<C-x>'},{'x','<C-a>'},{'x','<C-x>'}}
   }
-  --use{'kylechui/nvim-surround',config=get_setup'nvim-surround',keys={{'n','ys'},{'n','yS'},{'x','S'},{'x','gS'},{'n','cs'},{'n','ds'}}}
 
   ----movement
-  use{'lambdalisue/lista.nvim',config=get_rplugin(),cmd='Lista'}
   use{'mg979/vim-visual-multi',setup='vim.cmd"let g:VM_maps={}"',keys=extend(mexp('n',{'\\\\','<C-n>'}),{'x','<C-n>'})}
   use{'xiyaowong/accelerated-jk.nvim',config=function ()
     require('accelerated-jk').setup{}
@@ -110,21 +115,17 @@ require'packer'.startup(function (use)
   end,keys={{'n','j'},{'n','k'},{'x','j'},{'x','j'}}}
   use{'folke/flash.nvim',config=get_config'flash'}
 
-  ----utils
-  use{'kazhala/close-buffers.nvim',cmd={'BDelete','BWipeout'}}
-  use{'chrisgrieser/nvim-genghis',module='genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}}
-  use{'tyru/capture.vim',cmd='Capture'}
- --use{'johmsalas/text-case.nvim',module='textcase'}
-
-  ----buf-app
-  use{'krady21/compiler-explorer.nvim',cmd='CECompile'}
-  use{'kassio/neoterm',cmd={'T','Tnew','Topen','Texec'}}
-  use{'elihunter173/dirbuf.nvim',cmd='Dirbuf',setup=function()
-    vim.api.nvim_create_autocmd('BufEnter',{
-      command="if isdirectory(expand('%')) && !&modified|execute 'Dirbuf'|endif"
-    })end}
-
   ----command
+  use{'tobinpalmer/rayso.nvim',config=get_setup'rayso',cmd='Rayso'}
+  use{'kazhala/close-buffers.nvim',cmd={'BDelete','BWipeout'}}
+  use{'ckolkey/ts-node-action',config=function ()
+    local tsaction=require('ts-node-action')
+    tsaction.setup{}
+    vim.keymap.set('n','K',tsaction.node_action)
+  end,keys={ { 'n', 'K' } }}
+  use{'chrisgrieser/nvim-genghis',module='genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}}
+  use{'krady21/compiler-explorer.nvim',cmd='CECompile'}
+  use{'stevearc/oil.nvim',config=get_setup('oil',{default_file_explorer=true})}
   use{'acksld/muren.nvim',config=get_setup'muren',cmd=cexp('Muren',{'Toggle','Open','Close','Fresh','Unique'})}
   use{'cshuaimin/ssr.nvim',config=get_setup('ssr'),module='ssr'}
   use{'smjonas/inc-rename.nvim',config=function()
@@ -134,7 +135,6 @@ require'packer'.startup(function (use)
   use{'nvim-colortils/colortils.nvim',cmd="Colortils",config=get_setup'colortils'}
   use{'skywind3000/asyncrun.vim',cmd={'AsyncRun','AsyncStop'}}
   use{'godlygeek/tabular',cmd='Tabularize'}
-  use{'ellisonleao/carbon-now.nvim', config = function() require('carbon-now').setup() end,cmd='CarbonNow'}
   use{'jbyuki/instant.nvim',config=function () vim.g.instant_username='User' end,opt=true}
   use{'rraks/pyro',cmd='Pyro',config=get_rplugin(),setup=function () vim.g.pyro_macro_path='/home/user/.macro' end}
 
@@ -252,8 +252,8 @@ require'packer'.startup(function (use)
       --['core.presenter']={},
       --['core.completion']={},
     }}),ft='norg'}
-  use{'mzlogin/vim-markdown-toc',ft='markdown'} --TODO: maybe better alternative
   use{'iamcco/markdown-preview.nvim',run='cd app && npm install',ft='markdown'}
+  use{'turbio/bracey.vim',run='npm install --prefix server',ft={'html','css','javascript'}}
 
   ----end--
   use 'wbthomason/packer.nvim'

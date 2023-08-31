@@ -4,7 +4,6 @@ function M.qfupdate()
     for _,i in ipairs(vim.split(M.out,'\n')) do
         table.insert(ret,{text=i})
     end
-    vim.lg(ret)
     vim.fn.setqflist(ret)
 end
 function M.ask(text)

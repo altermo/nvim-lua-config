@@ -49,7 +49,9 @@ vim.o.lazyredraw=true
 vim.o.showmode=false
 vim.o.modelineexpr=true
 vim.o.foldcolumn='0'
-vim.o.statuscolumn="%C%s%{&nu?v:virtnum>0?'':v:relnum?&rnu?v:relnum:v:lnum:v:lnum:v:virtnum>0?'':&rnu?v:relnum:''}"
+vim.o.statuscolumn="%{&foldenable?(get([' ','▎','▍','▌','▋','▊','▉','█','▐'],foldlevel(v:lnum),'|')):''}%C%s%{&nu?v:virtnum>0?'':v:relnum?&rnu?v:relnum:v:lnum:v:lnum:v:virtnum>0?'':&rnu?v:relnum:''}"
+--TODO: add gitsigns https://github.com/lewis6991/gitsigns.nvim
 vim.o.shell='/bin/fish'
 vim.o.smoothscroll=true
 vim.o.shada="'100,/5,:500,<50,@0,s10"
+vim.o.conceallevel=2

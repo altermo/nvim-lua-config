@@ -37,3 +37,9 @@ vim.api.nvim_create_user_command('L',function (opt)
         vim.cmd.lua(opt.args)
     end
 end,{complete='lua',nargs='+',})
+command('Capture',function (opts)
+    vim.cmd'redir! >/tmp/nvim_out.capture'
+    vim.cmd('silent '..opts.args)
+    vim.cmd'redir! END'
+    vim.cmd.split'/tmp/nvim_out.capture'
+end,{nargs='*'})

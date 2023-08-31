@@ -11,10 +11,18 @@ vim.g.loaded_netrwPlugin=1
 vim.g.loaded_tutor_mode_plugin=1
 vim.g.loaded_remote_plugins=1
 vim.g.loaded_fzf=1
-vim.g.rplugins={'lista.nvim','vim-ghost','pyro'}
+vim.g.rplugins={'vim-ghost','pyro'}
 
 vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1}) --TODO: move to automaton plugin
 vim.fn.timer_start(250,function() vim.cmd"doautocmd User s1" end)
+
+local open=vim.ui.open
+---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua
+---@diagnostic disable-next-line: duplicate-set-field
+vim.ui.open=function(path)
+  vim.pprint(path)
+  return open(path)
+end
 
 local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
   if pcall(vim.treesitter.get_parser) then
