@@ -1,7 +1,7 @@
 local M={}
 function M.dosave()
     if vim.o.modified and not vim.o.readonly and vim.o.buftype=='' then
-        if #vim.diagnostic.get(0,{severity=vim.diagnostic.severity.ERROR})>0 then return end
+        --if #vim.diagnostic.get(0,{severity=vim.diagnostic.severity.ERROR})>0 then return end
         local sl,sc=unpack(vim.api.nvim_buf_get_mark(0,'['))
         local el,ec=unpack(vim.api.nvim_buf_get_mark(0,']'))
         vim.cmd('silent! update ++p')

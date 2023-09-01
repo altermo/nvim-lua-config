@@ -115,7 +115,7 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter','CursorMov
     },
     extensions={
       fly={nofilter=true},
-      cond={cond=function(fn) return not fn.in_node({'comment','html_block'}) end},
+      cond={cond=function(fn) return not fn.in_node({'comment'}) end},
     },
     config_internal_pairs={
       {'"','"',fly=true,bs_overjumps=true,multiline=true},

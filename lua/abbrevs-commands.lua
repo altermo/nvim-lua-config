@@ -24,7 +24,7 @@ command('Shell',function (opts) require'utils.lib'.termrun('fish '..opts.args,{c
 command('UpdateRemotePlugins',function ()
     for _,i in ipairs(vim.g.rplugins) do
         ---@diagnostic disable-next-line: undefined-field
-        require'packer.load'({i},{},_G.packer_plugins)
+        --require'packer.load'({i},{},_G.packer_plugins) --TODO
     end
     if vim.g.loaded_remote_plugins==1 then
         vim.g.loaded_remote_plugins=nil
