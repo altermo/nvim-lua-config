@@ -80,7 +80,7 @@ nno('π','yyp')
 nno('Π','yyP')
 --nno('j','gj')
 --nno('k','gk')
-nno('\t','<C-w>w') --TODO
+nno('\t','<C-w>w')
 nno('L','gt')
 nno('H','gT')
 --nno('zl','zL')

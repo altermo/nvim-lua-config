@@ -36,28 +36,28 @@ local function lkey(mkeys)
         end}) end end end end
 local function levent(events)
   return function (load)
-    vim.api.nvim_create_autocmd(events,{callback=load})
+    vim.api.nvim_create_autocmd(events,{callback=load,once=true})
   end end
 local function lft(fts)
   return function (load)
-    vim.api.nvim_create_autocmd('FileType',{pattern=fts,callback=load})
+    vim.api.nvim_create_autocmd('FileType',{pattern=fts,callback=load,once=true})
   end
 end
-local function ll(load) vim.api.nvim_create_autocmd('User s1',{callback=load}) end
+local function ll(load) vim.api.nvim_create_autocmd('User s1',{callback=load,once=true}) end
 local function get_setup(name,conf) return function () require(name).setup(conf) end end
 local function get_config(name) return function () require('config.'..name) end end
 require('pckr').add{
 
   ----colorschm
-  --'folke/tokyonight.nvim',
-  --'ray-x/starry.nvim',
-  --'edeneast/nightfox.nvim',
-  --'projekt0n/github-nvim-theme',
-  --'bluz71/vim-nightfly-colors',
-  --'matsuuu/pinkmare',
-  --'lifepillar/vim-gruvbox8',
-  --'NTBBloodbath/doom-one.nvim',
-  --'hoprr/calvera-dark.nvim',
+  'folke/tokyonight.nvim',
+  'ray-x/starry.nvim',
+  'edeneast/nightfox.nvim',
+  'projekt0n/github-nvim-theme',
+  --'bluz71/vim-nightfly-colors', --https://github.com/lewis6991/pckr.nvim/issues/3
+  'matsuuu/pinkmare',
+  'lifepillar/vim-gruvbox8',
+  'NTBBloodbath/doom-one.nvim',
+  'hoprr/calvera-dark.nvim',
 
   ----visual
   {'folke/twilight.nvim',cond=lcmd{'Twilight'}},
@@ -174,7 +174,9 @@ require('pckr').add{
   end,cond=lcmd{'CodeWindow'}},
 
   ----search
-  {'nvim-pack/nvim-spectre',requires={'nvim-lua/plenary.nvim'}},
+  {'nvim-pack/nvim-spectre',config=function ()
+    vim.api.nvim_create_user_command('Spectre',require'spectre'.open,{})
+  end,requires={'nvim-lua/plenary.nvim'},cond=lcmd{'Spectre'}},
   ------telescope
   {'nvim-telescope/telescope.nvim',requires={
     'nvim-lua/plenary.nvim',
@@ -185,7 +187,7 @@ require('pckr').add{
     {'nvim-telescope/telescope-ui-select.nvim',config_pre=function ()
       ---@diagnostic disable-next-line: duplicate-set-field
       function vim.ui.select(...)
-        local telescope=require "telescope"
+        local telescope=require'telescope'
         telescope.load_extension'ui-select'
         vim.ui.select(...)
       end
@@ -196,7 +198,7 @@ require('pckr').add{
       local telescope=require'telescope'
       telescope.load_extension'fzf'
       telescope.setup{}
-    end},
+    end,cond=lcmd{'Telescope'}},
 
   ----window
   {'sindrets/winshift.nvim',config=function ()
@@ -214,16 +216,17 @@ require('pckr').add{
     end},
 
   ----treesitter
-  {'nvim-treesitter/nvim-treesitter',requires={
-    --{'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='User s1',config=function()
-    --vim.g.rainbow_delimiters={blacklist={'zig'}}
-    --vim.cmd'TSEnable rainbow'
-    --end},
-    --{'windwp/nvim-ts-autotag',event='User autotag',config='vim.cmd"TSEnable autotag"',ft='html'},
-    --{'rrethy/nvim-treesitter-endwise',event='InsertEnter',config='vim.cmd"TSEnable endwise"'}, --TODO
-  },config=get_config'treesitter'},
+  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter'},
+  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',cond=ll,config=function()
+    vim.g.rainbow_delimiters={blacklist={'zig'}}
+    vim.cmd'TSEnable rainbow'
+  end,requires={'nvim-treesitter/nvim-treesitter'}},
+  {'windwp/nvim-ts-autotag',cond=function(load)
+    vim.api.nvim_create_autocmd('User',{pattern='autotag',callback=load,once=true})
+  end,config=function() vim.cmd"TSEnable autotag" end,ft='html'},
+  {'rrethy/nvim-treesitter-endwise',cond=levent{'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,requires={'nvim-treesitter/nvim-treesitter'}}, --TODO
   {'ziontee113/syntax-tree-surfer',config=get_config'surfer',
-    keys={n={'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF','gX'},x={'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','gX'}},requires={'nvim-treesitter/nvim-treesitter'}},
+    cond=lkey{n={'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF','gX'},x={'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','gX'}},requires={'nvim-treesitter/nvim-treesitter'}},
 
   ----other
   {'sindrets/diffview.nvim',cond=lcmd({'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'},'Diffview'),
@@ -254,7 +257,7 @@ require('pckr').add{
 
   ----auto complete (nvim-cmp & snippy)
   {'hrsh7th/nvim-cmp',commit='6c84bc7',config=get_config('cmp-nvim'),requires={ --TODO: temp commit; https://github.com/jcdickinson/codeium.nvim/issues/80
-    --{'hrsh7th/cmp-cmdline'},
+    --{'hrsh7th/cmp-cmdline'}, --https://github.com/lewis6991/pckr.nvim/issues/3
     --{'dmitmel/cmp-cmdline-history'},
     ----{'dcampos/cmp-snippy'},
     ----{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy'},
@@ -265,7 +268,7 @@ require('pckr').add{
     --{'hrsh7th/cmp-nvim-lsp-signature-help'},
     --{'FelipeLema/cmp-async-path'},
     --{'lukas-reineke/cmp-rg'},
-    {'jcdickinson/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'}},
+    {'jcdickinson/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter','CmdlineEnter'}},
   },cond=levent{'InsertEnter','CmdlineEnter'}},
 
   ----writing

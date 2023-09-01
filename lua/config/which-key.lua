@@ -231,7 +231,7 @@ require'which-key'.register({[' ']=format({
             s={function() require("ssr").open() end,'structural'},
             l={':IncRename <C-r>=expand("<cword>")\r','lsp',silent=false},
             p={':Pyro/gr\r','pyro'},
-            r={':lua require("spectre").toggle()\r','specter'},
+            r={':Spectre\r','spectre'},
             w={':%s/\\<<C-r>=expand("<cword>")\r\\>//<Left>','word',silent=false},
             m={':MurenToggle\r','mutli'},
         }
@@ -245,11 +245,9 @@ require'which-key'.register({[' ']=format({
 
     ----packer
     p={name='+packer',
-        s={':lua require("utils.lib").req("plugins") vim.cmd"PackerSync"\r','sync'},
-        p={':lua require("utils.lib").req("plugins") vim.cmd"PackerCompile"\r','compile'},
-        P={':lua require("utils.lib").req("plugins") vim.cmd"PackerCompile" profile=true\r','compile-profile'},
-        i={':lua require("utils.lib").req("plugins") vim.cmd"PackerInstall"\r','install'},
-        c={':lua require("utils.lib").req("plugins") vim.cmd"PackerClean"\r','clean'},
+        i={':Pckr install\r','install'},
+        c={':Pckr clean\r','clean'},
+        u={':Pckr update\r','update'},
         S={name='+special',
             f={':v/\\//d|%s/\\v^.{-}([a-zA-Z0-9._-]+\\/[a-zA-Z0-9._-]+).*/\\1/g\r','extraxt-plugs'},
         },
