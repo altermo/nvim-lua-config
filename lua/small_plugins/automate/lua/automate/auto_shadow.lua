@@ -1,2 +1,0 @@
---Auto wshadow when save
---Auto rshadow when signal

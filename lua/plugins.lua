@@ -24,7 +24,8 @@ local function lcmd(cmds,header)
   return function (load)
     for _,v in ipairs(cmds) do
       vim.api.nvim_create_user_command((header or '')..v,function (args)
-        load() vim.cmd[(header or '')..v](unpack(args))
+        load()
+        vim.cmd(((header or '')..v)..' '..args.args)
       end,{nargs='*',bang=true}) end end end
 local function lkey(mkeys)
   return function (load)
@@ -47,13 +48,14 @@ local function ll(load) vim.api.nvim_create_autocmd('User s1',{callback=load,onc
 local function get_setup(name,conf) return function () require(name).setup(conf) end end
 local function get_config(name) return function () require('config.'..name) end end
 require('pckr').add{
+  {'altermo/ultimate-autopair.nvim',cond=function() end,branch='v0.6'},
 
   ----colorschm
   'folke/tokyonight.nvim',
   'ray-x/starry.nvim',
   'edeneast/nightfox.nvim',
   'projekt0n/github-nvim-theme',
-  --'bluz71/vim-nightfly-colors', --https://github.com/lewis6991/pckr.nvim/issues/3
+  'bluz71/vim-nightfly-colors',
   'matsuuu/pinkmare',
   'lifepillar/vim-gruvbox8',
   'NTBBloodbath/doom-one.nvim',
@@ -184,14 +186,15 @@ require('pckr').add{
     'nvim-telescope/telescope-project.nvim',
     {'nvim-telescope/telescope-fzf-native.nvim',run='make'},
     'nvim-telescope/telescope-live-grep-args.nvim',
-    {'nvim-telescope/telescope-ui-select.nvim',config_pre=function ()
+    {'nvim-telescope/telescope-ui-select.nvim',cond=function (load)
       ---@diagnostic disable-next-line: duplicate-set-field
       function vim.ui.select(...)
+        load()
         local telescope=require'telescope'
         telescope.load_extension'ui-select'
         vim.ui.select(...)
       end
-    end},
+    end,requires={'nvim-telescope/telescope.nvim'}},
     'lukaspietzschmann/telescope-tabs',
     'nvim-telescope/telescope-file-browser.nvim',
   },config=function ()
@@ -256,20 +259,19 @@ require('pckr').add{
   --use{'andweeb/presence.nvim'},
 
   ----auto complete (nvim-cmp & snippy)
-  {'hrsh7th/nvim-cmp',commit='6c84bc7',config=get_config('cmp-nvim'),requires={ --TODO: temp commit; https://github.com/jcdickinson/codeium.nvim/issues/80
-    --{'hrsh7th/cmp-cmdline'}, --https://github.com/lewis6991/pckr.nvim/issues/3
-    --{'dmitmel/cmp-cmdline-history'},
+  {'hrsh7th/nvim-cmp',commit='6c84bc7',config=get_config'cmp-nvim',cond=levent{'InsertEnter','CmdlineEnter'}}, --TODO: temp commit; https://github.com/jcdickinson/codeium.nvim/issues/80
+    {'hrsh7th/cmp-cmdline',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+    {'dmitmel/cmp-cmdline-history',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
     ----{'dcampos/cmp-snippy'},
     ----{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy'},
-    --{'f3fora/cmp-spell'},
-    --{'hrsh7th/cmp-calc'},
-    --{'hrsh7th/cmp-buffer'},
-    --{'hrsh7th/cmp-nvim-lsp'},
-    --{'hrsh7th/cmp-nvim-lsp-signature-help'},
-    --{'FelipeLema/cmp-async-path'},
-    --{'lukas-reineke/cmp-rg'},
+    {'f3fora/cmp-spell',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+    {'hrsh7th/cmp-calc',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+    {'hrsh7th/cmp-buffer',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+    {'hrsh7th/cmp-nvim-lsp',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+    {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+    {'FelipeLema/cmp-async-path',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+    {'lukas-reineke/cmp-rg',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
     {'jcdickinson/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  },cond=levent{'InsertEnter','CmdlineEnter'}},
 
   ----writing
   {'JellyApple102/easyread.nvim',config=get_setup('easyread',{fileTypes={'markdown','text'}}),cond=lft{'markdown','text'}}, --TODO
@@ -278,7 +280,7 @@ require('pckr').add{
     lcmd{'Fill'}(load)
     lcmd({'D','H','O','DO','HO'},'VBox')(load) end},
   {'dhruvasagar/vim-table-mode',cond=lcmd{'TableModeToggle'}},
-  {'dbmrq/vim-ditto',cond=function(load)
+    {'dbmrq/vim-ditto',cond=function(load)
     lcmd{'NoDitto','ToggleDitto'}(load)
     lcmd({'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},'Ditto')(load)
   end},
@@ -293,12 +295,12 @@ require('pckr').add{
       ['core.export']={},
       ['core.export.markdown']={},
       ['core.concealer']={},
-      --['core.presenter']={},
-      --['core.completion']={},
-    }}),cond=lft{'norg'}},
-  {'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
-  {'turbio/bracey.vim',run='npm install --prefix server',cond=lft{'html','css','javascript'}},
+--['core.presenter']={},
+--['core.completion']={},
+}}),cond=lft{'norg'}},
+{'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
+{'turbio/bracey.vim',run='npm install --prefix server',cond=lft{'html','css','javascript'}},
 
-  ---end
+---end
 }
 -- vim:fen:

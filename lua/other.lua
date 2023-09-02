@@ -68,13 +68,10 @@ end
 
 require'small_plugins'.setup({
   'own',
-  'auto_cd',
-  'auto_save',
   'builder',
   dff={},
   'highlight_selected',
   'labull',
-  'large_file',
   'matchall',
   'onelinecomment',
   'ranger',
@@ -84,6 +81,7 @@ require'small_plugins'.setup({
   'unimpaired',
   'macroend',
   'whint',
+  'nodeswap',
 })
 
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},{callback=function()
@@ -114,8 +112,8 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter','CursorMov
       hopout=true,
     },
     extensions={
-      fly={nofilter=true},
-      cond={cond=function(fn) return not fn.in_node({'comment'}) end},
+      --fly={nofilter=true},
+      --cond={cond=function(fn) return not fn.in_node({'comment'}) end},
     },
     config_internal_pairs={
       {'"','"',fly=true,bs_overjumps=true,multiline=true},
@@ -123,12 +121,20 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter','CursorMov
     },
     {'<<','>>',suround=true,fastwarp=true,space=true,disable_end=true},
     {'<>','<>',bs_overjumps=true,fastwarp=true,space=true},
+    {'\\(','\\)'},
+{ "`", "'", fly = true, ft = { "tex", "latex" }},
+    {'{','},',
+      p=11,
+      multiline=false,
+      cond=function(fn)
+        return fn.in_node({'table_constructor'})
+      end},
   },{
-    profile='raw',
-    require'ultimate-autopair.experimental.matchpair_'.init()
-  }}
+      profile='raw',
+      --require'ultimate-autopair.experimental.matchpair_'.init()
+    }}
   if not upair._check_depreciated(configs[1]) then
     upair.init(configs)
   end
-  require'ultimate-autopair.experimental.terminal'.setup()
+  --require'ultimate-autopair.experimental.terminal'.setup()
 end,once=true})

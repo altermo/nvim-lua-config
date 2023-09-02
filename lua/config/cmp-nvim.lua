@@ -74,15 +74,15 @@ cmp.setup.cmdline('/',{
         {name='buffer'},
     })
 })
---cmp.setup.cmdline(':',{
-    --formatting={format=format},
-    --mapping=cmp.mapping.preset.cmdline(),
-    --sources=cmp.config.sources({
-        --{name='path'},
-        --{name='cmdline'},
-        --{name='cmdline_history'},
-    --})
---})
+cmp.setup.cmdline(':',{
+    formatting={format=format},
+    mapping=cmp.mapping.preset.cmdline(),
+    sources=cmp.config.sources({
+        {name='path'},
+        {name='cmdline'},
+        {name='cmdline_history'},
+    })
+})
 local compare=require('cmp.config.compare')
 cmp.setup{sorting={priority_weight=2,comparators={
     compare.score,
@@ -94,3 +94,4 @@ cmp.setup{sorting={priority_weight=2,comparators={
     compare.length,
     compare.order,
 }}}
+vim.cmd.doautocmd("InsertEnter")

@@ -5,26 +5,19 @@ end
 function M.in_lua()
     local stat,parser=pcall(vim.treesitter.get_parser,0)
     if not stat then return vim.o.filetype=='lua' end
-    local curpos=vim.api.nvim_win_get_cursor(0)
-    local row,col=curpos[1]-1,curpos[2]
-    local lang=parser:language_for_range({row,col,row,col})
-    return lang:lang()=='lua'
+    local pos=vim.api.nvim_win_get_cursor(0)
+    return parser:language_for_range({pos[1]-1,pos[2],pos[1]-1,pos[2]}):lang()=='lua'
 end
-function M.in_statment()
-    local node=vim.treesitter.get_node()
-    if not node then return end
-    if node:type()~='parameters' then return end
+function M.should_statment()
+    local pos=vim.api.nvim_win_get_cursor(0)
+    local node=vim.treesitter.get_node({pos={pos[1]-1,pos[2]-1}})
+    if not node or node:type()~='identifier' then return end
     local par=node:parent()
-    if not par then return end
-    if par:type()~='function_declaration' then return end
-    return true
-end
-function M.run_statment()
-    vim.schedule(M.open_statment_win)
+    return par and par:type()=='parameters'
 end
 function M.get_name()
-    local curpos=vim.api.nvim_win_get_cursor(0)
-    local node=vim.treesitter.get_node({pos={curpos[1]-1,curpos[2]-1}})
+    local pos=vim.api.nvim_win_get_cursor(0)
+    local node=vim.treesitter.get_node({pos={pos[1]-1,pos[2]-1}})
     if not node then return end
     local _,start,_,end_=node:range()
     return vim.api.nvim_get_current_line():sub(start+1,end_)
@@ -32,78 +25,65 @@ end
 function M.has_return(linenr)
     return linenr>1 and M.getline(linenr-1):find('---@return ')
 end
-function M.get_param_pos(name,linenr)
+function M.get_pos(name,linenr)
     while M.getline(linenr-1) and M.getline(linenr-1):find('---@param') do
         linenr=linenr-1
         local _,_,var,_=M.getline(linenr):find('---@param ([^ ]*) (.*)')
-        if var==name then
-            return linenr,11+#name
-        end
+        if var==name then return linenr,11+#name end
     end
 end
-function M.default_get_param_pos(name)
-    local linenr=vim.api.nvim_win_get_cursor(0)[1]
+function M.run_statment()
+    local linenr,col=unpack(vim.api.nvim_win_get_cursor(0))
     local off=M.has_return(linenr) and 1 or 0
-    local linenr_,col=M.get_param_pos(name,linenr-off)
-    if not linenr_ then
-        vim.api.nvim_buf_set_lines(0,linenr-off-1,linenr-off-1,true,{'---@param '..name..' '})
-        M.cur[1]=M.cur[1]+1
-        return linenr-off+1,11+#name
-    end
-    return linenr,col
-end
-function M.open_statment_win()
-    M.cur=vim.api.nvim_win_get_cursor(0)
     local name=M.get_name()
-    local linenr,col=M.default_get_param_pos(name)
-    vim.api.nvim_win_set_cursor(0,{linenr-1,col})
-    vim.cmd.norm{'$l',bang=true}
-    --TODO: keymap instead
-    vim.api.nvim_create_autocmd('InsertLeave',{callback=function(au)
-        vim.api.nvim_win_set_cursor(0,M.cur)
-        vim.cmd.startinsert()
-        vim.api.nvim_del_autocmd(au.id)
-    end})
+    local pos,pcol=M.get_pos(name,linenr-off)
+    if not pos then
+        vim.api.nvim_buf_set_lines(0,linenr-off-1,linenr-off-1,true,{'---@param '..name..' '})
+        pos=linenr-off
+        pcol=#name+11
+        linenr=linenr+1
+    end
+    vim.api.nvim_win_set_cursor(0,{pos,pcol})
+    M.create_return_autocmd(linenr,col)
 end
-function M.in_return()
-    local node=vim.treesitter.get_node()
+function M.should_return()
+    local pos=vim.api.nvim_win_get_cursor(0)
+    local node=vim.treesitter.get_node({pos={pos[1]-1,pos[2]-1}})
     if not node then return end
-    if node:type()~='function_declaration' then return end
-    return true
+    return node:type()=='parameters'
 end
 function M.run_return()
-    vim.schedule(M.open_return_win)
-end
-function M.open_return_win()
-    M.cur=vim.api.nvim_win_get_cursor(0)
     local linenr,col=unpack(vim.api.nvim_win_get_cursor(0))
     if not M.has_return(linenr) then
         vim.api.nvim_buf_set_lines(0,linenr-1,linenr-1,true,{'---@return '})
         linenr=linenr+1
     end
-    vim.api.nvim_win_set_cursor(0,{linenr-1,col})
-    vim.cmd.norm{'$l',bang=true}
-    --TODO: keymap instead
-    vim.api.nvim_create_autocmd('InsertLeave',{callback=function(au)
-        vim.api.nvim_win_set_cursor(0,M.cur)
-        vim.cmd.startinsert()
-        vim.api.nvim_del_autocmd(au.id)
+    vim.api.nvim_win_set_cursor(0,{linenr-1,11})
+    M.create_return_autocmd(linenr,col)
+end
+function M.create_return_autocmd(linenr,col)
+    local row=vim.fn.line('.')
+    local mau
+    local au=vim.api.nvim_create_autocmd('InsertCharPre',{callback=function(ev)
+        if vim.v.char~='-' then return end
+        vim.api.nvim_del_autocmd(ev.id)
+        vim.api.nvim_del_autocmd(mau)
+        vim.api.nvim_win_set_cursor(0,{linenr,col})
+        vim.v.char=''
+    end})
+    mau=vim.api.nvim_create_autocmd({'CursorMoved','CursorMovedI'},{callback=function(ev)
+        if vim.fn.line('.')==row then return end
+        vim.api.nvim_del_autocmd(ev.id)
+        vim.api.nvim_del_autocmd(au)
     end})
 end
 function M.run()
     if not M.in_lua() then return ':' end
-    if M.in_statment() then
-        M.run_statment()
-    elseif M.in_return() then
-        M.run_return()
-    else
-        return ':'
-    end
+    if M.should_statment() then vim.schedule(M.run_statment)
+    elseif M.should_return() then vim.schedule(M.run_return)
+    else return ':' end
 end
 function M.setup()
     vim.keymap.set('i',':',M.run,{expr=true})
-end
-if vim.dev then
-    M.setup()
 end
 return M

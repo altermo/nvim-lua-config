@@ -1,12 +1,12 @@
 vim.loader.enable()
 
-require'plugins'
 require'utils.empty'
 require'options'
 require'keymaps'
-require'abbrevs-commands'
+require'commands-cabbr'
 require'autocmds'
 require'other'
+require'plugins'
 pcall(vim.cmd.colorscheme,'own')
 if vim.g.colors_name~='own' then
     vim.o.background='dark'
