@@ -160,7 +160,6 @@ require('pckr').add{
       lkey{n={'gr'}}(load)
     end},
   {'nvim-colortils/colortils.nvim',cond=lcmd{'Colortils'},config=get_setup'colortils'},
-  {'skywind3000/asyncrun.vim',cond=lcmd{'AsyncRun','AsyncStop'}},
   {'godlygeek/tabular',cond=lcmd{'Tabularize'}},
   --use{'jbyuki/instant.nvim',config=function () vim.g.instant_username='User' end},
   {'rraks/pyro',config=get_rplugin(),cond=function (load)

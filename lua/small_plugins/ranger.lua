@@ -1,43 +1,30 @@
 local M={}
 function M.ranger(path)
-    vim.cmd.enew()
     local realpath=vim.fn.fnamemodify(path,':p')
     local file='/tmp/chosenfile'
-    local ranger_command='sleep 0.01;printf "\\e[?1000h";ranger --cmd "set show_hidden=true" --cmd "set preview_images=true"'
-    local jobargs={}
-    local buf
-    function jobargs.on_exit(_,_,_)
-        if vim.fn.filereadable(file)==1 then
-            vim.cmd.enew()
-            vim.cmd.bdelete{buf,bang=true}
-            vim.cmd.edit(vim.fn.readfile(file)[1])
-            vim.fn.delete(file)
-        else
-            vim.cmd.bdelete{buf,bang=true}
-        end
-    end
+    local cmd=';ranger --cmd "set show_hidden=true" --cmd "set preview_images=true" --cmd "map r chain cd ..;open_with" --choosefiles='..file
+    vim.cmd.enew()
+    local buf=vim.api.nvim_get_current_buf()
+    vim.api.nvim_set_option_value('bufhidden','wipe',{buf=buf})
     while vim.fn.filereadable(realpath)==0 and vim.fn.isdirectory(realpath)==0 do
         realpath=vim.fn.fnamemodify(realpath,':h')
     end
-    local ranger_full_cmd=ranger_command..' --cmd "map r chain cd ..;open_with" --choosefiles='..file
-    if vim.fn.isdirectory(realpath)==1 then
-        ranger_full_cmd=ranger_full_cmd..' "'..realpath..'"'
-    else
-        ranger_full_cmd=ranger_full_cmd..' --cmd "select_file '..realpath..'"'
-    end
-    vim.fn.termopen(ranger_full_cmd,jobargs)
-    buf=vim.fn.bufnr()
-    vim.api.nvim_set_option_value('bufhidden','wipe',{buf=buf})
+    cmd=cmd..(vim.fn.isdirectory(realpath)==1 and ' "' or ' --cmd "select_file ')..realpath..'"'
+    vim.fn.termopen(cmd,{
+        on_exit=function(_,_,_)
+            if vim.fn.filereadable(file)==1 then
+                vim.cmd.edit(vim.fn.readfile(file)[1])
+                vim.fn.delete(file)
+            end
+            vim.cmd.bdelete{buf,bang=true}
+        end
+    })
     vim.cmd.startinsert()
 end
-function M.runranger(args)
-    if args.args=='' then
-        M.ranger(vim.fn.expand('%'))
-    else
-        M.ranger(vim.fn.expand(args.args))
-    end
+function M.run(args)
+    M.ranger(vim.fn.expand(args.args=='' and '%' or args.args))
 end
 function M.setup()
-    vim.api.nvim_create_user_command('Ranger',M.runranger,{nargs='?'})
+    vim.api.nvim_create_user_command('Ranger',M.run,{nargs='?'})
 end
 return M

@@ -32,6 +32,7 @@ nno('g/','q/')
 nno('gp','`[v`]')
 nno("'",'`')
 nno("' ",":s/['\"]/\\=submatch(0)=='\"'?\"'\":'\"'/g\r")
+nno('vv','V')
 ------alt/ctrl
 for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical resize +'}) do
   nno('<C-'..k..'>','<C-w>'..k..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
