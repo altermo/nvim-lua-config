@@ -10,7 +10,7 @@ db.setup{
       {icon=' ',desc='Documentation'        ,key='SPC s h',action='Telescope help_tags'},
       {icon='󰁯 ',desc='Reload last session'  ,key='SPC c r',action='source /tmp/session.vim'},
     },
-    footer={'neovim has '..#vim.fn.readdir(vim.fn.stdpath('data')..'/site/pack/pckr/opt')..' plugins installed'},
+    footer={#vim.fn.readdir(vim.fn.stdpath('data')..'/site/pack/pckr/opt')..' plugins installed'},
   },
   hide={
     statusline=false,

@@ -13,7 +13,7 @@ for _,server in ipairs({
     'yaml-language-server',
     'zls',
     'clangd',
-    'grammarly-languageserver',
+    --'grammarly-languageserver',
     'json-lsp',
     'lua-language-server',
     'pyright',
@@ -40,7 +40,7 @@ for lsp,opt  in pairs{
     clangd={},
     rust_analyzer={},
     fennel_language_server={},
-    --grammarly={}, https://github.com/znck/grammarly/issues/380
+    --grammarly={}, -- https://github.com/znck/grammarly/issues/380
     zls={},
     taplo={},
     yamlls={},

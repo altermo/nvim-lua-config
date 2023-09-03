@@ -10,14 +10,14 @@ function M.ask(text,opt)
     end})
 end
 function M.open(_)
-    if not M.win or not vim.api.nvim_win_is_valid(M.win) then
-        vim.cmd.split()
-        M.win=vim.api.nvim_get_current_win()
-    end
     if not M.buf or not vim.api.nvim_buf_is_valid(M.buf) then
         M.buf=vim.api.nvim_create_buf(true,true)
-        vim.api.nvim_win_set_buf(M.win,M.buf)
         vim.api.nvim_buf_set_name(M.buf,'tgpt chat')
+    end
+    if not M.win or not vim.api.nvim_win_is_valid(M.win) or not vim.api.nvim_win_get_buf(M.win)~=M.buf then
+        vim.cmd.split()
+        M.win=vim.api.nvim_get_current_win()
+        vim.api.nvim_win_set_buf(M.win,M.buf)
     end
     return {buf=M.buf}
 end

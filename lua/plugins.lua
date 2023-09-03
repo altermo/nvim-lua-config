@@ -186,6 +186,7 @@ require('pckr').add{
     'nvim-telescope/telescope-project.nvim',
     {'nvim-telescope/telescope-fzf-native.nvim',run='make'},
     'nvim-telescope/telescope-live-grep-args.nvim',
+    'nvim-telescope/telescope-media-files.nvim',
     {'nvim-telescope/telescope-ui-select.nvim',cond=function (load)
       ---@diagnostic disable-next-line: duplicate-set-field
       function vim.ui.select(...)
@@ -208,7 +209,10 @@ require('pckr').add{
     require'winshift'.setup{}
     for k,v in pairs({h='left',j='down',k='up',l='right'}) do
       require'utils.keymap'.nno('<C-S-'..k..'>',':WinShift '..v..'\r')
-    end end,cond=lkey{n={'<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>'}}},
+    end end,cond=function (load)
+      lkey{n={'<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>'}}(load)
+      lcmd{'WinShift'}(load)
+    end},
   {'wesQ3/vim-windowswap',cond=lkey{n={'\\ww'}}},
   {'t9md/vim-choosewin',config=function ()
     vim.g.choosewin_overlay_enable=1

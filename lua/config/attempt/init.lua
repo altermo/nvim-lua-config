@@ -6,7 +6,7 @@ for file in vim.fs.dir(vim.fn.stdpath'config'..'/lua/config/attempt/content') do
     cont[vim.fs.basename(ft)]=require('config.attempt.content.'..vim.fs.basename(ft))
 end
 attempt.setup{
-    ext_options={'lua','js','py','fnl','cpp','c','norg','fish','zig','rs','go','java','ts','cs','css','scss'},
+    ext_options={'lua','js','py','fish','cpp','c','norg','zig','rs','go','java','ts','cs','css','scss'},
     initial_content=cont}
 nno('<leader>an',attempt.new_select)
 nno('<leader>ai',attempt.new_input_ext)

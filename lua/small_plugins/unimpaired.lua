@@ -1,16 +1,11 @@
 local M={}
-local function nno(lhs,rhs,opt)
-    vim.keymap.set('n',lhs,rhs,opt or {silent=true,noremap=true})
-end
 function M.last(path,first)
     local parlist=vim.fn.readdir(vim.fs.dirname(path))
     return parlist[first and 1 or #parlist]==vim.fs.basename(path)
 end
-function M.dontbelast(path,prev)
+function M.dontbelast(path,first)
     for i in vim.fs.parents(vim.fs.joinpath(path,'.')) do
-        if not M.last(i,prev) then
-            return i
-        end
+        if not M.last(i,first) then return i end
     end
     error()
 end
@@ -26,36 +21,28 @@ end
 function M.get_next_file(path,prev)
     path=vim.fn.fnamemodify(path,':p')
     path=M.getnext(path,prev)
-    while vim.fn.isdirectory(path)==1 do
-        path=M.getnext(path,prev)
-    end
+    while vim.fn.isdirectory(path)==1 do path=M.getnext(path,prev) end
     return path
 end
 function M.toggle(opt,on,off)
-    if off then
-        vim.o[opt]=vim.o[opt]==on and off or on
-    elseif on then
-        vim.o[opt]=vim.o[opt]=='' and on or ''
+    if off then vim.o[opt]=vim.o[opt]==on and off or on
+    elseif on then vim.o[opt]=vim.o[opt]=='' and on or ''
     else
-        if opt=='diff' then
-            vim.cmd'setl invdiff'
-        else
-            ---@diagnostic disable-next-line: assign-type-mismatch
-            vim.o[opt]=not vim.o[opt]
-        end
+        if opt=='diff' then vim.cmd'setl invdiff'
+        else vim.o[opt]=not vim.o[opt] end
     end
     print(opt..'='..vim.inspect(vim.o[opt]))
 end
 function M.set_opt()
     local opts={
-        b={opt="background",on="light",off="dark"},c="cursorline",
-        h="hlsearch",l="list",i="ignorecase",n="number",r="relativenumber",
-        s="spell",u="cursorcolumn",w="wrap",d="diff",
-        t={opt="colorcolumn",on="1,41,81,121,161,201,241"},
-        v={opt="virtualedit",on="block,onemore"},M={opt="mouse",on="a"},
-        f="foldenable",e="scrollbind",m={opt="conceallevel",on=2,off=0},
-        p={opt="matchpairs",on="(:),{:},[:]",off=""},
-        T={opt="showtabline",on=1,off=0}
+        b={opt='background',on='light',off='dark'},c='cursorline',
+        h='hlsearch',l='list',i='ignorecase',n='number',r='relativenumber',
+        s='spell',u='cursorcolumn',w='wrap',d='diff',
+        t={opt='colorcolumn',on='1,41,81,121,161,201,241'},
+        v={opt='virtualedit',on='block,onemore'},M={opt='mouse',on='a'},
+        f='foldenable',e='scrollbind',m={opt='conceallevel',on=2,off=0},
+        p={opt='matchpairs',on='(:),{:},[:]',off=''},
+        T={opt='showtabline',on=1,off=0}
     }
     local buf=vim.api.nvim_create_buf(false,true)
     vim.api.nvim_buf_set_option(buf,'bufhidden','wipe')
@@ -75,8 +62,8 @@ function M.set_opt()
     end)
 end
 function M.setup()
-    nno(']f',function() vim.cmd.edit(M.get_next_file(vim.fn.expand('%'))) end)
-    nno('[f',function() vim.cmd.edit(M.get_next_file(vim.fn.expand('%'),true)) end)
-    nno('yo',M.set_opt)
+    vim.keymap.set('n',']f',function() vim.cmd.edit(M.get_next_file(vim.fn.expand('%'))) end)
+    vim.keymap.set('n','[f',function() vim.cmd.edit(M.get_next_file(vim.fn.expand('%'),true)) end)
+    vim.keymap.set('n','yo',M.set_opt)
 end
 return M

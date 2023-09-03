@@ -3,7 +3,7 @@ vim.loader.enable()
 require'utils.empty'
 require'options'
 require'keymaps'
-require'commands-cabbr'
+require'abbr-commands'
 require'autocmds'
 require'other'
 require'plugins'

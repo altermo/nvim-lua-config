@@ -17,37 +17,30 @@ vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['rep
 vim.fn.timer_start(250,function() vim.cmd"doautocmd User s1" end)
 
 local open=vim.ui.open
----@source /usr/local/share/nvim/runtime/lua/vim/ui.lua
+---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:125
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.ui.open=function(path)
-  vim.pprint(path)
+  vim.notify(('Opening %s with browser'):format(path))
   return open(path)
 end
 
-local so=vim.api.nvim_create_autocmd('FileType',{callback=function()
+vim.api.nvim_create_autocmd('FileType',{callback=function()
   if pcall(vim.treesitter.get_parser) then
-    vim.cmd"syntax off"
+    vim.cmd'syntax off'
+    vim.api.nvim_create_autocmd('User',{pattern='s1',callback=function () vim.cmd'syntax on' end})
   else
     vim.cmd"syntax on"
   end
-end})
-vim.api.nvim_create_autocmd('User',{pattern='s1',callback=function ()
-  vim.api.nvim_del_autocmd(so)
-  vim.cmd'syntax on'
-end})
-vim.api.nvim_create_autocmd('FileType',{callback=function()
-  vim.filetype.add({extension={bf='bf'}})
-end,pattern='bf',once=true})
+end,once=true})
 vim.api.nvim_create_autocmd({'BufRead','BufNewFile','StdinReadPost'},{
   callback=function()
+    vim.filetype.add({extension={bf='bf'}})
     vim.cmd.setf('bf')
   end,once=true,pattern='*.bf'})
 
 function vim.pprint(...)
   local args={...}
-  vim.schedule(function ()
-    vim.notify(vim.inspect(#args>1 and args or unpack(args)))
-  end)
+  vim.schedule(function () vim.notify(vim.inspect(#args>1 and args or unpack(args))) end)
 end
 function vim.traceback()
   local d=debug.getinfo(2)
@@ -79,8 +72,8 @@ require'small_plugins'.setup({
   'tabline',
   'textobj',
   'unimpaired',
-  'macroend',
   'whint',
+  'macro',
   'nodeswap',
 })
 
@@ -112,29 +105,33 @@ vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter','CursorMov
       hopout=true,
     },
     extensions={
-      --fly={nofilter=true},
-      --cond={cond=function(fn) return not fn.in_node({'comment'}) end},
+      fly={nofilter=true},
+      cond={cond=function(fn) return not fn.in_node({'comment'}) end},
     },
     config_internal_pairs={
       {'"','"',fly=true,bs_overjumps=true,multiline=true},
       {"'","'",fly=true},
+      {'{','}',suround=true},
     },
     {'<<','>>',suround=true,fastwarp=true,space=true,disable_end=true},
     {'<>','<>',bs_overjumps=true,fastwarp=true,space=true},
     {'\\(','\\)'},
-{ "`", "'", fly = true, ft = { "tex", "latex" }},
+    { "`", "'", fly = true, ft = { "tex", "latex" }},
     {'{','},',
       p=11,
       multiline=false,
       cond=function(fn)
         return fn.in_node({'table_constructor'})
       end},
+    {'&','?',disable_start=true,disable_end=true,newline=true},
   },{
       profile='raw',
-      --require'ultimate-autopair.experimental.matchpair_'.init()
+      require'ultimate-autopair.experimental.matchpair'.init(),
+      require'ultimate-autopair.experimental.matchpair'.init_map(),
+      unpack(require'ultimate-autopair.experimental.terminal'.init()),
     }}
+  require'ultimate-autopair.core'.modes={'i','c','n','t'}
   if not upair._check_depreciated(configs[1]) then
     upair.init(configs)
   end
-  --require'ultimate-autopair.experimental.terminal'.setup()
 end,once=true})

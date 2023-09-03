@@ -9,8 +9,6 @@ local function cabbr(lhs,rhs)
 end
 
 ----cabbrev
---cabbr('w','=vim.fn.input(("PLEAS STOP PRESSING :W\\n"):rep(200))')
---cabbr('w','stop')
 cabbr('W','w')
 cabbr('Q','q')
 cabbr('WQ','wq')
@@ -22,9 +20,9 @@ cabbr('TSIA','TSInstall all')
 ----commands
 command('Shell',function (opts) require'utils.lib'.termrun('fish '..opts.args,{close_single=true}) end,{nargs='*'})
 command('UpdateRemotePlugins',function ()
+    local plugins=require'pckr.plugin'.plugins
     for _,i in ipairs(vim.g.rplugins) do
-        ---@diagnostic disable-next-line: undefined-field
-        --require'packer.load'({i},{},_G.packer_plugins) --TODO
+        pcall(require'pckr.loader'.load_plugin,plugins[i])
     end
     if vim.g.loaded_remote_plugins==1 then
         vim.g.loaded_remote_plugins=nil
