@@ -36,13 +36,13 @@ end
 function M.set_opt()
     local opts={
         b={opt='background',on='light',off='dark'},c='cursorline',
-        h='hlsearch',l='list',i='ignorecase',n='number',r='relativenumber',
+        h='hlsearch',l='list',n='number',r='relativenumber',
         s='spell',u='cursorcolumn',w='wrap',d='diff',
         t={opt='colorcolumn',on='1,41,81,121,161,201,241'},
         v={opt='virtualedit',on='block,onemore'},M={opt='mouse',on='a'},
         f='foldenable',e='scrollbind',m={opt='conceallevel',on=2,off=0},
-        p={opt='matchpairs',on='(:),{:},[:]',off=''},
-        T={opt='showtabline',on=1,off=0}
+        T={opt='showtabline',on=1,off=0},L={opt='laststatus',on=2,off=0},
+        C={opt='cmdheight',on=1,off=0},
     }
     local buf=vim.api.nvim_create_buf(false,true)
     vim.api.nvim_buf_set_option(buf,'bufhidden','wipe')

@@ -21,19 +21,19 @@ function M.is_overdo(date)
 end
 function M.fn()
     local times=M.get_times()
-    local todos={}
+    local to_dos={}
     for k,v in ipairs(times) do
         if not M.done[k] and M.is_overdo(v[2]) then
             M.done[k]=true
-            table.insert(todos,v[1])
+            table.insert(to_dos,v[1])
         end
     end
-    if #todos==0 then return end
+    if #to_dos==0 then return end
     vim.defer_fn(function() vim.notify('Reminder in 10s') end,0)
     vim.defer_fn(function() vim.notify('Reminder in 3s') end,7000)
     vim.defer_fn(function() vim.notify('Reminder in 2s') end,8000)
     vim.defer_fn(function() vim.notify('Reminder in 1s') end,9000)
-    vim.defer_fn(function () vim.ui.select(todos,{default=''},function() end) end,10000)
+    vim.defer_fn(function () vim.ui.select(to_dos,{default=''},function() end) end,10000)
 end
 function M.setup()
     M.done={}

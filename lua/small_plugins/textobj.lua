@@ -1,6 +1,6 @@
 ---@diagnostic disable: param-type-mismatch
 local M={}
-local function getword(x1,x2,y) return vim.fn.getline(y):sub(x1,x2+1) end
+local function getword(x1,x2,y) return vim.fn.getline(y):sub(x1+1,x2+1) end
 function M.wordcolumn()
     local reg=vim.region(0,'v','.','',false)
     if vim.tbl_count(reg)>1 then return end

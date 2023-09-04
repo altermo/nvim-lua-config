@@ -114,6 +114,7 @@ nno('gh',function ()
   elseif vim.regex([[vim\.o\.]]):match_str(word) then word="'"..vim.fn.expand('<cword>').."'"
   elseif vim.regex([[vim\.opt\.]]):match_str(word) then word="'"..vim.fn.expand('<cword>').."'"
   end
+  --TODO: try open hover in split with vim.lsp.buf_request('textDocument/hover')
   vim.cmd.help(word)
 end)
 ------lsp

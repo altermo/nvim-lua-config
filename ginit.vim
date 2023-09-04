@@ -11,7 +11,7 @@ elseif exists("g:neovide")
   "lua vim.o.guifont='Fira Code:h16'
   set linespace=-1
   let g:neovide_scale_factor=0.7
-  let g:neovide_transparency=0.9 "TODO: set global transparency
+  let g:neovide_transparency=0.9
   let g:neovide_refresh_rate=20
   let g:neovide_refresh_rate_idle=10
   let g:neovide_cursor_animation_length=0

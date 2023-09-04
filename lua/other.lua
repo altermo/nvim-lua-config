@@ -13,7 +13,7 @@ vim.g.loaded_remote_plugins=1
 vim.g.loaded_fzf=1
 vim.g.rplugins={'vim-ghost','pyro'}
 
-vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1}) --TODO: move to automaton plugin
+vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
 vim.fn.timer_start(250,function() vim.cmd"doautocmd User s1" end)
 
 local open=vim.ui.open

@@ -154,7 +154,6 @@ require'which-key'.register({[' ']=format({
         T={':lua require "mini.trailspace".trim()\r','trim spaces'},
         ------treesitter
         t={name='+treesitter',
-            t={':doautocmd User autotag\r','autotag'},
             e={':hi link TSError NvimInternalError\r','highlight error'},
             f={':set foldexpr=v:lua.vim.treesitter.foldexpr()\r','set-foldexpr'},
         },
@@ -364,8 +363,8 @@ require'which-key'.register({[' ']=format({
         n={':lua require"notify".dismiss({pending=true,silent=true})\r','dismiss notify'},
         [' ']={':lua require "mini.trailspace".unhighlight()\r','unhighlight spaces'},
         ['<c- >']={':lua require "mini.trailspace".highlight()\r','highlight spaces'},
-        ['<C-t>']={':let g:neovide_transparency=1\r','no-transparency'},
-        t={':let g:neovide_transparency=0.9\r','transparency'}
+        ['<C-t>']={':let g:neovide_transparency=1\r','no-transparency'}, --TODO: if neovim-qt then use other
+        t={':let g:neovide_transparency=0.9\r','transparency'} --TODO: if neovim-qt then use other
     },
 })})
 -- vim:fen:

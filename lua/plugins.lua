@@ -81,55 +81,50 @@ require('pckr').add{
   ----keys
   {'ecthelionvi/neoswap.nvim',config=function()
     require('NeoSwap').setup{}
-    local nno=require'utils.keymap'.nno
-    nno('>w','<cmd>NeoSwapNext<cr>')
-    nno('<w','<cmd>NeoSwapPrev<cr>')
+    vim.keymap.set('n','>w','<cmd>NeoSwapNext<cr>')
+    vim.keymap.set('n','<w','<cmd>NeoSwapPrev<cr>')
   end},
   {'Exafunction/codeium.vim',cond=function(load) --https://github.com/Exafunction/codeium.vim/issues/118
     vim.g.codeium_disable_bindings=false
     vim.g.codeium_manual=true
     lkey({i={'<A-\'>'}})(load)
   end,config=function ()
-      local ino=require 'utils.keymap'.ino
       local function wrapper(f,...)
         local args={...}
         return function() return f(unpack(args)) end
       end
-      ino('<A-cr>',wrapper(vim.fn['codeium#Accept']),{expr=true})
-      ino('<A-)>',wrapper(vim.fn['codeium#CycleCompletions'],1),{expr=true})
-      ino('<A-(>',wrapper(vim.fn['codeium#CycleCompletions'],-1),{expr=true})
-      ino('<A-\'>',wrapper(vim.fn['codeium#Complete']),{expr=true})
+      vim.keymap.set('i','<A-cr>',wrapper(vim.fn['codeium#Accept']),{expr=true})
+      vim.keymap.set('i','<A-)>',wrapper(vim.fn['codeium#CycleCompletions'],1),{expr=true})
+      vim.keymap.set('i','<A-(>',wrapper(vim.fn['codeium#CycleCompletions'],-1),{expr=true})
+      vim.keymap.set('i','<A-\'>',wrapper(vim.fn['codeium#Complete']),{expr=true})
     end},
   {'tommcdo/vim-exchange',cond=lkey{n={'cx'},x={'X'}}},
   {'gbprod/yanky.nvim',config=function()
     require'yanky'.setup{}
-    local k=require'utils.keymap'
-    k.nno('p','<Plug>(YankyPutAfter)')
-    k.nno('P','<Plug>(YankyPutBefore)')
-    k.xno('p','<Plug>(YankyPutAfter)')
-    k.xno('P','<Plug>(YankyPutBefore)')
-    k.nno('<A-p>','<Plug>(YankyCycleForward)')
-    k.nno('<A-P>','<Plug>(YankyCycleBackward)')
+    vim.keymap.set('n','p','<Plug>(YankyPutAfter)')
+    vim.keymap.set('n','P','<Plug>(YankyPutBefore)')
+    vim.keymap.set('n','<A-p>','<Plug>(YankyCycleForward)')
+    vim.keymap.set('n','<A-P>','<Plug>(YankyCycleBackward)')
+    vim.keymap.set('x','p','<Plug>(YankyPutAfter)')
+    vim.keymap.set('x','P','<Plug>(YankyPutBefore)')
   end,cond=function (load)
       lkey({n={'p','P','<A-p>','<A-P>'},x={'p','P'}})(load)
       levent({'TextYankPost'})(load)
     end },
   {'monaqa/dial.nvim',config=function()
-    local k=require'utils.keymap'
     local dialmap=require'dial.map'
-    k.nno('<C-a>',dialmap.inc_normal())
-    k.nno('<C-x>',dialmap.dec_normal())
-    k.xno('<C-a>',dialmap.inc_visual())
-    k.xno('<C-x>',dialmap.dec_visual())
+    vim.keymap.set('n','<C-a>',dialmap.inc_normal())
+    vim.keymap.set('n','<C-x>',dialmap.dec_normal())
+    vim.keymap.set('x','<C-a>',dialmap.inc_visual())
+    vim.keymap.set('x','<C-x>',dialmap.dec_visual())
   end,cond=lkey{n={'<C-a>','<C-x>'},x={'<C-a>','<C-x>'}}},
 
   ----movement
   {'mg979/vim-visual-multi',config=function() vim.g,VM_maps={} end,cond=lkey{n={'<C-n>','\\\\'},x={'<C-n>'}}},
   {'xiyaowong/accelerated-jk.nvim',config=function ()
     require('accelerated-jk').setup{}
-    local xno=require'utils.keymap'.xno
-    xno('j','<cmd>lua require"accelerated-jk".command("gj")\r')
-    xno('k','<cmd>lua require"accelerated-jk".command("gk")\r')
+    vim.keymap.set('x','j','<cmd>lua require"accelerated-jk".command("gj")\r')
+    vim.keymap.set('x','k','<cmd>lua require"accelerated-jk".command("gk")\r')
   end,cond=lkey{n={'j','k'},x={'j','k'}}},
   {'folke/flash.nvim',config=get_config'flash'},
 
@@ -154,7 +149,7 @@ require('pckr').add{
   {'cshuaimin/ssr.nvim',config=get_setup'ssr',requires={'nvim-treesitter/nvim-treesitter'}},
   {'smjonas/inc-rename.nvim',config=function()
     require'inc_rename'.setup{}
-    require'utils.keymap'.nno('gr',':IncRename <C-r>=expand("<cword>")\r',{noremap=true})
+    vim.keymap.set('n','gr',':IncRename <C-r>=expand("<cword>")\r',{noremap=true})
   end,cond=function(load)
       lcmd{'IncRename'}(load)
       lkey{n={'gr'}}(load)
@@ -207,7 +202,7 @@ require('pckr').add{
   {'sindrets/winshift.nvim',config=function ()
     require'winshift'.setup{}
     for k,v in pairs({h='left',j='down',k='up',l='right'}) do
-      require'utils.keymap'.nno('<C-S-'..k..'>',':WinShift '..v..'\r')
+      vim.keymap.set('n','<C-S-'..k..'>',':WinShift '..v..'\r')
     end end,cond=function (load)
       lkey{n={'<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>'}}(load)
       lcmd{'WinShift'}(load)
@@ -215,22 +210,20 @@ require('pckr').add{
   {'wesQ3/vim-windowswap',cond=lkey{n={'\\ww'}}},
   {'t9md/vim-choosewin',config=function ()
     vim.g.choosewin_overlay_enable=1
-    require'utils.keymap'.nno('<C-w> ',':ChooseWin\r')
+    vim.keymap.set('n','<C-w> ',':ChooseWin\r')
   end,cond=function(load)
       lkey{n={'<C-w><space>'}}(load)
       lcmd{'ChooseWin'}(load)
     end},
 
   ----treesitter
-  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter'},
+  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter',lock=true}, --requires manual update: invalide bash heredoc_end
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',cond=ll,config=function()
     vim.g.rainbow_delimiters={blacklist={'zig'}}
     vim.cmd'TSEnable rainbow'
   end,requires={'nvim-treesitter/nvim-treesitter'}},
-  {'windwp/nvim-ts-autotag',cond=function(load)
-    vim.api.nvim_create_autocmd('User',{pattern='autotag',callback=load,once=true})
-  end,config=function() vim.cmd"TSEnable autotag" end,ft='html'},
-  {'rrethy/nvim-treesitter-endwise',cond=levent{'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,requires={'nvim-treesitter/nvim-treesitter'}}, --TODO
+  {'windwp/nvim-ts-autotag',cond=lft{'html'},config=function() vim.cmd'TSEnable autotag' end,requires={'nvim-treesitter/nvim-treesitter'}},
+  {'rrethy/nvim-treesitter-endwise',cond=levent{'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'ziontee113/syntax-tree-surfer',config=get_config'surfer',
     cond=lkey{n={'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF','gX'},x={'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','gX'}},requires={'nvim-treesitter/nvim-treesitter'}},
 
