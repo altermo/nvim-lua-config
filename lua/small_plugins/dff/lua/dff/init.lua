@@ -1,15 +1,13 @@
 ---@class dff.config
----@field wintype 'current'|'float'--|'split'|'vsplit'|function
+---@field wintype 'current'|'float'|'split'|'vsplit'--|function
 ---@field wjust number
 ---@field hjust number
 ---@field ending string
----@field skipsingle boolean --TODO: implement proparly (no hack, can back)
 local default_conf={
     wintype='current',
     wjust=10,
     hjust=3,
     ending='\n',
-    skipsingle=true,
 }
 
 local file_expl=require'dff.file_expl'

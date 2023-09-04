@@ -75,63 +75,10 @@ require'small_plugins'.setup({
   'whint',
   'macro',
   'nodeswap',
+  'trans',
 })
 
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},{callback=function()
   vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
-  local upair=require'ultimate-autopair'
-  _G.UA_DEV=true
-  local configs={upair.extend_default{
-    space2={enable=true},
-    bs={
-      space='balance',
-      indent_ignore=true,
-      single_delete=true,
-    },
-    cr={autoclose=true},
-    fastwarp={
-      multi=true,
-      {},
-      {
-        faster=true,
-        map='<C-A-e>',
-        cmap='<C-A-e>',
-        rmap='<C-A-S-e>',
-        rcmap='<C-A-S-e>',
-      },
-    },
-    tabout={
-      enable=true,
-      hopout=true,
-    },
-    extensions={
-      fly={nofilter=true},
-      cond={cond=function(fn) return not fn.in_node({'comment'}) end},
-    },
-    config_internal_pairs={
-      {'"','"',fly=true,bs_overjumps=true,multiline=true},
-      {"'","'",fly=true},
-      {'{','}',suround=true},
-    },
-    {'<<','>>',suround=true,fastwarp=true,space=true,disable_end=true},
-    {'<>','<>',bs_overjumps=true,fastwarp=true,space=true},
-    {'\\(','\\)'},
-    { "`", "'", fly = true, ft = { "tex", "latex" }},
-    {'{','},',
-      p=11,
-      multiline=false,
-      cond=function(fn)
-        return fn.in_node({'table_constructor'})
-      end},
-    {'&','?',disable_start=true,disable_end=true,newline=true},
-  },{
-      profile='raw',
-      require'ultimate-autopair.experimental.matchpair'.init(),
-      require'ultimate-autopair.experimental.matchpair'.init_map(),
-      unpack(require'ultimate-autopair.experimental.terminal'.init()),
-    }}
-  require'ultimate-autopair.core'.modes={'i','c','n','t'}
-  if not upair._check_depreciated(configs[1]) then
-    upair.init(configs)
-  end
+  require'config.ultimate'
 end,once=true})

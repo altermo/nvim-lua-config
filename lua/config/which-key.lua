@@ -37,6 +37,7 @@ require'which-key'.setup{plugins={presets={operators=false}}}
 require'which-key'.register({[' ']=format({
 
     ----other
+    [' ']={require'small_plugins.bookend'.run,'bookend'},
     b={require'small_plugins.bookend'.run,'bookend'},
     L={':Luapad\r','luapad'},
     C={require'small_plugins.chat'.run,'chat'},
@@ -243,11 +244,20 @@ require'which-key'.register({[' ']=format({
 
     ----text
     y={name='+text',
-        t={':Pantran\r','translate-window'},
-        --f={name='+translate-from',
-        --f={':let g:translator_source_lang=""<Left>','other',silent=false},
-        --_=cmap(spell,':let g:translator_source_lang="%s"\r','lang=%s',{silent=false})
-        --},
+        T={':Pantran\r','translate-window'},
+        S={function ()
+            local t=require'small_plugins.trans'
+            t.from,t.to=t.to,t.from
+            vim.notify(('%s to %s'):format(t.from,t.to))
+        end,'translate-swap'},
+        f={name='+translate-from',
+            f={':lua require"small_plugins.trans".from=""<Left>','other',silent=false},
+            _=cmap(spell,':lua require"small_plugins.trans".from="%s"\r','lang=%s',{silent=false})
+        },
+        t={name='+translate-to',
+            t={':lua require"small_plugins.trans".to=""<Left>','other',silent=false},
+            _=cmap(spell,':lua require"small_plugins.trans".to="%s"\r','lang=%s',{silent=false})
+        },
         s={name='+spell',
             _=cmap(spell,':set spelllang=%s\r','lang=%s',{silent=false})
         },
@@ -256,10 +266,6 @@ require'which-key'.register({[' ']=format({
             W={':NoWordy\r','wordy off'},
             d={':ToggleDitto\r','ditto'},
         },
-        --t={name='+translate-to',
-        --t={':let g:translator_target_lang=""<Left>','other',silent=false},
-        --_=cmap(spell,':let g:translator_target_lang="%s"\r','lang=%s',{silent=false})
-        --},
     },
 
     ----toggle
@@ -325,7 +331,7 @@ require'which-key'.register({[' ']=format({
         e={':split\r','split'},
         c={':close\r','close'},
         _=(function ()
-        	local ret=fmap(9,':%swincmd w\r','window %s')
+            local ret=fmap(9,':%swincmd w\r','window %s')
             for k,v in pairs{
                 h={'<','decrease width','left'},
                 j={'+','increase height','down'},

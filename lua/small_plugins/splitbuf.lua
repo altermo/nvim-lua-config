@@ -13,11 +13,7 @@ M.options={
     },
     d={
         desc='dff',
-        action=function ()
-            vim.cmd.bdelete()
-            vim.cmd.vnew()
-            require'dff.file_expl'.open(vim.fn.expand('%:p:h') --[[@as string]])
-        end,
+        action=function () require'dff.file_expl'.open(vim.fn.expand('%:p:h') --[[@as string]]) end,
     },
 }
 function M.open()
