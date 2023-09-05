@@ -1,6 +1,6 @@
 ---@diagnostic disable: param-type-mismatch
 local M={}
-local function getword(x1,x2,y) return vim.fn.getline(y):sub(x1+1,x2+1) end
+local function getword(x1,x2,y) return vim.fn.strcharpart(vim.fn.getline(y),x1,x2-x1+1) end
 function M.wordcolumn()
     local reg=vim.region(0,'v','.','',false)
     if vim.tbl_count(reg)>1 then return end
@@ -13,7 +13,7 @@ function M.wordcolumn()
     return '<esc>'..(beg+1)..'gg'..(col1+1)..'|<C-v>o'.._end..'gg'..(col2+1)..'|'
 end
 function M.charcolumn() return M.wordcolumn()..vim.v.operator end
-local function getchar(x,y) return vim.fn.getline(y+1):sub(x+1,x+1) end
+local function getchar(x,y) return vim.fn.strcharpart(vim.fn.getline(y+1),x,1) end
 function M.wordrow()
     local reg=vim.region(0,'v','.','',false)
     if vim.tbl_count(reg)>1 then return end

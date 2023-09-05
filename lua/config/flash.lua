@@ -20,6 +20,13 @@ flash.setup{
     }
 }
 k.nno('s',function () require'flash'.jump() end)
-k.ono('r',function () require'flash'.remote() end)
 k.xno('s',function () require'flash'.jump() end)
---TODO: better remote jump
+k.ono('r',function () require'flash'.remote() end)
+k.ono('R',function ()
+    local pos=vim.api.nvim_win_get_cursor(0)
+    require'flash'.jump()
+    vim.cmd.norm{'v',bang=true}
+    require'flash'.jump()
+    vim.cmd.norm{vim.v.operator}
+    vim.api.nvim_win_set_cursor(0,pos)
+end)

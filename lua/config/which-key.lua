@@ -324,7 +324,7 @@ require'which-key'.register({[' ']=format({
         h={'<cmd>lua require"flash".jump()\r','1 char'},
     },
 
-    ---window
+    --window
     w={
         name='+window',
         v={':vsplit\r','vsplit'},
@@ -364,8 +364,7 @@ require'which-key'.register({[' ']=format({
         end,'hide-cursor'},
         c={':set guicursor&\r','reset-cursor'},
         f={':set guifont=*\r','select-font'},
-        i={':DisableHLIndent\r','disable highlight indent level'},
-        I={':EnableHLIndent\r','disable highlight indent level'},
+        i={':IBLToggle\r','disable highlight indent level'},
         n={':lua require"notify".dismiss({pending=true,silent=true})\r','dismiss notify'},
         [' ']={':lua require "mini.trailspace".unhighlight()\r','unhighlight spaces'},
         ['<c- >']={':lua require "mini.trailspace".highlight()\r','highlight spaces'},

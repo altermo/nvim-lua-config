@@ -1,6 +1,5 @@
 local upair=require'ultimate-autopair'
 _G.UA_DEV=true
-local linecount
 local configs={upair.extend_default{
     space2={enable=true},
     bs={
@@ -33,11 +32,8 @@ local configs={upair.extend_default{
         {"'","'",fly=true},
         {'{','}',suround=true},
     },
-    {'<<','>>',suround=true,fastwarp=true,space=true,disable_end=true},
-    {'<>','<>',bs_overjumps=true,fastwarp=true,space=true},
     {'\\(','\\)'},
-    { "`", "'", fly = true, ft = { "tex", "latex" }},
-    {'&','?',disable_start=true,disable_end=true,newline=true},
+    {'>','</',disable_start=true,disable_end=true,backspace=false,ft={'html'}},
 },
     {profile=require'ultimate-autopair.experimental.terminal'.init},
     {profile=require'ultimate-autopair.experimental.matchpair'.init},

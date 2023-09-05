@@ -13,7 +13,6 @@ for _,server in ipairs({
     'yaml-language-server',
     'zls',
     'clangd',
-    --'grammarly-languageserver',
     'json-lsp',
     'lua-language-server',
     'pyright',
@@ -31,10 +30,11 @@ for lsp,opt  in pairs{
         completion={displayContext=30,postfix=':'},
         workspace={
             library={
-                '/home/user/.local/share/nvim/site/pack/packer/opt/neodev.nvim/types/nightly',
+                '~/.local/share/nvim/site/pack/packer/opt/neodev.nvim/types/nightly',
                 '/usr/local/share/nvim/runtime/lua',
                 '${3rd}/luv/library',
                 '~/.config/nvim/lua',
+                '~/.config/nvim/.other/ua/lua/',
             }}}}},
     jsonls={},
     clangd={},

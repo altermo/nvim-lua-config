@@ -67,12 +67,7 @@ require('pckr').add{
     vim.g.Hexokinase_highlighters={'backgroundfull'}
     ll(load) end},
   {'anuvyklack/pretty-fold.nvim',cond=ll,config=get_setup'pretty-fold'},
-  {'shellraining/hlchunk.nvim',config=get_setup('hlchunk',{
-    indent={chars={'│'}},
-    chunk={enable=false},
-    blank={enable=false},
-    line_num={enable=false},
-  }),cond=ll},
+  {'lukas-reineke/indent-blankline.nvim',cond=ll,branch='v3',config=get_setup('ibl',{exclude={filetypes={'dashboard'}}})},
   {'chentoast/marks.nvim',config=get_setup'marks',cond=lkey{n={'m','dm'}}},
   {'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}})},
   {'nvim-lualine/lualine.nvim',config=get_setup'lualine',cond=ll},
@@ -83,8 +78,8 @@ require('pckr').add{
     require('NeoSwap').setup{}
     vim.keymap.set('n','>w','<cmd>NeoSwapNext<cr>')
     vim.keymap.set('n','<w','<cmd>NeoSwapPrev<cr>')
-  end},
-  {'Exafunction/codeium.vim',cond=function(load) --https://github.com/Exafunction/codeium.vim/issues/118
+  end,ccond=lkey{n={'>w','<w'}}},
+  {'Exafunction/codeium.vim',cond=function(load) -- https://github.com/Exafunction/codeium.vim/issues/118
     vim.g.codeium_disable_bindings=false
     vim.g.codeium_manual=true
     lkey({i={'<A-\'>'}})(load)
@@ -217,7 +212,7 @@ require('pckr').add{
     end},
 
   ----treesitter
-  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter',lock=true}, --requires manual update: invalide bash heredoc_end
+  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter'},
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',cond=ll,config=function()
     vim.g.rainbow_delimiters={blacklist={'zig'}}
     vim.cmd'TSEnable rainbow'
@@ -255,19 +250,19 @@ require('pckr').add{
   --use{'andweeb/presence.nvim'},
 
   ----auto complete (nvim-cmp & snippy)
-  {'hrsh7th/nvim-cmp',commit='6c84bc7',config=get_config'cmp-nvim',cond=levent{'InsertEnter','CmdlineEnter'}}, --TODO: temp commit; https://github.com/jcdickinson/codeium.nvim/issues/80
-    {'hrsh7th/cmp-cmdline',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-    {'dmitmel/cmp-cmdline-history',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-    ----{'dcampos/cmp-snippy'},
-    ----{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy'},
-    {'f3fora/cmp-spell',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-    {'hrsh7th/cmp-calc',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-    {'hrsh7th/cmp-buffer',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-    {'hrsh7th/cmp-nvim-lsp',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-    {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-    {'FelipeLema/cmp-async-path',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-    {'lukas-reineke/cmp-rg',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-    {'jcdickinson/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'hrsh7th/nvim-cmp',config=get_config'cmp-nvim',cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'hrsh7th/cmp-cmdline',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'dmitmel/cmp-cmdline-history',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  ----{'dcampos/cmp-snippy'},
+  ----{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy'},
+  {'f3fora/cmp-spell',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'hrsh7th/cmp-calc',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'hrsh7th/cmp-buffer',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'hrsh7th/cmp-nvim-lsp',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'FelipeLema/cmp-async-path',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'lukas-reineke/cmp-rg',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'jcdickinson/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter','CmdlineEnter'}},
 
   ----writing
   {'JellyApple102/easyread.nvim',config=get_setup('easyread',{fileTypes={'markdown','text'}}),cond=lft{'markdown','text'}}, --TODO
@@ -276,7 +271,7 @@ require('pckr').add{
     lcmd{'Fill'}(load)
     lcmd({'D','H','O','DO','HO'},'VBox')(load) end},
   {'dhruvasagar/vim-table-mode',cond=lcmd{'TableModeToggle'}},
-    {'dbmrq/vim-ditto',cond=function(load)
+  {'dbmrq/vim-ditto',cond=function(load)
     lcmd{'NoDitto','ToggleDitto'}(load)
     lcmd({'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},'Ditto')(load)
   end},
@@ -291,12 +286,12 @@ require('pckr').add{
       ['core.export']={},
       ['core.export.markdown']={},
       ['core.concealer']={},
---['core.presenter']={},
---['core.completion']={},
-}}),cond=lft{'norg'}},
-{'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
-{'turbio/bracey.vim',run='npm install --prefix server',cond=lft{'html','css','javascript'}},
+      --['core.presenter']={},
+      --['core.completion']={},
+    }}),cond=lft{'norg'}},
+  {'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
+  {'turbio/bracey.vim',run='npm install --prefix server',cond=lft{'html','css','javascript'}},
 
----end
+  ---end
 }
 -- vim:fen:

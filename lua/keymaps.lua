@@ -115,6 +115,7 @@ nno('gh',function ()
   elseif vim.regex([[vim\.opt\.]]):match_str(word) then word="'"..vim.fn.expand('<cword>').."'"
   end
   --TODO: try open hover in split with vim.lsp.buf_request('textDocument/hover')
+  --vim.lsp.buf_request(0,'textDocument/hover',{},function(...) vim.pprint(...) end)
   vim.cmd.help(word)
 end)
 ------lsp
@@ -209,6 +210,7 @@ xno('_','"_')
 
 ----tno
 tno('<C-\\>','<C-\\><C-n>')
+tno('<C-?>','<C-\\><C-\\><C-n>')
 tno('<C-]><C-]>','<C-\\><C-n>')
 for i in ('hjkl'):gmatch('.') do
   tno('<C-'..i..'>','<C-\\><C-n><C-w>'..i..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
