@@ -45,7 +45,7 @@ local function lft(fts)
   end
 end
 local function ll(load) vim.api.nvim_create_autocmd('User s1',{callback=load,once=true}) end
-local function get_setup(name,conf) return function () require(name).setup(conf) end end
+local function get_setup(name,conf) return function () require(name).setup(conf or {}) end end
 local function get_config(name) return function () require('config.'..name) end end
 require('pckr').add{
   {'altermo/ultimate-autopair.nvim',cond=function() end,branch='v0.6'},
@@ -265,8 +265,6 @@ require('pckr').add{
   {'jcdickinson/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter','CmdlineEnter'}},
 
   ----writing
-  {'JellyApple102/easyread.nvim',config=get_setup('easyread',{fileTypes={'markdown','text'}}),cond=lft{'markdown','text'}}, --TODO
-  {'potamides/pantran.nvim',cond=lcmd{'Pantran'}}, --TODO
   {'jbyuki/venn.nvim',cond=function()
     lcmd{'Fill'}(load)
     lcmd({'D','H','O','DO','HO'},'VBox')(load) end},
@@ -276,8 +274,6 @@ require('pckr').add{
     lcmd({'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},'Ditto')(load)
   end},
   {'reedes/vim-wordy',cond=lcmd{'Wordy','NoWordy'}},
-  {'ron89/thesaurus_query.vim',cond=lcmd({'QueryReplaceCurrentWord','QueryLookupCurrentWord','QueryReplace',''},'Thesaurus')}, --TODO
-  --{'epwalsh/obsidian.nvim',config=get_setup('obsidian'),cond=lft{'markdown'}},
 
   ----filetype
   {'nvim-neorg/neorg',config=get_setup(

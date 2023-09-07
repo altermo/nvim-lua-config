@@ -51,6 +51,7 @@ end
 function vim.lgclear()
   vim.fn.writefile({},'/tmp/nlog')
 end
+---@diagnostic disable-next-line: duplicate-set-field
 function vim.lg(...)
   local d=debug.getinfo(2)
   return vim.fn.writefile(vim.fn.split(

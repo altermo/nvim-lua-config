@@ -25,7 +25,7 @@ local configs={upair.extend_default{
     },
     extensions={
         fly={nofilter=true},
-        cond={cond=function(fn) return not fn.in_node({'comment'}) end},
+        cond={cond=function(fn) return not fn.in_node({'comment'}) and not fn.in_macro() end},
     },
     config_internal_pairs={
         {'"','"',fly=true,bs_overjumps=true,multiline=true},

@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd('VimLeave',{callback=function()
 end})
 vim.api.nvim_create_autocmd('BufRead',{callback=function(ev)
     if _G._DONT_AUTOCD or vim.o.buftype~='' then return end
-    local dir=vim.fs.dirname(vim.fs.find('.git',{upward=true,path=vim.fs.dirname(ev.file)})[1])
+    local dir=vim.fs.dirname(vim.fs.find({'.git'},{upward=true,path=vim.fs.dirname(ev.file)})[1])
     if dir then vim.cmd.lcd(dir)
     else pcall(vim.cmd.lcd,vim.fn.expand('%:p:h')) end
 end})
@@ -42,3 +42,4 @@ vim.api.nvim_create_autocmd({'InsertLeave','TextChanged'},{callback=function ()
         pcall(vim.api.nvim_buf_set_mark,0,'[',s[1],s[2],{})
         pcall(vim.api.nvim_buf_set_mark,0,']',e[1],e[2],{})
 	end) end})
+vim.cmd"autocmd LspProgress * =vim.lsp.status()"
