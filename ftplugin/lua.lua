@@ -11,4 +11,27 @@ vim.keymap.set('i','…f','vim.fn.',{buffer=true})
 vim.keymap.set('i','…a','vim.api.nvim_',{buffer=true})
 vim.keymap.set('i','…k','vim.keymap.set',{buffer=true})
 vim.keymap.set('i','–','M.',{buffer=true})
-vim.keymap.set('i','→→','local M={}\n\nreturn M',{buffer=true})
+vim.keymap.set('i','ł→','local M={}\n\nreturn M',{buffer=true})
+vim.keymap.set('i','łþ',[[
+local function t1()
+
+end
+local function t2()
+
+end
+local rep=100
+local t=os.clock()
+for _=1,rep do t1() end
+print(os.clock()-t)
+t=os.clock()
+for _=1,rep do t2() end
+print(os.clock()-t)
+
+]],{buffer=true})
+vim.keymap.set('i','łß',[[
+local M={}
+function M.setup()
+
+end
+return M
+]],{buffer=true})

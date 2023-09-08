@@ -77,7 +77,8 @@ nno('æ','z=')
 nno('å','"+p')
 nno('π','yyp')
 nno('Π','yyP')
-nno('\t','<C-w>w')
+nno('<tab>','>>')
+nno('<S-tab>','<<')
 nno('cd',function ()
   local path=fn.expand('%:p:h') --[[@as string]]
   if path==fn.getcwd() then goto End end

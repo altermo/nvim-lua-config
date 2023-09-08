@@ -18,6 +18,7 @@ for _,server in ipairs({
     'pyright',
     'rust-analyzer',
     'taplo',
+    'csharp-language-server',
 }) do
     local pkg=mason_reg.get_package(server)
     if not pkg:is_installed() then pkg:install() end
@@ -43,7 +44,7 @@ for lsp,opt  in pairs{
     --grammarly={}, -- https://github.com/znck/grammarly/issues/380
     zls={},
     taplo={},
-    yamlls={},
+    csharp_ls={}
 } do
     lspconfig[lsp].setup(opt)
 end

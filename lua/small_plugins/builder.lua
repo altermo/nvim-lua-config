@@ -42,7 +42,7 @@ function M.setup()
     vim.keymap.set('n',"<F8>",function () M.builders[vim.o.filetype].normal=vim.fn.input('>') end)
     vim.keymap.set('n',"<F9>",function ()
         local s=M.builders[vim.o.filetype]
-        if not s and not s.altern then M.deferr() return end
+        if not s or not s.altern then M.deferr() return end
         s.normal,s.altern=s.altern,s.normal
         vim.notify(('builder swaped from `%s` `to` `%s`'):format(s.altern,s.normal))
     end)

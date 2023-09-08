@@ -36,7 +36,7 @@ local configs={upair.extend_default{
     {'>','</',disable_start=true,disable_end=true,backspace=false,ft={'html'}},
 },
     {profile=require'ultimate-autopair.experimental.terminal'.init},
-    {profile=require'ultimate-autopair.experimental.matchpair'.init},
+    --{profile=require'ultimate-autopair.experimental.matchpair'.init},
     {profile=require'ultimate-autopair.experimental.addons_.comma_after_table'.init},
     {profile=require'ultimate-autopair.experimental.addons_.fix_ts_endwise'.init}
 }

@@ -284,7 +284,7 @@ require('pckr').add{
       ['core.concealer']={},
       --['core.presenter']={},
       --['core.completion']={},
-    }}),cond=lft{'norg'}},
+    }}),cond=lft{'norg'},run=':Neorg sync-parsers'},
   {'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
   {'turbio/bracey.vim',run='npm install --prefix server',cond=lft{'html','css','javascript'}},
 
