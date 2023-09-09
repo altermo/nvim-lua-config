@@ -8,7 +8,7 @@ function M.get_ft()
     local stat,parser=pcall(vim.treesitter.get_parser,0)
     if not stat then return vim.o.filetype end
     local row=unpack(vim.api.nvim_win_get_cursor(0))
-    return parser:language_for_range({row-1,0,row-1,0}):lang()
+    return parser:language_for_range({row-1,-1,row-1,0}):lang()
 end
 function M.get_comment(ft)
     if M.comments[ft] then return M.comments[ft] end

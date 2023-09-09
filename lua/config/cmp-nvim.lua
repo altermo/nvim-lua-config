@@ -1,6 +1,5 @@
 local cmp=require'cmp'
 local menu={
-    snippy='SNIP',
     nvim_lsp='LSP',
     calc='CALC',
     spell='SP',
@@ -37,18 +36,16 @@ cmp.setup({
         {name='buffer'},
         {name='nvim_lsp'},
         {name='codeium'},
-        {name='snippy'},
         {name='obsidian'},
         {name='spell',entry_filter=function () return not _G.CMD_NO_SPAM end},
         {name='async_path'},
         {name='calc'},
         {name='rg',option={additional_arguments='--max-depth 4'},max_item_count=20,entry_filter=function () return not _G.CMD_NO_SPAM end},
-        --{name='rg',option={additional_arguments='--max-depth 4'},max_item_count=100,keyword_length=5},
         {name='nvim_lsp_signature_help'},
     }),
     mapping={
         ['<CR>']=cmp.mapping(function(fallback)
-            if cmp.get_active_entry() and ({snippy=true,async_path=true,nvim_lsp=true,codeium=true})[cmp.get_selected_entry().source.name] then
+            if cmp.get_active_entry() and ({async_path=true,nvim_lsp=true,codeium=true})[cmp.get_selected_entry().source.name] then
                 cmp.confirm()
             else
                 fallback()
@@ -70,9 +67,7 @@ cmp.setup({
 cmp.setup.cmdline('/',{
     formatting={format=format},
     mapping=cmp.mapping.preset.cmdline(),
-    sources=cmp.config.sources({
-        {name='buffer'},
-    })
+    sources=cmp.config.sources({{name='buffer'}})
 })
 cmp.setup.cmdline(':',{
     formatting={format=format},

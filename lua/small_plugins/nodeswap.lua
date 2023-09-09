@@ -3,6 +3,7 @@ local M={nodes={
     parameters=true,
     argument_list=true,
     table_constructor=true,
+    list=true,
 }}
 function M.get_node()
     local node=vim.treesitter.get_node()

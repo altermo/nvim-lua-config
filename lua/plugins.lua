@@ -249,12 +249,10 @@ require('pckr').add{
   {'raghur/vim-ghost',run=':GhostInstall',cond=lcmd{'GhostStart'},config=get_rplugin()},
   --use{'andweeb/presence.nvim'},
 
-  ----auto complete (nvim-cmp & snippy)
+  ----auto complete (nvim-cmp)
   {'hrsh7th/nvim-cmp',config=get_config'cmp-nvim',cond=levent{'InsertEnter','CmdlineEnter'}},
   {'hrsh7th/cmp-cmdline',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'dmitmel/cmp-cmdline-history',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  ----{'dcampos/cmp-snippy'},
-  ----{'dcampos/nvim-snippy',requires='honza/vim-snippets',config=get_config'snippy'},
   {'f3fora/cmp-spell',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'hrsh7th/cmp-calc',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'hrsh7th/cmp-buffer',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},

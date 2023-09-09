@@ -11,9 +11,5 @@ db.setup{
       {icon='󰁯 ',desc='Reload last session'  ,key='SPC c r',action='source /tmp/session.vim'},
     },
     footer={#vim.fn.readdir(vim.fn.stdpath('data')..'/site/pack/pckr/opt')..' plugins installed'},
-  },
-  hide={
-    statusline=false,
-    tabline=false,
-  }
+  },hide={statusline=false,tabline=false}
 }

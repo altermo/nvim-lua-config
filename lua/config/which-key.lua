@@ -320,7 +320,6 @@ require'which-key'.register({[' ']=format({
     h={name='+hop',
         t={'<cmd>lua require"flash".treesitter()\r','tree'},
         f={':Telescope current_buffer_fuzzy_find\r','find-whole-file'},
-        m={':lua require"mini.jump2d".start()\r','mini-jump'},
         h={'<cmd>lua require"flash".jump()\r','1 char'},
     },
 
@@ -366,10 +365,6 @@ require'which-key'.register({[' ']=format({
         f={':set guifont=*\r','select-font'},
         i={':IBLToggle\r','disable highlight indent level'},
         n={':lua require"notify".dismiss({pending=true,silent=true})\r','dismiss notify'},
-        [' ']={':lua require "mini.trailspace".unhighlight()\r','unhighlight spaces'},
-        ['<c- >']={':lua require "mini.trailspace".highlight()\r','highlight spaces'},
-        ['<C-t>']={':let g:neovide_transparency=1\r','no-transparency'}, --TODO: if neovim-qt then use other
-        t={':let g:neovide_transparency=0.9\r','transparency'} --TODO: if neovim-qt then use other
     },
 })})
 -- vim:fen:

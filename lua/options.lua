@@ -8,8 +8,7 @@ vim.o.expandtab=true
 vim.o.linebreak=true
 vim.o.fillchars='vert: ,eob: '
 vim.o.foldmethod='expr'
-function _G.Fold(lnum) return vim.fn.getline(lnum)=="" and '0' or '1' end
-vim.o.foldexpr='v:lua._G.Fold(v:lnum)'
+vim.wo.foldexpr='getline(v:lnum)==""?0:1'
 vim.o.foldenable=false
 vim.o.relativenumber=true
 vim.o.number=true
