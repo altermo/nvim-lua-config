@@ -40,6 +40,7 @@ function M.highlight()
     if M.is_still_on_word() then return end
     M.clear()
     if not M.check_is_word() then return end
+    if M.disabl then return end
     M.set_save()
     M.highlight_lsp()
     M.highlight_word()
@@ -53,6 +54,7 @@ function M.setup()
     vim.api.nvim_create_autocmd({'InsertEnter','TermEnter','WinLeave','CmdlineEnter'},{group='matchall',callback=M.clear})
     vim.api.nvim_create_autocmd({'CursorMoved'},{group='matchall',callback=M.highlight})
     vim.api.nvim_create_autocmd({'TextChanged','CmdLineLeave'},{group='matchall',callback=M.redraw})
+    vim.api.nvim_create_user_command('ToggleMatchAll',function () M.disabl=not M.disabl end,{})
     M.highlight()
 end
 return M

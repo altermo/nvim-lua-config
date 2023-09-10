@@ -79,13 +79,13 @@ require'which-key'.register({[' ']=format({
         vim.api.nvim_set_current_buf(saved_pos[#saved_pos].buf)
         vim.api.nvim_win_set_cursor(0,saved_pos[#saved_pos].cur)
         table.remove(saved_pos,#saved_pos)
-    end,'load'},
+    end,'pop-pos'},
     ['<']={function()
         saved_pos[#saved_pos+1]={
             cur=vim.api.nvim_win_get_cursor(0),
             buf=vim.api.nvim_get_current_buf(),
         }
-    end,'save'},
+    end,'push-pos'},
 
     ----apps
     a={name='+apps',
@@ -321,6 +321,7 @@ require'which-key'.register({[' ']=format({
         t={'<cmd>lua require"flash".treesitter()\r','tree'},
         f={':Telescope current_buffer_fuzzy_find\r','find-whole-file'},
         h={'<cmd>lua require"flash".jump()\r','1 char'},
+        l={'<cmd>lua require("flash").jump({search={mode="search",max_length=0},label={after={0,0}},pattern="^"})\r','line'},
     },
 
     --window
@@ -365,6 +366,7 @@ require'which-key'.register({[' ']=format({
         f={':set guifont=*\r','select-font'},
         i={':IBLToggle\r','disable highlight indent level'},
         n={':lua require"notify".dismiss({pending=true,silent=true})\r','dismiss notify'},
+        m={':ToggleMatchAll\r','toggle matchall'},
     },
 })})
 -- vim:fen:

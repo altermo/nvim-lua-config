@@ -41,10 +41,10 @@ for lsp,opt  in pairs{
     clangd={},
     rust_analyzer={},
     fennel_language_server={},
-    --grammarly={}, -- https://github.com/znck/grammarly/issues/380
+    --grammarly={},
     zls={},
     taplo={},
-    csharp_ls={}
+    csharp_ls={},
 } do
     lspconfig[lsp].setup(opt)
 end

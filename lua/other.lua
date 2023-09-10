@@ -59,6 +59,10 @@ function vim.lg(...)
     vim.inspect(#{...}>1 and {...} or ...),'\n'
   ),'/tmp/nlog','a')
 end
+function vim.req(pckg)
+  package.loaded[pckg]=nil
+  return require(pckg)
+end
 
 require'small_plugins'.setup({
   'own',

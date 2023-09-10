@@ -25,7 +25,7 @@ local configs={upair.extend_default{
     },
     extensions={
         fly={nofilter=true},
-        cond={cond=function(fn) return not fn.in_node({'comment'}) and not fn.in_macro() end},
+        cond={cond=function(fn) return not fn.in_macro() end},
     },
     config_internal_pairs={
         {'"','"',fly=true,bs_overjumps=true,multiline=true},
@@ -33,6 +33,7 @@ local configs={upair.extend_default{
         {'{','}',suround=true},
     },
     {'\\(','\\)'},
+    {'<<','>>'},
     {'>','</',disable_start=true,disable_end=true,backspace=false,ft={'html'}},
 },
     {profile=require'ultimate-autopair.experimental.terminal'.init},

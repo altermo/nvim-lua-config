@@ -2,7 +2,7 @@ if exists(':GuiTabline') && exists(':GuiPopupmenu')
   GuiTabline 0
   GuiPopupmenu 0
   GuiWindowOpacity 0.9
-  GuiRenderLigatures 1
+  GuiRenderLigatures 0
   GuiLine
   GuiLinespace -2
   nnoremap <silent><F11> <cmd>call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
