@@ -48,7 +48,7 @@ local function ll(load) vim.api.nvim_create_autocmd('User s1',{callback=load,onc
 local function get_setup(name,conf) return function () require(name).setup(conf or {}) end end
 local function get_config(name) return function () require('config.'..name) end end
 require('pckr').add{
-  {'altermo/ultimate-autopair.nvim',cond=function() end,branch='v0.6'},
+  {'altermo/ultimate-autopair.nvim',cond=function() end,branch='development'},
 
   ----colorschm
   'folke/tokyonight.nvim',
@@ -260,7 +260,7 @@ require('pckr').add{
   {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'FelipeLema/cmp-async-path',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'lukas-reineke/cmp-rg',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'jcdickinson/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'jcdickinson/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter','CmdlineEnter'}}, --TODO maybe swith to fork
 
   ----writing
   {'jbyuki/venn.nvim',cond=function()
