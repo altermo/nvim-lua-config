@@ -24,6 +24,7 @@ local function lcmd(cmds,header)
   return function (load)
     for _,v in ipairs(cmds) do
       vim.api.nvim_create_user_command((header or '')..v,function (args)
+        for _,n in ipairs(cmds) do vim.api.nvim_del_user_command(n) end
         load()
         vim.cmd(((header or '')..v)..' '..args.args)
       end,{nargs='*',bang=true}) end end end
@@ -228,7 +229,7 @@ require('pckr').add{
   {'neovim/nvim-lspconfig',config=get_config'lsp',requires={
     {'williamboman/mason.nvim',module='mason'},
     {'kosayoda/nvim-lightbulb',module='nvim-lightbulb'},
-    {'folke/neodev.nvim',opt=true}},cond=ll},
+    {'folke/neodev.nvim',cond=function () end}},cond=ll},
   {'glepnir/dashboard-nvim',config=get_config'dashboard',cond=function (load)
     lcmd{'Dashboard'}(load)
     vim.api.nvim_create_autocmd({'Vimenter'},{callback=function()
@@ -238,6 +239,7 @@ require('pckr').add{
   {'rafcamlet/nvim-luapad',cond=lcmd{'Luapad'},config=get_config'luapad'},
   {'m-demare/attempt.nvim',config=get_config'attempt',cond=lkey{n={'\\a'}}},
   {'rcarriga/nvim-notify',cond=function(load)
+    ---@source /usr/local/share/nvim/runtime/lua/vim/_editor.lua:580
     ---@diagnostic disable-next-line: duplicate-set-field
     vim.notify=function (...)
       load()
@@ -279,10 +281,8 @@ require('pckr').add{
       ['core.defaults']={},
       ['core.export']={},
       ['core.export.markdown']={},
-      ['core.concealer']={},
-      --['core.presenter']={},
-      --['core.completion']={},
-    }}),cond=lft{'norg'},run=':Neorg sync-parsers'},
+      ['core.completion']={config={engine='nvim-cmp'}},
+    }}),cond=lft{'norg'},run=':Neorg sync-parsers',requires={'hrsh7th/nvim-cmp'}},
   {'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
   {'turbio/bracey.vim',run='npm install --prefix server',cond=lft{'html','css','javascript'}},
 

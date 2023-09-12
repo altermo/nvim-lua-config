@@ -37,16 +37,16 @@ vim.api.nvim_create_autocmd('BufReadPre',{callback=function(args)
     vim.notify('file to big')
     vim.fn.termopen('nvim -n -u NONE -- '..args.file)
 end})
-vim.api.nvim_create_autocmd({'InsertLeave','TextChanged'},{callback=function ()
-    if _AUTO_SAVE_TIMER then vim.fn.timer_stop(_AUTO_SAVE_TIMER) end
-    _AUTO_SAVE_TIMER=vim.fn.timer_start(100,function()
-        if not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
-        _AUTO_SAVE_TIMER=nil
-        local s=vim.api.nvim_buf_get_mark(0,'[')
-        local e=vim.api.nvim_buf_get_mark(0,']')
-        vim.cmd('silent! update ++p')
-        if vim.o.cmdheight>0 then vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.o.columns-12).."'") end
-        pcall(vim.api.nvim_buf_set_mark,0,'[',s[1],s[2],{})
-        pcall(vim.api.nvim_buf_set_mark,0,']',e[1],e[2],{})
-    end) end})
+vim.api.nvim_create_autocmd({'InsertLeave','TextChanged'},{callback=function (ev)
+    if not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
+    local s=vim.api.nvim_buf_get_mark(0,'[')
+    local e=vim.api.nvim_buf_get_mark(0,']')
+    vim.cmd('silent! update ++p')
+    if vim.o.cmdheight>0 then vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.o.columns-12).."'") end
+    pcall(vim.api.nvim_buf_set_mark,0,'[',s[1],s[2],{})
+    pcall(vim.api.nvim_buf_set_mark,0,']',e[1],e[2],{})
+    if vim.loop.fs_stat(ev.file).size>1024*100 then return end
+    ---@diagnostic disable-next-line: param-type-mismatch
+    vim.cmd('silent! write! ++p /tmp/nvim-save/'..vim.fn.expand('%:p'):gsub('%/','\\%%'))
+end})
 vim.cmd"autocmd LspProgress * =vim.lsp.status()"

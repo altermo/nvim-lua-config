@@ -1,3 +1,7 @@
+---@diagnostic disable-next-line: undefined-field
+if _G.NVWM then
+    vim.opt.runtimepath:append('/home/user/.config/nvim/.other/_later/nvwm')
+end
 vim.loader.enable()
 
 require'utils.empty'

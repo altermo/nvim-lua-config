@@ -10,6 +10,7 @@ local menu={
     obsidian='OBS',
     cmdline_history='CLH',
     cmdline='CL',
+    neorg='NORG',
 }
 local function format(entry,item)
     item.dup=0
@@ -33,6 +34,7 @@ cmp.setup({
     formatting={format=format},
     snippet={expand=snippet},
     sources=cmp.config.sources({
+        {name='neorg'},
         {name='buffer'},
         {name='nvim_lsp'},
         {name='codeium'},
