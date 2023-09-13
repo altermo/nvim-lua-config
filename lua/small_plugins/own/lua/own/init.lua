@@ -1,3 +1,4 @@
+---@alias own.themes 'day'|'midnight'|'evening'|'transparent'|nil
 ---@class own.color table
 ---@field pallet own.pallet
 ---@field [string] any
@@ -20,11 +21,13 @@
 ---@field green string
 
 local M={}
----@param theme 'day'|'midnight'|'evening'|nil
+---@param theme own.themes
 function M.setup(theme)
     if not theme then
         if vim.fn.filereadable('/tmp/night')==1 then
             theme='midnight'
+        elseif vim.env.TRANSPARENT then
+            theme='transparent'
         else
             if vim.o.background=='light' then
                 theme='day'
@@ -35,7 +38,7 @@ function M.setup(theme)
     end
     M.load(theme)
 end
----@param theme 'day'|'midnight'|'evening'
+---@param theme own.themes
 function M.load(theme)
     M.set_highlights(require('own.theme.'..theme))
 end

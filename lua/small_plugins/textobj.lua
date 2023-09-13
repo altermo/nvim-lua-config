@@ -8,7 +8,7 @@ function M.wordcolumn()
     local _end=beg
     local col1,col2=unpack(pos)
     local word=getword(col1,col2,".")
-    while beg>1 and getword(col1,col2,beg)==word do beg=beg-1 end
+    while beg>=1 and getword(col1,col2,beg)==word do beg=beg-1 end
     while _end<vim.fn.line("$") and getword(col1,col2,_end+1)==word do _end=_end+1 end
     return '<esc>'..(beg+1)..'gg'..(col1+1)..'|<C-v>o'.._end..'gg'..(col2+1)..'|'
 end
@@ -20,7 +20,7 @@ function M.wordrow()
     local line,pos=next(reg)
     local col1,col2=unpack(pos)
     local char=getchar(col1,line)
-    while col1>1 and getchar(col1-1,line)==char do col1=col1-1 end
+    while col1>=1 and getchar(col1-1,line)==char do col1=col1-1 end
     while col2<#vim.fn.getline(line+1) and getchar(col2,line)==char do col2=col2+1 end
     return '<esc>'..(col1+1)..'|<C-v>o'..col2..'|'
 end
