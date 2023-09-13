@@ -1,13 +1,6 @@
 require'mason'.setup{}
 local lspconfig=require'lspconfig'
 local mason_reg=require'mason-registry'
---local lightbulb=require'nvim-lightbulb'
---lightbulb.setup({
-    --autocmd={enabled=true},
-    --virtual_text={enabled=true},
-    --sign={enabled=false},
-    --ignore={clients={'lua_ls'}},
---})
 for _,server in ipairs({
     'fennel-language-server',
     'yaml-language-server',

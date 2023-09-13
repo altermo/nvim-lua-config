@@ -24,7 +24,7 @@ local function lcmd(cmds,header)
   return function (load)
     for _,v in ipairs(cmds) do
       vim.api.nvim_create_user_command((header or '')..v,function (args)
-        for _,n in ipairs(cmds) do vim.api.nvim_del_user_command(n) end
+        for _,n in ipairs(cmds) do pcall(vim.api.nvim_del_user_command,n) end
         load()
         vim.cmd(((header or '')..v)..' '..args.args)
       end,{nargs='*',bang=true}) end end end
@@ -178,6 +178,7 @@ require('pckr').add{
     'nvim-telescope/telescope-live-grep-args.nvim',
     'nvim-telescope/telescope-media-files.nvim',
     {'nvim-telescope/telescope-ui-select.nvim',cond=function (load)
+      ---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:39
       ---@diagnostic disable-next-line: duplicate-set-field
       function vim.ui.select(...)
         load()
@@ -228,7 +229,6 @@ require('pckr').add{
     config=get_setup('diffview',{use_icons=false})},
   {'neovim/nvim-lspconfig',config=get_config'lsp',requires={
     {'williamboman/mason.nvim',module='mason'},
-    {'kosayoda/nvim-lightbulb',module='nvim-lightbulb'},
     {'folke/neodev.nvim',cond=function () end}},cond=ll},
   {'glepnir/dashboard-nvim',config=get_config'dashboard',cond=function (load)
     lcmd{'Dashboard'}(load)

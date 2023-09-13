@@ -1,3 +1,6 @@
+---@class own.color table
+---@field pallet own.pallet
+---@field [string] any
 ---@class own.pallet
 ---@field mainbg string
 ---@field mainfg string
@@ -34,10 +37,11 @@ function M.setup(theme)
 end
 ---@param theme 'day'|'midnight'|'evening'
 function M.load(theme)
-    M.set_highlights(require('own.theme.'..theme).pallet)
+    M.set_highlights(require('own.theme.'..theme))
 end
----@param p own.pallet
-function M.set_highlights(p)
+---@param color own.color
+function M.set_highlights(color)
+    local p=color.pallet
     vim.cmd'highlight clear'
     local function set_hl(name,val)
         vim.api.nvim_set_hl(0,name,val)
@@ -49,12 +53,12 @@ function M.set_highlights(p)
     local selectfg=p.important
     local u='#ff0000'
     local m=p.mainbg
-    local invred='#'..(tonumber(m:sub(2,2))+2)..m:sub(3)
-    local invgreen='#'..m:sub(2,3)..(tonumber(m:sub(4,4))+2)..m:sub(5)
-    local invyellow='#'..(tonumber(m:sub(2,2))+2)..m:sub(3,3)..(tonumber(m:sub(4,4))+2)..m:sub(5)
+    local invred=m~='' and '#'..(tonumber(m:sub(2,2))+2)..m:sub(3) or '#400000'
+    local invgreen=m~='' and '#'..m:sub(2,3)..(tonumber(m:sub(4,4))+2)..m:sub(5) or '#004000'
+    local invyellow=m~='' and '#'..(tonumber(m:sub(2,2))+2)..m:sub(3,3)..(tonumber(m:sub(4,4))+2)..m:sub(5) or '#000040'
     ---NORMAL
     set_hl('Normal',{bg=p.mainbg,fg=p.mainfg})
-    set_hl('NormalFloat',{bg=p.secondbg,fg=p.mainfg})
+    set_hl('NormalFloat',{bg=p.secondbg~='' and p.secondbg or p.select2bg,fg=p.mainfg})
     set_hl('EndOfBuffer',{})
     ---VISUAL
     set_hl('Visual',{bg=p.visual})
@@ -65,7 +69,7 @@ function M.set_highlights(p)
     set_hl('CursorLine',{bg=p.secondbg})
     set_hl('CursorColumn',{bg=linebg})
     ---FOLD/COLUMNS
-    set_hl('Folded',{bg=linebg,fg="fg"})
+    set_hl('Folded',{bg=linebg,fg=p.mainfg})
     set_hl('FoldColumn',{bg=linebg,fg=p.purple})
     set_hl('SignColumn',{bg=linebg})
     set_hl('ColorColumn',{bg=linebg})
@@ -74,7 +78,7 @@ function M.set_highlights(p)
     set_hl('TermCursorNC',{link='TermCursor'})
     ---MENU|SPLIT
     set_hl('WildMenu',{bg=u})
-    set_hl('WinSeparator',{bg='bg'})
+    set_hl('WinSeparator',{bg=p.mainbg})
     ---TAB
     set_hl('TabLine',{bg=p.secondbg,fg=secondfg})
     set_hl('TabLineSel',{bg=p.selectbg,fg=selectfg,bold=true})
@@ -83,9 +87,9 @@ function M.set_highlights(p)
     set_hl('StatusLine',{bg=p.secondbg,fg=p.mainfg})
     set_hl('StatusLineNC',{bg=p.secondbg,fg=secondfg})
     ---PMENU
-    set_hl('Pmenu',{bg=p.secondbg,fg=p.mainfg})
+    set_hl('Pmenu',{bg=p.secondbg~='' and p.secondbg or p.select2bg,fg=p.mainfg})
     set_hl('PmenuSel',{bg=p.selectbg,fg=selectfg,bold=true})
-    set_hl('PmenuSbar',{bg=p.secondbg,fg=p.mainfg})
+    set_hl('PmenuSbar',{bg=p.secondbg~='' and p.secondbg or p.select2bg,fg=p.mainfg})
     set_hl('PmenuThumb',{bg=p.selectbg})
     ---SEARCH
     set_hl('Search',{bg=p.selectbg})
@@ -181,7 +185,7 @@ function M.set_highlights(p)
     set_hl('Noise',{bg=u})
     ---DIFF
     set_hl('DiffAdd',{bg=invgreen})
-    set_hl('DiffChange',{bg='bg'})
+    set_hl('DiffChange',{bg=p.mainbg})
     set_hl('DiffDelete',{bg=invred})
     set_hl('DiffText',{bg=invyellow})
     ---LSP

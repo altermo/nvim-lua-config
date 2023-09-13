@@ -200,6 +200,7 @@ require'which-key'.register({[' ']=format({
     s={name='+search',
         a={':Telescope\r','telescope'},
         q={':Telescope colorscheme enable_preview=true\r','preview-colorscheme'},
+        F={require'small_plugins.foldselect'.goto_fold,'fold'},
         _=(function ()
             local tbl={}
             for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',

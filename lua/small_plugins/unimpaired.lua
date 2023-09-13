@@ -42,7 +42,7 @@ function M.set_opt()
         v={opt='virtualedit',on='block,onemore'},M={opt='mouse',on='a'},
         f='foldenable',e='scrollbind',m={opt='conceallevel',on=2,off=0},
         T={opt='showtabline',on=1,off=0},L={opt='laststatus',on=2,off=0},
-        C={opt='cmdheight',on=1,off=0},
+        C={opt='cmdheight',on=1,off=0},B={opt='showbreak',on='↳'},
     }
     local buf=vim.api.nvim_create_buf(false,true)
     vim.api.nvim_buf_set_option(buf,'bufhidden','wipe')
