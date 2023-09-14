@@ -1,9 +1,9 @@
 local attempt=require'attempt'
 local nno=require'utils.keymap'.nno
 local cont={}
-for file in vim.fs.dir(vim.fn.stdpath'config'..'/lua/config/attempt/content') do
+for file in vim.fs.dir(vim.fn.stdpath'config'..'/lua/config/attempt-content') do
     local ft=vim.fn.fnamemodify(file,':r') --[[@as string]]
-    cont[vim.fs.basename(ft)]=require('config.attempt.content.'..vim.fs.basename(ft))
+    cont[vim.fs.basename(ft)]=require('config.attempt-content.'..vim.fs.basename(ft))
 end
 attempt.setup{
     ext_options={'lua','js','py','fish','cpp','c','norg','zig','rs','go','java','ts','cs','css','scss'},
