@@ -23,6 +23,15 @@ vim.ui.open=function(path)
   vim.notify(('Opening %s with browser'):format(path))
   return open(path)
 end
+local deprecate=vim.deprecate
+---@source /usr/local/share/nvim/runtime/lua/vim/_editor.lua:994
+---@diagnostic disable-next-line: duplicate-set-field
+function vim.deprecate(name,...)
+  if os.time()<os.time({month=10,year=2023,day=1}) and
+    name=='LanguageTree:for_each_child()' then return end
+  deprecate(name,...)
+end
+
 
 vim.api.nvim_create_autocmd('FileType',{callback=function()
   if pcall(vim.treesitter.get_parser) then
