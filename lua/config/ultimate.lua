@@ -1,3 +1,4 @@
+vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/ua')
 local upair=require'ultimate-autopair'
 _G.UA_DEV=true
 local configs={upair.extend_default{
@@ -7,7 +8,7 @@ local configs={upair.extend_default{
         indent_ignore=true,
         single_delete=true,
     },
-    cr={autoclose=true},
+    cr={autoclose=true,map=''},
     fastwarp={
         multi=true,
         {},

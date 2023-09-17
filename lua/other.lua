@@ -72,27 +72,4 @@ function vim.req(pckg)
   package.loaded[pckg]=nil
   return require(pckg)
 end
-
-require'small_plugins'.setup({
-  'own',
-  'builder',
-  dff={},
-  'highlight_selected',
-  'labull',
-  'matchall',
-  'onelinecomment',
-  'ranger',
-  'reminder',
-  'tabline',
-  'textobj',
-  'unimpaired',
-  'whint',
-  'macro',
-  'nodeswap',
-  'trans',
-})
-
-vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},{callback=function()
-  vim.opt.runtimepath:append('/home/user/.config/nvim/.other/ua')
-  require'config.ultimate'
-end,once=true})
+require'config.small'

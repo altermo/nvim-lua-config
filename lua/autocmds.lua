@@ -6,7 +6,7 @@ autocmd('CmdlineEnter',{pattern='/,\\?',command='set hlsearch'})
 autocmd('TermOpen',{command='set ft=term'})
 autocmd('FileType',{pattern='qf',command='nno <buffer><CR> <CR>'})
 autocmd('FileType',{callback=function()
-    if vim.o.filetype=='toml' then
+    if vim.o.filetype=='toml' or vim.o.filetype=='markdown' then
         vim.wo.foldexpr='v:lua.vim.treesitter.foldexpr()'
     else
         vim.wo.foldexpr='getline(v:lnum)==""?0:1'

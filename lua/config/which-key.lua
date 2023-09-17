@@ -37,10 +37,9 @@ require'which-key'.setup{plugins={presets={operators=false}}}
 require'which-key'.register({[' ']=format({
 
     ----other
-    [' ']={require'small_plugins.bookend'.run,'bookend'},
-    b={require'small_plugins.bookend'.run,'bookend'},
+    b={require'small.bufend'.run,'bufend'},
     L={':Luapad\r','luapad'},
-    C={require'small_plugins.chat'.run,'chat'},
+    C={require'small.chat'.run,'chat'},
     ['.']={'@:','run-prev-cmd'},
     ------file
     W={function ()
@@ -65,12 +64,12 @@ require'which-key'.register({[' ']=format({
     Z={'zM','close-all-folds'},
     ------buffer
     o={':only\r','only-window'},
-    v={require'small_plugins.splitbuf'.vsplit,'vertical'},
-    e={require'small_plugins.splitbuf'.split,'horizontal'},
+    v={require'small.splitbuf'.vsplit,'vertical'},
+    e={require'small.splitbuf'.split,'horizontal'},
     n={':enew\r','enew'},
     d={':BDelete! this\r','buffer-close'},
     ------move
-    r={':Ranger\r','ranger'},
+    r={require'small.ranger'.run,'ranger'},
     ['>']={function()
         if not saved_pos[1] then
             vim.notify"stack empty"
@@ -89,10 +88,10 @@ require'which-key'.register({[' ']=format({
 
     ----apps
     a={name='+apps',
-        d={':Dff\r','dff'},
+        d={require'small.dff'.file_expl,'dff'},
         e={':silent !emacsclient %&\r','send-emacs'},
         f={':Shell\r','shell'},
-        r={':Ranger\r','ranger'},
+        r={require'small.ranger'.run,'ranger'},
         w={':call execute("terminal curl \'wttr.in/?nQF\' -s")|startinsert\r','weather'},
         i={':edit .\r','edir'},
         t={':Telescope file_browser file_browser hidden=true\r','telescope file_browser'},
@@ -200,7 +199,8 @@ require'which-key'.register({[' ']=format({
     s={name='+search',
         a={':Telescope\r','telescope'},
         q={':Telescope colorscheme enable_preview=true\r','preview-colorscheme'},
-        F={require'small_plugins.foldselect'.goto_fold,'fold'},
+        F={require'small.foldselect'.run,'fold'},
+        P={require'small.plugin_search'.run,'search-plugins'},
         _=(function ()
             local tbl={}
             for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
@@ -247,17 +247,17 @@ require'which-key'.register({[' ']=format({
     y={name='+text',
         T={':Pantran\r','translate-window'},
         S={function ()
-            local t=require'small_plugins.trans'
+            local t=require'small.trans'
             t.from,t.to=t.to,t.from
             vim.notify(('%s to %s'):format(t.from,t.to))
         end,'translate-swap'},
         f={name='+translate-from',
-            f={':lua require"small_plugins.trans".from=""<Left>','other',silent=false},
-            _=cmap(spell,':lua require"small_plugins.trans".from="%s"\r','lang=%s',{silent=false})
+            f={':lua require"small.trans".from=""<Left>','other',silent=false},
+            _=cmap(spell,':lua require"small.trans".from="%s"\r','lang=%s',{silent=false})
         },
         t={name='+translate-to',
-            t={':lua require"small_plugins.trans".to=""<Left>','other',silent=false},
-            _=cmap(spell,':lua require"small_plugins.trans".to="%s"\r','lang=%s',{silent=false})
+            t={':lua require"small.trans".to=""<Left>','other',silent=false},
+            _=cmap(spell,':lua require"small.trans".to="%s"\r','lang=%s',{silent=false})
         },
         s={name='+spell',
             _=cmap(spell,':set spelllang=%s\r','lang=%s',{silent=false})
@@ -290,7 +290,7 @@ require'which-key'.register({[' ']=format({
         end,'centermouse'},
         z={name='+zen',
             t={':Twilight\r','twilight'},
-            z={require'small_plugins.zen'.run,'zen'},
+            z={require'small.zen'.run,'zen'},
             m={':lua require "mini.misc".zoom(0,{})\r','max-mode'},
         },
     },
@@ -331,6 +331,7 @@ require'which-key'.register({[' ']=format({
         v={':vsplit\r','vsplit'},
         e={':split\r','split'},
         c={':close\r','close'},
+        ['\t']={':wincmd w\r','next'},
         _=(function ()
             local ret=fmap(9,':%swincmd w\r','window %s')
             for k,v in pairs{

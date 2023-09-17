@@ -36,7 +36,7 @@ cmp.setup({
         {name='neorg'},
         {name='buffer'},
         {name='nvim_lsp'},
-        --{name='codeium',entry_filter=function () return not _G.CMD_NO_SPAM end},
+        {name='codeium',entry_filter=function () return not _G.CMD_NO_SPAM end},
         {name='spell',entry_filter=function () return not _G.CMD_NO_SPAM end},
         {name='async_path'},
         {name='calc'},
