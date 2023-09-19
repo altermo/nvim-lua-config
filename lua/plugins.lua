@@ -263,7 +263,7 @@ require('pckr').add{
   {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'FelipeLema/cmp-async-path',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'lukas-reineke/cmp-rg',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'jcdickinson/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'exafunction/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter','CmdlineEnter'}},
 
   ----writing
   {'jbyuki/venn.nvim',cond=function()
