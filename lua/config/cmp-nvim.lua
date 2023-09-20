@@ -1,8 +1,8 @@
+---@diagnostic disable: undefined-field
 local cmp=require'cmp'
 local menu={
     nvim_lsp='LSP',
     calc='CALC',
-    spell='SP',
     async_path='PATH',
     rg='RG',
     buffer='BUF',
@@ -37,7 +37,6 @@ cmp.setup({
         {name='buffer'},
         {name='nvim_lsp'},
         {name='codeium',entry_filter=function () return not _G.CMD_NO_SPAM end},
-        {name='spell',entry_filter=function () return not _G.CMD_NO_SPAM end},
         {name='async_path'},
         {name='calc'},
         {name='rg',option={additional_arguments='--max-depth 4'},max_item_count=20,entry_filter=function () return not _G.CMD_NO_SPAM end},

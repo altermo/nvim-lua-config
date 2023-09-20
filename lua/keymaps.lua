@@ -23,6 +23,8 @@ xno('R',':Norm ',{})
 
 ----nno
 nno('-','_')
+nno('j','gj')
+nno('k','gk')
 nno('+','$')
 nno('_','"_')
 nno('cw','dwi')
@@ -190,6 +192,8 @@ ino('<C-a>','<Home>')
 ino('<C-g>','<esc>')
 
 ----xno
+xno('j','gj')
+xno('k','gk')
 xno('-','_')
 xno('+','$')
 xno('gr','y:%s/<C-r>"/<C-r>"/g<Left><Left>',{noremap=true})

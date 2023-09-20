@@ -67,7 +67,7 @@ require'which-key'.register({[' ']=format({
     v={require'small.splitbuf'.vsplit,'vertical'},
     e={require'small.splitbuf'.split,'horizontal'},
     n={':enew\r','enew'},
-    d={':BDelete! this\r','buffer-close'},
+    d={':lua require"mini.bufremove".delete()\r','buffer-close'},
     ------move
     r={require'small.ranger'.run,'ranger'},
     ['>']={function()
@@ -132,7 +132,6 @@ require'which-key'.register({[' ']=format({
 
     ----cother
     c={name='+otherc',
-        B={':BDelete! hidden\r','+buffers-delete-hidden'},
         D={function ()
             local tomorrow=os.time()+24*60*60
             return '/'..os.date('@%Y-%m-%d')..'\rlc5e'..os.date('%Y-%m-%d',tomorrow)..''
@@ -191,7 +190,7 @@ require'which-key'.register({[' ']=format({
         f={':Telescope find_files\r','find'},
         t={name='+set-type',
             o={':setf ','other',silent=false},
-            _=cmap({p='python',t='txt',v='vim',s='fish',f='fennel',r='rust',l='lua',m='markdown',c='cpp',h='html',n="norg"},':set filetype=%s\r','%s')
+            _=cmap({p='python',t='txt',v='vim',s='fish',f='fennel',r='rust',l='lua',m='markdown',c='c',h='html',n="norg"},':set filetype=%s\r','%s')
         },
     },
 
@@ -229,7 +228,6 @@ require'which-key'.register({[' ']=format({
             p={':Pyro/gr\r','pyro'},
             r={':Spectre\r','spectre'},
             w={':%s/\\<<C-r>=expand("<cword>")\r\\>//<Left>','word',silent=false},
-            m={':MurenToggle\r','mutli'},
         }
     },
 
@@ -346,6 +344,14 @@ require'which-key'.register({[' ']=format({
             end
             return ret
         end)(),
+        s={function()
+            vim.notify('work in progress')
+        end,'swap'},
+        [' ']={function()
+            local win=require('window-picker').pick_window()
+            if not win then return end
+            vim.api.nvim_set_current_win(win)
+        end,'hop'},
     },
 
     ----theme

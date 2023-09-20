@@ -69,18 +69,13 @@ require('pckr').add{
     vim.g.Hexokinase_highlighters={'backgroundfull'}
     ll(load) end},
   {'anuvyklack/pretty-fold.nvim',cond=ll,config=get_setup'pretty-fold'},
-  {'lukas-reineke/indent-blankline.nvim',cond=ll,branch='v3',config=get_setup('ibl',{exclude={filetypes={'dashboard'}}})},
+  {'lukas-reineke/indent-blankline.nvim',cond=ll,branch='v3',config=get_setup('ibl',{exclude={filetypes={'dashboard'}},scope={enabled=false}})},
   {'chentoast/marks.nvim',config=get_setup'marks',cond=lkey{n={'m','dm'}}},
   {'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}})},
   {'nvim-lualine/lualine.nvim',config=get_setup'lualine',cond=ll},
   {'folke/which-key.nvim',config=get_config'which-key'},
 
   ----keys
-  {'ecthelionvi/neoswap.nvim',config=function()
-    require('NeoSwap').setup{}
-    vim.keymap.set('n','>w','<cmd>NeoSwapNext<cr>')
-    vim.keymap.set('n','<w','<cmd>NeoSwapPrev<cr>')
-  end,ccond=lkey{n={'>w','<w'}}},
   {'Exafunction/codeium.vim',cond=function(load) -- https://github.com/Exafunction/codeium.vim/issues/118
     vim.g.codeium_disable_bindings=false
     vim.g.codeium_manual=true
@@ -114,20 +109,20 @@ require('pckr').add{
     vim.keymap.set('n','<C-x>',dialmap.dec_normal())
     vim.keymap.set('x','<C-a>',dialmap.inc_visual())
     vim.keymap.set('x','<C-x>',dialmap.dec_visual())
-  end,cond=lkey{n={'<C-a>','<C-x>'},x={'<C-a>','<C-x>'}}},
-
-  ----movement
+  end,cond=lkey{n={'<C-a>','<Cx>'},x={'<C-a>','<C-x>'}}},
   {'mg979/vim-visual-multi',config=function() vim.g,VM_maps={} end,cond=lkey{n={'<C-n>','\\\\'},x={'<C-n>'}}},
-  {'xiyaowong/accelerated-jk.nvim',config=function ()
-    require('accelerated-jk').setup{}
-    vim.keymap.set('x','j','<cmd>lua require"accelerated-jk".command("gj")\r')
-    vim.keymap.set('x','k','<cmd>lua require"accelerated-jk".command("gk")\r')
-  end,cond=lkey{n={'j','k'},x={'j','k'}}},
   {'folke/flash.nvim',config=get_config'flash'},
 
   ----command
-  {'tobinpalmer/rayso.nvim',config=get_setup'rayso',cond=lcmd{'Rayso'}},
-  {'kazhala/close-buffers.nvim',cond=lcmd{'BDelete','BWipeout'}},
+  {'sindrets/winshift.nvim',config=function ()
+    require'winshift'.setup{}
+    for k,v in pairs({h='left',j='down',k='up',l='right'}) do
+      vim.keymap.set('n','<C-S-'..k..'>',':WinShift '..v..'\r')
+    end end,cond=function (load)
+      lkey{n={'<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>'}}(load)
+      lcmd{'WinShift'}(load)
+    end},
+  {'simnalamburt/vim-mundo',cond=lcmd{'MundoToggle'}},
   {'ckolkey/ts-node-action',config=function ()
     local tsaction=require('ts-node-action')
     tsaction.setup{}
@@ -142,8 +137,6 @@ require('pckr').add{
       vim.cmd.lcd(ev.file:sub(7))
     end})
   end},
-  {'acksld/muren.nvim',config=get_setup'muren',cond=lcmd({'Toggle','Open','Close','Fresh','Unique'},'Moren')},
-  {'cshuaimin/ssr.nvim',config=get_setup'ssr',requires={'nvim-treesitter/nvim-treesitter'}},
   {'smjonas/inc-rename.nvim',config=function()
     require'inc_rename'.setup{}
     vim.keymap.set('n','gr',':IncRename <C-r>=expand("<cword>")\r',{noremap=true})
@@ -151,22 +144,13 @@ require('pckr').add{
       lcmd{'IncRename'}(load)
       lkey{n={'gr'}}(load)
     end},
-  {'nvim-colortils/colortils.nvim',cond=lcmd{'Colortils'},config=get_setup'colortils'},
-  {'godlygeek/tabular',cond=lcmd{'Tabularize'}},
   --use{'jbyuki/instant.nvim',config=function () vim.g.instant_username='User' end},
+
+  ----search
+  {'cshuaimin/ssr.nvim',config=get_setup'ssr',requires={'nvim-treesitter/nvim-treesitter'}},
   {'rraks/pyro',config=get_rplugin(),cond=function (load)
     vim.g.pyro_macro_path='/home/user/.macro'
     lcmd{'Pyro'}(load) end},
-
-  ----sidepannel
-  {'simnalamburt/vim-mundo',cond=lcmd{'MundoToggle'}},
-  {'gorbit99/codewindow.nvim',config=function()
-    local codewindow=require'codewindow'
-    codewindow.setup()
-    vim.api.nvim_create_user_command('CodeWindow',codewindow.toggle_minimap,{})
-  end,cond=lcmd{'CodeWindow'}},
-
-  ----search
   {'nvim-pack/nvim-spectre',config=function ()
     vim.api.nvim_create_user_command('Spectre',require'spectre'.open,{})
   end,requires={'nvim-lua/plenary.nvim'},cond=lcmd{'Spectre'}},
@@ -196,24 +180,6 @@ require('pckr').add{
       telescope.setup{}
     end,cond=lcmd{'Telescope'}},
 
-  ----window
-  {'sindrets/winshift.nvim',config=function ()
-    require'winshift'.setup{}
-    for k,v in pairs({h='left',j='down',k='up',l='right'}) do
-      vim.keymap.set('n','<C-S-'..k..'>',':WinShift '..v..'\r')
-    end end,cond=function (load)
-      lkey{n={'<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>'}}(load)
-      lcmd{'WinShift'}(load)
-    end},
-  {'wesQ3/vim-windowswap',cond=lkey{n={'\\ww'}}},
-  {'t9md/vim-choosewin',config=function ()
-    vim.g.choosewin_overlay_enable=1
-    vim.keymap.set('n','<C-w> ',':ChooseWin\r')
-  end,cond=function(load)
-      lkey{n={'<C-w><space>'}}(load)
-      lcmd{'ChooseWin'}(load)
-    end},
-
   ----treesitter
   {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter'},
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',cond=ll,config=function()
@@ -226,6 +192,7 @@ require('pckr').add{
     cond=lkey{n={'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF','gX'},x={'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','gX'}},requires={'nvim-treesitter/nvim-treesitter'}},
 
   ----other
+  {'s1n7ax/nvim-window-picker'},
   {'sindrets/diffview.nvim',cond=lcmd({'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'},'Diffview'),
     config=get_setup('diffview',{use_icons=false})},
   {'neovim/nvim-lspconfig',config=get_config'lsp',requires={
@@ -256,7 +223,6 @@ require('pckr').add{
   {'hrsh7th/nvim-cmp',config=get_config'cmp-nvim',cond=levent{'InsertEnter','CmdlineEnter'}},
   {'hrsh7th/cmp-cmdline',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'dmitmel/cmp-cmdline-history',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'f3fora/cmp-spell',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'hrsh7th/cmp-calc',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'hrsh7th/cmp-buffer',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'hrsh7th/cmp-nvim-lsp',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
