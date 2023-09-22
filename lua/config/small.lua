@@ -33,7 +33,7 @@ function set.onelinecomment(m)
     vim.keymap.set('n','gc',m.run)
 end
 function set.reminder(m)
-    m.path='/home/user/.gtd/vault/gtd/Plans.md'
+    m.conf.path='/home/user/.gtd/vault/gtd/Plans.md'
     m.setup()
 end
 function set.textobj(m)
@@ -51,7 +51,7 @@ function set.unimpaired(m)
     vim.keymap.set('n','yo',m.set_opt)
 end
 function set.whint(m)
-    vim.keymap.set('i',':',m.run_wrapp(':'),{expr=true})
+    vim.keymap.set('i',':',m.run,{expr=true})
 end
 for k,v in pairs(set) do
     v(require('small.'..k))

@@ -50,7 +50,7 @@ local function get_setup(name,conf) return function () require(name).setup(conf 
 local function get_config(name) return function () require('config.'..name) end end
 require('pckr').add{
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
-  --{'altermo/small.nvim',config=get_config'small'},
+  {'altermo/small.nvim',cond=function() end},
 
   ----colorschm
   'folke/tokyonight.nvim',
@@ -148,9 +148,6 @@ require('pckr').add{
 
   ----search
   {'cshuaimin/ssr.nvim',config=get_setup'ssr',requires={'nvim-treesitter/nvim-treesitter'}},
-  {'rraks/pyro',config=get_rplugin(),cond=function (load)
-    vim.g.pyro_macro_path='/home/user/.macro'
-    lcmd{'Pyro'}(load) end},
   {'nvim-pack/nvim-spectre',config=function ()
     vim.api.nvim_create_user_command('Spectre',require'spectre'.open,{})
   end,requires={'nvim-lua/plenary.nvim'},cond=lcmd{'Spectre'}},

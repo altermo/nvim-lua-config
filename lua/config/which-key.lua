@@ -225,7 +225,7 @@ require'which-key'.register({[' ']=format({
         r={name='+replace',
             s={function() require("ssr").open() end,'structural'},
             l={':IncRename <C-r>=expand("<cword>")\r','lsp',silent=false},
-            p={':Pyro/gr\r','pyro'},
+            p={require'small.lbpr'.run,'lbpr'},
             r={':Spectre\r','spectre'},
             w={':%s/\\<<C-r>=expand("<cword>")\r\\>//<Left>','word',silent=false},
         }
@@ -246,16 +246,16 @@ require'which-key'.register({[' ']=format({
         T={':Pantran\r','translate-window'},
         S={function ()
             local t=require'small.trans'
-            t.from,t.to=t.to,t.from
-            vim.notify(('%s to %s'):format(t.from,t.to))
+            t.conf.from,t.conf.to=t.conf.to,t.conf.from
+            vim.notify(('%s to %s'):format(t.conf.from,t.conf.to))
         end,'translate-swap'},
         f={name='+translate-from',
-            f={':lua require"small.trans".from=""<Left>','other',silent=false},
-            _=cmap(spell,':lua require"small.trans".from="%s"\r','lang=%s',{silent=false})
+            f={':lua require"small.trans".conf.from=""<Left>','other',silent=false},
+            _=cmap(spell,':lua require"small.conf.trans".from="%s"\r','lang=%s',{silent=false})
         },
         t={name='+translate-to',
-            t={':lua require"small.trans".to=""<Left>','other',silent=false},
-            _=cmap(spell,':lua require"small.trans".to="%s"\r','lang=%s',{silent=false})
+            t={':lua require"small.trans".conf.to=""<Left>','other',silent=false},
+            _=cmap(spell,':lua require"small.trans".conf.to="%s"\r','lang=%s',{silent=false})
         },
         s={name='+spell',
             _=cmap(spell,':set spelllang=%s\r','lang=%s',{silent=false})

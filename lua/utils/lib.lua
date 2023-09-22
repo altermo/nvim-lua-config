@@ -1,3 +1,4 @@
+--TODO: maybe move to small.nvim
 local M={}
 function M.timeout_input(timeout,update)
     timeout=timeout or 500
