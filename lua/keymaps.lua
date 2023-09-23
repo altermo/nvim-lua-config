@@ -147,7 +147,7 @@ ino('ø','ö')
 ino('æ','ä')
 ino('Ø','Ö')
 ino('Æ','Ä')
-ino('<C-w>','<C-o><C-w>')
+--ino('<C-w>','<C-o><C-w>')
 for i in ('hjklwb'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
   ino('<A-S-'..i..'>','<C-o>5'..i)

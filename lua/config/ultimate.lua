@@ -8,7 +8,7 @@ local configs={upair.extend_default{
         indent_ignore=true,
         single_delete=true,
     },
-    cr={autoclose=true,map=''},
+    cr={autoclose=true},
     fastwarp={
         multi=true,
         {},
@@ -34,7 +34,7 @@ local configs={upair.extend_default{
         {'{','}',suround=true},
     },
     {'\\(','\\)'},
-    {'<<','>>'},
+    {'<<','>>',newline=true},
     {'>','</',disable_start=true,disable_end=true,backspace=false,ft={'html'}},
 },
     {profile=require'ultimate-autopair.experimental.terminal'.init},

@@ -12,6 +12,7 @@ for _,server in ipairs({
     'rust-analyzer',
     'taplo',
     'csharp-language-server',
+    'typescript-language-server',
 }) do
     local pkg=mason_reg.get_package(server)
     if not pkg:is_installed() then pkg:install() end
@@ -38,7 +39,7 @@ for lsp,opt  in pairs{
     zls={},
     taplo={},
     csharp_ls={},
-    --mojo={}, --TODO
+    tsserver={},
 } do
     lspconfig[lsp].setup(opt)
 end

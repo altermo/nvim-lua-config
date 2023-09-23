@@ -25,7 +25,7 @@ local function snippet(args)
     local f=replace[1]
     replace[1]=line_text:sub(0,col):gsub('^%s*','')..replace[1]
     replace[#replace]=replace[#replace]..line_text:sub(col+1)
-    for i,line in ipairs(replace) do replace[i]=indent..line end
+    for i,line in ipairs(replace) do replace[i]=indent..line:gsub('\t',(' '):rep(vim.o.shiftwidth)) end
     vim.api.nvim_buf_set_lines(0,line_num-1,line_num,true,replace)
     vim.api.nvim_win_set_cursor(0,{line_num,pos and pos+col-1 or col+#f})
 end
