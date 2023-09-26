@@ -61,12 +61,12 @@ require'which-key'.register({[' ']=format({
     X={':qa!\r','QUITALL!'},
     ------visual
     z={'zM100zo','close-all-folds-but-cursor'},
-    Z={'zM','close-all-folds'},
+    Z={':e\r','reload-folds'},
     ------buffer
     o={':only\r','only-window'},
     v={require'small.splitbuf'.vsplit,'vertical'},
     e={require'small.splitbuf'.split,'horizontal'},
-    n={':enew\r','enew'},
+    n={require'small.splitbuf'.open,'splitbuf'},
     d={':lua require"mini.bufremove".delete()\r','buffer-close'},
     ------move
     r={require'small.ranger'.run,'ranger'},
@@ -94,16 +94,7 @@ require'which-key'.register({[' ']=format({
         r={require'small.ranger'.run,'ranger'},
         w={':call execute("terminal curl \'wttr.in/?nQF\' -s")|startinsert\r','weather'},
         i={':edit .\r','edir'},
-        t={':Telescope file_browser file_browser hidden=true\r','telescope file_browser'},
         m={':MarkdownPreview\r','markdown-preview'},
-        N={function ()
-            local ino=require'utils.keymap'.ino
-            ino('<left>','<left>')
-            ino('<right>','<right>')
-            ino('<up>','<C-o>gk')
-            ino('<down>','<C-o>gj')
-            vim.o.mouse='a'
-        end,'set arrow keys'},
         h={':Bracey\r','html-preview'},
     },
 
@@ -132,6 +123,14 @@ require'which-key'.register({[' ']=format({
 
     ----cother
     c={name='+otherc',
+        N={function ()
+            local ino=require'utils.keymap'.ino
+            ino('<left>','<left>')
+            ino('<right>','<right>')
+            ino('<up>','<C-o>gk')
+            ino('<down>','<C-o>gj')
+            vim.o.mouse='a'
+        end,'set arrow keys'},
         D={function ()
             local tomorrow=os.time()+24*60*60
             return '/'..os.date('@%Y-%m-%d')..'\rlc5e'..os.date('%Y-%m-%d',tomorrow)..''
@@ -149,28 +148,21 @@ require'which-key'.register({[' ']=format({
             if dir then vim.cmd('cd '..dir) end
             vim.cmd.pwd()
         end,'cd-to-project-root'},
-        c={':mod\r','redraw-screen'},
         T={':lua require "mini.trailspace".trim()\r','trim spaces'},
         ------treesitter
         t={name='+treesitter',
             e={':hi link TSError NvimInternalError\r','highlight error'},
             f={':set foldexpr=v:lua.vim.treesitter.foldexpr()\r','set-foldexpr'},
         },
-        ------fold
-        f={name='+fold',
-            --------foldmethod
-            m={name='+foldmethod',
-                _=cmap({m='manual',i='indent',e='expr',M='marker',S='syntex',d='diff'},':set foldmethod=%s\r','%s'),
-            },
-            --------foldexpr
-            e={name='+foldexpr',
-                t={':set foldexpr=v:lua.vim.treesitter.foldexpr()\r','treesitter'},
-                d={':set foldexpr=v:lua.Fold(v:lnum)\r','default'},
-            },
-            ---------foldlevel
-            l={name='+foldlevel',
-                _=fmap(9,':set foldlevel=%s\r','%s')
-            },
+        ------foldmethod
+        f={name='+foldmethod',
+            _=cmap({m='manual',i='indent',e='expr',M='marker',S='syntax',d='diff'},':set foldmethod=%s\r','%s'),
+            t={':set foldmethod=expr\r:set foldexpr=v:lua.vim.treesitter.foldexpr()\r','treesitter'},
+            d={':set foldmethod=expr\r:set foldexpr=v:lua.Fold(v:lnum)\r','default'},
+        },
+        ------foldlevel
+        F={name='+foldlevel',
+            _=fmap(9,':set foldlevel=%s\r','%s')
         },
         ------indent
         i={name='+indent',
@@ -185,7 +177,7 @@ require'which-key'.register({[' ']=format({
         b={':!cp "%" "%".bak\r','backup'},
         r={':Rename\r','rename',silent=false},
         d={':Duplicate\r','duplicate'},
-        C={':!echo "%:p"|xsel -ib\r','copy-path'},
+        c={':!echo "%:p"|xsel -ib\r','copy-path'},
         T={':execute("edit ".tempname())\r','tempfile'},
         f={':Telescope find_files\r','find'},
         t={name='+set-type',
@@ -203,7 +195,7 @@ require'which-key'.register({[' ']=format({
         _=(function ()
             local tbl={}
             for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
-                o='oldfiles',s={'live_grep_args'},b='buffers', u={'undo'},
+                o='oldfiles',s={'live_grep_args'},b='buffers',
                 p={'project'},y={'yank_history'},n={'notify'},
                 T='telescope-tabs list_tabs',
                 w={'file_browser'},m={'media_files'},
@@ -243,7 +235,6 @@ require'which-key'.register({[' ']=format({
 
     ----text
     y={name='+text',
-        T={':Pantran\r','translate-window'},
         S={function ()
             local t=require'small.trans'
             t.conf.from,t.conf.to=t.conf.to,t.conf.from
@@ -271,8 +262,6 @@ require'which-key'.register({[' ']=format({
     t={name='+toggle',
         ['\r']={':set hls!\r','highlight'},
         T={':InspectTree\r','TSPlayground'},
-        h={':TSToggle highlight\r','TS-highlight'},
-        m={':CodeWindow\r','minimap'},
         u={':MundoToggle\r','undotree'},
         c={':HexokinaseToggle\r','color-name-highlight'},
         a={':TableModeToggle\r','table-mode'},
@@ -286,19 +275,8 @@ require'which-key'.register({[' ']=format({
                 vim.cmd.norm {'zz',bang=true}
             end
         end,'centermouse'},
-        z={name='+zen',
-            t={':Twilight\r','twilight'},
-            z={require'small.zen'.run,'zen'},
-            m={':lua require "mini.misc".zoom(0,{})\r','max-mode'},
-        },
-    },
-
-    -----browser
-    G={name='+browser--',
-        _=cmap({
-            p='yi\':!setsid firefox https://www.github.com/<C-r>"\r',
-            P=':!setsid firefox https://www.github.com/<C-r>"\r',
-        },'%s\r','%s')
+        z={require'small.zen'.run,'zen'},
+        Z={':Twilight\r','twilight'},
     },
 
     ----lsp
@@ -345,7 +323,12 @@ require'which-key'.register({[' ']=format({
             return ret
         end)(),
         s={function()
-            vim.notify('work in progress')
+            local win=require('window-picker').pick_window()
+            if not win then return end
+            local curbuf=vim.api.nvim_win_get_buf(0)
+            local otherbuf=vim.api.nvim_win_get_buf(win)
+            vim.api.nvim_win_set_buf(0,otherbuf)
+            vim.api.nvim_win_set_buf(win,curbuf)
         end,'swap'},
         [' ']={function()
             local win=require('window-picker').pick_window()

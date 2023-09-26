@@ -18,10 +18,9 @@ parser_config.nu = {
 }
 --}}
 ---TEMP
---{
-vim.api.nvim_create_autocmd({'BufRead','BufNewFile','StdinReadPost'},{
+--{{
+vim.api.nvim_create_autocmd({'Filetype'},{
   callback=function(ev)
-    vim.cmd.setf('mojo')
     vim.treesitter.start(ev.buf,'python')
-  end,once=true,pattern='*.mojo'})
---}
+  end,pattern='mojo'})
+--}}

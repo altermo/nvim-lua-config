@@ -24,6 +24,15 @@ function vim.deprecate(name,...)
     name=='LanguageTree:for_each_child()' then return end
   deprecate(name,...)
 end
+local open=vim.ui.open
+---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:127
+---@diagnostic disable-next-line: duplicate-set-field
+function vim.ui.open(path)
+  if path:match'^[a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+$' then
+    if pcall(open,'https://github.com/'..path) then return end
+  end
+  open(path)
+end
 
 vim.api.nvim_create_autocmd('FileType',{callback=function()
   if pcall(vim.treesitter.get_parser) then

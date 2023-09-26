@@ -1,5 +1,5 @@
 ;; extends
-;;TODO:
+
 ((template_string)
  @injection.content
  (#set! injection.language "html")

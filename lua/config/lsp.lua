@@ -1,25 +1,6 @@
-require'mason'.setup{}
-local lspconfig=require'lspconfig'
-local mason_reg=require'mason-registry'
-for _,server in ipairs({
-    'fennel-language-server',
-    'yaml-language-server',
-    'zls',
-    'clangd',
-    'json-lsp',
-    'lua-language-server',
-    'pyright',
-    'rust-analyzer',
-    'taplo',
-    'csharp-language-server',
-    'typescript-language-server',
-}) do
-    local pkg=mason_reg.get_package(server)
-    if not pkg:is_installed() then pkg:install() end
-end
-for lsp,opt  in pairs{
-    pyright={},
-    lua_ls={settings={Lua={
+local servers={
+    pyright={'pyright'},
+    lua_ls={'lua-language-server',settings={Lua={
         hint={enable=true},
         runtime={version='LuaJIT'},
         completion={displayContext=30,postfix=':'},
@@ -31,16 +12,23 @@ for lsp,opt  in pairs{
                 '~/.config/nvim/lua',
                 '~/.config/nvim/.other/ua/lua/',
             }}}}},
-    jsonls={},
-    clangd={},
-    rust_analyzer={},
-    fennel_language_server={},
-    --grammarly={},
-    zls={},
-    taplo={},
-    csharp_ls={},
-    tsserver={},
-} do
+    jsonls={'json-lsp'},
+    clangd={'clangd'},
+    rust_analyzer={'rust-analyzer'},
+    fennel_language_server={'fennel-language-server'},
+    zls={'zls'},
+    taplo={'taplo'},
+    csharp_ls={'csharp-language-server'},
+    tsserver={'typescript-language-server'},
+}
+require'mason'.setup{}
+local lspconfig=require'lspconfig'
+local mason_reg=require'mason-registry'
+for _,opt in pairs(servers) do
+    local pkg=mason_reg.get_package(opt[1])
+    if not pkg:is_installed() then pkg:install() end
+end
+for lsp,opt in pairs(servers) do
     lspconfig[lsp].setup(opt)
 end
 local nno=require'utils.keymap'.nno

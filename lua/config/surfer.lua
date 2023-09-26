@@ -1,4 +1,4 @@
-local sts=require'syntax-tree-surfer'
+require'syntax-tree-surfer'
 local k=require'utils.keymap'
 k.nno('vx','<cmd>STSSelectMasterNode\r')
 k.nno('vn','<cmd>STSSelectCurrentNode\r')
@@ -14,7 +14,5 @@ k.xbmap('<C-S-k>','<cmd>STSSwapPrevVisual\r','')
 k.xbmap('<C-S-j>','<cmd>STSSwapNextVisual\r','')
 k.xbmap('<C-S-h>','<cmd>STSSwapPrevVisual\r','')
 k.xbmap('<C-S-l>','<cmd>STSSwapNextVisual\r','')
-k.nno('gF',function() sts.targeted_jump({'function','if_statement','else_clause','else_statement',
-    'elseif_statement','for_statement','while_statement','switch_statement',}) end)
 k.nno('gX','<cmd>STSSwapOrHold\r')
 k.xno('gX','<cmd>STSSwapOrHoldVisual\r')
