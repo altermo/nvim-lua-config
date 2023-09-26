@@ -1,3 +1,4 @@
+if vim.fn.filereadable('/tmp/focus')==1 then vim.cmd.quit() end
 ---@diagnostic disable-next-line: undefined-field
 if _G.NVWM then
     vim.opt.runtimepath:append('/home/user/.config/nvim/.other/_later/nvwm')
