@@ -1,8 +1,9 @@
---TODO: maybe move to small.nvim
 local M={}
+---@param timeout? number
+---@param update? fun(inp:string)
+---@return string
 function M.timeout_input(timeout,update)
     timeout=timeout or 500
-     vim.fn.inputsave()
     local ret=''
     local function print_prompt(text)
         vim.api.nvim_echo({},false,{})
@@ -18,25 +19,32 @@ function M.timeout_input(timeout,update)
         print_prompt(ret)
         if update then update(ret) end
         local _,status=vim.wait(timeout,function ()
+            ---@diagnostic disable-next-line: redundant-parameter
             key=vim.fn.getcharstr(0)
             return key~=''
         end)
         if status==-1 then break end
     end
-    vim.fn.inputrestore()
     return ret
 end
+---@param bin string
+---@param opt? {mouse?:boolean,close_single?:boolean}
 function M.termrun(bin,opt)
     opt=opt or {}
     vim.cmd.enew()
     local buf=vim.api.nvim_get_current_buf()
+    --Why sleep 0.01: https://github.com/neovim/neovim/issues/19408
     vim.fn.termopen((opt.mouse and "sleep 0.01;printf '\\e[?1000h';" or "")..bin,{on_exit=function (_,_,_)
         if opt.close_single and #vim.fn.getbufinfo()==1 and vim.api.nvim_get_current_buf()==buf then vim.cmd.quitall() end
         pcall(vim.cmd.bdelete,{buf,bang=true})
     end})
-    vim.api.nvim_buf_set_option(buf,'bufhidden','wipe')
+    vim.api.nvim_set_option_value('bufhidden','wipe',{buf=buf})
     vim.cmd.startinsert()
 end
+---@param s string
+---@param i number
+---@param j number
+---@return string
 function M.utf8_sub(s,i,j)
     local pos=vim.str_utf_pos(s) --[[@as number[]]
     j=j or -1
@@ -46,6 +54,7 @@ function M.utf8_sub(s,i,j)
     local end_=pos[j]
     return s:sub(start,end_+vim.str_utf_end(s,end_))
 end
+---@param num number|string
 function M.tabbufmove(num)
     local buf=vim.fn.bufnr()
     local win=vim.api.nvim_get_current_win()
@@ -53,7 +62,8 @@ function M.tabbufmove(num)
     vim.cmd('vert sbuf'..buf)
     vim.api.nvim_win_close(win,true)
 end
-function M.get_tree_lang()
+---@return string?
+function M.pos_tree_lang()
     local stat,parser=pcall(vim.treesitter.get_parser,0)
     if not stat then return end
     local curpos=vim.api.nvim_win_get_cursor(0)
@@ -61,6 +71,8 @@ function M.get_tree_lang()
     local lang=parser:language_for_range({row,col,row,col})
     return lang:lang()
 end
+---@param source string
+---@return any
 function M.req(source)
   package.loaded[source]=nil
   return require(source)

@@ -11,7 +11,6 @@ vim.g.loaded_2html_plugin=1
 vim.g.loaded_netrw=1
 vim.g.loaded_netrwPlugin=1
 vim.g.loaded_remote_plugins=1
-vim.g.rplugins={'vim-ghost'}
 
 vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
 vim.fn.timer_start(250,function() vim.cmd"doautocmd User s1" end)
@@ -78,9 +77,5 @@ end
 function vim.lgend()
   vim.lg_started=false
 end
-
-function vim.req(pckg)
-  package.loaded[pckg]=nil
-  return require(pckg)
-end
+vim.req=require'utils.lib'.req
 require'config.small'

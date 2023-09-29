@@ -33,7 +33,7 @@ end
 local spell={s='es',e='en',v='sv',n='nb'}
 local mouse_center={}
 local saved_pos={}
-require'which-key'.setup{plugins={presets={operators=false}}}
+require'which-key'.setup{plugins={spelling={enabled=false},presets={operators=false}}}
 require'which-key'.register({[' ']=format({
 
     ----other
@@ -143,11 +143,6 @@ require'which-key'.register({[' ']=format({
         l={':edit /tmp/nlog\r','open-nlog'},
         L={':ls\r','ls'},
         r={':source /tmp/session.vim','reload-last-session',silent=false},
-        G={function()
-            local dir=vim.fs.dirname(vim.fs.find('.git',{upward=true})[1])
-            if dir then vim.cmd('cd '..dir) end
-            vim.cmd.pwd()
-        end,'cd-to-project-root'},
         T={':lua require "mini.trailspace".trim()\r','trim spaces'},
         ------treesitter
         t={name='+treesitter',
@@ -277,6 +272,7 @@ require'which-key'.register({[' ']=format({
         end,'centermouse'},
         z={require'small.zen'.run,'zen'},
         Z={':Twilight\r','twilight'},
+        n={':lua require"notify".dismiss({pending=true,silent=true})\r','dismiss notify'},
     },
 
     ----lsp
@@ -291,6 +287,7 @@ require'which-key'.register({[' ']=format({
         i={':lua vim.lsp.inlay_hint(0)\r','toggle-inlay-hint'},
         I={':LspInfo\r','info'},
         s={':LspStop\r','stop'},
+        m={':Mason\r','mason'}
     },
 
     ----hop
@@ -314,10 +311,11 @@ require'which-key'.register({[' ']=format({
                 h={'<','decrease width','left'},
                 j={'+','increase height','down'},
                 k={'-','decrease height','up'},
-                l={'>','decrease width','right'},
+                l={'>','increase width','right'},
             } do
-                ret[k]={':wincmd '..k..'\r',k}
-                ret[k:upper()]={':wincmd '..v[1]..'\r',v[2]}
+                ret[k]={':wincmd '..k..'\r',v[3]}
+                ret['<S-'..k..'>']={':5wincmd '..v[1]..'\r',v[2]}
+                ret['<C-S-'..k..'>']={':wincmd '..v[1]..'\r','small '..v[2]}
                 ret['<C-'..k..'>']={':WinShift '..v[3]..'\r','move '..v[3]}
             end
             return ret

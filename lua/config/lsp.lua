@@ -9,8 +9,8 @@ local servers={
                 '~/.local/share/nvim/site/pack/packer/opt/neodev.nvim/types/nightly',
                 '/usr/local/share/nvim/runtime/lua',
                 '${3rd}/luv/library',
-                '~/.config/nvim/lua',
                 '~/.config/nvim/.other/ua/lua/',
+                '~/.config/nvim/lua',
             }}}}},
     jsonls={'json-lsp'},
     clangd={'clangd'},
@@ -36,4 +36,5 @@ nno('[d',vim.diagnostic.goto_prev)
 nno(']d',vim.diagnostic.goto_next)
 nno(']D',vim.diagnostic.disable)
 nno('[D',vim.diagnostic.enable)
+nno('gC',vim.lsp.buf.code_action)
 vim.cmd.LspStart()

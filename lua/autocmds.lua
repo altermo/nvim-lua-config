@@ -41,9 +41,8 @@ vim.api.nvim_create_autocmd({'InsertLeave','TextChanged'},{callback=function (ev
     if not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
     vim.cmd('lockmarks silent! update ++p')
     if vim.o.cmdheight>0 then vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.v.echospace+1).."'") end
-    if vim.loop.fs_stat(ev.file).size<1024*100 then
-        ---@diagnostic disable-next-line: param-type-mismatch
-        vim.cmd('lockmarks silent! write! ++p /tmp/nvim-save/'..vim.fn.expand('%:p'):gsub('%/','\\%%'))
-    end
+    if vim.loop.fs_stat(ev.file).size>1024*100 then return end
+    ---@diagnostic disable-next-line: param-type-mismatch
+    vim.cmd('lockmarks silent! write! ++p /tmp/nvim-save/'..vim.fn.expand('%:p'):gsub('%/','\\%%'))
 end})
 vim.cmd"autocmd LspProgress * =vim.lsp.status()"

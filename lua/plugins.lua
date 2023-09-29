@@ -12,14 +12,6 @@ local function bootstrap_pckr()
   vim.opt.rtp:prepend(pckr_path)
 end
 bootstrap_pckr()
-local function get_rplugin()
-  return function()
-    if vim.g.loaded_remote_plugins==1 then
-      vim.g.loaded_remote_plugins=nil
-      vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim')
-    end
-  end
-end
 local function lcmd(cmds,header)
   return function (load)
     for _,v in ipairs(cmds) do
@@ -102,14 +94,14 @@ require('pckr').add{
   end,cond=function (load)
       lkey({n={'p','P','<A-p>','<A-P>'},x={'p','P'}})(load)
       levent({'TextYankPost'})(load)
-    end },
+    end},
   {'monaqa/dial.nvim',config=function()
     local dialmap=require'dial.map'
     vim.keymap.set('n','<C-a>',dialmap.inc_normal())
     vim.keymap.set('n','<C-x>',dialmap.dec_normal())
     vim.keymap.set('x','<C-a>',dialmap.inc_visual())
     vim.keymap.set('x','<C-x>',dialmap.dec_visual())
-  end,cond=lkey{n={'<C-a>','<Cx>'},x={'<C-a>','<C-x>'}}},
+  end},
   {'mg979/vim-visual-multi',config=function() vim.g,VM_maps={} end,cond=lkey{n={'<C-n>','\\\\'},x={'<C-n>'}}},
   {'folke/flash.nvim',config=get_config'flash'},
 
@@ -213,7 +205,11 @@ require('pckr').add{
     end end},
   {'echasnovski/mini.nvim',config=get_config'mini'},
   {'nmac427/guess-indent.nvim',config=get_setup'guess-indent'},
-  {'raghur/vim-ghost',run=':GhostInstall',cond=lcmd{'GhostStart'},config=get_rplugin()},
+  {'raghur/vim-ghost',run=':GhostInstall',cond=lcmd{'GhostStart'},config=function()
+    if vim.g.loaded_remote_plugins~=1 then return end
+    vim.g.loaded_remote_plugins=nil
+    vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim')
+  end},
   --use{'andweeb/presence.nvim'},
 
   ----auto complete (nvim-cmp)

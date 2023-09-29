@@ -48,4 +48,5 @@ for k,v in pairs{
         key.nno('yo',m.set_opt)
     end,
     whint=function (m) key.ino(':',m.run,{expr=true}) end,
+    ranger=function (m) m.conf.exit_if_single=true end,
 } do v(require('small.'..k)) end
