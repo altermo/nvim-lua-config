@@ -33,49 +33,15 @@ function vim.ui.open(path)
   open(path)
 end
 
-vim.api.nvim_create_autocmd('FileType',{callback=function()
-  if pcall(vim.treesitter.get_parser) then
-    vim.cmd'syntax off'
-    vim.defer_fn(function () vim.cmd'syntax on' end,1000)
-  else
-    vim.cmd"syntax on"
-  end
-end,once=true})
-vim.api.nvim_create_autocmd({'BufRead','BufNewFile','StdinReadPost'},{
-  callback=function()
-    vim.filetype.add({extension={bf='bf'}})
-    vim.cmd.setf('bf')
-  end,once=true,pattern='*.bf'})
-
 function vim.pprint(...)
   local s,args=pcall(vim.deepcopy,{...})
   if not s then args={...} end
-  vim.schedule(function () vim.notify(vim.inspect(#args>1 and args or unpack(args))) end)
+  vim.schedule_wrap(vim.notify)(vim.inspect(#args>1 and args or unpack(args)))
 end
-function vim.traceback()
-  local d=debug.getinfo(2)
-  return vim.fn.writefile(vim.fn.split(
-    ':'..d.short_src..':'..d.currentline..':\n'..debug.traceback(),'\n'),
-    '/tmp/nlog','a')
-end
-function vim.lgclear()
-  vim.fn.writefile({},'/tmp/nlog')
-end
----@diagnostic disable-next-line: duplicate-set-field
-function vim.lg(...)
-  if vim.lg_started==false then return end
-  local d=debug.getinfo(2)
-  return vim.fn.writefile(vim.fn.split(
-    ':'..d.short_src..':'..d.currentline..':\n'..
-    vim.inspect(#{...}>1 and {...} or ...),'\n'
-  ),'/tmp/nlog','a')
-end
-function vim.lgstart()
-  vim.lgclear()
-  vim.lg_started=true
-end
-function vim.lgend()
-  vim.lg_started=false
-end
+vim.lg=require'utils.log'.log
+vim.lgclear=require'utils.log'.log_clear
+vim.lgstart=require'utils.log'.log_start
+vim.lgend=require'utils.log'.log_end
+vim.traceback=require'utils.log'.log_traceback
 vim.req=require'utils.lib'.req
 require'config.small'

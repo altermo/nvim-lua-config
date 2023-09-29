@@ -10,7 +10,6 @@ local xbmap=key.xbmap
 
 ----nno
 --nno('dq','viwf(<esc>%xgvx') --TODO
---nno('#','gvo<esc>',{desc='jump to other end of last visual selected'}) --TODO
 nno('g=','vgg=Gc')
 nno('<Home>',function ()
   for _,v in pairs(vim.fn.getwininfo()) do

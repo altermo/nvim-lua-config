@@ -35,7 +35,6 @@ local configs={upair.extend_default{
     },
     {'\\(','\\)',noescape=true},
     {'<<','>>',newline=true},
-    {'>','</',disable_start=true,disable_end=true,backspace=false,ft={'html'}},
     {'*','*',multiline=false,ft={'markdown'}},
     {'**','**',multiline=false,ft={'markdown'}},
 },
