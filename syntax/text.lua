@@ -1,0 +1,16 @@
+vim.bo.shiftwidth=8
+vim.bo.tabstop=8
+vim.cmd[[syn case ignore]]
+vim.cmd[[syn keyword Function eller är om till i av det den från som en ett de dem att in var inte alla på ha och men]]
+vim.cmd[[syn keyword Function the is of to and or off be a in that have for them they not on with as do did could]]
+vim.cmd[[syn case match]]
+vim.cmd[[syn match Number       "\d\(\.\d\+\)\?"]]
+vim.cmd[[syn match Operator     "[~\-_+*=|#@$%&\\/:&\^\.,!?]"]]
+vim.cmd[[syn match Special      "\(http\|https\|ftp\)\(\w\|[\-&=,?\:\.\/]\)*"]]
+vim.cmd[[syn match Special      "\v([a-z0-9_\.\+-]+)\@([\da-z\.-]+)\.([a-z\.]{2,6})"]]
+vim.cmd[[syn cluster txtContains add=Number,Operator,Special]]
+vim.cmd[[syn region String       start="\"" end="\"" oneline]]
+vim.cmd[[syn region Comment   start="^\s*#" end="$"  oneline contains=@txtContains,String]]
+vim.cmd[[syn region Delimiter    start="("  end=")"  oneline contains=@txtContains,String,Delimiter]]
+vim.cmd[[syn region Delimiter    start="{"  end="}"  oneline contains=@txtContains,String,Delimiter]]
+vim.cmd[[syn region Delimiter    start="\[" end="\]" oneline contains=@txtContains,String,Delimiter]]

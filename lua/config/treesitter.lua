@@ -17,10 +17,3 @@ parser_config.nu = {
   filetype = "nu",
 }
 --}}
----TEMP
---{{
-vim.api.nvim_create_autocmd({'Filetype'},{
-  callback=function(ev)
-    vim.treesitter.start(ev.buf,'python')
-  end,pattern='mojo'})
---}}

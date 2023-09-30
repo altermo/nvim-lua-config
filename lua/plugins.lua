@@ -194,7 +194,6 @@ require('pckr').add{
         vim.cmd('Dashboard')
       end end})end},
   {'rafcamlet/nvim-luapad',cond=lcmd{'Luapad'},config=get_config'luapad'},
-  {'m-demare/attempt.nvim',config=get_config'attempt',cond=lkey{n={'\\a'}}},
   {'rcarriga/nvim-notify',cond=function(load)
     ---@source /usr/local/share/nvim/runtime/lua/vim/_editor.lua:580
     ---@diagnostic disable-next-line: duplicate-set-field

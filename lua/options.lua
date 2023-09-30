@@ -19,11 +19,6 @@ vim.o.showbreak='↳ '
 vim.o.list=true
 vim.o.ignorecase=true
 vim.o.smartcase=true
---if tonumber(os.date('%H'))<8 or tonumber(os.date('%H'))>=16 then
-    --vim.o.background='dark'
---else
-    --vim.o.background='light'
---end
 vim.o.background=({'light','dark'})[vim.fn.rand()%2+1]
 vim.o.termguicolors=true
 vim.o.colorcolumn='1,41,81,121,161,201,241'

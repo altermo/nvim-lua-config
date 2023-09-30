@@ -9,7 +9,6 @@ local ono=key.ono
 local xbmap=key.xbmap
 
 ----nno
---nno('dq','viwf(<esc>%xgvx') --TODO
 nno('g=','vgg=Gc')
 nno('<Home>',function ()
   for _,v in pairs(vim.fn.getwininfo()) do
@@ -19,7 +18,6 @@ nno('<Home>',function ()
   vim.cmd.wincmd('p')
 end)
 nno('|','~')
-nno('~','_')
 nno(',','<C-o>')
 nno(';','<C-i>')
 nno('.',':',{noremap=true})
@@ -78,7 +76,6 @@ nno('\r','dd',{})
 nno('z','za')
 nno('j','gj')
 nno('k','gk')
-nno('_','"_')
 nno('cw','dwi')
 nno('cW','dWi')
 nno('g:','q:')
@@ -139,13 +136,11 @@ for i in ('hjklwb'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
   ino('<A-S-'..i..'>','<C-o>5'..i)
 end
-for i in ('0u$_+-vVD'):gmatch('.') do
+for i in ('0u$_+-vD'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
 end
 ino('<A-t>','<C-o>f')
 ino('<A-T>','<C-o>T')
-ino('<A-/>','<C-o>/',{noremap=true})
-ino('<A-.>','<C-o>:',{noremap=true})
 ino('<A-ø>','<cmd>redo\r')
 ino('¨','<esc>')
 ino('<A-BS>','<C-w>')
@@ -155,7 +150,6 @@ ino('<A-a>c','<C-o>0<C-o>D')
 ino('<A-a>d','<C-o>dd')
 ino('<A-a><A-c>','<C-o>0<C-o>D')
 ino('<A-a><A-d>','<C-o>dd')
-ino('<A-C-v>','<C-o><C-v>')
 ino('<A-s>','<bs>')
 ino('<A-x>','<Del>')
 ino('<A-S-S>','<C-w>')
@@ -188,8 +182,6 @@ xno('R',':Norm ',{})
 xno('j','gj')
 xno('k','gk')
 xno('gr','y:%s/<C-r>"/<C-r>"/g<Left><Left>',{noremap=true})
-xno('<A-f>',':s/\\%V//g<Left><Left><Left>',{noremap=true})
-xno('<A-e>',':G/ /norm! <S-left><bs>',{noremap=true})
 xno('.',':',{noremap=true})
 xno('æ','"+y')
 xno('å','"+p')
@@ -204,12 +196,11 @@ xno('<S-tab>','<gv')
 xno('<tab>','>gv')
 xbmap('A',"<esc>:au InsertLeave * ++once :'<+1,'>norm! $\".p\r'<A",'A')
 xbmap('I',"<esc>:au InsertLeave * ++once :'<+1,'>norm! _\".P\r'<I",'I')
-xno('_','"_')
 xno('y','ygv<esc>')
 
 ----tno
 tno('<C-\\>','<C-\\><C-n>')
-tno('<C-S-?>','<C-\\><C-\\>')
+tno('<C-A-\\>','<C-\\><C-\\>')
 tno('<C-]><C-]>','<C-\\><C-n>')
 for i in ('hjkl'):gmatch('.') do
   tno('<C-'..i..'>','<C-\\><C-n><C-w>'..i..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
