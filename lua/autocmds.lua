@@ -1,5 +1,5 @@
 local function autocmd(au,callback,opt) return vim.api.nvim_create_autocmd(au,vim.tbl_extend('error',{callback=callback},opt or {})) end
-autocmd('BufWinEnter',function () if vim.o.filetype=='' then vim.o.filetype='txt' end end)
+--autocmd('BufWinEnter',function () if vim.o.filetype=='' then vim.o.filetype='txt' end end)
 autocmd('CmdlineEnter',function () vim.o.hlsearch=true end,{pattern='/,\\?'})
 autocmd('TermOpen',function() vim.o.filetype='term' end)
 autocmd('FileType',function()
@@ -8,7 +8,7 @@ autocmd('FileType',function()
     else
         vim.wo.foldexpr='getline(v:lnum)==""?0:1'
     end end)
-autocmd('BufRead',function() pcall(vim.cmd.norm,{'g`"',bang=true}) end)
+autocmd('BufRead',function() pcall(vim.cmd[[noautocmd norm! g`"]]) end)
 autocmd('VimLeave',function() vim.cmd.mksession({'/tmp/session.vim',bang=true}) end)
 autocmd('BufRead',function(ev)
     if _G._DONT_AUTOCD or vim.o.buftype~='' then return end
@@ -26,7 +26,7 @@ autocmd('BufReadPre',function(args)
     vim.fn.termopen('nvim -n -u NONE -- '..args.file)
 end)
 autocmd({'InsertLeave','TextChanged'},function (ev)
-    if not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
+    if ev.file=='' or not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
     vim.cmd('lockmarks silent! update ++p')
     if vim.o.cmdheight>0 then vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.v.echospace+1).."'") end
     if vim.loop.fs_stat(ev.file).size>1024*100 then return end

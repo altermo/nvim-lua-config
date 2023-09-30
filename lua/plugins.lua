@@ -25,8 +25,15 @@ local function lkey(mkeys)
     for mode,keys in pairs(mkeys) do
       for _,key in ipairs(keys) do
         vim.api.nvim_set_keymap(mode,key,'',{callback=function()
+          vim.api.nvim_del_keymap(mode,key)
           load()
-          vim.api.nvim_input(key)
+          if mode=='i' then
+            vim.api.nvim_input(key)
+          elseif mode=='o' then
+            vim.api.nvim_feedkeys(vim.v.operator..key,'x!',true)
+          else
+            vim.api.nvim_input(vim.v.count..key)
+          end
         end}) end end end end
 local function levent(events)
   return function (load)
@@ -43,29 +50,22 @@ local function get_config(name) return function () require('config.'..name) end 
 require('pckr').add{
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
   {'altermo/small.nvim',cond=function() end},
+  {'NvChad/ui',cond=function () end},
 
   ----colorschm
   'folke/tokyonight.nvim',
   'ray-x/starry.nvim',
   'edeneast/nightfox.nvim',
-  'projekt0n/github-nvim-theme',
   'bluz71/vim-nightfly-colors',
   'matsuuu/pinkmare',
-  'lifepillar/vim-gruvbox8',
   'NTBBloodbath/doom-one.nvim',
   'hoprr/calvera-dark.nvim',
 
   ----visual
-  {'folke/twilight.nvim',cond=lcmd{'Twilight'}},
-  {'rrethy/vim-hexokinase',run='make hexokinase',cond=function (load)
-    vim.g.Hexokinase_highlighters={'backgroundfull'}
-    ll(load) end},
-  {'anuvyklack/pretty-fold.nvim',cond=ll,config=get_setup'pretty-fold'},
-  {'lukas-reineke/indent-blankline.nvim',cond=ll,branch='v3',config=get_setup('ibl',{exclude={filetypes={'dashboard'}},scope={enabled=false}})},
-  {'chentoast/marks.nvim',config=get_setup'marks',cond=lkey{n={'m','dm'}}},
-  {'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}})},
+  {'nvchad/nvim-colorizer.lua',config=get_setup'colorizer',cond=ll},
+  {'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cond=levent{'CmdlineEnter'}},
   {'nvim-lualine/lualine.nvim',config=get_setup'lualine',cond=ll},
-  {'folke/which-key.nvim',config=get_config'which-key'},
+  {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}}},
 
   ----keys
   {'Exafunction/codeium.vim',cond=function(load) -- https://github.com/Exafunction/codeium.vim/issues/118
@@ -82,7 +82,6 @@ require('pckr').add{
       vim.keymap.set('i','<A-(>',wrapper(vim.fn['codeium#CycleCompletions'],-1),{expr=true})
       vim.keymap.set('i','<A-\'>',wrapper(vim.fn['codeium#Complete']),{expr=true})
     end},
-  {'tommcdo/vim-exchange',cond=lkey{n={'cx'},x={'X'}}},
   {'gbprod/yanky.nvim',config=function()
     require'yanky'.setup{}
     vim.keymap.set('n','p','<Plug>(YankyPutAfter)')
@@ -99,11 +98,9 @@ require('pckr').add{
     local dialmap=require'dial.map'
     vim.keymap.set('n','<C-a>',dialmap.inc_normal())
     vim.keymap.set('n','<C-x>',dialmap.dec_normal())
-    vim.keymap.set('x','<C-a>',dialmap.inc_visual())
-    vim.keymap.set('x','<C-x>',dialmap.dec_visual())
-  end},
-  {'mg979/vim-visual-multi',config=function() vim.g,VM_maps={} end,cond=lkey{n={'<C-n>','\\\\'},x={'<C-n>'}}},
-  {'folke/flash.nvim',config=get_config'flash'},
+  end,cond=lkey{n={'<C-a>','<C-x>'}}},
+  {'mg979/vim-visual-multi',config=function() vim.g.VM_maps={} end,cond=lkey{n={'<C-n>','\\\\'},x={'<C-n>'}}},
+  {'folke/flash.nvim',config=get_config'flash',cond=lkey{n={'f','F','t','T','s'},x={'f','F','t','T','s'},o={'r'}}},
 
   ----command
   {'sindrets/winshift.nvim',config=function ()
@@ -121,7 +118,6 @@ require('pckr').add{
     vim.keymap.set('n','K',tsaction.node_action)
   end,cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'}},
   {'chrisgrieser/nvim-genghis',cond=lcmd{'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
-  {'krady21/compiler-explorer.nvim',cond=lcmd{'CECompile'}},
   {'stevearc/oil.nvim',config=function()
     local oil=require'oil'
     oil.setup{default_file_explorer=true,view_options={show_hidden=true}}
@@ -136,10 +132,8 @@ require('pckr').add{
       lcmd{'IncRename'}(load)
       lkey{n={'gr'}}(load)
     end},
-  --use{'jbyuki/instant.nvim',config=function () vim.g.instant_username='User' end},
 
   ----search
-  {'cshuaimin/ssr.nvim',config=get_setup'ssr',requires={'nvim-treesitter/nvim-treesitter'}},
   {'nvim-pack/nvim-spectre',config=function ()
     vim.api.nvim_create_user_command('Spectre',require'spectre'.open,{})
   end,requires={'nvim-lua/plenary.nvim'},cond=lcmd{'Spectre'}},
@@ -149,8 +143,6 @@ require('pckr').add{
     'nvim-telescope/telescope-symbols.nvim',
     'nvim-telescope/telescope-project.nvim',
     {'nvim-telescope/telescope-fzf-native.nvim',run='make'},
-    'nvim-telescope/telescope-live-grep-args.nvim',
-    'nvim-telescope/telescope-media-files.nvim',
     {'nvim-telescope/telescope-ui-select.nvim',cond=function (load)
       ---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:39
       ---@diagnostic disable-next-line: duplicate-set-field
@@ -161,8 +153,6 @@ require('pckr').add{
         vim.ui.select(...)
       end
     end,requires={'nvim-telescope/telescope.nvim'}},
-    'lukaspietzschmann/telescope-tabs',
-    'nvim-telescope/telescope-file-browser.nvim',
   },config=function ()
       local telescope=require'telescope'
       telescope.load_extension'fzf'
@@ -175,7 +165,7 @@ require('pckr').add{
     vim.g.rainbow_delimiters={blacklist={'zig'}}
     vim.cmd'TSEnable rainbow'
   end,requires={'nvim-treesitter/nvim-treesitter'}},
-  {'windwp/nvim-ts-autotag',cond=lft{'html'},config=function() vim.cmd'TSEnable autotag' end,requires={'nvim-treesitter/nvim-treesitter'}},
+  {'windwp/nvim-ts-autotag',cond=levent{'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',cond=levent{'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'ziontee113/syntax-tree-surfer',config=get_config'surfer',
     cond=lkey{n={'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF','gX'},x={'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','gX'}},requires={'nvim-treesitter/nvim-treesitter'}},
@@ -185,15 +175,14 @@ require('pckr').add{
   {'sindrets/diffview.nvim',cond=lcmd({'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'},'Diffview'),
     config=get_setup('diffview',{use_icons=false})},
   {'neovim/nvim-lspconfig',config=get_config'lsp',requires={
-    {'williamboman/mason.nvim',module='mason'},
-    {'folke/neodev.nvim',cond=function () end}},cond=ll},
-  {'glepnir/dashboard-nvim',config=get_config'dashboard',cond=function (load)
-    lcmd{'Dashboard'}(load)
-    vim.api.nvim_create_autocmd({'Vimenter'},{callback=function()
-      if vim.fn.argc()==0 and vim.api.nvim_buf_line_count(0)==1 and vim.api.nvim_get_current_line()=='' and vim.api.nvim_buf_get_name(0)=='' then
-        vim.cmd('Dashboard')
-      end end})end},
-  {'rafcamlet/nvim-luapad',cond=lcmd{'Luapad'},config=get_config'luapad'},
+    {'williamboman/mason.nvim',module='mason'}},cond=ll},
+  {'rafcamlet/nvim-luapad',cond=lcmd{'Luapad'},config=get_setup('luapad',{
+    preview=false,
+    on_init=function ()
+      vim.api.nvim_buf_set_lines(vim.api.nvim_get_current_buf(),0,-1,false,{'---@diagnostic disable: undefined-global,unused-local,lowercase-global',''})
+      vim.cmd.norm{'G',bang=true}
+    end,
+  })},
   {'rcarriga/nvim-notify',cond=function(load)
     ---@source /usr/local/share/nvim/runtime/lua/vim/_editor.lua:580
     ---@diagnostic disable-next-line: duplicate-set-field
@@ -209,24 +198,19 @@ require('pckr').add{
     vim.g.loaded_remote_plugins=nil
     vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim')
   end},
-  --use{'andweeb/presence.nvim'},
 
   ----auto complete (nvim-cmp)
   {'hrsh7th/nvim-cmp',config=get_config'cmp-nvim',cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'hrsh7th/cmp-cmdline',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'dmitmel/cmp-cmdline-history',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'hrsh7th/cmp-calc',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'hrsh7th/cmp-cmdline',requires={'hrsh7th/nvim-cmp'},cond=levent{'CmdlineEnter'}},
+  {'hrsh7th/cmp-calc',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
   {'hrsh7th/cmp-buffer',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'hrsh7th/cmp-nvim-lsp',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'hrsh7th/cmp-nvim-lsp',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
+  {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
   {'FelipeLema/cmp-async-path',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'lukas-reineke/cmp-rg',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'exafunction/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  --{'lukas-reineke/cmp-rg',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
+  {'exafunction/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter'}},
 
   ----writing
-  {'jbyuki/venn.nvim',cond=function()
-    lcmd{'Fill'}(load)
-    lcmd({'D','H','O','DO','HO'},'VBox')(load) end},
   {'dhruvasagar/vim-table-mode',cond=lcmd{'TableModeToggle'}},
   {'dbmrq/vim-ditto',cond=function(load)
     lcmd{'NoDitto','ToggleDitto'}(load)
@@ -243,7 +227,6 @@ require('pckr').add{
       ['core.completion']={config={engine='nvim-cmp'}},
     }}),cond=lft{'norg'},run=':Neorg sync-parsers',requires={'hrsh7th/nvim-cmp'}},
   {'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
-  {'turbio/bracey.vim',run='npm install --prefix server',cond=lft{'html','css','javascript'}},
 
   ---end
 }

@@ -6,7 +6,6 @@ local servers={
         completion={displayContext=30,postfix=':'},
         workspace={
             library={
-                '~/.local/share/nvim/site/pack/packer/opt/neodev.nvim/types/nightly',
                 '/usr/local/share/nvim/runtime/lua',
                 '${3rd}/luv/library',
                 '~/.config/nvim/.other/ua/lua/',

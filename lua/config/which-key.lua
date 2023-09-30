@@ -33,7 +33,17 @@ end
 local spell={s='es',e='en',v='sv',n='nb'}
 local mouse_center={}
 local saved_pos={}
-require'which-key'.setup{plugins={spelling={enabled=false},presets={operators=false}}}
+require'which-key'.setup{plugins={
+    spelling={enabled=false},
+    presets={
+        operators=false,
+        motions=false,
+        text_objects=false,
+        windows=false,
+        nav=false,
+        z=false,
+        g=false,
+    }}}
 require'which-key'.register({[' ']=format({
 
     ----other
@@ -95,7 +105,6 @@ require'which-key'.register({[' ']=format({
         w={':call execute("terminal curl \'wttr.in/?nQF\' -s")|startinsert\r','weather'},
         i={':edit .\r','edir'},
         m={':MarkdownPreview\r','markdown-preview'},
-        h={':Bracey\r','html-preview'},
     },
 
     ----Tabe
@@ -190,10 +199,8 @@ require'which-key'.register({[' ']=format({
         _=(function ()
             local tbl={}
             for k,v in pairs({c='colorscheme',f='find_files',t='treesitter',
-                o='oldfiles',s={'live_grep_args'},b='buffers',
+                o='oldfiles',s='live_grep',b='buffers',
                 p={'project'},y={'yank_history'},n={'notify'},
-                T='telescope-tabs list_tabs',
-                w={'file_browser'},m={'media_files'},
                 h='help_tags',k='symbols',
             }) do
                 if type(v)=='string' then
@@ -210,7 +217,6 @@ require'which-key'.register({[' ']=format({
             b={':Telescope git_branches\r','branches'},
         },
         r={name='+replace',
-            s={function() require("ssr").open() end,'structural'},
             l={':IncRename <C-r>=expand("<cword>")\r','lsp',silent=false},
             p={require'small.lbpr'.run,'lbpr'},
             r={':Spectre\r','spectre'},
@@ -220,6 +226,7 @@ require'which-key'.register({[' ']=format({
 
     ----packer
     p={name='+packer',
+        p={':Pckr status\r','pckr'},
         i={':Pckr install\r','install'},
         c={':Pckr clean\r','clean'},
         u={':Pckr update\r','update'},

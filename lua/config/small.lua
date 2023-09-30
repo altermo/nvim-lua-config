@@ -5,6 +5,14 @@ for k,v in pairs{
     highlight_selected=setup,
     matchall=setup,
     tabline=setup,
+    foldtext=setup,
+    exchange=function (m)
+        key.nno('cx',m.ex_oper)
+        key.nno('cX',m.ex_eol)
+        key.nno('cxx',m.ex_line)
+        key.nno('cxc',m.ex_cancel)
+        key.xno('X',m.ex_visual)
+    end,
     builder=function (m)
         --k.nno("“",b.build)
         key.nno("“",m.termbuild)

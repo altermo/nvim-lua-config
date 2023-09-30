@@ -73,4 +73,13 @@ cmp.setup{sorting={priority_weight=2,comparators={
     compare.length,
     compare.order,
 }}}
+local Kind=cmp.lsp.CompletionItemKind
+cmp.event:on(
+  'confirm_done',
+  function (evt)
+    if vim.tbl_contains({Kind.Function,Kind.Method},evt.entry:get_completion_item().kind) then
+      vim.api.nvim_feedkeys('()'..vim.keycode'<Left>','n',false)
+    end
+  end
+)
 vim.cmd.doautocmd("InsertEnter")

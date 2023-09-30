@@ -11,10 +11,10 @@ require'keymaps'
 require'acommands'
 require'autocmds'
 require'other'
-require'plugins'
 if not pcall(vim.cmd.colorscheme,'own') then
     vim.o.background='dark'
     if not pcall(vim.cmd.colorscheme,'tokyonight') then
         vim.cmd.colorscheme'retrobox'
     end
 end
+require'plugins'
