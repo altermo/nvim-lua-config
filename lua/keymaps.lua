@@ -112,6 +112,7 @@ nno('<A-f>',':%s///g<Left><Left><Left>',{noremap=true})
 for i=1,9 do
   nno('<A-'..i..'>',':tabnext '..i..'\r')
 end
+nno('\\p','<cmd>Pckr status\r')
 
 ----ino/cno
 for k,v in pairs({h='Left',l='Right',j='Down',k='Up'}) do

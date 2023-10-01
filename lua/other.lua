@@ -13,7 +13,7 @@ vim.g.loaded_netrwPlugin=1
 vim.g.loaded_remote_plugins=1
 
 vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
-vim.fn.timer_start(250,function() vim.cmd"doautocmd User s1" end)
+vim.fn.timer_start(150,function() vim.cmd"doautocmd User s1" end)
 
 local deprecate=vim.deprecate
 ---@source /usr/local/share/nvim/runtime/lua/vim/_editor.lua:1000

@@ -1,4 +1,4 @@
-----init--
+----init
 local function fmap(num,cmd,name)
     local tbl={}
     for i=1,num do
@@ -34,6 +34,8 @@ local spell={s='es',e='en',v='sv',n='nb'}
 local mouse_center={}
 local saved_pos={}
 require'which-key'.setup{plugins={
+    marks=false,
+    registers=false,
     spelling={enabled=false},
     presets={
         operators=false,
@@ -226,10 +228,10 @@ require'which-key'.register({[' ']=format({
 
     ----packer
     p={name='+packer',
-        p={':Pckr status\r','pckr'},
-        i={':Pckr install\r','install'},
-        c={':Pckr clean\r','clean'},
-        u={':Pckr update\r','update'},
+        p={'<cmd>Pckr status\r','pckr'},
+        i={'<cmd>Pckr install\r','install'},
+        c={'<cmd>Pckr clean\r','clean'},
+        u={'<cmd>Pckr update\r','update'},
         S={name='+special',
             f={':v/\\//d|%s/\\v^.{-}([a-zA-Z0-9._-]+\\/[a-zA-Z0-9._-]+).*/\\1/g\r','extraxt-plugs'},
         },

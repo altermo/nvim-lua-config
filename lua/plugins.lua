@@ -114,11 +114,7 @@ require('pckr').add{
       lcmd{'WinShift'}(load)
     end},
   {'simnalamburt/vim-mundo',cond=lcmd{'MundoToggle'}},
-  {'ckolkey/ts-node-action',config=function ()
-    local tsaction=require('ts-node-action')
-    tsaction.setup{}
-    vim.keymap.set('n','K',tsaction.node_action)
-  end,cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'}},
+  {'ckolkey/ts-node-action',config=get_config'ts-node-action',cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'}},
   {'chrisgrieser/nvim-genghis',cond=lcmd{'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
   {'stevearc/oil.nvim',config=function()
     local oil=require'oil'
@@ -193,7 +189,8 @@ require('pckr').add{
       vim.notify=require"notify"
       vim.notify(...)
     end end},
-  {'echasnovski/mini.nvim',config=get_config'mini'},
+  {'echasnovski/mini.nvim',config=get_config'mini',
+  cond=lkey{n={'gl','gL','S','ds','cs'},x={'S','gl','gL','a','i'},o={'a','i'}}},
   {'nmac427/guess-indent.nvim',config=get_setup'guess-indent'},
   {'raghur/vim-ghost',run=':GhostInstall',cond=lcmd{'GhostStart'},config=function()
     if vim.g.loaded_remote_plugins~=1 then return end
