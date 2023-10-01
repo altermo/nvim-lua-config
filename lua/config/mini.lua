@@ -11,7 +11,7 @@ for k,v in pairs{
             replace='cs',
             update_n_lines='',
         }
-    }
+    },
 } do
     require('mini.'..k).setup(v)
 end

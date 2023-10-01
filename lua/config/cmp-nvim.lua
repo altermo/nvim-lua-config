@@ -7,10 +7,8 @@ local data={
     {name='codeium',menu='CI',conf={entry_filter=function () return not _G.CMD_NO_SPAM end}},
     {name='async_path',menu='PATH',types={'',':'}},
     {name='calc',menu='CALC'},
-    {name='rg',menu='RG',conf={option={additional_arguments='--max-depth 4'},max_item_count=20,entry_filter=function () return not _G.CMD_NO_SPAM end}},
     {name='nvim_lsp_signature_help'},
     {name='cmdline',menu='CL',types={':'}},
-    {name='cmdline_history',menu='CLH',types={':'}},
 }
 local function gen(type,tbl)
     return vim.iter(tbl):map(function (item)

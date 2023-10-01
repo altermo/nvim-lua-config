@@ -50,15 +50,17 @@ local function get_config(name) return function () require('config.'..name) end 
 require('pckr').add{
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
   {'altermo/small.nvim',cond=function() end},
-  {'NvChad/ui',cond=function () end},
+  {'nvchad/ui',cond=function () end,branch='v3.0'},
+  {'NvChad/base46',cond=function() end,branch='v3.0',config=function ()
+    vim.g.base46_cache=vim.fn.stdpath'cache'..'/base46/'
+  end},
+  --{'nvim-tree/nvim-tree.lua'},
 
   ----colorschm
   'folke/tokyonight.nvim',
-  'ray-x/starry.nvim',
   'edeneast/nightfox.nvim',
-  'bluz71/vim-nightfly-colors',
-  'matsuuu/pinkmare',
   'NTBBloodbath/doom-one.nvim',
+  'ray-x/starry.nvim',
   'hoprr/calvera-dark.nvim',
 
   ----visual
@@ -99,7 +101,7 @@ require('pckr').add{
     vim.keymap.set('n','<C-a>',dialmap.inc_normal())
     vim.keymap.set('n','<C-x>',dialmap.dec_normal())
   end,cond=lkey{n={'<C-a>','<C-x>'}}},
-  {'mg979/vim-visual-multi',config=function() vim.g.VM_maps={} end,cond=lkey{n={'<C-n>','\\\\'},x={'<C-n>'}}},
+  {'mg979/vim-visual-multi',cond=lkey{n={'<C-n>','\\\\'},x={'<C-n>'}}},
   {'folke/flash.nvim',config=get_config'flash',cond=lkey{n={'f','F','t','T','s'},x={'f','F','t','T','s'},o={'r'}}},
 
   ----command
@@ -207,7 +209,6 @@ require('pckr').add{
   {'hrsh7th/cmp-nvim-lsp',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
   {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
   {'FelipeLema/cmp-async-path',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  --{'lukas-reineke/cmp-rg',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
   {'exafunction/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter'}},
 
   ----writing
