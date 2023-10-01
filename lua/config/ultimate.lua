@@ -25,15 +25,8 @@ local configs={upair.extend_default{
         hopout=true,
     },
     extensions={
-        fly={nofilter=true},
         cond={cond=function(fn) return not fn.in_macro() end},
     },
-    config_internal_pairs={
-        {'"','"',fly=true,bs_overjumps=true,multiline=true},
-        {"'","'",fly=true},
-        {'{','}',suround=true},
-    },
-    {'\\(','\\)',noescape=true},
     {'<<','>>',newline=true},
     {'*','*',multiline=false,ft={'markdown'}},
     {'**','**',multiline=false,ft={'markdown'}},

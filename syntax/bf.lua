@@ -1,5 +1,5 @@
-vim.cmd.syn'match Comment "."'
-vim.cmd.syn'match Identifier "[][]"'
-vim.cmd.syn'match Directory "[+-]"'
-vim.cmd.syn'match String "[<>]"'
-vim.cmd.syn'match Statement "[.,]"'
+vim.cmd[[syn match Comment "."]]
+vim.cmd[[syn match Identifier "[][]"]]
+vim.cmd[[syn match Directory "[+-]"]]
+vim.cmd[[syn match String "[<>]"]]
+vim.cmd[[syn match Statement "[.,]"]]

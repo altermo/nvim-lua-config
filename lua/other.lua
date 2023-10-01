@@ -1,5 +1,3 @@
---vim.g.loaded_tutor_mode_plugin=1
---vim.g.loaded_man=1
 vim.g.loaded_spellfile_plugin=1
 vim.g.loaded_fzf=1
 vim.g.loaded_matchparen=1
@@ -15,14 +13,6 @@ vim.g.loaded_remote_plugins=1
 vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
 vim.fn.timer_start(150,function() vim.cmd"doautocmd User s1" end)
 
-local deprecate=vim.deprecate
----@source /usr/local/share/nvim/runtime/lua/vim/_editor.lua:1000
----@diagnostic disable-next-line: duplicate-set-field
-function vim.deprecate(name,...)
-  if os.time()<os.time({month=10,year=2023,day=1}) and
-    name=='LanguageTree:for_each_child()' then return end
-  deprecate(name,...)
-end
 local open=vim.ui.open
 ---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:127
 ---@diagnostic disable-next-line: duplicate-set-field
@@ -45,3 +35,9 @@ vim.lgend=require'utils.log'.log_end
 vim.traceback=require'utils.log'.log_traceback
 vim.req=require'utils.lib'.req
 require'config.small'
+if not pcall(vim.cmd.colorscheme,'own') then
+    vim.o.background='dark'
+    if not pcall(vim.cmd.colorscheme,'tokyonight') then
+        vim.cmd.colorscheme'retrobox'
+    end
+end

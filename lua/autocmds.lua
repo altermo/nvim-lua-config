@@ -1,5 +1,4 @@
 local function autocmd(au,callback,opt) return vim.api.nvim_create_autocmd(au,vim.tbl_extend('error',{callback=callback},opt or {})) end
---autocmd('BufWinEnter',function () if vim.o.filetype=='' then vim.o.filetype='txt' end end)
 autocmd('CmdlineEnter',function () vim.o.hlsearch=true end,{pattern='/,\\?'})
 autocmd('TermOpen',function() vim.o.filetype='term' end)
 autocmd('FileType',function()

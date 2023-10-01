@@ -17,28 +17,24 @@ local function gen(type,tbl)
             or nil end):totable()
 end
 local menu=vim.iter(data):fold({},function (acc,item) acc[item.name]=item.menu return acc end)
-local normal=gen('',data)
-local cmdline=gen(':',data)
-local searchline=gen('/',data)
 local function format(entry,item)
     return vim.tbl_extend('force',item,{dup=0,menu=menu[entry.source.name]})
 end
-local function snippet(args)
-    local line_num,col=unpack(vim.api.nvim_win_get_cursor(0))
-    local line_text=vim.api.nvim_buf_get_lines(0,line_num-1,line_num,true)[1]
-    local indent=line_text:match('^%s*')
-    local replace=vim.split(args.body:gsub('$%d',''),'\n')
-    local pos=args.body:find('$1') or #replace[1]+1
-    replace[1]=line_text:sub(0,col):gsub('^%s*','')..replace[1]
-    replace[#replace]=replace[#replace]..line_text:sub(col+1)
-    for i,line in ipairs(replace) do replace[i]=indent..line:gsub('\t',(' '):rep(vim.o.shiftwidth)) end
-    vim.api.nvim_buf_set_lines(0,line_num-1,line_num,true,replace)
-    vim.api.nvim_win_set_cursor(0,{line_num,pos+col-1})
-end
 cmp.setup({
     formatting={format=format},
-    snippet={expand=snippet},
-    sources=cmp.config.sources(normal),
+    snippet={expand=function (args)
+        local line_num,col=unpack(vim.api.nvim_win_get_cursor(0))
+        local line_text=vim.api.nvim_buf_get_lines(0,line_num-1,line_num,true)[1]
+        local indent=line_text:match('^%s*')
+        local replace=vim.split(args.body:gsub('$%d',''):gsub('${%d.-}',''),'\n')
+        local pos=args.body:find('$1') or args.body:find('${1') or #replace[1]+1
+        replace[1]=line_text:sub(0,col):gsub('^%s*','')..replace[1]
+        replace[#replace]=replace[#replace]..line_text:sub(col+1)
+        for i,line in ipairs(replace) do replace[i]=indent..line:gsub('\t',(' '):rep(vim.o.shiftwidth)) end
+        vim.api.nvim_buf_set_lines(0,line_num-1,line_num,true,replace)
+        vim.api.nvim_win_set_cursor(0,{line_num,pos+col-1})
+    end},
+    sources=cmp.config.sources(gen('',data)),
     mapping={
         ['<CR>']=cmp.mapping(function(fallback)
             if cmp.get_active_entry() and ({async_path=true,nvim_lsp=true,codeium=true})[cmp.get_selected_entry().source.name] then
@@ -53,12 +49,12 @@ cmp.setup({
 cmp.setup.cmdline('/',{
     formatting={format=format},
     mapping=cmp.mapping.preset.cmdline(),
-    sources=cmp.config.sources(searchline)
+    sources=cmp.config.sources(gen('/',data))
 })
 cmp.setup.cmdline(':',{
     formatting={format=format},
     mapping=cmp.mapping.preset.cmdline(),
-    sources=cmp.config.sources(cmdline)
+    sources=cmp.config.sources(gen(':',data))
 })
 local compare=require('cmp.config.compare')
 cmp.setup{sorting={priority_weight=2,comparators={
@@ -73,11 +69,9 @@ cmp.setup{sorting={priority_weight=2,comparators={
 }}}
 local Kind=cmp.lsp.CompletionItemKind
 cmp.event:on(
-  'confirm_done',
-  function (evt)
-    if vim.tbl_contains({Kind.Function,Kind.Method},evt.entry:get_completion_item().kind) then
-      vim.api.nvim_feedkeys('()'..vim.keycode'<Left>','n',false)
-    end
-  end
-)
+    'confirm_done',
+    function (evt)
+        if vim.tbl_contains({Kind.Function,Kind.Method},evt.entry:get_completion_item().kind) then
+            vim.api.nvim_feedkeys('()'..vim.keycode'<Left>','n',false)
+        end end)
 vim.cmd.doautocmd("InsertEnter")

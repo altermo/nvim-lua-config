@@ -6,7 +6,7 @@ local servers={
         completion={displayContext=30,postfix=':'},
         workspace={
             library={
-                '/usr/local/share/nvim/runtime/lua',
+                '/usr/local/share/nvim/runtime/lua/vim/',
                 '${3rd}/luv/library',
                 '~/.config/nvim/.other/ua/lua/',
                 '~/.config/nvim/lua',
@@ -30,10 +30,4 @@ end
 for lsp,opt in pairs(servers) do
     lspconfig[lsp].setup(opt)
 end
-local nno=require'utils.keymap'.nno
-nno('[d',vim.diagnostic.goto_prev)
-nno(']d',vim.diagnostic.goto_next)
-nno(']D',vim.diagnostic.disable)
-nno('[D',vim.diagnostic.enable)
-nno('gC',vim.lsp.buf.code_action)
 vim.cmd.LspStart()

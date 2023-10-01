@@ -48,6 +48,7 @@ nno('cD',function()
   vim.cmd.pwd()
 end)
 nno('dc',':lcd ..|pwd\r')
+nno('dC',':cd %:p:h|pwd\r')
 local zo=0
 nno('<C-z>',function ()
   zo=zo%3+1
@@ -81,13 +82,19 @@ nno('cW','dWi')
 nno('g:','q:')
 nno('g/','q/')
 nno('gp','`[v`]')
-nno("'",'`')
 nno("' ",":s/['\"]/\\=submatch(0)=='\"'?\"'\":'\"'/g\r")
 nno('vv','V')
+nno('\\p','<cmd>Pckr status\r')
 nno('gd',function ()
   if vim.lsp.buf_notify(0,'window/progress',{}) or #vim.fn.tagfiles()>0 then return '<C-]>'
   else return 'gd' end
 end,{expr=true})
+nno('[d',vim.diagnostic.goto_prev)
+nno(']d',vim.diagnostic.goto_next)
+nno(']D',vim.diagnostic.disable)
+nno('[D',vim.diagnostic.enable)
+nno('gC',vim.lsp.buf.code_action)
+nno('gr',':IncRename <C-r>=expand("<cword>")\r',{noremap=true})
 ------alt/ctrl
 for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical resize +'}) do
   nno('<C-'..k..'>','<C-w>'..k..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
@@ -112,7 +119,6 @@ nno('<A-f>',':%s///g<Left><Left><Left>',{noremap=true})
 for i=1,9 do
   nno('<A-'..i..'>',':tabnext '..i..'\r')
 end
-nno('\\p','<cmd>Pckr status\r')
 
 ----ino/cno
 for k,v in pairs({h='Left',l='Right',j='Down',k='Up'}) do
@@ -210,13 +216,5 @@ tno('<A-S-h>','<S-Left>')
 tno('<A-S-l>','<S-Right>')
 tno('<A-S-j>','<S-Down>')
 tno('<A-S-k>','<S-Up>')
-
-----disable keys
-for _,i in pairs({'<left>','<right>','<up>','<down>'}) do
-  nno(i,'<nop>')
-  ino(i,'<nop>')
-  xno(i,'<nop>')
-  lcno(i,'<nop>')
-end
 
 -- vim:fen

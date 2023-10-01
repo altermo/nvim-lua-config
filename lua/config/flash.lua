@@ -23,5 +23,6 @@ k.ono('r',function ()
     vim.cmd.norm{'v',bang=true}
     require'flash'.jump()
     vim.cmd.norm{vim.v.operator}
+    if vim.v.operator=='c' then return end
     vim.api.nvim_win_set_cursor(0,pos)
 end)
