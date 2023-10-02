@@ -55,7 +55,7 @@ require'which-key'.register{[' ']=format{
   t={require'small.unimpaired'.set_opt,'toggle opt'},
   i={':edit .\r','edir'},
   ------fold
-  z={'zM100zo','close-all-folds-but-cursor'},
+  z={'zMzv','close-all-folds-but-cursor'},
   Z={':e\r','reload-folds'},
   ------window/buffer
   q={':q\r','quit'},
