@@ -10,14 +10,7 @@ local xbmap=key.xbmap
 
 ----nno
 nno('g=','vgg=Gc')
-nno('<Home>',function ()
-  for _,v in pairs(vim.fn.getwininfo()) do
-    if v.quickfix==1 then vim.cmd.cclose() return end
-  end
-  vim.cmd.copen()
-  vim.cmd.wincmd('p')
-end)
-nno('|','~')
+nno('|','_')
 nno(',','<C-o>')
 nno(';','<C-i>')
 nno('.',':',{noremap=true})
@@ -60,17 +53,15 @@ nno('<C-z>',function ()
   end
 end)
 nno('gh',function ()
-  local iskeyword=vim.o.iskeyword
-  vim.opt.iskeyword:append('.')
-  local word=vim.fn.expand('<cword>') --[[@as string]]
-  vim.o.iskeyword=iskeyword
-  if vim.regex([[vim\.api\.]]):match_str(word) then word=vim.fn.expand('<cword>')..'()'
-  elseif vim.regex([[vim\.uv\.]]):match_str(word) then word='uv.'..vim.fn.expand('<cword>')..'()'
-  elseif vim.regex([[vim\.fn\.]]):match_str(word) then word=vim.fn.expand('<cword>')..'()'
-  elseif vim.regex([[vim\.cmd\.]]):match_str(word) then word=':'..vim.fn.expand('<cword>')
-  elseif vim.regex([[vim\.o\.]]):match_str(word) then word="'"..vim.fn.expand('<cword>').."'"
-  elseif vim.regex([[vim\.opt\.]]):match_str(word) then word="'"..vim.fn.expand('<cword>').."'" end
-  if pcall(vim.cmd.help, word) then return end
+  local word=vim.fn.expand('<cfile>') --[[@as string]]
+  if pcall(vim.cmd.help,
+    (vim.regex([[vim\.api\.]]):match_str(word) and '%s()' or
+    vim.regex([[vim\.uv\.]]):match_str(word) and 'uv.%s()' or
+    vim.regex([[vim\.fn\.]]):match_str(word) and '%s()' or
+    vim.regex([[vim\.cmd\.]]):match_str(word) and ':%s' or
+    vim.regex([[vim\.o\.]]):match_str(word) and "'%s'" or
+    vim.regex([[vim\.opt\.]]):match_str(word) and "'%s'" or
+    word):format(vim.fn.expand('<cword>'))) then return end
   vim.lsp.buf_request(0,vim.lsp.protocol.Methods.textDocument_hover,vim.lsp.util.make_position_params())
 end)
 nno('\r','dd',{})
@@ -129,8 +120,6 @@ lcno('<A-d>','<C-w>')
 lcno('<A-c>','<S-Right><C-w>')
 lcno('<A-b>','<S-Left>')
 lcno('<A-w>','<S-Right>')
-lcno('<C-e>','<End>')
-lcno('<C-a>','<Home>')
 lcno('<A-s>','<BS>')
 lcno('<A-x>','<Del>')
 lcno('<C-S-v>','<C-r>+')
@@ -143,25 +132,13 @@ for i in ('hjklwb'):gmatch('.') do
   ino('<A-'..i..'>','<C-o>'..i)
   ino('<A-S-'..i..'>','<C-o>5'..i)
 end
-for i in ('0u$_+-vD'):gmatch('.') do
-  ino('<A-'..i..'>','<C-o>'..i)
-end
-ino('<A-t>','<C-o>f')
-ino('<A-T>','<C-o>T')
-ino('<A-ø>','<cmd>redo\r')
 ino('¨','<esc>')
-ino('<A-BS>','<C-w>')
 ino('<A-d>','<C-w>')
 ino('<A-c>','<C-o>de')
-ino('<A-a>c','<C-o>0<C-o>D')
-ino('<A-a>d','<C-o>dd')
 ino('<A-a><A-c>','<C-o>0<C-o>D')
 ino('<A-a><A-d>','<C-o>dd')
 ino('<A-s>','<bs>')
 ino('<A-x>','<Del>')
-ino('<A-S-S>','<C-w>')
-ino('<A-S-X>','<C-o>dw')
-ino('<A-p>','()<Left>')
 ino('<A-n>','ä')
 ino('<A-S-n>','Ä')
 ino('<A-m>','å')
@@ -178,6 +155,9 @@ ino('<A->>','<C-o>G')
 ino('<C-e>','<End>')
 ino('<C-a>','<Home>')
 ino('<C-g>','<esc>')
+lcno('<C-e>','<End>')
+lcno('<C-a>','<Home>')
+lcno('<C-g>','<esc>')
 
 ----xno/ono
 for i in ([['"`()[]{}<>]]):gmatch('.') do
@@ -188,7 +168,7 @@ xno('\r','d',{})
 xno('R',':Norm ',{})
 xno('j','gj')
 xno('k','gk')
-xno('gr','y:%s/<C-r>"/<C-r>"/g<Left><Left>',{noremap=true})
+xno('<A-f>','y:%s/<C-r>"/<C-r>"/g<Left><Left>',{noremap=true})
 xno('.',':',{noremap=true})
 xno('æ','"+y')
 xno('å','"+p')
@@ -208,13 +188,8 @@ xno('y','ygv<esc>')
 ----tno
 tno('<C-\\>','<C-\\><C-n>')
 tno('<C-A-\\>','<C-\\><C-\\>')
-tno('<C-]><C-]>','<C-\\><C-n>')
 for i in ('hjkl'):gmatch('.') do
   tno('<C-'..i..'>','<C-\\><C-n><C-w>'..i..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
 end
-tno('<A-S-h>','<S-Left>')
-tno('<A-S-l>','<S-Right>')
-tno('<A-S-j>','<S-Down>')
-tno('<A-S-k>','<S-Up>')
 
 -- vim:fen
