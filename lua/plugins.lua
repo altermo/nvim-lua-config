@@ -33,7 +33,7 @@ local function lkey(mkeys)
           elseif mode=='o' then
             vim.api.nvim_feedkeys(vim.v.operator..key,'x!',true)
           else
-            vim.api.nvim_input(vim.v.count..key)
+            vim.api.nvim_input(vim.v.count~=0 and vim.v.count or ''..key)
           end
         end}) end end end end
 local function levent(events)
@@ -79,7 +79,8 @@ require('pckr').add{
   end,cond=ll},
   {'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cond=levent{'CmdlineEnter'}},
   {'nvim-lualine/lualine.nvim',config=get_setup'lualine',cond=ll},
-  {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}}},
+  {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}},
+    requires={'folke/flash.nvim'}},
 
   ----keys
   {'Exafunction/codeium.vim',cond=function(load) -- https://github.com/Exafunction/codeium.vim/issues/118
@@ -138,10 +139,6 @@ require('pckr').add{
   {'smjonas/inc-rename.nvim',config=get_setup'inc_rename',cond=levent{'CmdlineEnter'}},
 
   ----search
-  {'nvim-pack/nvim-spectre',config=function ()
-    vim.api.nvim_create_user_command('Spectre',require'spectre'.open,{})
-  end,requires={'nvim-lua/plenary.nvim'},cond=lcmd{'Spectre'}},
-  ------telescope
   {'nvim-telescope/telescope.nvim',requires={
     'nvim-lua/plenary.nvim',
     'nvim-telescope/telescope-project.nvim',
@@ -151,8 +148,7 @@ require('pckr').add{
       ---@diagnostic disable-next-line: duplicate-set-field
       function vim.ui.select(...)
         load()
-        local telescope=require'telescope'
-        telescope.load_extension'ui-select'
+        require'telescope'.load_extension'ui-select'
         vim.ui.select(...)
       end
     end,requires={'nvim-telescope/telescope.nvim'}},

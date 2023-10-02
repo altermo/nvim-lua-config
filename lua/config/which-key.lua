@@ -51,7 +51,9 @@ require'which-key'.register{[' ']=format{
   ['.']={'@:','run-prev-cmd'},
   r={require'small.ranger'.run,'ranger'},
   ["'"]={':Shell\r','shell'},
+  ["*"]={':lcd %:p:h|Shell\r','shell-current-file'},
   t={require'small.unimpaired'.set_opt,'toggle opt'},
+  i={':edit .\r','edir'},
   ------fold
   z={'zM100zo','close-all-folds-but-cursor'},
   Z={':e\r','reload-folds'},
@@ -81,20 +83,13 @@ require'which-key'.register{[' ']=format{
     }
   end,'push-pos'},
 
-  ---uncategorized TODO
-  ['?']={name='uncategorized',
-    j={name='+jump',
-      t={'<cmd>lua require"flash".treesitter()\r','tree'},
-      f={':Telescope current_buffer_fuzzy_find\r','find-whole-file'},
-      h={'<cmd>lua require"flash".jump()\r','1 char'},
-      l={'<cmd>lua require("flash").jump({search={mode="search",max_length=0},label={after={0,0}},pattern="^"})\r','line'},
-      d={require'small.dff'.file_expl,'dff'},
-    },
-    T={':InspectTree\r','TSPlayground'},
+  ---cmd/app
+  c={name='+cmd/app',
+    t={':InspectTree\r','TSPlayground'},
     u={':MundoToggle\r','undotree'},
     a={':TableModeToggle\r','table-mode'},
     n={':lua require"notify".dismiss({pending=true,silent=true})\r','dismiss notify'},
-    C={function()
+    c={function()
       local buf=vim.fn.bufnr() --[[@as number]]
       if mouse_center[buf] then
         vim.api.nvim_del_autocmd(mouse_center[buf])
@@ -106,41 +101,48 @@ require'which-key'.register{[' ']=format{
     end,'centermouse'},
     e={':silent !emacsclient %&\r','send-emacs'},
     w={':call execute("terminal curl \'wttr.in/?nQF\' -s")|startinsert\r','weather'},
-    i={':edit .\r','edir'},
     m={':MarkdownPreview\r','markdown-preview'},
-    c={name='+otherc',
-      D={function ()
-        local tomorrow=os.time()+24*60*60
-        return '/'..os.date('@%Y-%m-%d')..'\rlc5e'..os.date('%Y-%m-%d',tomorrow)..''
-      end,'increment-date',expr=true},
-      ['<C-d>']={function ()
-        local yesterday=os.time()-24*60*60
-        return '/'..os.date('@%Y-%m-%d',yesterday)..'\rlc5e'..os.date('%Y-%m-%d')..''
-      end,'increment-date',expr=true},
-      l={':edit /tmp/nlog\r','open-nlog'},
-      T={':lua require "mini.trailspace".trim()\r','trim spaces'},
-      ------treesitter
-      t={name='+treesitter',
-        e={':hi link TSError NvimInternalError\r','highlight error'},
-        f={':set foldexpr=v:lua.vim.treesitter.foldexpr()\r','set-foldexpr'},
-      },
-      ------foldmethod
-      f={name='+foldmethod',
-        _=cmap({m='manual',i='indent',e='expr',M='marker',S='syntax',d='diff'},':set foldmethod=%s\r','%s'),
-        t={':set foldmethod=expr\r:set foldexpr=v:lua.vim.treesitter.foldexpr()\r','treesitter'},
-        d={':set foldmethod=expr\r:set foldexpr=v:lua.Fold(v:lnum)\r','default'},
-      },
-      ------foldlevel
-      F={name='+foldlevel',
-        _=fmap(9,':set foldlevel=%s\r','%s')
-      },
-      ------indent
-      i={name='+indent',
-        _=fmap(9,':set sw=%s ts=%s sts=%s\r','set indent=%s'),
-      },
-      ------git
-      g={':DiffviewOpen\r','git-diff'},
+    l={':edit /tmp/nlog\r','open-log'},
+    g={':DiffviewOpen\r','git-diff'},
+  },
+
+  ---fold/indent
+  I={name='+fold/indent',
+    ------foldmethod
+    f={name='+foldmethod',
+      _=cmap({m='manual',i='indent',e='expr',M='marker',S='syntax',d='diff'},':set foldmethod=%s\r','%s'),
+      t={':set foldmethod=expr\r:set foldexpr=v:lua.vim.treesitter.foldexpr()\r','treesitter'},
+      f={':set foldmethod=expr\r:set foldexpr=v:lua.Fold(v:lnum)\r','default'},
     },
+    ------foldlevel
+    l={name='+foldlevel',
+      _=fmap(9,':set foldlevel=%s\r','set foldlevel=%s')
+    },
+    ------indent
+    i={name='+indent',
+      _=fmap(9,':set sw=%s ts=%s sts=%s\r','set indent=%s'),
+    },
+  },
+
+  ---private
+  ['?']={name='private',
+    D={function ()
+      local tomorrow=os.time()+24*60*60
+      return '/'..os.date('@%Y-%m-%d')..'\rlc5e'..os.date('%Y-%m-%d',tomorrow)..''
+    end,'increment-date',expr=true},
+    ['<C-d>']={function ()
+      local yesterday=os.time()-24*60*60
+      return '/'..os.date('@%Y-%m-%d',yesterday)..'\rlc5e'..os.date('%Y-%m-%d')..''
+    end,'increment-date',expr=true},
+  },
+
+  ---jump
+  j={name='+jump',
+    t={'<cmd>lua require"flash".treesitter()\r','tree'},
+    f={':Telescope current_buffer_fuzzy_find\r','find-whole-file'},
+    j={'<cmd>lua require"flash".jump()\r','1 char'},
+    l={'<cmd>lua require("flash").jump({search={mode="search",max_length=0},label={after={0,0}},pattern="^"})\r','line'},
+    d={require'small.dff'.file_expl,'dff'},
   },
 
   ---tabs
@@ -203,13 +205,13 @@ require'which-key'.register{[' ']=format{
     },
     r={name='+replace',
       p={require'small.lbpr'.run,'lbpr'},
-      r={':Spectre\r','spectre'},
+      --r={':Spectre\r','spectre'}, --TODO: replacement
       w={':%s/\\<<C-r>=expand("<cword>")\r\\>//<Left>','word',silent=false},
     }
   },
 
   ----packer
-  p={name='+packer',
+  P={name='+packer',
     _=cmap({p='status',i='install',c='clean',u='update'},':Pckr %s\r','%s'),
   },
 
@@ -247,15 +249,6 @@ require'which-key'.register{[' ']=format{
     ['\r']={':set hls!\r','highlight'},
     h={':ColorizerToggle\r','toggle-color-name-highlight'},
     z={require'small.zen'.run,'zen'},
-    ['+']={function()
-      vim.o.guifont=vim.fn.substitute(vim.o.guifont,[[\vh(\d+)]],'\\="h".(submatch(1)+1)','')
-    end,'zoom in'},
-    ['-']={function()
-      vim.o.guifont=vim.fn.substitute(vim.o.guifont,[[\vh(\d+)]],'\\="h".(submatch(1)-1)','')
-    end,'zoom out'},
-    ['0']={function()
-      vim.o.guifont=vim.fn.substitute(vim.o.guifont,[[\vh(\d+)]],'h11','')
-    end,'zoom reset'},
     C={function ()
       vim.cmd.hi('Cursor blend=100')
       vim.o.guicursor='a:Cursor/lCursor,a:ver1'
@@ -325,11 +318,11 @@ require'which-key'.register{[' ']=format{
   },
 
   ---project
-  P={name='+project',
+  p={name='+project',
     p={':Telescope project project\r','search'},
     r={':source /tmp/session.vim\r','reload-last-session',silent=false},
-    P={':exe "edit" v:oldfiles[0]\r','reload-last-file'},
-    W={'wshada','write shada'},
-    R={'rshada','read shada'},
+    [' ']={':exe "edit" v:oldfiles[0]\r','reload-last-file'},
+    W={':wshada\r','write shada'},
+    R={':rshada\r','read shada'},
   },
 }}

@@ -11,7 +11,7 @@ vim.g.loaded_netrwPlugin=1
 vim.g.loaded_remote_plugins=1
 
 vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
-vim.fn.timer_start(150,function() vim.cmd"doautocmd User s1" end)
+vim.fn.timer_start(120,function() vim.cmd"doautocmd User s1" end)
 
 local open=vim.ui.open
 ---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:127
@@ -35,9 +35,3 @@ vim.lgend=require'utils.log'.log_end
 vim.traceback=require'utils.log'.log_traceback
 vim.req=require'utils.lib'.req
 require'config.small'
-if not pcall(vim.cmd.colorscheme,'own') then
-    vim.o.background='dark'
-    if not pcall(vim.cmd.colorscheme,'tokyonight') then
-        vim.cmd.colorscheme'retrobox'
-    end
-end

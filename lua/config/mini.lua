@@ -10,9 +10,7 @@ for k,v in pairs{
             highlight='',
             replace='cs',
             update_n_lines='',
-        }
-    },
-} do
+        }}} do
     require('mini.'..k).setup(v)
 end
 local ma=require'mini.align'
