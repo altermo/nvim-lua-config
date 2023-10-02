@@ -64,3 +64,11 @@ end,{pattern='lua'})
 autocmd('FileType',function() bino('…','self->') end,{pattern='c'})
 autocmd('FileType',function() bino('…','self.') end,{pattern='python'})
 autocmd('FileType',function() vim.keymap.set('n','<cr>','<cr>',{buffer=true}) end,{pattern='qf'})
+vim.api.nvim_create_autocmd('UIEnter',{
+  callback = function()
+    if vim.fn.argc()>0 or
+      vim.api.nvim_buf_line_count(0)>1 or
+      vim.api.nvim_buf_get_lines(0,0,-1,false)[1]~='' then return end
+    vim.bo.buftype='nofile'
+    vim.bo.filetype='lua'
+  end,once=true})
