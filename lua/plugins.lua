@@ -78,7 +78,9 @@ require('pckr').add{
     vim.cmd'ColorizerAttachToBuffer'
   end,cond=ll},
   {'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cond=levent{'CmdlineEnter'}},
-  {'nvim-lualine/lualine.nvim',config=get_setup'lualine',cond=ll},
+  {'nvim-lualine/lualine.nvim',config=get_setup('lualine',{
+    sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"}},
+  }),cond=ll},
   {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}},
     requires={'folke/flash.nvim'}},
 
@@ -218,7 +220,5 @@ require('pckr').add{
       ['core.completion']={config={engine='nvim-cmp'}},
     }}),cond=lft{'norg'},run=':Neorg sync-parsers',requires={'hrsh7th/nvim-cmp'}},
   {'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
-
-  ---end
 }
 -- vim:fen:

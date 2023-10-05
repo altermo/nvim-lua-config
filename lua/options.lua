@@ -15,10 +15,11 @@ vim.o.foldmethod='expr'
 vim.wo.foldexpr='getline(v:lnum)==""?0:1'
 vim.o.foldenable=false
 ---statuscolumn
-vim.o.relativenumber=true
-vim.o.number=true
-vim.o.numberwidth=2
-vim.o.statuscolumn="%{&foldenable?(get([' ','▎','▍','▌','▋','▊','▉','█','▐'],foldlevel(v:lnum),'|')):''}%C%s%{&nu?v:virtnum>0?'':v:relnum?&rnu?v:relnum:v:lnum:v:lnum:v:virtnum>0?'':&rnu?v:relnum:''}"
+----https://github.com/neovim/neovim/issues/21342#issuecomment-1344280934
+--vim.o.relativenumber=true
+--vim.o.number=true
+--vim.o.statuscolumn="%{&foldenable?(get([' ','▎','▍','▌','▋','▊','▉','█','▐'],foldlevel(v:lnum),'|')):''}%C%s%{&nu?v:virtnum>0?'':v:relnum?&rnu?v:relnum:v:lnum:v:lnum:v:virtnum>0?'':&rnu?v:relnum:''}"
+--vim.o.numberwidth=2
 --TODO: add gitsigns as faint highlight https://github.com/lewis6991/gitsigns.nvim
 ---window/split
 vim.o.splitbelow=true
@@ -48,6 +49,7 @@ vim.o.shada="'100,/5,:500,<50,@0,s10"
 vim.o.scrolloff=5
 vim.o.timeoutlen=500
 vim.o.spelllang='en'
+vim.o.spelloptions='camel'
 vim.o.shortmess='asoOAFWqI'
 vim.o.completeopt='menu,menuone,noselect'
 vim.o.virtualedit='block,onemore'
@@ -57,3 +59,4 @@ vim.o.lazyredraw=true
 vim.o.shell='/bin/fish'
 vim.o.smoothscroll=true
 vim.o.mouse='a'
+vim.o.concealcursor='nc'

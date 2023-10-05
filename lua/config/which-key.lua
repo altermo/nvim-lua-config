@@ -27,7 +27,7 @@ local function format(tbl)
   return tbl
 end
 local spell={s='es',e='en',v='sv',n='nb'}
-local mouse_center={}
+local mouse_center
 local saved_pos={}
 require'which-key'.setup{plugins={
   marks=false,
@@ -90,13 +90,12 @@ require'which-key'.register{[' ']=format{
     a={':TableModeToggle\r','table-mode'},
     n={':lua require"notify".dismiss({pending=true,silent=true})\r','dismiss notify'},
     c={function()
-      local buf=vim.fn.bufnr() --[[@as number]]
-      if mouse_center[buf] then
-        vim.api.nvim_del_autocmd(mouse_center[buf])
-        mouse_center[buf]=nil
+      if mouse_center then
+        vim.api.nvim_del_autocmd(mouse_center)
+        mouse_center=false
       else
-        mouse_center[buf]=vim.api.nvim_create_autocmd('CursorMoved,CursorMovedI',{command='norm! zz',buffer=buf})
-        vim.cmd.norm {'zz',bang=true}
+        mouse_center=vim.api.nvim_create_autocmd('CursorMoved,CursorMovedI',{command='norm! zz'})
+        vim.cmd.norm{'zz',bang=true}
       end
     end,'centermouse'},
     e={':silent !emacsclient %&\r','send-emacs'},
@@ -115,13 +114,9 @@ require'which-key'.register{[' ']=format{
       f={':set foldmethod=expr\r:set foldexpr=v:lua.Fold(v:lnum)\r','default'},
     },
     ------foldlevel
-    l={name='+foldlevel',
-      _=fmap(9,':set foldlevel=%s\r','set foldlevel=%s')
-    },
+    l={name='+foldlevel',_=fmap(9,':set foldlevel=%s\r','set foldlevel=%s')},
     ------indent
-    i={name='+indent',
-      _=fmap(9,':set sw=%s ts=%s sts=%s\r','set indent=%s'),
-    },
+    i={name='+indent',_=fmap(9,':set sw=%s ts=%s sts=%s\r','set indent=%s')},
   },
 
   ---private
@@ -306,8 +301,7 @@ require'which-key'.register{[' ']=format{
       local win=require('window-picker').pick_window()
       if not win then return end
       local curbuf=vim.api.nvim_win_get_buf(0)
-      local otherbuf=vim.api.nvim_win_get_buf(win)
-      vim.api.nvim_win_set_buf(0,otherbuf)
+      vim.api.nvim_win_set_buf(0,vim.api.nvim_win_get_buf(win))
       vim.api.nvim_win_set_buf(win,curbuf)
     end,'swap'},
     [' ']={function()

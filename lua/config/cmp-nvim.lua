@@ -18,15 +18,15 @@ local function gen(type,tbl)
 end
 local menu=vim.iter(data):fold({},function (acc,item) acc[item.name]=item.menu return acc end)
 local function format(entry,item)
-    return vim.tbl_extend('force',item,{dup=0,menu=menu[entry.source.name]})
+    return setmetatable({dup=0,menu=menu[entry.source.name]},{__index=item})
 end
-cmp.setup({
+cmp.setup{
     formatting={format=format},
     snippet={expand=function (args)
         local line_num,col=unpack(vim.api.nvim_win_get_cursor(0))
         local line_text=vim.api.nvim_buf_get_lines(0,line_num-1,line_num,true)[1]
         local indent=line_text:match('^%s*')
-        local replace=vim.split(args.body:gsub('$%d',''):gsub('${%d.-}',''),'\n')
+        local replace=vim.split(args.body:gsub('$%d',''):gsub('${%d:(.-)}',''),'\n')
         local pos=args.body:find('$1') or args.body:find('${1') or #replace[1]+1
         replace[1]=line_text:sub(0,col):gsub('^%s*','')..replace[1]
         replace[#replace]=replace[#replace]..line_text:sub(col+1)
@@ -44,8 +44,7 @@ cmp.setup({
             end end),
         ['<Tab>']=cmp.mapping.select_next_item(),
         ['<S-Tab>']=cmp.mapping.select_prev_item(),
-    },
-})
+    }}
 cmp.setup.cmdline('/',{
     formatting={format=format},
     mapping=cmp.mapping.preset.cmdline(),
@@ -56,17 +55,17 @@ cmp.setup.cmdline(':',{
     mapping=cmp.mapping.preset.cmdline(),
     sources=cmp.config.sources(gen(':',data))
 })
-local compare=require('cmp.config.compare')
-cmp.setup{sorting={priority_weight=2,comparators={
-    compare.score,
-    compare.offset,
-    compare.exact,
-    compare.recently_used,
-    compare.kind,
-    compare.sort_text,
-    compare.length,
-    compare.order,
-}}}
+--local compare=require('cmp.config.compare')
+--cmp.setup{sorting={priority_weight=2,comparators={
+    --compare.score,
+    --compare.offset,
+    --compare.exact,
+    --compare.recently_used,
+    --compare.kind,
+    --compare.sort_text,
+    --compare.length,
+    --compare.order,
+--}}}
 local Kind=cmp.lsp.CompletionItemKind
 cmp.event:on(
     'confirm_done',

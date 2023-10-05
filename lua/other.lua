@@ -16,12 +16,7 @@ vim.fn.timer_start(120,function() vim.cmd"doautocmd User s1" end)
 local open=vim.ui.open
 ---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:127
 ---@diagnostic disable-next-line: duplicate-set-field
-function vim.ui.open(path)
-  if path:match'^[a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+$' then
-    if pcall(open,'https://github.com/'..path) then return end
-  end
-  open(path)
-end
+function vim.ui.open(path) open(path:gsub('^([a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+)$','https://github.com/%1')) end
 
 function vim.pprint(...)
   local s,args=pcall(vim.deepcopy,{...})

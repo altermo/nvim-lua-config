@@ -1,4 +1,5 @@
 local function autocmd(au,callback,opt) return vim.api.nvim_create_autocmd(au,vim.tbl_extend('error',{callback=callback},opt or {})) end
+autocmd('BufWinEnter',function () if vim.o.filetype=='' then vim.o.filetype='none' end end)
 autocmd('CmdlineEnter',function () vim.o.hlsearch=true end,{pattern='/,\\?'})
 autocmd('TermOpen',function() vim.o.filetype='term' end)
 autocmd('FileType',function()
@@ -32,7 +33,6 @@ autocmd({'InsertLeave','TextChanged'},function (ev)
     ---@diagnostic disable-next-line: param-type-mismatch
     vim.cmd('lockmarks silent! write! ++p /tmp/nvim-save/'..vim.fn.expand('%:p'):gsub('%/','\\%%'))
 end)
-autocmd('LspProgress',function () vim.print(vim.lsp.status()) end)
 autocmd('FileType',function()
   if pcall(vim.treesitter.get_parser) then
     vim.cmd'syntax off'
@@ -70,5 +70,14 @@ vim.api.nvim_create_autocmd('UIEnter',{
       vim.api.nvim_buf_line_count(0)>1 or
       vim.api.nvim_buf_get_lines(0,0,-1,false)[1]~='' then return end
     vim.bo.buftype='nofile'
-    vim.bo.filetype='lua'
   end,once=true})
+autocmd('CmdlineEnter',function ()
+    if vim.o.cmdheight~=0 then return end
+    vim.o.laststatus=0
+    vim.cmd.redraw()
+end)
+autocmd('CmdlineLeave',function ()
+    if vim.o.cmdheight~=0 then return end
+    vim.o.laststatus=2
+    vim.cmd.redraw()
+end)

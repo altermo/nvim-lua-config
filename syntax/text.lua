@@ -11,6 +11,6 @@ vim.cmd[[syn match Special      "\v([a-z0-9_\.\+-]+)\@([\da-z\.-]+)\.([a-z\.]{2,
 vim.cmd[[syn cluster txtContains add=Number,Operator,Special]]
 vim.cmd[[syn region String       start="\"" end="\"" oneline]]
 vim.cmd[[syn region Comment   start="^\s*#" end="$"  oneline contains=@txtContains,String]]
-vim.cmd[[syn region Delimiter    start="("  end=")"  oneline contains=@txtContains,String,Delimiter]]
-vim.cmd[[syn region Delimiter    start="{"  end="}"  oneline contains=@txtContains,String,Delimiter]]
+vim.cmd[[syn region Delimiter     start="(" end=")"  oneline contains=@txtContains,String,Delimiter]]
+vim.cmd[[syn region Delimiter     start="{" end="}"  oneline contains=@txtContains,String,Delimiter]]
 vim.cmd[[syn region Delimiter    start="\[" end="\]" oneline contains=@txtContains,String,Delimiter]]

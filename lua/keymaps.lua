@@ -10,6 +10,7 @@ local xbmap=key.xbmap
 
 ----nno
 nno('g=','vgg=Gc')
+nno('gu','~')
 nno('|','_')
 nno(',','<C-o>')
 nno(';','<C-i>')
@@ -110,6 +111,7 @@ nno('<A-f>',':%s///g<Left><Left><Left>',{noremap=true})
 for i=1,9 do
   nno('<A-'..i..'>',':tabnext '..i..'\r')
 end
+nno('gs',':sort',{silent=false})
 
 ----ino/cno
 for k,v in pairs({h='Left',l='Right',j='Down',k='Up'}) do
@@ -184,6 +186,8 @@ xno('<tab>','>gv')
 xbmap('A',"<esc>:au InsertLeave * ++once :'<+1,'>norm! $\".p\r'<A",'A')
 xbmap('I',"<esc>:au InsertLeave * ++once :'<+1,'>norm! _\".P\r'<I",'I')
 xno('y','ygv<esc>')
+xno('p','P')
+xno('P','p')
 
 ----tno
 tno('<C-\\>','<C-\\><C-n>')

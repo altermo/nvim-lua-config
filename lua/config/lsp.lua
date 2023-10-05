@@ -4,11 +4,9 @@ local servers={
         hint={enable=true},
         runtime={version='LuaJIT'},
         completion={displayContext=30,postfix=':'},
-        workspace={
-            library={
+        workspace={library={
                 '/usr/local/share/nvim/runtime/lua/vim/',
                 '${3rd}/luv/library',
-                '~/.config/nvim/.other/ua/lua/',
                 '~/.config/nvim/lua',
             }}}}},
     jsonls={'json-lsp'},
@@ -17,7 +15,6 @@ local servers={
     fennel_language_server={'fennel-language-server'},
     zls={'zls'},
     taplo={'taplo'},
-    csharp_ls={'csharp-language-server'},
     tsserver={'typescript-language-server'},
 }
 require'mason'.setup{}

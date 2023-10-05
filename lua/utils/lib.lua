@@ -1,13 +1,12 @@
 local M={}
 ---@param bin string
----@param opt? {mouse?:boolean,close_single?:boolean}
-function M.termrun(bin,opt)
-    opt=opt or {}
+---@param close_single? boolean
+function M.termrun(bin,close_single)
     vim.cmd.enew()
     local buf=vim.api.nvim_get_current_buf()
-    --Why sleep 0.01: https://github.com/neovim/neovim/issues/19408
-    vim.fn.termopen((opt.mouse and "sleep 0.01;printf '\\e[?1000h';" or "")..bin,{on_exit=function (_,_,_)
-        if opt.close_single and #vim.fn.getbufinfo()==1 and vim.api.nvim_get_current_buf()==buf then vim.cmd.quitall() end
+    --If mouse doesn't work, try with `sleep 0.1`: https://github.com/neovim/neovim/issues/19408
+    vim.fn.termopen(bin,{on_exit=function (_,_,_)
+        if close_single and #vim.fn.getbufinfo()==1 and vim.api.nvim_get_current_buf()==buf then vim.cmd.quitall() end
         pcall(vim.cmd.bdelete,{buf,bang=true})
     end})
     vim.api.nvim_set_option_value('bufhidden','wipe',{buf=buf})
