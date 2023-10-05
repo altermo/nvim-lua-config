@@ -3,11 +3,7 @@ local upair=require'ultimate-autopair'
 _G.UA_DEV=true
 local configs={upair.extend_default{
     space2={enable=true},
-    bs={
-        space='balance',
-        indent_ignore=true,
-        single_delete=true,
-    },
+    bs={space='balance',indent_ignore=true,single_delete=true},
     cr={autoclose=true},
     fastwarp={
         multi=true,
@@ -20,13 +16,8 @@ local configs={upair.extend_default{
             rcmap='<C-A-S-e>',
         },
     },
-    tabout={
-        enable=true,
-        hopout=true,
-    },
-    extensions={
-        cond={cond=function(fn) return not fn.in_macro() end},
-    },
+    tabout={enable=true,hopout=true},
+    extensions={cond={cond=function(fn) return not fn.in_macro() end}},
     {'<<','>>',newline=true},
     {'*','*',multiline=false,ft={'markdown'}},
     {'**','**',multiline=false,ft={'markdown'}},

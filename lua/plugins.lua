@@ -57,6 +57,7 @@ require('pckr').add{
     vim.g.base46_cache=vim.fn.stdpath'cache'..'/base46/'
   end},
   {'nvim-tree/nvim-tree.lua',cond=skip},
+  --{'stevearc/resession.nvim',cond=skip},
 
   ----colorschm
   'folke/tokyonight.nvim',

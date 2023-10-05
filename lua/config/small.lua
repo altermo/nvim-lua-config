@@ -6,6 +6,13 @@ for k,v in pairs{
     matchall=setup,
     tabline=setup,
     foldtext=setup,
+    splitbuf=function (m)
+        m.conf.options={
+            ["'"]={action=vim.cmd.Shell,desc='shell'},
+            r={desc='ranger',action=require'small.ranger'.run},
+            b={desc='ranger',action=require'small.bufend'.run},
+        }
+    end,
     exchange=function (m)
         key.nno('cx',m.ex_oper)
         key.nno('cX',m.ex_eol)
