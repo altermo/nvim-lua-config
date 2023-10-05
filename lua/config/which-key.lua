@@ -28,7 +28,6 @@ local function format(tbl)
 end
 local spell={s='es',e='en',v='sv',n='nb'}
 local mouse_center
-local saved_pos={}
 require'which-key'.setup{plugins={
   marks=false,
   registers=false,
@@ -54,6 +53,8 @@ require'which-key'.register{[' ']=format{
   ["*"]={':lcd %:p:h|Shell\r','shell-current-file'},
   t={require'small.unimpaired'.set_opt,'toggle opt'},
   i={':edit .\r','edir'},
+  ------packer
+  P={name='+packer',_=cmap({p='status',i='install',c='clean',u='update'},':Pckr %s\r','%s')},
   ------fold
   z={'zMzv','close-all-folds-but-cursor'},
   Z={':e\r','reload-folds'},
@@ -66,22 +67,6 @@ require'which-key'.register{[' ']=format{
   n={require'small.splitbuf'.open,'splitbuf'},
   d={':lua require"mini.bufremove".delete()\r','buffer-close'},
   o={':on\r','only-window'},
-  ------move
-  ['>']={function()
-    if not saved_pos[1] then
-      vim.notify"stack empty"
-      return
-    end
-    vim.api.nvim_set_current_buf(saved_pos[#saved_pos].buf)
-    vim.api.nvim_win_set_cursor(0,saved_pos[#saved_pos].cur)
-    table.remove(saved_pos,#saved_pos)
-  end,'pop-pos'},
-  ['<']={function()
-    saved_pos[#saved_pos+1]={
-      cur=vim.api.nvim_win_get_cursor(0),
-      buf=vim.api.nvim_get_current_buf(),
-    }
-  end,'push-pos'},
 
   ---cmd/app
   c={name='+cmd/app',
@@ -145,8 +130,6 @@ require'which-key'.register{[' ']=format{
     n={':tabnext\r','next'},
     p={':tabprev\r','prev'},
     d={':tabclose\r','delete'},
-    c={':tabclose\r','close'},
-    q={':tabclose\r','quit'},
     ['<tab>']={':tabnext\r','next'},
     ['<']={':-tabmove\r','move-prev'},
     ['>']={':+tabmove\r','move-next'},
@@ -205,11 +188,6 @@ require'which-key'.register{[' ']=format{
     }
   },
 
-  ----packer
-  P={name='+packer',
-    _=cmap({p='status',i='install',c='clean',u='update'},':Pckr %s\r','%s'),
-  },
-
   ----text
   y={name='+text',
     S={function ()
@@ -241,7 +219,6 @@ require'which-key'.register{[' ']=format{
 
   ----theme
   T={name='+theme',
-    ['\r']={':set hls!\r','highlight'},
     h={':ColorizerToggle\r','toggle-color-name-highlight'},
     z={require'small.zen'.run,'zen'},
     C={function ()
@@ -277,9 +254,7 @@ require'which-key'.register{[' ']=format{
     o={':only\r','only-window'},
     v={':vsplit\r','vsplit'},
     e={':split\r','split'},
-    c={':close\r','close'},
     d={':close\r','delete'},
-    q={':close\r','quit'},
     w={':wincmd w\r','next'},
     ['<tab>']={':wincmd w\r','next'},
     _=(function ()
@@ -313,10 +288,10 @@ require'which-key'.register{[' ']=format{
 
   ---project
   p={name='+project',
-    p={':Telescope project project\r','search'},
-    r={':source /tmp/session.vim\r','reload-last-session',silent=false},
+    s={':Telescope project project\r','search'},
+    p={':source /tmp/session.vim\r','reload-last-session',silent=false},
     [' ']={':exe "edit" v:oldfiles[0]\r','reload-last-file'},
-    W={':wshada\r','write shada'},
-    R={':rshada\r','read shada'},
+    w={':wshada\r','write shada'},
+    r={':rshada\r','read shada'},
   },
 }}

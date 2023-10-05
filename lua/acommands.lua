@@ -6,15 +6,11 @@ command('L',function (opt)
     end
 end,{complete='lua',nargs='+'})
 command('Capture',function (opts)
-    vim.cmd'redir! >/tmp/nvim_out.capture'
-    vim.cmd('silent '..opts.args)
-    vim.cmd'redir! END'
+    vim.fn.writefile(vim.split(vim.api.nvim_exec2(opts.args,{output=true}).output,'\n'),'/tmp/nvim_out.capture')
     vim.cmd.split'/tmp/nvim_out.capture'
-    --TODO: use `nvim_exec2` instead
 end,{nargs='*'})
 command('Colors',function ()
-    vim.cmd.new()
-    vim.o.buftype='nofile'
+    vim.cmd.split'/tmp/nvim_out.colors'
     for k,_ in pairs(vim.api.nvim_get_color_map()) do
         vim.api.nvim_buf_set_lines(0,-1,-1,false,{k})
     end
