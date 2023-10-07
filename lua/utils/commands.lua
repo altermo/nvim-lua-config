@@ -1,5 +1,5 @@
 local function command(cmd,bin,opt) vim.api.nvim_create_user_command(cmd,bin,opt or {}) end
-command('Shell',function (opts) require'utils.lib'.termrun('fish '..opts.args,true) end,{nargs='*'})
+command('Shell',function (opts) require'small.nterm'.run('fish '..opts.args,true) end,{nargs='*'})
 command('L',function (opt)
     if not pcall(vim.cmd['='],opt.args) then
         vim.cmd.lua(opt.args)

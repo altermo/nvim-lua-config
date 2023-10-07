@@ -57,7 +57,6 @@ require('pckr').add{
     vim.g.base46_cache=vim.fn.stdpath'cache'..'/base46/'
   end},
   {'nvim-tree/nvim-tree.lua',cond=skip},
-  --{'stevearc/resession.nvim',cond=skip},
 
   ----colorschm
   'folke/tokyonight.nvim',
@@ -213,6 +212,11 @@ require('pckr').add{
   {'reedes/vim-wordy',cond=lcmd{'Wordy','NoWordy'}},
 
   ----filetype
+  {'nvim-orgmode/orgmode',cond=lft{'org'},config=function ()
+    require('orgmode').setup_ts_grammar()
+    require('nvim-treesitter.configs').setup({additional_vim_regex_highlighting={'org'}})
+    require('orgmode').setup()
+  end},
   {'nvim-neorg/neorg',config=get_setup(
     'neorg',{load={
       ['core.defaults']={},
