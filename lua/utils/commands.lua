@@ -8,7 +8,7 @@ end,{complete='lua',nargs='+'})
 command('Capture',function (opts)
     vim.fn.writefile(vim.split(vim.api.nvim_exec2(opts.args,{output=true}).output,'\n'),'/tmp/nvim_out.capture')
     vim.cmd.split'/tmp/nvim_out.capture'
-end,{nargs='*'})
+end,{nargs='*',complete='command'})
 command('Colors',function ()
     vim.cmd.split'/tmp/nvim_out.colors'
     for k,_ in pairs(vim.api.nvim_get_color_map()) do

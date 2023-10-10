@@ -52,21 +52,17 @@ local function get_config(name) return function () require('config.'..name) end 
 require('pckr').add{
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
   {'altermo/small.nvim',cond=skip},
-  {'nvchad/ui',cond=skip,branch='v3.0'},
-  {'NvChad/base46',cond=skip,branch='v3.0',config=function ()
-    vim.g.base46_cache=vim.fn.stdpath'cache'..'/base46/'
-  end},
   {'nvim-tree/nvim-tree.lua',cond=skip},
 
   ----colorschm
+  {'altermo/base46-fork',requires={'nvim-lua/plenary.nvim'},run='make'},
   'folke/tokyonight.nvim',
   'edeneast/nightfox.nvim',
-  'NTBBloodbath/doom-one.nvim',
   'hoprr/calvera-dark.nvim',
 
   ----visual
   {'rcarriga/nvim-notify',cond=function(load)
-    ---@source /usr/local/share/nvim/runtime/lua/vim/_editor.lua:580
+    ---@source /usr/local/share/nvim/runtime/lua/vim/_editor.lua:595,
     ---@diagnostic disable-next-line: duplicate-set-field
     vim.notify=function (...)
       load()
@@ -129,7 +125,7 @@ require('pckr').add{
       lcmd{'WinShift'}(load)
     end},
   {'simnalamburt/vim-mundo',cond=lcmd{'MundoToggle'}},
-  {'ckolkey/ts-node-action',config=get_config'ts-node-action',cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'}},
+  {'ckolkey/ts-node-action',config=get_config'ts-node-action',cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'},run=':TSUpdate'},
   {'chrisgrieser/nvim-genghis',cond=lcmd{'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
   {'stevearc/oil.nvim',config=function()
     local oil=require'oil'
@@ -209,9 +205,7 @@ require('pckr').add{
     lcmd{'NoDitto','ToggleDitto'}(load)
     lcmd({'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},'Ditto')(load)
   end},
-  {'reedes/vim-wordy',cond=lcmd{'Wordy','NoWordy'}},
-
-  ----filetype
+  {'altermo/vim-wordy-fork',cond=lcmd{'Wordy','NoWordy','WordyToggle'}},
   {'nvim-orgmode/orgmode',cond=lft{'org'},config=function ()
     require('orgmode').setup_ts_grammar()
     require('nvim-treesitter.configs').setup({additional_vim_regex_highlighting={'org'}})

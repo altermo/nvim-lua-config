@@ -14,7 +14,7 @@ vim.o.foldmethod='expr'
 vim.wo.foldexpr='getline(v:lnum)==""?0:1'
 vim.o.foldenable=false
 ---statuscolumn
-----https://github.com/neovim/neovim/issues/21342#issuecomment-1344280934
+---- https://github.com/neovim/neovim/issues/21342#issuecomment-1344280934
 --vim.o.relativenumber=true
 --vim.o.number=true
 --vim.o.statuscolumn="%{&foldenable?(get([' ','▎','▍','▌','▋','▊','▉','█','▐'],foldlevel(v:lnum),'|')):''}%C%s%{&nu?v:virtnum>0?'':v:relnum?&rnu?v:relnum:v:lnum:v:lnum:v:virtnum>0?'':&rnu?v:relnum:''}"
@@ -26,7 +26,7 @@ vim.o.splitright=true
 vim.o.winminheight=0
 vim.o.winminwidth=0
 ---visual
-vim.o.fillchars='vert: ,eob: '
+vim.o.fillchars='vert: ,eob: ,horiz: ,horizup: ,horizdown: ,vertleft: ,vertright: ,verthoriz: '
 vim.o.list=true
 vim.o.background=({'light','dark'})[vim.fn.rand()%2+1]
 vim.o.termguicolors=true

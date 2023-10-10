@@ -30,3 +30,7 @@ vim.lgend=require'utils.log'.log_end
 vim.traceback=require'utils.log'.log_traceback
 vim.req=require'utils.lib'.req
 require'config.small'
+
+
+vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/vim-wordy-fork.nvim')
+
