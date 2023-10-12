@@ -45,6 +45,7 @@ require'which-key'.register{[' ']=format{
 
   ----main
   b={require'small.bufend'.run,'bufend'},
+  F={'<cmd>lua require"flash".treesitter()\r','flash-tree'},
   L={':Luapad\r','luapad'},
   C={require'small.chat'.run,'chat'},
   ['.']={'@:','run-prev-cmd'},
@@ -66,7 +67,6 @@ require'which-key'.register{[' ']=format{
   e={require'small.splitbuf'.split,'hsplitbuf'},
   n={require'small.splitbuf'.open,'splitbuf'},
   d={':lua require"mini.bufremove".delete()\r','buffer-close'},
-  o={':on\r','only-window'},
 
   ---cmd/app
   c={name='+cmd/app',
@@ -88,6 +88,7 @@ require'which-key'.register{[' ']=format{
     m={':MarkdownPreview\r','markdown-preview'},
     l={':edit /tmp/nlog\r','open-log'},
     g={':DiffviewOpen\r','git-diff'},
+    d={require'small.dff'.file_expl,'dff'},
   },
 
   ---fold/indent
@@ -114,15 +115,6 @@ require'which-key'.register{[' ']=format{
       local yesterday=os.time()-24*60*60
       return '/'..os.date('@%Y-%m-%d',yesterday)..'\rlc5e'..os.date('%Y-%m-%d')..''
     end,'increment-date',expr=true},
-  },
-
-  ---jump
-  j={name='+jump',
-    t={'<cmd>lua require"flash".treesitter()\r','tree'},
-    f={':Telescope current_buffer_fuzzy_find\r','find-whole-file'},
-    j={'<cmd>lua require"flash".jump()\r','1 char'},
-    l={'<cmd>lua require("flash").jump({search={mode="search",max_length=0},label={after={0,0}},pattern="^"})\r','line'},
-    d={require'small.dff'.file_expl,'dff'},
   },
 
   ---tabs
@@ -172,6 +164,7 @@ require'which-key'.register{[' ']=format{
 
   ----search
   s={name='+search',
+    C={':Telescope current_buffer_fuzzy_find\r','find-current-file'},
     a={':Telescope\r','telescope'},
     c={':Telescope colorscheme enable_preview=true\r','colorscheme'},
     F={require'small.foldselect'.run,'fold'},
@@ -237,7 +230,7 @@ require'which-key'.register{[' ']=format{
     I={':lua vim.lsp.inlay_hint(0)\r','toggle-inlay-hint'},
     i={':LspInfo\r','info'},
     s={':LspStop\r','stop'},
-    S={':LspStart\r','start-lsp'},
+    S={':LspStart\r','start'},
     m={':Mason\r','mason'},
     r={':Telescope lsp_references\r','search-references'},
     R={':IncRename <C-r>=expand("<cword>")\r','replace',silent=false},
