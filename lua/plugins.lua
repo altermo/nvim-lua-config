@@ -45,7 +45,7 @@ local function lft(fts)
     vim.api.nvim_create_autocmd('FileType',{pattern=fts,callback=load,once=true})
   end
 end
-local function ll(load) vim.api.nvim_create_autocmd('User s1',{callback=load,once=true}) end
+local function ll(load) vim.api.nvim_create_autocmd('User',{pattern='s1',callback=load,once=true}) end
 local function skip() end
 local function get_setup(name,conf) return function () require(name).setup(conf or {}) end end
 local function get_config(name) return function () require('config.'..name) end end
@@ -125,7 +125,7 @@ require('pckr').add{
       lcmd{'WinShift'}(load)
     end},
   {'simnalamburt/vim-mundo',cond=lcmd{'MundoToggle'}},
-  {'ckolkey/ts-node-action',config=get_config'ts-node-action',cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'},run=':TSUpdate'},
+  {'ckolkey/ts-node-action',config=get_config'ts-node-action',cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'}},
   {'chrisgrieser/nvim-genghis',cond=lcmd{'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
   {'stevearc/oil.nvim',config=function()
     local oil=require'oil'
@@ -157,7 +157,7 @@ require('pckr').add{
     end,cond=lcmd{'Telescope'}},
 
   ----treesitter
-  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter'},
+  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter',run=':TSUpdate'},
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',cond=ll,config=function()
     vim.g.rainbow_delimiters={blacklist={'zig'}}
     vim.cmd'TSEnable rainbow'

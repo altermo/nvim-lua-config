@@ -10,8 +10,6 @@ command('Capture',function (opts)
     vim.cmd.split'/tmp/nvim_out.capture'
 end,{nargs='*',complete='command'})
 command('Colors',function ()
+    vim.fn.writefile(vim.tbl_keys(vim.api.nvim_get_color_map()),'/tmp/nvim_out.colors')
     vim.cmd.split'/tmp/nvim_out.colors'
-    for k,_ in pairs(vim.api.nvim_get_color_map()) do
-        vim.api.nvim_buf_set_lines(0,-1,-1,false,{k})
-    end
 end)

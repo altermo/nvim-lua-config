@@ -9,8 +9,8 @@ flash.setup{
             jump_labels=true,
             autohide=true,
             config=function(opts)
-                if vim.api.nvim_get_mode().mode:find('n[oi]') or vim.v.count~=0 then
-                    opts.jump_labels=false end
+                if vim.api.nvim_get_mode().mode:find('n[oi]') or
+                    vim.v.count~=0 then opts.jump_labels=false end
             end
         }}}
 k.nno('s',function () require'flash'.jump() end)

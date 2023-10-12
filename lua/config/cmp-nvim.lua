@@ -1,9 +1,9 @@
----@diagnostic disable: undefined-field
 local cmp=require'cmp'
 local data={
     {name='neorg',menu='NORG'},
     {name='buffer',menu='BUF',types={'','/'}},
     {name='nvim_lsp',menu='LSP'},
+    ---@diagnostic disable-next-line: undefined-field
     {name='codeium',menu='CI',conf={entry_filter=function () return not _G.CMD_NO_SPAM end}},
     {name='async_path',menu='PATH',types={'',':'}},
     {name='calc',menu='CALC'},
@@ -57,14 +57,14 @@ cmp.setup.cmdline(':',{
 })
 --local compare=require('cmp.config.compare')
 --cmp.setup{sorting={priority_weight=2,comparators={
-    --compare.score,
-    --compare.offset,
-    --compare.exact,
-    --compare.recently_used,
-    --compare.kind,
-    --compare.sort_text,
-    --compare.length,
-    --compare.order,
+--compare.score,
+--compare.offset,
+--compare.exact,
+--compare.recently_used,
+--compare.kind,
+--compare.sort_text,
+--compare.length,
+--compare.order,
 --}}}
 local Kind=cmp.lsp.CompletionItemKind
 cmp.event:on(
