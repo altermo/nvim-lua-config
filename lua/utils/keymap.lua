@@ -2,9 +2,10 @@ local M={}
 ---@overload fun(mode:string,lhs:string,rhs:string|function,opt:table)
 local function map(mode,lhs,rhs,opt)
   if type(rhs)=="function" then
-    opt=setmetatable({callback=rhs},{__index=opt})
+    opt.callback=rhs
     rhs=''
   end
+  if opt.expr==true then opt.replace_keycodes=true end
   vim.api.nvim_set_keymap(mode,lhs,rhs,opt)
 end
 ---@overload fun(lhs:string,rhs:string|function,opt?:table)
