@@ -1,6 +1,12 @@
 local M={}
 ---@overload fun(mode:string,lhs:string,rhs:string|function,opt:table)
-local function map(mode,lhs,rhs,opt) vim.keymap.set(mode,lhs,rhs,opt) end
+local function map(mode,lhs,rhs,opt)
+  if type(rhs)=="function" then
+    opt=setmetatable({callback=rhs},{__index=opt})
+    rhs=''
+  end
+  vim.api.nvim_set_keymap(mode,lhs,rhs,opt)
+end
 ---@overload fun(lhs:string,rhs:string|function,opt?:table)
 function M.nno(lhs,rhs,opt) map('n',lhs,rhs,opt or {silent=true,noremap=true}) end
 ---@overload fun(lhs:string,rhs:string|function,opt?:table)
