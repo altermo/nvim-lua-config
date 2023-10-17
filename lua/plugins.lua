@@ -77,8 +77,7 @@ require('pckr').add{
   {'nvim-lualine/lualine.nvim',config=get_setup('lualine',{
     sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"}},
   }),cond=ll},
-  {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}},
-    requires={'folke/flash.nvim'}},
+  {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}}},
 
   ----keys
   {'Exafunction/codeium.vim',cond=function(load) -- https://github.com/Exafunction/codeium.vim/issues/118
@@ -127,7 +126,7 @@ require('pckr').add{
   {'simnalamburt/vim-mundo',cond=lcmd{'MundoToggle'}},
   {'ckolkey/ts-node-action',config=get_config'ts-node-action',cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'}},
   {'chrisgrieser/nvim-genghis',cond=lcmd{'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
-  {'stevearc/oil.nvim',config=function()
+  {'stevearc/oil.nvim',config=function() --TODO: make lazy loaded
     local oil=require'oil'
     oil.setup{default_file_explorer=true,view_options={show_hidden=true}}
     vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function (ev)
