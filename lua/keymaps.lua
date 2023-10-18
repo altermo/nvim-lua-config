@@ -111,7 +111,7 @@ nno('<A-f>',':%s///g<Left><Left><Left>',{noremap=true})
 for i=1,9 do
   nno('<A-'..i..'>',':tabnext '..i..'\r')
 end
-nno('gs',':sort ',{silent=false})
+nno('gs',':sort ',{silent=false}) -- https://github.com/neovim/neovim/issues/19354
 
 ----ino/cno
 for k,v in pairs({h='Left',l='Right',j='Down',k='Up'}) do

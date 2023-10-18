@@ -8,7 +8,7 @@ autocmd('FileType',function()
     else
         vim.wo.foldexpr='getline(v:lnum)==""?0:1'
     end end)
-autocmd('BufRead',function() pcall(vim.cmd[[noautocmd norm! g`"]]) end)
+autocmd('BufRead',function() vim.cmd[[noautocmd norm! g`"]] end)
 autocmd('VimLeave',function() vim.cmd.mksession({'/tmp/session.vim',bang=true}) end)
 autocmd('BufRead',function(ev)
     if _G._DONT_AUTOCD or vim.o.buftype~='' then return end

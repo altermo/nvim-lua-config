@@ -21,6 +21,7 @@ local configs={upair.extend_default{
     {'<<','>>',newline=true},
     {'*','*',multiline=false,ft={'markdown'}},
     {'**','**',multiline=false,ft={'markdown'}},
+    {'$','$',multiline=false,ft={'markdown'}},
 },
     {profile=require'ultimate-autopair.experimental.terminal'.init},
     {profile=require'ultimate-autopair.experimental.matchpair'.init},

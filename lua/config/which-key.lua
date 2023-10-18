@@ -105,18 +105,6 @@ require'which-key'.register{[' ']=format{
     i={name='+indent',_=fmap(9,':set sw=%s ts=%s sts=%s\r','set indent=%s')},
   },
 
-  ---private
-  ['?']={name='private',
-    D={function ()
-      local tomorrow=os.time()+24*60*60
-      return '/'..os.date('@%Y-%m-%d')..'\rlc5e'..os.date('%Y-%m-%d',tomorrow)..''
-    end,'increment-date',expr=true},
-    ['<C-d>']={function ()
-      local yesterday=os.time()-24*60*60
-      return '/'..os.date('@%Y-%m-%d',yesterday)..'\rlc5e'..os.date('%Y-%m-%d')..''
-    end,'increment-date',expr=true},
-  },
-
   ---tabs
   ['<tab>']={name='+tab',
     n={':tabnext\r','next'},
