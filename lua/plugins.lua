@@ -52,7 +52,7 @@ local function get_config(name) return function () require('config.'..name) end 
 require('pckr').add{
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
   {'altermo/small.nvim',config=get_config'small'},
-  {'nvim-tree/nvim-tree.lua',cond=skip},
+  {'nvim-tree/nvim-tree.lua',cond=skip}, --TODO
 
   ----colorschm
   {'altermo/base46-fork',requires={'nvim-lua/plenary.nvim'},run='make'},
@@ -77,7 +77,7 @@ require('pckr').add{
   {'nvim-lualine/lualine.nvim',config=get_setup('lualine',{
     sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"}},
   }),cond=ll},
-  {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}}},
+  {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}},requires={'echasnovski/mini.nvim'}},
 
   ----keys
   {'Exafunction/codeium.vim',cond=function(load) -- https://github.com/Exafunction/codeium.vim/issues/118
@@ -102,27 +102,20 @@ require('pckr').add{
     map.nno('<A-P>','<Plug>(YankyCycleBackward)')
     map.xno('p','<Plug>(YankyPutAfter)')
     map.xno('P','<Plug>(YankyPutBefore)')
-  end,cond=function (load)
-      lkey({n={'p','P','<A-p>','<A-P>'},x={'p','P'}})(load)
-      levent({'TextYankPost'})(load)
-    end},
+  end,cond={lkey({n={'p','P','<A-p>','<A-P>'},x={'p','P'}}),levent{'TextYankPost'}}},
   {'monaqa/dial.nvim',config=function()
     local dialmap=require'dial.map'
     map.nno('<C-a>',dialmap.inc_normal())
     map.nno('<C-x>',dialmap.dec_normal())
   end,cond=lkey{n={'<C-a>','<C-x>'}}},
-  {'mg979/vim-visual-multi',cond=lkey{n={'<C-n>','\\\\'},x={'<C-n>'}}},
-  {'folke/flash.nvim',config=get_config'flash',cond=lkey{n={'f','F','t','T','s'},x={'f','F','t','T','s'},o={'r'}}},
+  {'folke/flash.nvim',config=get_config'flash',cond=lkey{n={'f','F','t','T','s'},x={'f','F','t','T','s'}}},
 
   ----command
   {'sindrets/winshift.nvim',config=function ()
     require'winshift'.setup{}
     for k,v in pairs({h='left',j='down',k='up',l='right'}) do
       map.nno('<C-S-'..k..'>',':WinShift '..v..'\r')
-    end end,cond=function (load)
-      lkey{n={'<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>'}}(load)
-      lcmd{'WinShift'}(load)
-    end},
+    end end,cond={lkey{n={'<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>'}},lcmd{'WinShift'}}},
   {'simnalamburt/vim-mundo',cond=lcmd{'MundoToggle'}},
   {'ckolkey/ts-node-action',config=get_config'ts-node-action',cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'}},
   {'chrisgrieser/nvim-genghis',cond=lcmd{'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
@@ -200,10 +193,7 @@ require('pckr').add{
 
   ----writing
   {'dhruvasagar/vim-table-mode',cond=lcmd{'TableModeToggle'}},
-  {'dbmrq/vim-ditto',cond=function(load)
-    lcmd{'NoDitto','ToggleDitto'}(load)
-    lcmd({'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},'Ditto')(load)
-  end},
+  {'dbmrq/vim-ditto',cond={lcmd{'NoDitto','ToggleDitto'},lcmd({'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},'Ditto')}},
   {'altermo/vim-wordy-fork',cond=lcmd{'Wordy','NoWordy','WordyToggle'}},
   {'nvim-orgmode/orgmode',cond=lft{'org'},config=function ()
     require('orgmode').setup_ts_grammar()

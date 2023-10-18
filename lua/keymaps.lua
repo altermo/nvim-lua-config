@@ -50,7 +50,7 @@ nno('<C-z>',function ()
   elseif zo==2 then vim.cmd.norm{'zt',bang=true}
   else
     vim.cmd.norm{'zz',bang=true}
-    vim.api.nvim_create_autocmd('CursorMoved,CursorMovedI',{once=true,callback=function() zo=0 end,group=vim.api.nvim_create_augroup('Cz',{clear=true})})
+    vim.api.nvim_create_autocmd({'CursorMoved','CursorMovedI'},{once=true,callback=function() zo=0 end,group=vim.api.nvim_create_augroup('Cz',{clear=true})})
   end
 end)
 nno('gh',function ()
