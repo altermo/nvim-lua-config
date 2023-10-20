@@ -2,12 +2,12 @@
 vim.o.tabstop=4
 vim.o.shiftwidth=0
 vim.o.smartindent=true
-vim.o.breakindent=true
 vim.o.cindent=true
 vim.o.expandtab=true
 ---warp
 vim.o.linebreak=true
 vim.o.showbreak='↳ '
+vim.o.breakindent=true
 ---fold
 vim.o.foldcolumn='0'
 vim.o.foldmethod='expr'
@@ -25,7 +25,7 @@ vim.o.fillchars='vert: ,eob: ,horiz: ,horizup: ,horizdown: ,vertleft: ,vertright
 vim.o.list=true
 vim.o.background=({'light','dark'})[vim.fn.rand()%2+1]
 vim.o.termguicolors=true
-vim.o.colorcolumn='1,41,81,121,161,201,241'
+--vim.o.colorcolumn='1,41,81,121,161,201,241'
 vim.o.cursorline=true
 vim.o.showmode=false
 vim.o.statusline=' '

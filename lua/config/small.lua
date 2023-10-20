@@ -10,7 +10,7 @@ for k,v in pairs{
         m.conf.options={
             ["'"]={action=vim.cmd.Shell,desc='shell'},
             r={desc='ranger',action=require'small.ranger'.run},
-            b={desc='ranger',action=require'small.bufend'.run},
+            b={desc='bufend',action=require'small.bufend'.run},
         }
     end,
     exchange=function (m)

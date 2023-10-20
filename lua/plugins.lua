@@ -120,10 +120,9 @@ require('pckr').add{
   {'ckolkey/ts-node-action',config=get_config'ts-node-action',cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'}},
   {'chrisgrieser/nvim-genghis',cond=lcmd{'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
   {'stevearc/oil.nvim',config=function()
-    local oil=require'oil'
-    oil.setup{default_file_explorer=true,view_options={show_hidden=true}}
+    require'oil'.setup{default_file_explorer=true,view_options={show_hidden=true}}
     vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function (ev)
-      vim.cmd.lcd(ev.file:sub(7))
+      vim.cmd.lcd(ev.file:sub(#('oil://')+1))
     end})
   end,cond={levent{'BufAdd'},function (load) if vim.fn.isdirectory(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))==1 then load() end end}},
   {'smjonas/inc-rename.nvim',config=get_setup'inc_rename',cond=levent{'CmdlineEnter'}},

@@ -1,4 +1,3 @@
-vim.bo.shiftwidth=8
 vim.bo.tabstop=8
 vim.cmd[[syn case ignore]]
 vim.cmd[[syn keyword Function eller är om till i av det den från som en ett de dem att in var inte alla på ha och men]]
