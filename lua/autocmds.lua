@@ -2,7 +2,6 @@ local function autocmd(au,callback,opt) return vim.api.nvim_create_autocmd(au,vi
 autocmd('BufWinEnter',function () if vim.o.filetype=='' then vim.o.filetype='none' end end)
 autocmd('CmdlineEnter',function () vim.o.hlsearch=true end,{pattern='/,\\?'})
 autocmd('TermOpen',function() vim.o.filetype='term' end)
-if vim.o.term:find('kitty') then autocmd('ColorScheme',function () vim.fn.system({'kitty','@','set-color','background=#'..vim.fn.printf('%06x',vim.api.nvim_get_hl(0,{name='Normal'}).bg)}) end) end
 autocmd('FileType',function()
     if vim.o.filetype=='toml' or vim.o.filetype=='markdown' then
         vim.wo.foldexpr='v:lua.vim.treesitter.foldexpr()'

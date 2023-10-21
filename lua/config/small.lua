@@ -6,6 +6,7 @@ for k,v in pairs{
     matchall=setup,
     tabline=setup,
     foldtext=setup,
+    kitty=setup,
     splitbuf=function (m)
         m.conf.options={
             ["'"]={action=vim.cmd.Shell,desc='shell'},

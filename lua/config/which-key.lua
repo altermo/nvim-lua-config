@@ -51,7 +51,6 @@ require'which-key'.register{[' ']=format{
   ['.']={'@:','run-prev-cmd'},
   r={require'small.ranger'.run,'ranger'},
   ["'"]={':Shell\r','shell'},
-  ["*"]={':lcd %:p:h|Shell\r','shell-current-file'},
   t={require'small.unimpaired'.set_opt,'toggle opt'},
   i={':edit .\r','edir'},
   ------packer
