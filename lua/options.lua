@@ -25,7 +25,6 @@ vim.o.fillchars='vert: ,eob: ,horiz: ,horizup: ,horizdown: ,vertleft: ,vertright
 vim.o.list=true
 vim.o.background=({'light','dark'})[vim.fn.rand()%2+1]
 vim.o.termguicolors=true
---vim.o.colorcolumn='1,41,81,121,161,201,241'
 vim.o.cursorline=true
 vim.o.showmode=false
 vim.o.statusline=' '

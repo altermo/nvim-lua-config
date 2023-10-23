@@ -78,7 +78,7 @@ require'which-key'.register{[' ']=format{
         vim.api.nvim_del_autocmd(mouse_center)
         mouse_center=false
       else
-        mouse_center=vim.api.nvim_create_autocmd('CursorMoved,CursorMovedI',{command='norm! zz'})
+        mouse_center=vim.api.nvim_create_autocmd({'CursorMoved','CursorMovedI'},{command='norm! zz'})
         vim.cmd.norm{'zz',bang=true}
       end
     end,'centermouse'},
