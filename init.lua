@@ -2,7 +2,6 @@ if vim.fn.filereadable('/tmp/focus')==1 then vim.cmd.quit() end
 vim.loader.enable()
 require'utils.empty'
 require'keymaps'
-require'utils.commands'
 require'autocmds'
 require'other'
 require'options'

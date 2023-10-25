@@ -22,10 +22,7 @@ for k,v in pairs{
         key.xno('X',m.ex_visual)
     end,
     builder=function (m)
-        --k.nno("“",b.build)
         key.nno("“",m.termbuild)
-        key.nno("‘",m.termbuild)
-        --k.nno("<F5>",b.build)
         key.nno("<F6>",m.eval)
         key.nno("<F7>",m.termbuild)
         key.nno("<F8>",m.set)

@@ -112,7 +112,7 @@ require'which-key'.register{[' ']=format{
     ['<tab>']={':tabnext\r','next'},
     ['<']={':-tabmove\r','move-prev'},
     ['>']={':+tabmove\r','move-next'},
-    [' ']={':exe "tabe ".expand("%:p")\r<C-o>','new'},
+    [' ']={':tab split\r','new'},
     _=fmap(9,':tabnext %s\r','tab-%s'),
     ['0']={':tablast\r','tab-last'},
     m={name='+move-buffer',

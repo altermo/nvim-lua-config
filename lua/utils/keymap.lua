@@ -22,8 +22,6 @@ function M.tno(lhs,rhs,opt) map('t',lhs,rhs,opt or {silent=true}) end
 function M.ono(lhs,rhs,opt) map('o',lhs,rhs,opt or {silent=true}) end
 ---@overload fun(lhs:string,rhs:string|function,opt?:table)
 function M.lcno(lhs,rhs,opt) map('c',lhs,rhs,opt or {}) end
----@overload fun(lhs:string,rhs:string|function,opt?:table)
-function M.lnno(lhs,rhs,opt) map('n',lhs,rhs,opt or {}) end
 ---@overload fun(lhs:string,rhsn:string,rhsb:string,opt?:table)
 function M.xbmap(lhs,rhsn,rhsb,opt)
   opt=opt or {silent=true,expr=true}
