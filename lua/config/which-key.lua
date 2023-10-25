@@ -65,7 +65,7 @@ require'which-key'.register{[' ']=format{
   v={require'small.splitbuf'.vsplit,'vsplitbuf'},
   e={require'small.splitbuf'.split,'hsplitbuf'},
   n={require'small.splitbuf'.open,'splitbuf'},
-  d={':lua require"mini.bufremove".delete()\r','buffer-close'},
+  d={':lua require"mini.bufremove".wipeout()\r','buffer-close'},
 
   ---cmd/app
   c={name='+cmd/app',
