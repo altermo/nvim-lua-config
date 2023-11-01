@@ -33,7 +33,7 @@ local function lkey(mkeys)
           elseif mode=='o' then
             vim.api.nvim_feedkeys(vim.v.operator..key,'x!',true)
           else
-            vim.api.nvim_input(vim.v.count~=0 and vim.v.count or ''..key)
+            vim.api.nvim_input((vim.v.count~=0 and vim.v.count or '')..key)
           end
         end}) end end end end
 local function levent(events)
@@ -62,7 +62,7 @@ require('pckr').add{
 
   ----visual
   {'rcarriga/nvim-notify',cond=function(load)
-    ---@source /usr/local/share/nvim/runtime/lua/vim/_editor.lua:595,
+    ---@source /usr/local/share/nvim/runtime/lua/vim/_editor.lua:599
     ---@diagnostic disable-next-line: duplicate-set-field
     vim.notify=function (...)
       load()

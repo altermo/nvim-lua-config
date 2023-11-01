@@ -3,8 +3,7 @@ local data={
     {name='neorg',menu='NORG'},
     {name='buffer',menu='BUF',types={'','/'}},
     {name='nvim_lsp',menu='LSP'},
-    ---@diagnostic disable-next-line: undefined-field
-    {name='codeium',menu='CI',conf={entry_filter=function () return not _G.CMD_NO_SPAM end}},
+    {name='codeium',menu='CI'},
     {name='async_path',menu='PATH',types={'',':'}},
     {name='calc',menu='CALC'},
     {name='nvim_lsp_signature_help'},

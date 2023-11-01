@@ -2,7 +2,7 @@ local servers={
     pyright={'pyright'},
     lua_ls={'lua-language-server',settings={Lua={
         hint={enable=true},
-        runtime={version='LuaJIT'},
+        runtime={version='LuaJIT',unicodeName=true},
         completion={displayContext=30,postfix=':'},
         workspace={library={
                 '/usr/local/share/nvim/runtime/lua/vim/',
