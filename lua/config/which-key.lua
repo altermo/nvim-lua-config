@@ -146,7 +146,7 @@ require'which-key'.register{[' ']=format{
     f={':Telescope find_files\r','find'},
     t={name='+set-type',
       o={':setf ','other',silent=false},
-      _=cmap({p='python',t='txt',v='vim',s='fish',f='fennel',r='rust',l='lua',m='markdown',c='c',h='html',n="norg"},':set filetype=%s\r','%s')
+      _=cmap({p='python',t='txt',v='vim',f='fish',r='rust',l='lua',m='markdown',c='c',h='html',n='norg'},':set filetype=%s\r','%s')
     },
   },
 

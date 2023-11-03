@@ -5,7 +5,10 @@ for k,v in pairs{
     highlight_selected=setup,
     matchall=setup,
     tabline=setup,
-    foldtext=setup,
+    foldtext=function (m)
+        m.conf.treesitter=true
+        m.setup()
+    end,
     kitty=setup,
     splitbuf=function (m)
         m.conf.options={
