@@ -117,7 +117,11 @@ require('pckr').add{
       map.nno('<C-S-'..k..'>',':WinShift '..v..'\r')
     end end,cond={lkey{n={'<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>'}},lcmd{'WinShift'}}},
   {'simnalamburt/vim-mundo',cond=lcmd{'MundoToggle'}},
-  {'ckolkey/ts-node-action',config=get_config'ts-node-action',cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'}},
+  {'ckolkey/ts-node-action',config=function()
+    local tsaction=require('ts-node-action')
+    tsaction.setup{lua=require'small.tree_lua_block_split_join'.nodes}
+    vim.keymap.set('n','K',tsaction.node_action)
+  end,cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'}},
   {'chrisgrieser/nvim-genghis',cond=lcmd{'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
   {'stevearc/oil.nvim',config=function()
     require'oil'.setup{default_file_explorer=true,view_options={show_hidden=true}}
