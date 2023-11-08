@@ -52,13 +52,16 @@ local function get_config(name) return function () require('config.'..name) end 
 require('pckr').add{
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
   {'altermo/small.nvim',config=get_config'small'},
+  {'windwp/nvim-autopairs',config=get_setup'nvim-autopairs',cond=skip},
   {'nvim-tree/nvim-tree.lua',cond=skip}, --TODO
+  {'folke/lazy.nvim',cond=skip},
 
   ----colorschm
   {'altermo/base46-fork',requires={'nvim-lua/plenary.nvim'},run='make'},
   'folke/tokyonight.nvim',
   'edeneast/nightfox.nvim',
   'hoprr/calvera-dark.nvim',
+  'oxfist/night-owl.nvim',
 
   ----visual
   {'rcarriga/nvim-notify',cond=function(load)

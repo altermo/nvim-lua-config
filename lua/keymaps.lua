@@ -178,6 +178,8 @@ xbmap('I',"<esc>:au InsertLeave * ++once :'<+1,'>norm! _\".P\r'<I",'I')
 xno('y','ygv<esc>')
 xno('p','P')
 xno('P','p')
+xno('gn','n')
+xno('n','y/\\c\\V<C-r>"\rgn')
 
 ----tno
 tno('<C-\\>','<C-\\><C-n>')
