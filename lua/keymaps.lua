@@ -20,19 +20,6 @@ nno('æ','"+y')
 nno('π','yyp')
 nno('<tab>','>>')
 nno('<S-tab>','<<')
-nno('cd',function ()
-  local path=vim.fn.expand('%:p:h') --[[@as string]]
-  if path==vim.fn.getcwd() then goto End end
-  for i in vim.fs.parents(path..'/') do
-    if vim.fs.dirname(i)==vim.fn.getcwd() then
-      vim.fn.chdir(i)
-      goto End
-    end
-  end
-  vim.fn.chdir('..')
-  ::End::
-  vim.cmd.pwd()
-end)
 nno('cD',function()
   vim.cmd.lcd'%:p:h'
   local dir=vim.fs.dirname(vim.fs.find('.git',{upward=true})[1])
@@ -40,7 +27,7 @@ nno('cD',function()
   vim.cmd.pwd()
 end)
 nno('dc',':lcd ..|pwd\r')
-nno('dC',':cd %:p:h|pwd\r')
+nno('cd',':cd %:p:h|pwd\r')
 local zo=0
 nno('<C-z>',function ()
   zo=zo%3+1
@@ -50,18 +37,6 @@ nno('<C-z>',function ()
     vim.cmd.norm{'zz',bang=true}
     vim.api.nvim_create_autocmd({'CursorMoved','CursorMovedI'},{once=true,callback=function() zo=0 end,group=vim.api.nvim_create_augroup('Cz',{clear=true})})
   end
-end)
-nno('gh',function ()
-  local word=vim.fn.expand('<cfile>') --[[@as string]]
-  if pcall(vim.cmd.help,
-    (vim.regex([[vim\.api\.]]):match_str(word) and '%s()' or
-      vim.regex([[vim\.uv\.]]):match_str(word) and 'uv.%s()' or
-      vim.regex([[vim\.fn\.]]):match_str(word) and '%s()' or
-      vim.regex([[vim\.cmd\.]]):match_str(word) and ':%s' or
-      vim.regex([[vim\.o\.]]):match_str(word) and "'%s'" or
-      vim.regex([[vim\.opt\.]]):match_str(word) and "'%s'" or
-      word):format(vim.fn.expand('<cword>'))) then return end
-  vim.lsp.buf_request(0,vim.lsp.protocol.Methods.textDocument_hover,vim.lsp.util.make_position_params())
 end)
 nno('\r','dd',{})
 nno('z','za')

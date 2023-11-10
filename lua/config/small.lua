@@ -66,4 +66,5 @@ for k,v in pairs{
     end,
     whint=function (m) key.ino(':',m.run,{expr=true}) end,
     ranger=function (m) m.conf.exit_if_single=true end,
+    help_cword=function (m) key.nno('gh',m.run) end
 } do v(require('small.'..k)) end

@@ -10,7 +10,7 @@ autocmd('FileType',function()
     end end)
 autocmd('BufRead',function() vim.cmd[[noautocmd norm! g`"]] end)
 autocmd('VimLeave',function() vim.cmd.mksession({'/tmp/session.vim',bang=true}) end)
-autocmd('BufRead',function(ev)
+autocmd('BufWinEnter',function(ev)
     if _G._DONT_AUTOCD or vim.o.buftype~='' then return end
     local dir=vim.fs.dirname(vim.fs.find({'.git'},{upward=true,path=vim.fs.dirname(ev.file)})[1])
     if dir then vim.cmd.lcd(dir)
