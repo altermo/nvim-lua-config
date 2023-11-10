@@ -28,16 +28,6 @@ nno('cD',function()
 end)
 nno('dc',':lcd ..|pwd\r')
 nno('cd',':cd %:p:h|pwd\r')
-local zo=0
-nno('<C-z>',function ()
-  zo=zo%3+1
-  if zo==3 then vim.cmd.norm{'zb',bang=true}
-  elseif zo==2 then vim.cmd.norm{'zt',bang=true}
-  else
-    vim.cmd.norm{'zz',bang=true}
-    vim.api.nvim_create_autocmd({'CursorMoved','CursorMovedI'},{once=true,callback=function() zo=0 end,group=vim.api.nvim_create_augroup('Cz',{clear=true})})
-  end
-end)
 nno('\r','dd',{})
 nno('z','za')
 nno('j','gj')
@@ -110,14 +100,14 @@ ino('<A-S-n>','Ä')
 ino('<A-m>','å')
 ino('<A-S-m>','Å')
 --emacs
-ino('<A-b>','<C-o>b')
-ino('<A-f>','<C-o>w')
+ino('<M-b>','<C-o>b')
+ino('<M-f>','<C-o>w')
 ino('<C-n>','<C-o>j')
 ino('<C-p>','<C-o>k')
 ino('<C-b>','<C-o>h')
 ino('<C-f>','<C-o>l')
-ino('<A-<>','<C-o>gg')
-ino('<A->>','<C-o>G')
+ino('<M-lt>','<C-o>gg')
+ino('<M-S-lt>','<C-o>G')
 ino('<C-e>','<End>')
 ino('<C-a>','<Home>')
 ino('<C-g>','<esc>')
