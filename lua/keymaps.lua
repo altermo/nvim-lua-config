@@ -11,7 +11,6 @@ local xbmap=key.xbmap
 ----nno
 nno('g=','vgg=Gc')
 nno('gu','~')
-nno('|','v:count>0?"|":"_"',{expr=true})
 nno(',','<C-o>')
 nno(';','<C-i>')
 nno('.',':',{noremap=true})

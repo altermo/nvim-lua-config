@@ -5,9 +5,9 @@ local data={
     {name='nvim_lsp',menu='LSP'},
     {name='codeium',menu='CI'},
     {name='async_path',menu='PATH',types={'',':'}},
-    {name='calc',menu='CALC'},
     {name='nvim_lsp_signature_help'},
     {name='cmdline',menu='CL',types={':'}},
+    {name='fend',menu='FEND'},
 }
 local function gen(type,tbl)
     return vim.iter(tbl):map(function (item)

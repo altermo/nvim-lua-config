@@ -55,6 +55,7 @@ require('pckr').add{
   {'windwp/nvim-autopairs',config=get_setup'nvim-autopairs',cond=skip},
   {'nvim-tree/nvim-tree.lua',cond=skip}, --TODO
   {'folke/lazy.nvim',cond=skip},
+  {'debugloop/telescope-undo.nvim',cond=skip},
 
   ----colorschm
   {'altermo/base46-fork',requires={'nvim-lua/plenary.nvim'},run='make'},
@@ -190,11 +191,11 @@ require('pckr').add{
   ----auto complete
   {'hrsh7th/nvim-cmp',config=get_config'cmp-nvim',cond=levent{'InsertEnter','CmdlineEnter'}},
   {'hrsh7th/cmp-cmdline',requires={'hrsh7th/nvim-cmp'},cond=levent{'CmdlineEnter'}},
-  {'hrsh7th/cmp-calc',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
   {'hrsh7th/cmp-buffer',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'hrsh7th/cmp-nvim-lsp',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
   {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
   {'FelipeLema/cmp-async-path',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'altermo/cmp-fend',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'exafunction/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter'}},
   --{'altermo/codeium.nvim-fork',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter'}},
 
