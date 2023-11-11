@@ -45,7 +45,6 @@ require'which-key'.register{[' ']=format{
 
   ----main
   b={require'small.bufend'.run,'bufend'},
-  F={'<cmd>lua require"flash".treesitter()\r','flash-tree'},
   L={':Luapad\r','luapad'},
   C={require'small.chat'.run,'chat'},
   ['.']={'@:','run-prev-cmd'},

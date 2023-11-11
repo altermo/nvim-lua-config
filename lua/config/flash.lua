@@ -14,4 +14,5 @@ flash.setup{
             end
         }}}
 k.nno('s',function () require'flash'.jump() end)
+k.nno('<C-s>',function () require'flash'.treesitter() end)
 k.xno('s',function () require'flash'.jump() end)

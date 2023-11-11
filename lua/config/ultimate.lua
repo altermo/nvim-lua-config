@@ -3,7 +3,7 @@ local upair=require'ultimate-autopair'
 _G.UA_DEV=true
 local configs={upair.extend_default{
     space2={enable=true},
-    bs={space='balance',indent_ignore=true,single_delete=true},
+    bs={space='balance',indent_ignore=true,single_delete=true,map={'<C-w>','<bs>'}},
     cr={autoclose=true},
     fastwarp={
         multi=true,

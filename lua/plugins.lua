@@ -55,7 +55,6 @@ require('pckr').add{
   {'windwp/nvim-autopairs',config=get_setup'nvim-autopairs',cond=skip},
   {'nvim-tree/nvim-tree.lua',cond=skip}, --TODO
   {'folke/lazy.nvim',cond=skip},
-  {'debugloop/telescope-undo.nvim',cond=skip},
 
   ----colorschm
   {'altermo/base46-fork',requires={'nvim-lua/plenary.nvim'},run='make'},
@@ -84,20 +83,6 @@ require('pckr').add{
   {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}},requires={'echasnovski/mini.nvim'}},
 
   ----keys
-  {'Exafunction/codeium.vim',cond=function(load) -- https://github.com/Exafunction/codeium.vim/issues/118
-    vim.g.codeium_disable_bindings=false
-    vim.g.codeium_manual=true
-    lkey({i={'<A-\'>'}})(load)
-  end,config=function ()
-      local function wrapper(f,...)
-        local args={...}
-        return function() return f(unpack(args)) end
-      end
-      map.ino('<A-cr>',wrapper(vim.fn['codeium#Accept']),{expr=true})
-      map.ino('<A-)>',wrapper(vim.fn['codeium#CycleCompletions'],1),{expr=true})
-      map.ino('<A-(>',wrapper(vim.fn['codeium#CycleCompletions'],-1),{expr=true})
-      map.ino('<A-\'>',wrapper(vim.fn['codeium#Complete']),{expr=true})
-    end},
   {'gbprod/yanky.nvim',config=function()
     require'yanky'.setup{}
     map.nno('p','<Plug>(YankyPutAfter)')
@@ -112,7 +97,7 @@ require('pckr').add{
     map.nno('<C-a>',dialmap.inc_normal())
     map.nno('<C-x>',dialmap.dec_normal())
   end,cond=lkey{n={'<C-a>','<C-x>'}}},
-  {'folke/flash.nvim',config=get_config'flash',cond=lkey{n={'f','F','t','T','s'},x={'f','F','t','T','s'}}},
+  {'folke/flash.nvim',config=get_config'flash',cond=lkey{n={'f','F','t','T','s','<C-s>'},x={'f','F','t','T','s'}}},
 
   ----command
   {'sindrets/winshift.nvim',config=function ()
@@ -164,9 +149,10 @@ require('pckr').add{
   {'windwp/nvim-ts-autotag',cond=levent{'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',cond=levent{'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'ziontee113/syntax-tree-surfer',config=get_config'surfer',
-    cond=lkey{n={'vx','vn','<A-j>','<A-k>','<A-S-k>','<A-S-j>','gF','gX'},x={'<C-j>','<C-k>','<C-h>','<C-l>','<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>','<A-k>','<A-j>','gX'}},requires={'nvim-treesitter/nvim-treesitter','echasnovski/mini.nvim'}},
+    cond=lkey{n={'vx','vn','<A-j>','<A-k>'},x={'<C-j>','<C-k>','<C-h>','<C-l>','<A-k>','<A-j>'}},requires={'nvim-treesitter/nvim-treesitter','echasnovski/mini.nvim'}},
 
   ----other
+  {'sourcegraph/sg.nvim',run='nvim -l build/init.lua',requires={'nvim-lua/plenary.nvim'},config=get_setup'sg',cond=levent{'CmdlineEnter'}},
   {'s1n7ax/nvim-window-picker'},
   {'sindrets/diffview.nvim',cond=lcmd({'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'},'Diffview'),
     config=get_setup('diffview',{use_icons=false})},
