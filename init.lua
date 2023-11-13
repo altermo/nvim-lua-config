@@ -6,9 +6,7 @@ require'autocmds'
 require'other'
 require'options'
 require'plugins'
-if not pcall(vim.cmd.colorscheme,'own') or vim.g.colors_name~='own' then
-    vim.o.background='dark'
-    if not pcall(vim.cmd.colorscheme,'tokyonight') then
-        vim.cmd.colorscheme'retrobox'
-    end
+for _,v in ipairs{'own','tokyonight','retrobox'} do
+    vim.o.background=v=='own' and ({'light','dark'})[vim.fn.rand()%2+1] or 'dark'
+    if pcall(vim.cmd.colorscheme,v) and vim.g.colors_name==v then break end
 end

@@ -1,5 +1,6 @@
 local cmp=require'cmp'
 local data={
+    {name='cody',menu='SG'},
     {name='neorg',menu='NORG'},
     {name='buffer',menu='BUF',types={'','/'}},
     {name='nvim_lsp',menu='LSP'},
@@ -17,7 +18,7 @@ local function gen(type,tbl)
 end
 local menu=vim.iter(data):fold({},function (acc,item) acc[item.name]=item.menu return acc end)
 local function format(entry,item)
-    return setmetatable({dup=0,menu=menu[entry.source.name]},{__index=item})
+    return setmetatable({dup=0,menu=menu[entry.source.name],kind=''},{__index=item})
 end
 cmp.setup{
     formatting={format=format},
@@ -28,7 +29,7 @@ cmp.setup{
     sources=cmp.config.sources(gen('',data)),
     mapping={
         ['<CR>']=cmp.mapping(function(fallback)
-            if cmp.get_active_entry() and ({async_path=true,nvim_lsp=true,codeium=true})[cmp.get_selected_entry().source.name] then
+            if cmp.get_active_entry() and ({cody=true,async_path=true,nvim_lsp=true,codeium=true})[cmp.get_selected_entry().source.name] then
                 cmp.confirm()
             else
                 fallback()

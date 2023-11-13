@@ -1,23 +1,19 @@
-vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim')
 local setup=function (m) return m.setup() end
+local conf=function (conf,s) return function(m) m.conf=conf if s then s(m) end end end
 local key=require'utils.keymap'
 for k,v in pairs{
     highlight_selected=setup,
     matchall=setup,
     tabline=setup,
     help_readme=setup,
-    foldtext=function (m)
-        m.conf.treesitter=true
-        m.setup()
-    end,
+    foldtext=conf({treesitter=true},setup),
     kitty=setup,
-    splitbuf=function (m)
-        m.conf.options={
-            ["'"]={action=vim.cmd.Shell,desc='shell'},
-            r={desc='ranger',action=require'small.ranger'.run},
-            b={desc='bufend',action=require'small.bufend'.run},
-        }
-    end,
+    nterm=function (m) vim.api.nvim_create_user_command('Shell',function (opts) m.run('fish '..opts.args,true) end,{nargs='*'}) end,
+    splitbuf=conf{options={
+        ["'"]={action=vim.cmd.Shell,desc='shell'},
+        r={desc='ranger',action=require'small.ranger'.run},
+        b={desc='bufend',action=require'small.bufend'.run},
+    }},
     exchange=function (m)
         key.nno('cx',m.ex_oper)
         key.nno('cX',m.ex_eol)
@@ -48,10 +44,7 @@ for k,v in pairs{
         key.xno('gc',m.run)
         key.nno('gc',m.run)
     end,
-    reminder=function (m)
-        m.conf.path='/home/user/.gtd/vault/gtd/Plans.md'
-        m.setup()
-    end,
+    reminder=conf({path='/home/user/.gtd/vault/gtd/Plans.md'},setup),
     textobj=function (m)
         key.xno('im',m.wordcolumn,{expr=true})
         key.ono('im',m.charcolumn,{expr=true})
@@ -65,7 +58,7 @@ for k,v in pairs{
         key.nno('yo',m.set_opt)
     end,
     whint=function (m) key.ino(':',m.run,{expr=true}) end,
-    ranger=function (m) m.conf.exit_if_single=true end,
+    ranger=conf{exit_if_single=true},
     help_cword=function (m) key.nno('gh',m.run) end,
     ['emacs.recenter_top_bottom']=function(fn) key.nno('<C-z>',fn) end,
 } do v(require('small.'..k)) end

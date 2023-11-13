@@ -1,18 +1,15 @@
 local map=require'utils.keymap'
-local function bootstrap_pckr()
-  local pckr_path = vim.fn.stdpath("data") .. "/pckr/pckr.nvim"
-  if not vim.loop.fs_stat(pckr_path) then
-    vim.fn.system({
-      'git',
-      'clone',
-      "--filter=blob:none",
-      'https://github.com/lewis6991/pckr.nvim',
-      pckr_path
-    })
-  end
-  vim.opt.rtp:prepend(pckr_path)
+local pckr_path = vim.fn.stdpath("data") .. "/pckr/pckr.nvim"
+if not vim.loop.fs_stat(pckr_path) then
+  vim.fn.system({
+    'git',
+    'clone',
+    "--filter=blob:none",
+    'https://github.com/lewis6991/pckr.nvim',
+    pckr_path
+  })
 end
-bootstrap_pckr()
+vim.opt.rtp:prepend(pckr_path)
 local function lcmd(cmds,header)
   return function (load)
     for _,v in ipairs(cmds) do
@@ -45,15 +42,23 @@ local function lft(fts)
     vim.api.nvim_create_autocmd('FileType',{pattern=fts,callback=load,once=true})
   end
 end
+local function lsource(source)
+  return function (load)
+    package.loaded[source]=setmetatable({},{__index=function (_,key)
+      load()
+      package.loaded[source]=nil
+      return require(source)[key]
+    end})
+  end
+end
 local function ll(load) vim.api.nvim_create_autocmd('User',{pattern='s1',callback=load,once=true}) end
 local function skip() end
 local function get_setup(name,conf) return function () require(name).setup(conf or {}) end end
 local function get_config(name) return function () require('config.'..name) end end
-require('pckr').add{
+require'pckr'.add{
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
-  {'altermo/small.nvim',config=get_config'small'},
+  {'altermo/small.nvim',config=get_config'small',cond={ll,lcmd{'Shell'},lsource'small.dff'}},
   {'windwp/nvim-autopairs',config=get_setup'nvim-autopairs',cond=skip},
-  {'nvim-tree/nvim-tree.lua',cond=skip}, --TODO
   {'folke/lazy.nvim',cond=skip},
 
   ----colorschm
@@ -61,7 +66,6 @@ require('pckr').add{
   'folke/tokyonight.nvim',
   'edeneast/nightfox.nvim',
   'hoprr/calvera-dark.nvim',
-  'oxfist/night-owl.nvim',
 
   ----visual
   {'rcarriga/nvim-notify',cond=function(load)
@@ -80,7 +84,7 @@ require('pckr').add{
   {'nvim-lualine/lualine.nvim',config=get_setup('lualine',{
     sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"}},
   }),cond=ll},
-  {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}},requires={'echasnovski/mini.nvim'}},
+  {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}},requires={'echasnovski/mini.nvim','altermo/small.nvim'}},
 
   ----keys
   {'gbprod/yanky.nvim',config=function()
@@ -110,7 +114,7 @@ require('pckr').add{
     local tsaction=require('ts-node-action')
     tsaction.setup{lua=require'small.tree_lua_block_split_join'.nodes}
     vim.keymap.set('n','K',tsaction.node_action)
-  end,cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter'}},
+  end,cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
   {'chrisgrieser/nvim-genghis',cond=lcmd{'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
   {'stevearc/oil.nvim',config=function()
     require'oil'.setup{default_file_explorer=true,view_options={show_hidden=true}}
@@ -152,7 +156,6 @@ require('pckr').add{
     cond=lkey{n={'vx','vn','<A-j>','<A-k>'},x={'<C-j>','<C-k>','<C-h>','<C-l>','<A-k>','<A-j>'}},requires={'nvim-treesitter/nvim-treesitter','echasnovski/mini.nvim'}},
 
   ----other
-  {'sourcegraph/sg.nvim',run='nvim -l build/init.lua',requires={'nvim-lua/plenary.nvim'},config=get_setup'sg',cond=levent{'CmdlineEnter'}},
   {'s1n7ax/nvim-window-picker'},
   {'sindrets/diffview.nvim',cond=lcmd({'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'},'Diffview'),
     config=get_setup('diffview',{use_icons=false})},
@@ -182,12 +185,12 @@ require('pckr').add{
   {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
   {'FelipeLema/cmp-async-path',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'altermo/cmp-fend',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  {'sourcegraph/sg.nvim',run='nvim -l build/init.lua',requires={'nvim-lua/plenary.nvim','hrsh7th/nvim-cmp'},config=get_setup'sg',cond=levent{'InsertEnter','CmdlineEnter'}},
   {'exafunction/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter'}},
-  --{'altermo/codeium.nvim-fork',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter'}},
 
   ----writing
   {'dhruvasagar/vim-table-mode',cond=lcmd{'TableModeToggle'}},
-  {'dbmrq/vim-ditto',cond={lcmd{'NoDitto','ToggleDitto'},lcmd({'Sent','Par','File','On','Off','Update','SentOn','ParOn','FileOn'},'Ditto')}},
+  {'altermo/vim-ditto-fork',cond={lcmd{'NoDitto','ToggleDitto'},lcmd({'On','Off','Update'},'Ditto')}},
   {'altermo/vim-wordy-fork',cond=lcmd{'Wordy','NoWordy','WordyToggle'}},
   {'nvim-orgmode/orgmode',cond=lft{'org'},config=function ()
     require('orgmode').setup_ts_grammar()

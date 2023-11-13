@@ -11,7 +11,7 @@ vim.g.loaded_netrwPlugin=1
 vim.g.loaded_remote_plugins=1
 
 vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
-vim.fn.timer_start(120,function() vim.cmd"doautocmd User s1" end)
+vim.api.nvim_create_autocmd('VimEnter',{callback=function() vim.cmd"doautocmd User s1" end})
 
 local open=vim.ui.open
 ---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:127
@@ -37,7 +37,6 @@ vim.traceback=require'utils.log'.log_traceback
 vim.req=require'utils.lib'.req
 
 local function command(cmd,bin,opt) vim.api.nvim_create_user_command(cmd,bin,opt or {}) end
-command('Shell',function (opts) require'small.nterm'.run('fish '..opts.args,true) end,{nargs='*'})
 command('L',function (opt)
     if not pcall(vim.cmd['='],opt.args) then
         vim.cmd.lua(opt.args)
@@ -51,3 +50,4 @@ command('Colors',function ()
     vim.fn.writefile(vim.fn.sort(vim.tbl_keys(vim.api.nvim_get_color_map())),'/tmp/nvim_out.colors')
     vim.cmd.split'/tmp/nvim_out.colors'
 end)
+vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim')
