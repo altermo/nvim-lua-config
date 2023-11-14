@@ -142,7 +142,7 @@ require'pckr'.add{
     end,cond=lcmd{'Telescope'}},
 
   ----treesitter
-  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter',run=':TSUpdate'},
+  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter',run=':TSUpdate',cond=ll},
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',cond=ll,config=function()
     vim.g.rainbow_delimiters={blacklist={'zig'}}
     vim.cmd'TSEnable rainbow'
