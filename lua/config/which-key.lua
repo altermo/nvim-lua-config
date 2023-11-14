@@ -72,7 +72,8 @@ require'which-key'.register{[' ']=format{
     t={':InspectTree\r','TSPlayground'},
     u={':MundoToggle\r','undotree'},
     a={':TableModeToggle\r','table-mode'},
-    n={':lua require"notify".dismiss({pending=true,silent=true})\r','dismiss notify'},
+    n={':lua require"small.notify".dismiss()\r','dismiss notify'},
+    N={':lua require"small.notify".open_history()\r','open notify history'},
     c={function()
       if mouse_center then
         vim.api.nvim_del_autocmd(mouse_center)
