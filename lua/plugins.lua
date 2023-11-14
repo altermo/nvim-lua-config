@@ -57,7 +57,12 @@ local function get_setup(name,conf) return function () require(name).setup(conf 
 local function get_config(name) return function () require('config.'..name) end end
 require'pckr'.add{
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
-  {'altermo/small.nvim',config=get_config'small',cond={ll,lcmd{'Shell'},lsource'small.dff'}},
+  {'altermo/small.nvim',config=get_config'small',cond={ll,lcmd{'Shell'},lsource'small.dff',function(load)
+    rawset(vim,'notify',function (...)
+      load()
+      vim.notify(...)
+    end)
+  end }},
   {'windwp/nvim-autopairs',config=get_setup'nvim-autopairs',cond=skip},
   {'folke/lazy.nvim',cond=skip},
 
@@ -68,14 +73,6 @@ require'pckr'.add{
   'hoprr/calvera-dark.nvim',
 
   ----visual
-  {'rcarriga/nvim-notify',cond=function(load)
-    ---@source /usr/local/share/nvim/runtime/lua/vim/_editor.lua:599
-    ---@diagnostic disable-next-line: duplicate-set-field
-    vim.notify=function (...)
-      load()
-      vim.notify=require"notify"
-      vim.notify(...)
-    end end},
   {'nvchad/nvim-colorizer.lua',config=function()
     require'colorizer'.setup{}
     vim.cmd'ColorizerAttachToBuffer'
