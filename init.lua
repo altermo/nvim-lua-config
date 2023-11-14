@@ -1,7 +1,9 @@
 if vim.fn.filereadable('/tmp/focus')==1 then vim.cmd.quit() end
 vim.loader.enable()
 require'utils.empty'
-require'keymaps'
+vim.api.nvim_create_autocmd('VimEnter',{callback=function ()
+    require'keymaps'
+end})
 require'autocmds'
 require'other'
 require'options'
