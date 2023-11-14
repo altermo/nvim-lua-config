@@ -167,7 +167,10 @@ require'pckr'.add{
   })},
   {'echasnovski/mini.nvim',config=get_config'mini',
     cond=lkey{n={'gl','gL','S','ds','cs'},x={'S','gl','gL','a','i'},o={'a','i'}}},
-  {'nmac427/guess-indent.nvim',config=get_setup'guess-indent'},
+  {'nmac427/guess-indent.nvim',config=function ()
+    require'guess-indent'.setup{}
+    vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'
+  end,cond=ll},
   {'raghur/vim-ghost',run=':GhostInstall',cond=lcmd{'GhostStart'},config=function()
     if vim.g.loaded_remote_plugins~=1 then return end
     vim.g.loaded_remote_plugins=nil
