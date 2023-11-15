@@ -33,10 +33,10 @@ autocmd({'InsertLeave','TextChanged'},function (ev)
     ---@diagnostic disable-next-line: param-type-mismatch
     vim.cmd('lockmarks silent! write! ++p /tmp/nvim-save/'..vim.fn.expand('%:p'):gsub('%/','\\%%'))
 end)
-autocmd('FileType',function()
+autocmd('VimEnter',function()
   if pcall(vim.treesitter.get_parser) then
     vim.cmd'syntax off'
-    vim.defer_fn(function () vim.cmd'syntax on' end,1000)
+    vim.defer_fn(function () vim.cmd'syntax on' end,500)
   else
     vim.cmd"syntax on"
   end
@@ -48,8 +48,6 @@ autocmd({'BufRead','BufNewFile','StdinReadPost'},
   end,{once=true,pattern='*.bf'})
 local function bino(lhs,rhs) vim.keymap.set('i',lhs,rhs,{buffer=true}) end
 autocmd('FileType',function()
-    vim.cmd.iabbrev'<buffer> vpp vim.pprint'
-    vim.cmd.iabbrev'<buffer> vl vim.lg'
     bino('ł','local ')
     bino('đ','function ')
     bino('®','return ')
@@ -58,8 +56,9 @@ autocmd('FileType',function()
     bino('„f','vim.fn.')
     bino('„a','vim.api.nvim_')
     bino('„k','vim.keymap.set')
+    bino('„l','vim.lg')
+    bino('„p','vim.pprint')
     bino('M','M.')
-    bino('…','M.')
 end,{pattern='lua'})
 autocmd('FileType',function() bino('…','self->') end,{pattern='c'})
 autocmd('FileType',function() bino('…','self.') end,{pattern='python'})

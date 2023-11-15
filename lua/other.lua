@@ -34,7 +34,6 @@ vim.lgclear=require'utils.log'.log_clear
 vim.lgstart=require'utils.log'.log_start
 vim.lgend=require'utils.log'.log_end
 vim.traceback=require'utils.log'.log_traceback
-vim.req=require'utils.lib'.req
 
 local function command(cmd,bin,opt) vim.api.nvim_create_user_command(cmd,bin,opt or {}) end
 command('L',function (opt)

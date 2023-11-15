@@ -23,7 +23,7 @@ local configs={upair.extend_default{
     {'**','**',multiline=false,ft={'markdown'}},
     {'$','$',multiline=false,ft={'markdown'}},
 },
-    --{profile=require'ultimate-autopair.experimental.terminal'.init},
+    {profile=require'ultimate-autopair.experimental.terminal'.init,{'{','}'}},
     {profile=require'ultimate-autopair.experimental.matchpair'.init},
     {profile=require'ultimate-autopair.experimental.addons_.comma_after_table'.init},
     {profile=require'ultimate-autopair.experimental.addons_.fix_ts_endwise'.init}
