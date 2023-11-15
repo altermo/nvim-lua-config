@@ -11,7 +11,7 @@ vim.g.loaded_netrwPlugin=1
 vim.g.loaded_remote_plugins=1
 
 vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
-vim.api.nvim_create_autocmd('VimEnter',{callback=function() vim.cmd"doautocmd User s1" end})
+vim.fn.timer_start(100,function() vim.cmd"doautocmd User s1" end)
 
 local open=vim.ui.open
 ---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:127
@@ -20,14 +20,14 @@ function vim.ui.open(path) open(path:gsub('^([a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+)$',
 --local dep=vim.deprecate
 -----@diagnostic disable-next-line: duplicate-set-field
 --function vim.deprecate(name,...)
-  --if vim.tbl_contains({},name) and os.time()<os.time{year=2023,month=11,day=1} then return end
-  --return dep(name,...)
+--if vim.tbl_contains({},name) and os.time()<os.time{year=2023,month=11,day=1} then return end
+--return dep(name,...)
 --end
 
 function vim.pprint(...)
-  local s,args=pcall(vim.deepcopy,{...})
-  if not s then args={...} end
-  vim.schedule_wrap(vim.notify)(vim.inspect(#args>1 and args or unpack(args)))
+    local s,args=pcall(vim.deepcopy,{...})
+    if not s then args={...} end
+    vim.schedule_wrap(vim.notify)(vim.inspect(#args>1 and args or unpack(args)))
 end
 vim.lg=require'utils.log'.log
 vim.lgclear=require'utils.log'.log_clear
@@ -50,3 +50,4 @@ command('Colors',function ()
     vim.cmd.split'/tmp/nvim_out.colors'
 end)
 vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim')
+require'small.kitty'.setup()

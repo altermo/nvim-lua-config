@@ -33,19 +33,11 @@ autocmd({'InsertLeave','TextChanged'},function (ev)
     ---@diagnostic disable-next-line: param-type-mismatch
     vim.cmd('lockmarks silent! write! ++p /tmp/nvim-save/'..vim.fn.expand('%:p'):gsub('%/','\\%%'))
 end)
-autocmd('VimEnter',function()
-  if pcall(vim.treesitter.get_parser) then
-    vim.cmd'syntax off'
-    vim.defer_fn(function () vim.cmd'syntax on' end,500)
-  else
-    vim.cmd"syntax on"
-  end
-end,{once=true})
 autocmd({'BufRead','BufNewFile','StdinReadPost'},
-  function()
-    vim.filetype.add({extension={bf='bf'}})
-    vim.cmd.setf('bf')
-  end,{once=true,pattern='*.bf'})
+    function()
+        vim.filetype.add({extension={bf='bf'}})
+        vim.cmd.setf('bf')
+    end,{once=true,pattern='*.bf'})
 local function bino(lhs,rhs) vim.keymap.set('i',lhs,rhs,{buffer=true}) end
 autocmd('FileType',function()
     bino('ł','local ')
@@ -63,13 +55,12 @@ end,{pattern='lua'})
 autocmd('FileType',function() bino('…','self->') end,{pattern='c'})
 autocmd('FileType',function() bino('…','self.') end,{pattern='python'})
 autocmd('FileType',function() vim.keymap.set('n','<cr>','<cr>',{buffer=true}) end,{pattern='qf'})
-vim.api.nvim_create_autocmd('UIEnter',{
-  callback = function()
+autocmd('VimEnter',function()
     if vim.fn.argc()>0 or
-      vim.api.nvim_buf_line_count(0)>1 or
-      vim.api.nvim_buf_get_lines(0,0,-1,false)[1]~='' then return end
+        vim.api.nvim_buf_line_count(0)>1 or
+        vim.api.nvim_buf_get_lines(0,0,-1,false)[1]~='' then return end
     vim.bo.buftype='nofile'
-  end,once=true})
+end,{once=true})
 autocmd('CmdlineEnter',function ()
     if vim.o.cmdheight~=0 then return end
     vim.o.laststatus=0

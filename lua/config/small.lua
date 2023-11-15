@@ -7,7 +7,6 @@ for k,v in pairs{
     tabline=setup,
     help_readme=setup,
     foldtext=conf({treesitter=true},setup),
-    kitty=setup,
     nterm=function (m) vim.api.nvim_create_user_command('Shell',function (opts) m.run('fish '..opts.args,true) end,{nargs='*'}) end,
     splitbuf=conf{options={
         ["'"]={action=vim.cmd.Shell,desc='shell'},
