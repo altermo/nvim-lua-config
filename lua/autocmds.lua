@@ -65,13 +65,3 @@ autocmd('VimEnter',function()
         vim.api.nvim_buf_get_lines(0,0,-1,false)[1]~='' then return end
     vim.bo.buftype='nofile'
 end,{once=true})
-autocmd('CmdlineEnter',function ()
-    if vim.o.cmdheight~=0 then return end
-    vim.o.laststatus=0
-    vim.cmd.redraw()
-end)
-autocmd('CmdlineLeave',function ()
-    if vim.o.cmdheight~=0 then return end
-    vim.o.laststatus=2
-    vim.cmd.redraw()
-end)
