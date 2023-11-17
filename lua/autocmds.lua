@@ -30,8 +30,9 @@ autocmd({'InsertLeave','TextChanged'},function (ev)
     vim.cmd('lockmarks silent! update ++p')
     if vim.o.cmdheight>0 then vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.v.echospace+1).."'") end
     if vim.loop.fs_stat(ev.file).size>1024*100 then return end
+    vim.fn.mkdir('/tmp/nvim-save/','p')
     ---@diagnostic disable-next-line: param-type-mismatch
-    vim.cmd('lockmarks silent! write! ++p /tmp/nvim-save/'..vim.fn.expand('%:p'):gsub('%/','\\%%'))
+    vim.fn.writefile(vim.api.nvim_buf_get_lines(0,0,-1,false),'/tmp/nvim-save/'..vim.fn.expand('%:p'):gsub('%/','\\%%'))
 end)
 autocmd({'BufRead','BufNewFile','StdinReadPost'},
     function()
@@ -45,7 +46,6 @@ autocmd('FileType',function()
     bino('®','return ')
     bino('þ','then return end')
     bino('„','vim.')
-    bino('„f','vim.fn.')
     bino('„a','vim.api.nvim_')
     bino('„k','vim.keymap.set')
     bino('„l','vim.lg')
@@ -55,6 +55,10 @@ end,{pattern='lua'})
 autocmd('FileType',function() bino('…','self->') end,{pattern='c'})
 autocmd('FileType',function() bino('…','self.') end,{pattern='python'})
 autocmd('FileType',function() vim.keymap.set('n','<cr>','<cr>',{buffer=true}) end,{pattern='qf'})
+autocmd('FileType',function ()
+    bino('<tab>','<C-o>>><Right><Right><Right><Right>')
+    bino('<S-tab>','<C-o><<<Left><Left><Left><C-Left>')
+end,{pattern='markdown'})
 autocmd('VimEnter',function()
     if vim.fn.argc()>0 or
         vim.api.nvim_buf_line_count(0)>1 or
