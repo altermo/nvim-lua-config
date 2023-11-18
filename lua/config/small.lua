@@ -9,7 +9,7 @@ for k,v in pairs{
     foldtext=conf({treesitter=true},setup),
     nterm=function (m) vim.api.nvim_create_user_command('Shell',function (opts) m.run('fish '..opts.args,true) end,{nargs='*'}) end,
     splitbuf=conf{options={
-        ["'"]={action=vim.cmd.Shell,desc='shell'},
+        ["'"]={desc='shell',action=vim.cmd.Shell},
         r={desc='ranger',action=require'small.ranger'.run},
         b={desc='bufend',action=require'small.bufend'.run},
     }},
@@ -23,9 +23,6 @@ for k,v in pairs{
     builder=function (m)
         key.nno("“",m.termbuild)
         key.nno("<F6>",m.eval)
-        key.nno("<F7>",m.termbuild)
-        key.nno("<F8>",m.set)
-        key.nno("<F9>",m.swap)
     end,
     labull=function (m) key.nno('o',m.run,{noremap=true,expr=true}) end,
     macro=function (m)

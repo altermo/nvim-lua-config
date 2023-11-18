@@ -29,7 +29,7 @@ cmp.setup{
     sources=cmp.config.sources(gen('',data)),
     mapping={
         ['<CR>']=cmp.mapping(function(fallback)
-            if cmp.get_active_entry() and ({cody=true,async_path=true,nvim_lsp=true,codeium=true})[cmp.get_selected_entry().source.name] then
+            if cmp.get_active_entry() and vim.tbl_contains({'cody','async_path','nvim_lsp','codeium'},cmp.get_selected_entry().source.name) then
                 cmp.confirm()
             else
                 fallback()
@@ -47,11 +47,11 @@ cmp.setup.cmdline(':',{
     mapping=cmp.mapping.preset.cmdline(),
     sources=cmp.config.sources(gen(':',data))
 })
-local Kind=cmp.lsp.CompletionItemKind
-cmp.event:on(
-    'confirm_done',
-    function (evt)
-        if vim.tbl_contains({Kind.Function,Kind.Method},evt.entry:get_completion_item().kind) then
-            vim.api.nvim_feedkeys('()'..vim.keycode'<Left>','n',false)
-        end end)
+--local Kind=cmp.lsp.CompletionItemKind
+--cmp.event:on(
+    --'confirm_done',
+    --function (evt)
+        --if vim.tbl_contains({Kind.Function,Kind.Method},evt.entry:get_completion_item().kind) then
+            --vim.api.nvim_feedkeys('()'..vim.keycode'<Left>','n',false)
+        --end end)
 vim.cmd.doautocmd("InsertEnter")

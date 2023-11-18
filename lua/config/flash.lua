@@ -5,7 +5,7 @@ flash.setup{
     modes={
         search={enabled=false},
         char={
-            labels='0123456789,.+-',
+            labels='1234567890',
             jump_labels=true,
             autohide=true,
             config=function(opts)

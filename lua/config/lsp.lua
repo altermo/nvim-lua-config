@@ -17,10 +17,10 @@ for lsp,opt in pairs({
     zls={'zls'},
     taplo={'taplo'},
     tsserver={'typescript-language-server'},
-    --nushell={},
 }) do
     local pkg=require'mason-registry'.get_package(opt[1])
     if not pkg:is_installed() then pkg:install() end
     require'lspconfig'[lsp].setup(opt)
 end
+--require'lspconfig'.nushell.setup{}
 vim.cmd.LspStart()
