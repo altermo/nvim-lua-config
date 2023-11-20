@@ -124,7 +124,6 @@ require'pckr'.add{
   ----search
   {'nvim-telescope/telescope.nvim',requires={
     'nvim-lua/plenary.nvim',
-    'nvim-telescope/telescope-project.nvim',
     {'nvim-telescope/telescope-fzf-native.nvim',run='make'},
     {'nvim-telescope/telescope-ui-select.nvim',cond=function (load)
       ---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:39

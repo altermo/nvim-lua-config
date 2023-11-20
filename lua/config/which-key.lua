@@ -268,7 +268,6 @@ require'which-key'.register{[' ']=format{
 
   ---project
   p={name='+project',
-    s={':Telescope project project\r','search'},
     p={':source /tmp/session.vim\r','reload-last-session',silent=false},
     [' ']={':exe "edit" v:oldfiles[0]\r','reload-last-file'},
     w={':wshada\r','write shada'},
