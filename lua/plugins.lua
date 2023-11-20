@@ -188,7 +188,6 @@ require'pckr'.add{
   {'exafunction/codeium.nvim',config=get_setup'codeium',requires={'hrsh7th/nvim-cmp','nvim-lua/plenary.nvim'},cond=levent{'InsertEnter'}},
 
   ----writing
-  {'dhruvasagar/vim-table-mode',cond=lcmd{'TableModeToggle'}},
   {'altermo/vim-ditto-fork',cond={lcmd{'NoDitto','ToggleDitto'},lcmd({'On','Off','Update'},'Ditto')}},
   {'altermo/vim-wordy-fork',cond=lcmd{'Wordy','NoWordy','WordyToggle'}},
   {'nvim-orgmode/orgmode',cond=lft{'org'},config=function ()

@@ -71,7 +71,6 @@ require'which-key'.register{[' ']=format{
   c={name='+cmd/app',
     t={':InspectTree\r','TSPlayground'},
     u={':MundoToggle\r','undotree'},
-    a={':TableModeToggle\r','table-mode'},
     n={':lua require"small.notify".dismiss()\r','dismiss notify'},
     N={':lua require"small.notify".open_history()\r','open notify history'},
     c={function()
