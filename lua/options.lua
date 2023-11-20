@@ -9,9 +9,7 @@ vim.o.linebreak=true
 vim.o.showbreak='↳ '
 vim.o.breakindent=true
 ---fold
-vim.o.foldcolumn='0'
 vim.o.foldmethod='expr'
-vim.wo.foldexpr='getline(v:lnum)==""?0:1'
 vim.o.foldenable=false
 ---statuscolumn
 ---- https://github.com/neovim/neovim/issues/21342#issuecomment-1344280934
@@ -40,7 +38,6 @@ vim.o.shada="'100,/5,:500,<50,@0,s10"
 ---other
 vim.o.scrolloff=5
 vim.o.timeoutlen=500
-vim.o.spelllang='en'
 vim.o.spelloptions='camel'
 vim.o.shortmess='asoOAFWqI'
 vim.o.completeopt='menu,menuone,noselect'
@@ -48,7 +45,6 @@ vim.o.virtualedit='block,onemore'
 vim.o.nrformats='bin,hex,alpha,unsigned'
 vim.opt.path:append('**')
 vim.o.lazyredraw=true
-vim.o.shell='/bin/fish'
 vim.o.smoothscroll=true
 vim.o.mouse='a'
 vim.o.concealcursor='nc'

@@ -22,7 +22,7 @@ local configs={upair.extend_default{
     {'*','*',multiline=false,ft={'markdown'}},
     {'**','**',multiline=false,ft={'markdown'}},
     {'$','$',multiline=false,ft={'markdown'}},
-    config_internal_pairs={{'[',']',cond=function (_,o) return o.line:sub(o.col-3,o.col)=='\\x1b' end}},
+    config_internal_pairs={{'[',']',cond=function (_,o) return o.line:sub(o.col-3,o.col)~='\\x1b' end}},
 },
     {profile=require'ultimate-autopair.experimental.terminal'.init,{'{','}'}},
     {profile=require'ultimate-autopair.experimental.matchpair'.init},
