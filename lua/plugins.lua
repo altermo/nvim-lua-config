@@ -34,17 +34,14 @@ local function levent(events)
 local function lft(fts)
   return function (load)
     vim.api.nvim_create_autocmd('FileType',{pattern=fts,callback=load,once=true})
-  end
-end
+  end end
 local function lsource(source)
   return function (load)
     package.loaded[source]=setmetatable({},{__index=function (_,key)
       load()
       package.loaded[source]=nil
       return require(source)[key]
-    end})
-  end
-end
+    end}) end end
 local function ll(load) vim.api.nvim_create_autocmd('User',{pattern='s1',callback=load,once=true}) end
 local function get_setup(name,conf) return function () require(name).setup(conf or {}) end end
 local function get_config(name) return function () require('config.'..name) end end
@@ -54,8 +51,7 @@ require'pckr'.add{
     rawset(vim,'notify',function (...)
       load()
       vim.notify(...)
-    end)
-  end }},
+    end) end}},
 
   ----colorschm
   {'altermo/base46-fork',requires={'nvim-lua/plenary.nvim'},run='make'},
