@@ -52,7 +52,6 @@ local function lsource(source)
   end
 end
 local function ll(load) vim.api.nvim_create_autocmd('User',{pattern='s1',callback=load,once=true}) end
-local function skip() end
 local function get_setup(name,conf) return function () require(name).setup(conf or {}) end end
 local function get_config(name) return function () require('config.'..name) end end
 require'pckr'.add{
@@ -63,8 +62,6 @@ require'pckr'.add{
       vim.notify(...)
     end)
   end }},
-  {'windwp/nvim-autopairs',config=get_setup'nvim-autopairs',cond=skip},
-  {'folke/lazy.nvim',cond=skip},
 
   ----colorschm
   {'altermo/base46-fork',requires={'nvim-lua/plenary.nvim'},run='make'},
