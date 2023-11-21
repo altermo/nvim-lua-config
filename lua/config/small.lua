@@ -8,11 +8,7 @@ for k,v in pairs{
     --help_readme=setup,
     foldtext=conf({treesitter=true},setup),
     nterm=function (m) vim.api.nvim_create_user_command('Shell',function (opts) m.run('fish '..opts.args,true) end,{nargs='*'}) end,
-    splitbuf=conf{options={
-        ["'"]={desc='shell',action=vim.cmd.Shell},
-        r={desc='ranger',action=require'small.ranger'.run},
-        b={desc='bufend',action=require'small.bufend'.run},
-    }},
+    splitbuf=conf{call=function () require'which-key'.show(' ',{mode='n'}) end},
     exchange=function (m)
         key.nno('cx',m.ex_oper)
         key.nno('cX',m.ex_eol)

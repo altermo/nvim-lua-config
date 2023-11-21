@@ -63,7 +63,6 @@ require'which-key'.register{[' ']=format{
   x={':qall\r','quitall'},
   v={require'small.splitbuf'.vsplit,'vsplitbuf'},
   e={require'small.splitbuf'.split,'hsplitbuf'},
-  n={require'small.splitbuf'.open,'splitbuf'},
   d={':lua require"mini.bufremove".wipeout()\r','buffer-close'},
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
 
