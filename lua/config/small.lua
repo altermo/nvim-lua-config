@@ -48,11 +48,7 @@ for k,v in pairs{
         key.ono('ik',m.charrow,{expr=true})
     end,
     --trans=function (m) key.nno('þ',m.cword) end,
-    --unimpaired=function (m)
-        --key.nno(']f',m.edit_next_file)
-        --key.nno('[f',m.edit_prev_file)
-        --key.nno('yo',m.set_opt)
-    --end,
+    unimpaired=function (m) key.nno('yo',m.set_opt) end,
     --whint=function (m) key.ino(':',m.run,{expr=true}) end,
     ranger=conf{exit_if_single=true},
     help_cword=function (m) key.nno('gh',m.run) end,

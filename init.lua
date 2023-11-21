@@ -1,3 +1,4 @@
+if vim.fn.filereadable('/tmp/focus')==1 then vim.cmd.quit() end
 vim.loader.enable()
 require'keymaps' --500/1000ms
 require'autocmds' --200/1000ms
