@@ -87,6 +87,7 @@ require'which-key'.register{[' ']=format{
     l={':edit /tmp/nlog\r','open-log'},
     g={':DiffviewOpen\r','git-diff'},
     d={require'small.dff'.file_expl,'dff'},
+    a={require'small.tablemode'.toggle,'toggle table mode'}
   },
 
   ---fold/indent
@@ -138,9 +139,7 @@ require'which-key'.register{[' ']=format{
       vim.cmd.startinsert()
     end,'sudosave'},
     r={':Rename\r','rename',silent=false},
-    d={':Duplicate\r','duplicate'},
     c={':!echo "%:p"|xsel -ib\r','copy-path',silent=false},
-    C={':!echo "%:r"|tr "/" "."|xsel -ib\r','copy-lua-path',silent=false},
     f={':Telescope find_files\r','find'},
     t={name='+set-type',
       o={':setf ','other',silent=false},
