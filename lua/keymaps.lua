@@ -115,6 +115,7 @@ lcno('<C-a>','<Home>')
 lcno('<C-g>','<esc>')
 
 ----xno/ono
+ono('æ','y')
 for i in ([['"`()[]{}<>]]):gmatch('.') do
   ono(i,'i'..i)
   xno(i,'i'..i)
