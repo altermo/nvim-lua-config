@@ -5,7 +5,6 @@ local data={
     {name='buffer',menu='BUF',types={'','/'}},
     {name='nvim_lsp',menu='LSP'},
     {name='codeium',menu='CI'},
-    {name='async_path',menu='PATH',types={'',':'}},
     {name='nvim_lsp_signature_help'},
     {name='cmdline',menu='CL',types={':'}},
     {name='fend',menu='FEND'},
@@ -29,7 +28,7 @@ cmp.setup{
     sources=cmp.config.sources(gen('',data)),
     mapping={
         ['<CR>']=cmp.mapping(function(fallback)
-            if cmp.get_active_entry() and vim.tbl_contains({'cody','async_path','nvim_lsp','codeium'},cmp.get_selected_entry().source.name) then
+            if cmp.get_active_entry() and vim.tbl_contains({'cody','nvim_lsp','codeium'},cmp.get_selected_entry().source.name) then
                 cmp.confirm()
             else
                 fallback()
