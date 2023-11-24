@@ -129,10 +129,7 @@ require'pckr'.add{
 
   ----treesitter
   {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter',run=':TSUpdate'},
-  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',cond=ll,config=function()
-    vim.g.rainbow_delimiters={blacklist={'zig'}}
-    vim.cmd'TSEnable rainbow'
-  end,requires={'nvim-treesitter/nvim-treesitter'}},
+  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',cond=ll,config=function() vim.cmd'TSEnable rainbow' end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'windwp/nvim-ts-autotag',cond=levent{'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',cond=levent{'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'ziontee113/syntax-tree-surfer',config=get_config'surfer',
