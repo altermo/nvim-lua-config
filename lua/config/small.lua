@@ -5,7 +5,6 @@ for k,v in pairs{
     highlight_selected=setup,
     matchall=setup,
     tabline=setup,
-    --help_readme=setup,
     foldtext=conf({treesitter=true},setup),
     nterm=function (m) vim.api.nvim_create_user_command('Shell',function (opts) m.run('fish '..opts.args,true) end,{nargs='*'}) end,
     splitbuf=conf{call=function () require'which-key'.show(' ',{mode='n'}) end},
@@ -27,11 +26,6 @@ for k,v in pairs{
         key.xno('Q',m.play_rec)
         key.nno('cq',m.edit_rec)
     end,
-    --nodeswap=function (m)
-        --key.nno('<a',m.swap_prev)
-        --key.nno('>a',m.swap_next)
-        --key.nno('=a',m.over)
-    --end,
     onelinecomment=function (m)
         key.xno('gc',m.run)
         key.nno('gc',m.run)
@@ -43,9 +37,9 @@ for k,v in pairs{
         key.xno('ik',m.wordrow,{expr=true})
         key.ono('ik',m.charrow,{expr=true})
     end,
-    --trans=function (m) key.nno('þ',m.cword) end,
+    trans=function (m) key.nno('þ',m.cword) end,
     unimpaired=function (m) key.nno('yo',m.set_opt) end,
-    --whint=function (m) key.ino(':',m.run,{expr=true}) end,
+    whint=function (m) key.ino(':',m.run,{expr=true}) end,
     ranger=conf{exit_if_single=true},
     help_cword=function (m) key.nno('gh',m.run) end,
     ['emacs_features.recenter_top_bottom']=function(fn) key.nno('<C-z>',fn) end,
