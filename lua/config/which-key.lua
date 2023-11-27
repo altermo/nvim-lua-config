@@ -269,5 +269,7 @@ require'which-key'.register{[' ']=format{
     [' ']={':exe "edit" v:oldfiles[0]\r','reload-last-file'},
     w={':wshada\r','write shada'},
     r={':rshada!\r','read shada!'},
+    s={require'small.layout'.save,'layout-save'},
+    l={require'small.layout'.load,'layout-load'},
   },
 }}
