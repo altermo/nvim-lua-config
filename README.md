@@ -5,6 +5,7 @@ This is my private neovim config.
 Here is a list of things unique about this config:
 + Ultra fast load times when opening files: 50ms
     + [NvChad](https://github.com/NvChad/nvchad) has 110ms when opening files
+    + *Note*: on kitty 85ms (because of kitty integration)
 + No status column (no line numbers)
 + No snippet plugin (uses `vim.snippet`) (still has cmp)
 + [small.nvim](https://github.com/altermo/small.nvim): my collection of private plugins
