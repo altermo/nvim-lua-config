@@ -139,8 +139,7 @@ require'pckr'.add{
   {'s1n7ax/nvim-window-picker'},
   {'sindrets/diffview.nvim',cond=lcmd({'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'},'Diffview'),
     config=get_setup('diffview',{use_icons=false})},
-  {'neovim/nvim-lspconfig',config=get_config'lsp',requires={
-    {'williamboman/mason.nvim',module='mason'}},cond=ll},
+  {'neovim/nvim-lspconfig',config=get_config'lsp',cond=ll},
   {'rafcamlet/nvim-luapad',cond=lcmd{'Luapad'},config=get_setup('luapad',{
     preview=false,
     on_init=function ()

@@ -1,4 +1,3 @@
-require'mason'.setup{}
 for lsp,opt in pairs({
     pyright={'pyright'},
     lua_ls={'lua-language-server',settings={Lua={
@@ -17,10 +16,9 @@ for lsp,opt in pairs({
     zls={'zls'},
     taplo={'taplo'},
     tsserver={'typescript-language-server'},
+    nushell={'nu'}
 }) do
-    local pkg=require'mason-registry'.get_package(opt[1])
-    if not pkg:is_installed() then pkg:install() end
+    if vim.fn.executable(opt[1])==0 then vim.notify(opt[1]..' not found') end
     require'lspconfig'[lsp].setup(opt)
 end
---require'lspconfig'.nushell.setup{}
 vim.cmd.LspStart()
