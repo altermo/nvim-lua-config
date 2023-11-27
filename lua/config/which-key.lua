@@ -216,7 +216,6 @@ require'which-key'.register{[' ']=format{
     i={':LspInfo\r','info'},
     s={':LspStop\r','stop'},
     S={':LspStart\r','start'},
-    m={':Mason\r','mason'},
     r={':Telescope lsp_references\r','search-references'},
     R={':IncRename <C-r>=expand("<cword>")\r','replace',silent=false},
     w={name='+workspace',
