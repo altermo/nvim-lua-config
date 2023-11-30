@@ -169,7 +169,7 @@ require'pckr'.add{
   {'altermo/cmp-codeium',requires={'hrsh7th/nvim-cmp',{'exafunction/codeium.vim',config=function ()
     vim.g.codeium_disable_bindings=true
     vim.g.codeium_manual=true
-  end}},cond=levent{'InsertEnter','CmdlineEnter'}},
+  end,cond=levent{'InsertEnter'}}},cond=levent{'InsertEnter'}},
   {'sourcegraph/sg.nvim',run='nvim -l build/init.lua',requires={'nvim-lua/plenary.nvim','hrsh7th/nvim-cmp'},config=get_setup'sg',cond=levent{'InsertEnter','CmdlineEnter'}},
 
   ----writing
