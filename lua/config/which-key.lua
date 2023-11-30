@@ -213,17 +213,12 @@ require'which-key'.register{[' ']=format{
     h={':lua vim.lsp.buf.hover()\r','hover'},
     f={':lua vim.lsp.buf.format()\r','format'},
     c={':lua vim.lsp.buf.code_action()\r','code-action'},
-    I={':lua vim.lsp.inlay_hint(0)\r','toggle-inlay-hint'},
+    I={':lua vim.lsp.inlay_hint.enable(0,not vim.lsp.inlay_hint.is_enabled())\r','toggle-inlay-hint'},
     i={':LspInfo\r','info'},
     s={':LspStop\r','stop'},
     S={':LspStart\r','start'},
     r={':Telescope lsp_references\r','search-references'},
     R={':IncRename <C-r>=expand("<cword>")\r','replace',silent=false},
-    w={name='+workspace',
-      a={vim.lsp.buf.add_workspace_folder,'add'},
-      d={vim.lsp.buf.remove_workspace_folder,'delete'},
-      l={':=vim.lsp.buf.list_workspace_folders()\r','list',silent=false},
-    },
   },
 
   ---window
