@@ -87,7 +87,8 @@ require'which-key'.register{[' ']=format{
     l={':edit /tmp/nlog\r','open-log'},
     g={':DiffviewOpen\r','git-diff'},
     d={require'small.dff'.file_expl,'dff'},
-    a={require'small.tablemode'.toggle,'toggle table mode'}
+    a={require'small.tablemode'.toggle,'toggle table mode'},
+    r={require'small.reminder'.sidebar,'reminder sidebar'},
   },
 
   ---fold/indent
