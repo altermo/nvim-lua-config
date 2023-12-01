@@ -37,7 +37,6 @@ for k,v in pairs{
         key.xno('ik',m.wordrow,{expr=true})
         key.ono('ik',m.charrow,{expr=true})
     end,
-    trans=function (m) key.nno('þ',m.cword) end,
     unimpaired=function (m) key.nno('yo',m.set_opt) end,
     whint=function (m) key.ino(':',m.run,{expr=true}) end,
     ranger=conf{exit_if_single=true},

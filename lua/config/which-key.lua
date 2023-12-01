@@ -87,7 +87,7 @@ require'which-key'.register{[' ']=format{
     l={':edit /tmp/nlog\r','open-log'},
     g={':DiffviewOpen\r','git-diff'},
     d={require'small.dff'.file_expl,'dff'},
-    a={require'small.tablemode'.toggle,'toggle table mode'},
+    a={require'small.tableformat'.run,'format table'},
     r={require'small.reminder'.sidebar,'reminder sidebar'},
   },
 
@@ -129,12 +129,12 @@ require'which-key'.register{[' ']=format{
     W={function ()
       local tmp=vim.fn.tempname()
       vim.fn.writefile(vim.fn.getline(1,vim.fn.line('$')),tmp)
-      vim.o.modified=false
       vim.cmd.vnew()
       local buf=vim.fn.bufnr()
       vim.fn.termopen('cat '..tmp..'|sudo tee '..vim.fn.expand('#:p'),{
-        on_exit=function (_,_,_)
+        on_exit=function (_,code,_)
           vim.cmd.bdelete({buf,bang=true})
+          if code==0 then vim.o.modified=false end
         end
       })
       vim.cmd.startinsert()
@@ -150,7 +150,7 @@ require'which-key'.register{[' ']=format{
 
   ----search
   s={name='+search',
-    C={':Telescope current_buffer_fuzzy_find\r','find-current-file'},
+    C={':Telescope current_buffer_fuzzy_find\r','fuzzy-current-file'},
     a={':Telescope\r','telescope'},
     c={':Telescope colorscheme enable_preview=true\r','colorscheme'},
     F={require'small.foldselect'.run,'fold'},
@@ -169,23 +169,6 @@ require'which-key'.register{[' ']=format{
 
   ----text
   y={name='+text',
-    S={function ()
-      local t=require'small.trans'
-      t.conf.from,t.conf.to=t.conf.to,t.conf.from
-      vim.notify(('%s to %s'):format(t.conf.from,t.conf.to))
-    end,'translate-swap'},
-    T={function ()
-      local t=require'small.trans'
-      vim.notify(('%s to %s'):format(t.conf.from,t.conf.to))
-    end,'translate-show'},
-    f={name='+translate-from',
-      f={':lua require"small.trans".conf.from=""<Left>','other',silent=false},
-      _=cmap(spell,':lua require"small.conf.trans".from="%s"\r','lang=%s',{silent=false})
-    },
-    t={name='+translate-to',
-      t={':lua require"small.trans".conf.to=""<Left>','other',silent=false},
-      _=cmap(spell,':lua require"small.trans".conf.to="%s"\r','lang=%s',{silent=false})
-    },
     s={name='+spell',
       _=cmap(spell,':set spelllang=%s\r','lang=%s',{silent=false})
     },
@@ -245,16 +228,17 @@ require'which-key'.register{[' ']=format{
       return ret
     end)(),
     s={function()
-      local win=require('window-picker').pick_window()
+      local win=require'small.winpick'.pick()
       if not win then return end
       local curbuf=vim.api.nvim_win_get_buf(0)
+      local twin=vim.api.nvim_open_win(curbuf,false,{hide=true,width=1,height=1,relative='cursor',col=1,row=1})
       vim.api.nvim_win_set_buf(0,vim.api.nvim_win_get_buf(win))
       vim.api.nvim_win_set_buf(win,curbuf)
+      vim.api.nvim_win_close(twin,true)
     end,'swap'},
     [' ']={function()
-      local win=require('window-picker').pick_window()
-      if not win then return end
-      vim.api.nvim_set_current_win(win)
+      local win=require'small.winpick'.pick()
+      if win then vim.api.nvim_set_current_win(win) end
     end,'hop'},
   },
 

@@ -133,10 +133,9 @@ require'pckr'.add{
   {'windwp/nvim-ts-autotag',cond=levent{'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',cond=levent{'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'ziontee113/syntax-tree-surfer',config=get_config'surfer',
-    cond=lkey{n={'vx','vn','<A-j>','<A-k>'},x={'<C-j>','<C-k>','<C-h>','<C-l>','<A-k>','<A-j>'}},requires={'nvim-treesitter/nvim-treesitter','echasnovski/mini.nvim'}},
+    cond=lkey{n={'vx','vn'},x={'<C-j>','<C-k>','<C-h>','<C-l>'}},requires={'nvim-treesitter/nvim-treesitter','echasnovski/mini.nvim'}},
 
   ----other
-  {'s1n7ax/nvim-window-picker'},
   {'sindrets/diffview.nvim',cond=lcmd({'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'},'Diffview'),
     config=get_setup('diffview',{use_icons=false})},
   {'neovim/nvim-lspconfig',config=get_config'lsp',cond=ll},
@@ -148,7 +147,7 @@ require'pckr'.add{
     end,
   })},
   {'echasnovski/mini.nvim',config=get_config'mini',
-    cond=lkey{n={'gl','gL','S','ds','cs'},x={'S','gl','gL','a','i'},o={'a','i'}}},
+    cond={lkey{n={'gl','gL','S','ds','cs'},x={'S','gl','gL','a','i'},o={'a','i'}},lsource'mini.bufremove'}},
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
     vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'

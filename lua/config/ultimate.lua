@@ -26,7 +26,6 @@ local configs={upair.extend_default{
 },
     {profile=require'ultimate-autopair.experimental.terminal'.init,{'{','}'}},
     {profile=require'ultimate-autopair.experimental.matchpair'.init},
-    {profile=require'ultimate-autopair.experimental.addons_.comma_after_table'.init},
     {profile=require'ultimate-autopair.experimental.addons_.fix_ts_endwise'.init}
 }
 require'ultimate-autopair.core'.modes={'i','c','n','t'}
