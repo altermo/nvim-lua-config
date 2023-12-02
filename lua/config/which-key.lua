@@ -13,7 +13,6 @@ local function cmap(inp,cmd,name,add)
   end
   return tbl
 end
---local charnr=224
 local function format(tbl)
   for k,v in pairs(tbl) do
     if k=='_' then
@@ -25,21 +24,6 @@ local function format(tbl)
       format(v)
     end
   end
-  --if not tbl.name then return tbl end
-  --local dup={}
-  --for k,v in pairs(tbl) do
-    --if k=='name' or type(v)~='table' or v.name then
-    --else
-      --if dup[v[1]] then
-        --require'which-key.config'.options.key_labels[vim.fn.nr2char(charnr)]=table.concat({k,unpack(dup[v[1]])},',')
-        --tbl[k]={v[1],'which_key_ignore'}
-        --tbl[dup[v[1]][1]]={v[1],'which_key_ignore'}
-        --tbl[vim.fn.nr2char(charnr)]=v[2]
-        --charnr=charnr+1
-      --end
-      --dup[v[1]]={k,unpack(dup[v[1]] or {})}
-    --end
-  --end
   return tbl
 end
 local spell={s='es',e='en',v='sv',n='nb'}
