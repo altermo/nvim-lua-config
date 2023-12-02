@@ -1,8 +1,8 @@
 ----init
 local function fmap(num,cmd,name)
-  local tbl={}
+  local tbl={['ß']=name:gsub('%%s','1..9')}
   for i=1,num do
-    tbl[tostring(i)]={cmd:gsub('%%s',i),(name:gsub('%%s',tostring(i)))}
+    tbl[tostring(i)]={cmd:gsub('%%s',i),'which_key_ignore'}
   end
   return tbl
 end
@@ -28,19 +28,21 @@ local function format(tbl)
 end
 local spell={s='es',e='en',v='sv',n='nb'}
 local mouse_center
-require'which-key'.setup{plugins={
-  marks=false,
-  registers=false,
-  spelling={enabled=false},
-  presets={
-    operators=false,
-    motions=false,
-    text_objects=false,
-    windows=false,
-    nav=false,
-    z=false,
-    g=false,
-  }}}
+require'which-key'.setup{
+  key_labels={['ß']='1..9'},
+  plugins={
+    marks=false,
+    registers=false,
+    spelling={enabled=false},
+    presets={
+      operators=false,
+      motions=false,
+      text_objects=false,
+      windows=false,
+      nav=false,
+      z=false,
+      g=false,
+    }}}
 require'which-key'.register{[' ']=format{
 
   ----main
