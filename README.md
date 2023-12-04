@@ -10,6 +10,7 @@ Here is a list of things unique about this config:
 + No snippet plugin (uses `vim.snippet`) (still has cmp)
 + [small.nvim](https://github.com/altermo/small.nvim): my collection of private plugins
 + Uses [pckr.nvim](https://github.com/lewis6991/pckr.nvim) as package manager
-+ Conceal specific keywords in lua
++ Conceal specific keywords in lua into symbols
 + Nushell highlighting
-+ No mason
++ Manual lsp install
++ Compact similar actions into one label in which-key (ex. (w)indow->number)
