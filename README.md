@@ -13,4 +13,4 @@ Here is a list of things unique about this config:
 + Conceal specific keywords in lua into symbols
 + Nushell highlighting
 + Manual lsp install
-+ Compact similar actions into one label in which-key (ex. (w)indow->number)
++ Compact similar actions into one label in which-key
