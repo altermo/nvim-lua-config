@@ -13,7 +13,4 @@ for k,v in pairs{
         }}} do
     require('mini.'..k).setup(v)
 end
-local ma=require'mini.align'
-ma.config.modifiers['=']=nil
-ma.config.modifiers[' ']=nil
-ma.config.modifiers[',']=nil
+for i in ('= ,'):gmatch'.' do require'mini.align'.config.modifiers[i]=nil end

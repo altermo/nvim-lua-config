@@ -66,7 +66,7 @@ require'pckr'.add{
   end,cond=ll},
   {'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cond=levent{'CmdlineEnter'}},
   {'nvim-lualine/lualine.nvim',config=get_setup('lualine',{
-    sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"}},
+    sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}},
   }),cond=ll},
   {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}},requires={'echasnovski/mini.nvim','altermo/small.nvim'}},
 
@@ -174,18 +174,6 @@ require'pckr'.add{
   ----writing
   {'altermo/vim-ditto-fork',cond={lcmd{'NoDitto','ToggleDitto'},lcmd({'On','Off','Update'},'Ditto')}},
   {'altermo/vim-wordy-fork',cond=lcmd{'Wordy','NoWordy','WordyToggle'}},
-  {'nvim-orgmode/orgmode',cond=lft{'org'},config=function ()
-    require('orgmode').setup_ts_grammar()
-    require('nvim-treesitter.configs').setup({additional_vim_regex_highlighting={'org'}})
-    require('orgmode').setup()
-  end},
-  {'nvim-neorg/neorg',config=get_setup(
-    'neorg',{load={
-      ['core.defaults']={},
-      ['core.export']={},
-      ['core.export.markdown']={},
-      ['core.completion']={config={engine='nvim-cmp'}},
-    }}),cond=lft{'norg'},run=':Neorg sync-parsers',requires={'hrsh7th/nvim-cmp'}},
   {'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
 }
 -- vim:fen:

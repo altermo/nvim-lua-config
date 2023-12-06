@@ -27,16 +27,11 @@ autocmd({'InsertLeave','TextChanged'},function (ev)
     if ev.file=='' or not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
     vim.cmd('lockmarks silent! update ++p')
     if vim.o.cmdheight>0 then vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.v.echospace+1).."'") end
-    if vim.loop.fs_stat(ev.file).size>1024*100 then return end
-    vim.fn.mkdir('/tmp/nvim-save/','p')
-    ---@diagnostic disable-next-line: param-type-mismatch
-    vim.fn.writefile(vim.api.nvim_buf_get_lines(0,0,-1,false),'/tmp/nvim-save/'..vim.fn.expand('%:p'):gsub('%/','\\%%'))
 end)
-autocmd({'BufRead','BufNewFile','StdinReadPost'},
-    function()
-        vim.filetype.add({extension={bf='bf'}})
-        vim.cmd.setf('bf')
-    end,{once=true,pattern='*.bf'})
+autocmd({'BufRead','BufNewFile','StdinReadPost'},function()
+    vim.filetype.add({extension={bf='bf'}})
+    vim.cmd.setf('bf')
+end,{once=true,pattern='*.bf'})
 local function bino(lhs,rhs) vim.keymap.set('i',lhs,rhs,{buffer=true}) end
 autocmd('FileType',function()
     bino('ł','local ')

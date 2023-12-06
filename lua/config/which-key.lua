@@ -1,7 +1,7 @@
 ----init
-local function fmap(num,cmd,name)
-  local tbl={['ß']=name:gsub('%%s','1..9')}
-  for i=1,num do
+local function fmap(num,cmd,name,null)
+  local tbl={[null and 'à' or 'ß']=name:gsub('%%s',null and '0..9' or '1..9')}
+  for i=null and 0 or 1,num do
     tbl[tostring(i)]={cmd:gsub('%%s',i),'which_key_ignore'}
   end
   return tbl
@@ -27,9 +27,8 @@ local function format(tbl)
   return tbl
 end
 local spell={s='es',e='en',v='sv',n='nb'}
-local mouse_center
 require'which-key'.setup{
-  key_labels={['ß']='1..9'},
+  key_labels={['ß']='1..9',['à']='0..9'},
   plugins={
     marks=false,
     registers=false,
@@ -58,14 +57,14 @@ require'which-key'.register{[' ']=format{
   P={name='+packer',_=cmap({p='status',i='install',c='clean',u='update'},':Pckr %s\r','%s')},
   ------fold
   z={'zMzv','close-all-folds-but-cursor'},
-  Z={':e\r','reload-folds'},
+  Z={':e\r','reload-file'},
   ------window/buffer
   q={':q\r','quit'},
   Q={':q!\r','QUIT!'},
   x={':qall\r','quitall'},
   v={require'small.splitbuf'.vsplit,'vsplitbuf'},
   e={require'small.splitbuf'.split,'hsplitbuf'},
-  d={':lua require"mini.bufremove".wipeout()\r','buffer-close'},
+  d={':lua require"mini.bufremove".wipeout()\r','buffer-wipeout'},
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
 
   ---cmd/app
@@ -74,17 +73,9 @@ require'which-key'.register{[' ']=format{
     u={':MundoToggle\r','undotree'},
     n={':lua require"small.notify".dismiss()\r','dismiss notify'},
     N={':lua require"small.notify".open_history()\r','open notify history'},
-    c={function()
-      if mouse_center then
-        vim.api.nvim_del_autocmd(mouse_center)
-        mouse_center=false
-      else
-        mouse_center=vim.api.nvim_create_autocmd({'CursorMoved','CursorMovedI'},{command='norm! zz'})
-        vim.cmd.norm{'zz',bang=true}
-      end
-    end,'centermouse'},
+    c={':let &scrolloff=(&scrolloff==1000?5:1000)\r','centermouse'},
     e={':silent !emacsclient %&\r','send-emacs'},
-    w={':call execute("terminal curl \'wttr.in/?nQF\' -s")|startinsert\r','weather'},
+    w={':vsplit|call execute("terminal curl \'wttr.in/?nQF\' -s")|startinsert\r','weather'},
     m={':MarkdownPreview\r','markdown-preview'},
     l={':edit /tmp/nlog\r','open-log'},
     g={':DiffviewOpen\r','git-diff'},
@@ -94,17 +85,17 @@ require'which-key'.register{[' ']=format{
   },
 
   ---fold/indent
-  I={name='+fold/indent',
+  o={name='+fold/indent',
     ------foldmethod
     f={name='+foldmethod',
-      _=cmap({m='manual',i='indent',e='expr',M='marker',S='syntax',d='diff'},':set foldmethod=%s\r','%s'),
+      d={':set foldmethod=diff\r','diff'},
       t={':set foldmethod=expr\r:set foldexpr=v:lua.vim.treesitter.foldexpr()\r','treesitter'},
       f={':set foldmethod=expr\r:set foldexpr=v:lua.Fold(v:lnum)\r','default'},
     },
     ------foldlevel
-    l={name='+foldlevel',_=fmap(9,':set foldlevel=%s\r','set foldlevel=%s')},
+    l={name='+foldlevel',_=fmap(9,':set foldlevel=%s\r','set foldlevel=%s',true)},
     ------indent
-    i={name='+indent',_=fmap(9,':set sw=%s ts=%s sts=%s\r','set indent=%s')},
+    i={name='+indent',_=fmap(9,':set ts=%s\r','set indent=%s')},
   },
 
   ---tabs
@@ -152,7 +143,6 @@ require'which-key'.register{[' ']=format{
 
   ----search
   s={name='+search',
-    C={':Telescope current_buffer_fuzzy_find\r','fuzzy-current-file'},
     a={':Telescope\r','telescope'},
     c={':Telescope colorscheme enable_preview=true\r','colorscheme'},
     F={require'small.foldselect'.run,'fold'},
@@ -165,7 +155,6 @@ require'which-key'.register{[' ']=format{
     r={name='+replace',
       p={require'small.lbpr'.run,'lbpr'},
       --r={':Spectre\r','spectre'}, --TODO: replacement
-      w={':%s/\\<<C-r>=expand("<cword>")\r\\>//<Left>','word',silent=false},
     }
   },
 

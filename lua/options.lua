@@ -42,8 +42,8 @@ vim.o.spelloptions='camel'
 vim.o.shortmess='asoOAFWqI'
 vim.o.completeopt='menu,menuone,noselect'
 vim.o.virtualedit='block,onemore'
-vim.o.nrformats='bin,hex,alpha,unsigned'
-vim.opt.path:append('**')
+--vim.o.nrformats='bin,hex,alpha,unsigned'
+--vim.opt.path:append('**')
 vim.o.lazyredraw=true
 vim.o.smoothscroll=true
 vim.o.mouse='a'

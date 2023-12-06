@@ -18,7 +18,7 @@ local configs={upair.extend_default{
     },
     tabout={enable=true,hopout=true},
     extensions={cond={cond={function(fn) return not fn.in_macro() end}}},
-    {'<<','>>',newline=true,suround=true},
+    {'<<','>>',newline=true,suround=true}, --For testing
     {'*','*',multiline=false,ft={'markdown'}},
     {'**','**',multiline=false,ft={'markdown'}},
     {'$','$',multiline=false,ft={'markdown'}},

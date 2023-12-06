@@ -1,7 +1,6 @@
 local cmp=require'cmp'
 local data={
     {name='cody',menu='SG'},
-    {name='neorg',menu='NORG'},
     {name='buffer',menu='BUF',types={'','/'}},
     {name='nvim_lsp',menu='LSP'},
     {name='codeium',menu='CI'},
@@ -11,9 +10,8 @@ local data={
 }
 local function gen(type,tbl)
     return vim.iter(tbl):map(function (item)
-        return vim.tbl_contains(item.types or {''},type) and
-            vim.tbl_extend('error',{name=item.name},item.conf or {})
-            or nil end):totable()
+        return vim.tbl_contains(item.types or {''},type) and {name=item.name} or nil
+    end):totable()
 end
 local menu=vim.iter(data):fold({},function (acc,item) acc[item.name]=item.menu return acc end)
 local function format(entry,item)
