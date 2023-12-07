@@ -42,5 +42,6 @@ for k,v in pairs{
     ranger=conf{exit_if_single=true},
     help_cword=function (m) key.nno('gh',m.run) end,
     ['emacs_features.recenter_top_bottom']=function(fn) key.nno('<C-z>',fn) end,
+    ['emacs_features.open_org']=setup,
     notify=function (m) m.overide_notify() end,
 } do v(require('small.'..k)) end
