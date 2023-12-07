@@ -47,5 +47,5 @@ command('Colors',function ()
     vim.fn.writefile(vim.fn.sort(vim.tbl_keys(vim.api.nvim_get_color_map())),'/tmp/nvim_out.colors')
     vim.cmd.split'/tmp/nvim_out.colors'
 end)
-vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim')
+vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
 require'small.kitty'.setup()

@@ -21,7 +21,6 @@ vim.o.winminwidth=0
 ---visual
 vim.o.fillchars='vert: ,eob: ,horiz: ,horizup: ,horizdown: ,vertleft: ,vertright: ,verthoriz: '
 vim.o.list=true
-vim.o.termguicolors=true
 vim.o.cursorline=true
 vim.o.showmode=false
 vim.o.statusline=' '
@@ -33,8 +32,7 @@ vim.o.smartcase=true
 ---data
 vim.o.undofile=true
 vim.o.swapfile=false
-vim.o.history=1000
-vim.o.shada="'100,/5,:500,<50,@0,s10"
+vim.o.shada="'100,/9,:50,<50,@9,s10"
 ---other
 vim.o.scrolloff=5
 vim.o.timeoutlen=500

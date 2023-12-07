@@ -55,12 +55,9 @@ for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical re
 end
 nno('<A-e>','/',{noremap=true})
 nno('<A-a>','GVgg')
---nno('<A-d>','0D"_dd')
 nno('<A-y>',':let @+=@"\r')
---nno('<A-j>',':move +1\r')
---nno('<A-k>',':move -2\r')
---nno('<A-h>','<<')
---nno('<A-l>','>>')
+nno('<A-j>',':move +1\r')
+nno('<A-k>',':move -2\r')
 nno('<A-.>','.')
 nno('<C-.>','.')
 nno('<M-x>',':L ',{noremap=true})
@@ -71,6 +68,7 @@ end
 nno('gs',':sort ',{silent=false}) -- https://github.com/neovim/neovim/issues/19354
 nno('=','z=')
 nno('<BS>','==<BS>')
+nno('0','(reg_recording()==""&&reg_executing()==""&&col(".")==1)?"^":"0"',{expr=true})
 
 ----ino/cno
 for k,v in pairs({h='Left',l='Right',j='Down',k='Up'}) do
@@ -131,12 +129,8 @@ xno('æ','"+y')
 xno('å','"+p')
 --xno('<A-j>',':move \'>+1\rgv')
 --xno('<A-k>',':move \'<-2\rgv')
---xno('<A-h>','<gv')
---xno('<A-l>','>gv')
---xno('<S-tab>','<gv')
---xno('<tab>','>gv')
---xno('<','<gv')
---xno('>','>gv')
+xno('<S-tab>','<gv')
+xno('<tab>','>gv')
 xbmap('A',"<esc>:au InsertLeave * ++once :'<+1,'>norm! $\".p\r'<A",'A')
 xbmap('I',"<esc>:au InsertLeave * ++once :'<+1,'>norm! _\".P\r'<I",'I')
 xno('y','ygv<esc>')

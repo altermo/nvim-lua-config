@@ -1,4 +1,4 @@
-vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/ua')
+vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/ua') --For testing
 local upair=require'ultimate-autopair'
 _G.UA_DEV=true
 local configs={upair.extend_default{
