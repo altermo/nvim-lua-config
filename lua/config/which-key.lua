@@ -147,7 +147,7 @@ require'which-key'.register{[' ']=format{
     c={':Telescope colorscheme enable_preview=true\r','colorscheme'},
     F={require'small.foldselect'.run,'fold'},
     P={require'small.plugin_search'.run,'plugins-online'},
-    _=cmap({f='find_files',o='oldfiles',s='live_grep',h='help_tags',b='marks'},':Telescope %s theme=ivy\r','%s'),
+    _=cmap({f='find_files',o='oldfiles',s='live_grep',h='help_tags',b='marks',[' ']='resume'},':Telescope %s theme=ivy\r','%s'),
     y={':Telescope yank_history yank_history\r','yank'},
     g={name='+git',
       _=cmap({s='git_status',c='git_commits',b='git_branches'},':Telescope %s theme=ivy\r','%s'),

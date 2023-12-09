@@ -44,4 +44,5 @@ for k,v in pairs{
     ['emacs_features.recenter_top_bottom']=function(fn) key.nno('<C-z>',fn) end,
     ['emacs_features.open_org']=setup,
     notify=function (m) m.overide_notify() end,
+    debugger=function (m) m.overide_error() end,
 } do v(require('small.'..k)) end

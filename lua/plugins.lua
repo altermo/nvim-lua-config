@@ -54,7 +54,6 @@ require'pckr'.add{
     end) end}},
 
   ----colorschm
-  {'altermo/base46-fork',requires={'nvim-lua/plenary.nvim'},run='make'},
   'folke/tokyonight.nvim',
   'edeneast/nightfox.nvim',
   'hoprr/calvera-dark.nvim',
@@ -105,7 +104,7 @@ require'pckr'.add{
     vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function (ev)
       vim.cmd.lcd(ev.file:sub(#('oil://')+1))
     end})
-  end,cond={levent{'BufAdd'},function (load) if vim.fn.isdirectory(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))==1 then load() end end}},
+  end,cond={ll,function (load) if vim.fn.isdirectory(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))==1 then load() end end}},
   {'smjonas/inc-rename.nvim',config=get_setup'inc_rename',cond=levent{'CmdlineEnter'}},
 
   ----search

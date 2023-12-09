@@ -9,7 +9,7 @@ for lsp,opt in pairs({
             '${3rd}/luv/library',
             '~/.config/nvim/lua',
         }}}}},
-    jsonls={'json-lsp'},
+    --jsonls={'json-lsp'},
     clangd={'clangd'},
     rust_analyzer={'rust-analyzer'},
     fennel_language_server={'fennel-language-server'},
