@@ -163,7 +163,7 @@ require'pckr'.add{
   {'hrsh7th/cmp-buffer',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'hrsh7th/cmp-nvim-lsp',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
   {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
-  {'altermo/cmp-fend',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
+  --{'altermo/cmp-fend',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'altermo/cmp-codeium',requires={'hrsh7th/nvim-cmp',{'exafunction/codeium.vim',config=function ()
     vim.g.codeium_disable_bindings=true
     vim.g.codeium_manual=true
