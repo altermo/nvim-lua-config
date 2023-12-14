@@ -174,5 +174,6 @@ require'pckr'.add{
   {'altermo/vim-ditto-fork',cond={lcmd{'NoDitto','ToggleDitto'},lcmd({'On','Off','Update'},'Ditto')}},
   {'altermo/vim-wordy-fork',cond=lcmd{'Wordy','NoWordy','WordyToggle'}},
   {'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
+  {'poljar/typos.nvim',config=get_setup'typos',cond=ll},
 }
 -- vim:fen:
