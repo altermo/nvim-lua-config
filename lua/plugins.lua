@@ -47,6 +47,7 @@ local function get_setup(name,conf) return function () require(name).setup(conf 
 local function get_config(name) return function () require('config.'..name) end end
 require'pckr'.add{
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
+  {'altermo/nxwm',branch='development'},
   {'altermo/small.nvim',config=get_config'small',cond={ll,lcmd{'Shell'},lsource'small.dff',function(load)
     rawset(vim,'notify',function (...)
       load()
@@ -168,7 +169,6 @@ require'pckr'.add{
     vim.g.codeium_disable_bindings=true
     vim.g.codeium_manual=true
   end,cond=levent{'InsertEnter'}}},cond=levent{'InsertEnter'}},
-  {'sourcegraph/sg.nvim',run='nvim -l build/init.lua',requires={'nvim-lua/plenary.nvim','hrsh7th/nvim-cmp'},config=get_setup'sg',cond=levent{'InsertEnter','CmdlineEnter'}},
 
   ----writing
   {'altermo/vim-ditto-fork',cond={lcmd{'NoDitto','ToggleDitto'},lcmd({'On','Off','Update'},'Ditto')}},

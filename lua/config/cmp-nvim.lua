@@ -1,6 +1,5 @@
 local cmp=require'cmp'
 local data={
-    {name='cody',menu='SG'},
     {name='buffer',menu='BUF',types={'','/'}},
     {name='nvim_lsp',menu='LSP'},
     {name='codeium',menu='CI'},
