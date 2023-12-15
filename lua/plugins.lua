@@ -47,7 +47,7 @@ local function get_setup(name,conf) return function () require(name).setup(conf 
 local function get_config(name) return function () require('config.'..name) end end
 require'pckr'.add{
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
-  {'altermo/nxwm',branch='development'},
+  {'altermo/nxwm'},
   {'altermo/small.nvim',config=get_config'small',cond={ll,lcmd{'Shell'},lsource'small.dff',function(load)
     rawset(vim,'notify',function (...)
       load()
