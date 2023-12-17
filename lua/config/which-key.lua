@@ -70,7 +70,7 @@ require'which-key'.register{[' ']=format{
   ---cmd/app
   c={name='+cmd/app',
     t={':InspectTree\r','TSPlayground'},
-    u={':MundoToggle\r','undotree'},
+    u={':lua require("undotree").toggle()\r','undotree'},
     n={':lua require"small.notify".dismiss()\r','dismiss notify'},
     N={':lua require"small.notify".open_history()\r','open notify history'},
     c={':let &scrolloff=(&scrolloff==1000?5:1000)\r','centermouse'},

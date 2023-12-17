@@ -5,7 +5,6 @@ local data={
     {name='codeium',menu='CI'},
     {name='nvim_lsp_signature_help'},
     {name='cmdline',menu='CL',types={':'}},
-    {name='fend',menu='FEND'},
 }
 local function gen(type,tbl)
     return vim.iter(tbl):map(function (item)

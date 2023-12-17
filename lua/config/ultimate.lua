@@ -2,7 +2,7 @@ vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/ua') --For testing
 local upair=require'ultimate-autopair'
 _G.UA_DEV=true
 local configs={upair.extend_default{
-    space2={enable=true},
+    --space2={enable=true},
     bs={space='balance',indent_ignore=true,single_delete=true,map={'<C-w>','<bs>'}},
     cr={autoclose=true},
     fastwarp={

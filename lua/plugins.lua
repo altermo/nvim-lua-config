@@ -47,7 +47,7 @@ local function get_setup(name,conf) return function () require(name).setup(conf 
 local function get_config(name) return function () require('config.'..name) end end
 require'pckr'.add{
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
-  {'altermo/nxwm'},
+  {'altermo/nxwm',cond=lsource'nxwm',config=get_setup('nxwm',{verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}})},
   {'altermo/small.nvim',config=get_config'small',cond={ll,lcmd{'Shell'},lsource'small.dff',function(load)
     rawset(vim,'notify',function (...)
       load()
@@ -64,7 +64,7 @@ require'pckr'.add{
     require'colorizer'.setup{}
     vim.cmd'ColorizerAttachToBuffer'
   end,cond=ll},
-  {'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'},G={cmd='g'},V={cmd='v'}}}),cond=levent{'CmdlineEnter'}},
+  {'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'}}}),cond=levent{'CmdlineEnter'}},
   {'nvim-lualine/lualine.nvim',config=get_setup('lualine',{
     sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}},
   }),cond=ll},
@@ -93,7 +93,7 @@ require'pckr'.add{
     for k,v in pairs({h='left',j='down',k='up',l='right'}) do
       map.nno('<C-S-'..k..'>',':WinShift '..v..'\r')
     end end,cond={lkey{n={'<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>'}},lcmd{'WinShift'}}},
-  {'simnalamburt/vim-mundo',cond=lcmd{'MundoToggle'}},
+  {'jiaoshijie/undotree',config=get_setup'undotree',requires={'nvim-lua/plenary.nvim'},lsource='undotree'},
   {'ckolkey/ts-node-action',config=function()
     local tsaction=require('ts-node-action')
     tsaction.setup{lua=require'small.tree_lua_block_split_join'.nodes}
@@ -133,7 +133,7 @@ require'pckr'.add{
   {'windwp/nvim-ts-autotag',cond=levent{'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',cond=levent{'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,requires={'nvim-treesitter/nvim-treesitter'}},
   {'ziontee113/syntax-tree-surfer',config=get_config'surfer',
-    cond=lkey{n={'vx','vn'},x={'<C-j>','<C-k>','<C-h>','<C-l>'}},requires={'nvim-treesitter/nvim-treesitter','echasnovski/mini.nvim'}},
+    cond=lkey{n={'vn'},x={'<C-j>','<C-k>','<C-h>','<C-l>'}},requires={'nvim-treesitter/nvim-treesitter','echasnovski/mini.nvim'}},
 
   ----other
   {'sindrets/diffview.nvim',cond=lcmd({'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'},'Diffview'),
@@ -164,7 +164,6 @@ require'pckr'.add{
   {'hrsh7th/cmp-buffer',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'hrsh7th/cmp-nvim-lsp',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
   {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
-  --{'altermo/cmp-fend',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
   {'altermo/cmp-codeium',requires={'hrsh7th/nvim-cmp',{'exafunction/codeium.vim',config=function ()
     vim.g.codeium_disable_bindings=true
     vim.g.codeium_manual=true
@@ -174,6 +173,5 @@ require'pckr'.add{
   {'altermo/vim-ditto-fork',cond={lcmd{'NoDitto','ToggleDitto'},lcmd({'On','Off','Update'},'Ditto')}},
   {'altermo/vim-wordy-fork',cond=lcmd{'Wordy','NoWordy','WordyToggle'}},
   {'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
-  {'poljar/typos.nvim',config=get_setup'typos',cond=ll},
 }
 -- vim:fen:

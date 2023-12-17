@@ -5,7 +5,9 @@ for k,v in pairs{
     highlight_selected=setup,
     matchall=setup,
     tabline=setup,
+    typos=setup,
     foldtext=conf({treesitter=true},setup),
+    treewarn=conf({lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))'}},setup),
     nterm=function (m) vim.api.nvim_create_user_command('Shell',function (opts) m.run('fish '..opts.args,true) end,{nargs='*'}) end,
     splitbuf=conf{call=function () require'which-key'.show(' ',{mode='n'}) end},
     exchange=function (m)
@@ -44,5 +46,4 @@ for k,v in pairs{
     ['emacs_features.recenter_top_bottom']=function(fn) key.nno('<C-z>',fn) end,
     ['emacs_features.open_org']=setup,
     notify=function (m) m.overide_notify() end,
-    debugger=function (m) m.overide_error() end,
 } do v(require('small.'..k)) end

@@ -58,8 +58,7 @@ nno('<A-a>','GVgg')
 nno('<A-y>',':let @+=@"\r')
 nno('<A-j>',':move +1\r')
 nno('<A-k>',':move -2\r')
-nno('<A-.>','.')
-nno('<C-.>','.')
+nno({'<A-.>','<C-.>'},'.')
 nno('<M-x>',':L ',{noremap=true})
 nno('<A-f>',':%s///g<Left><Left><Left>',{noremap=true})
 for i=1,9 do
@@ -69,11 +68,14 @@ nno('gs',':sort ',{silent=false}) -- https://github.com/neovim/neovim/issues/193
 nno('=','z=')
 nno('<BS>','==<BS>')
 nno('0','(reg_recording()==""&&reg_executing()==""&&col(".")==1)?"^":"0"',{expr=true})
+nno('U',':later 1f\r')
 
 ----ino/cno
-for k,v in pairs({h='Left',l='Right',j='Down',k='Up'}) do
+for k,v in pairs({h='Left',l='Right',j='Down',k='Up',w='S-Right',b='S-Left'}) do
   lcno('<A-'..k..'>','<'..v..'>')
   lcno('<A-S-'..k..'>',('<'..v..'>'):rep(5))
+  ino('<A-'..k..'>','<'..v..'>')
+  ino('<A-S-'..k..'>',('<'..v..'>'):rep(5))
 end
 lcno('<A-s>','<BS>')
 lcno('<A-d>','<C-w>')
@@ -87,10 +89,6 @@ ino('ø','ö')
 ino('æ','ä')
 ino('Ø','Ö')
 ino('Æ','Ä')
-for i in ('hjklwb'):gmatch('.') do
-  ino('<A-'..i..'>','<C-o>'..i)
-  ino('<A-S-'..i..'>','<C-o>5'..i)
-end
 ino('<A-d>','<C-w>')
 ino('<A-x>','<del>')
 ino('<A-s>','<bs>')
@@ -99,20 +97,22 @@ ino('<A-S-n>','Ä')
 ino('<A-m>','å')
 ino('<A-S-m>','Å')
 --emacs
-ino('<M-b>','<C-o>b')
-ino('<M-f>','<C-o>w')
-ino('<C-n>','<C-o>j')
-ino('<C-p>','<C-o>k')
-ino('<C-b>','<C-o>h')
-ino('<C-f>','<C-o>l')
-ino('<M-lt>','<C-o>gg')
-ino('<M-S-lt>','<C-o>G')
-ino('<C-e>','<End>')
-ino('<C-a>','<Home>')
-ino('<C-g>','<esc>')
-lcno('<C-e>','<End>')
-lcno('<C-a>','<Home>')
-lcno('<C-g>','<esc>')
+for k,v in pairs{
+  ['<M-b>']={'<S-Left>'},
+  ['<M-f>']={'<S-Right>'},
+  ['<C-n>']={'<Down>'},
+  ['<C-p>']={'<Up>'},
+  ['<C-b>']={'<Left>'},
+  ['<C-f>']={'<Right>'},
+  ['<M-lt>']={'<C-home>',false},
+  ['<M-S-lt>']={'<C-end>',false},
+  ['<C-e>']={'<End>'},
+  ['<C-a>']={'<Home>'},
+  ['<C-g>']={'<C-\\><C-n>'},
+} do
+  ino(k,v[1])
+  if v[2]~=false then lcno(k,v[2] or v[1]) end
+end
 
 ----xno/ono
 ono('æ','y')
