@@ -85,7 +85,7 @@ require'pckr'.add{
     map.nno('<C-a>',dialmap.inc_normal())
     map.nno('<C-x>',dialmap.dec_normal())
   end,cond=lkey{n={'<C-a>','<C-x>'}}},
-  {'folke/flash.nvim',config=get_config'flash',cond=lkey{n={'f','F','t','T','s','<C-s>'},x={'f','F','t','T','s'}}},
+  {'folke/flash.nvim',config=get_config'flash',cond=lkey{n={'f','F','t','T','s'},x={'f','F','t','T','s'}}},
 
   ----command
   {'sindrets/winshift.nvim',config=function ()

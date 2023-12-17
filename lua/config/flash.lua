@@ -8,6 +8,7 @@ flash.setup{
             labels='1234567890',
             jump_labels=true,
             autohide=true,
+            highlight={backdrop=false},
             config=function(opts)
                 if vim.api.nvim_get_mode().mode:find('n[oi]') or
                     vim.v.count~=0 then opts.jump_labels=false end

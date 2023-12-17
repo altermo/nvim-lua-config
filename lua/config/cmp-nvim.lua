@@ -12,9 +12,7 @@ local function gen(type,tbl)
     end):totable()
 end
 local menu=vim.iter(data):fold({},function (acc,item) acc[item.name]=item.menu return acc end)
-local function format(entry,item)
-    return setmetatable({dup=0,menu=menu[entry.source.name],kind=''},{__index=item})
-end
+local function format(entry,item) return setmetatable({dup=0,menu=menu[entry.source.name],kind=''},{__index=item}) end
 cmp.setup{
     formatting={format=format},
     snippet={expand=function (args)
@@ -32,13 +30,11 @@ cmp.setup{
         ['<Tab>']=cmp.mapping.select_next_item(),
         ['<S-Tab>']=cmp.mapping.select_prev_item(),
     }}
-cmp.setup.cmdline('/',{
-    formatting={format=format},
+cmp.setup.cmdline({'/','?'},{
     mapping=cmp.mapping.preset.cmdline(),
     sources=cmp.config.sources(gen('/',data))
 })
 cmp.setup.cmdline(':',{
-    formatting={format=format},
     mapping=cmp.mapping.preset.cmdline(),
     sources=cmp.config.sources(gen(':',data))
 })
