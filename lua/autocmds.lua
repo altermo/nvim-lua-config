@@ -25,7 +25,8 @@ autocmd('BufReadPre',function(args)
 end)
 autocmd({'InsertLeave','TextChanged'},function (ev)
     if ev.file=='' or not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
-    vim.cmd('lockmarks silent! update ++p')
+    vim.fn.mkdir(vim.fs.dirname(ev.file) --[[@as string]],'p')
+    vim.cmd.update{bang=true,mods={emsg_silent=true,lockmarks=true}}
     if vim.o.cmdheight>0 then vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.v.echospace+1).."'") end
 end)
 autocmd({'BufRead','BufNewFile','StdinReadPost'},function()

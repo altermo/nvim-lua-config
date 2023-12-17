@@ -71,14 +71,6 @@ nno('0','(reg_recording()==""&&reg_executing()==""&&col(".")==1)?"^":"0"',{expr=
 nno('U',':later 1f\r')
 
 ----ino/cno
-for k,v in pairs({h='Left',l='Right',j='Down',k='Up',w='S-Right',b='S-Left'}) do
-  lcno('<A-'..k..'>','<'..v..'>')
-  lcno('<A-S-'..k..'>',('<'..v..'>'):rep(5))
-  ino('<A-'..k..'>','<'..v..'>')
-  ino('<A-S-'..k..'>',('<'..v..'>'):rep(5))
-end
-lcno('<A-s>','<BS>')
-lcno('<A-d>','<C-w>')
 lcno('<C-S-v>','<C-r>+')
 lcno('<C-A-v>','<C-r>+')
 ino('<A-v>',function()
@@ -89,29 +81,36 @@ ino('ø','ö')
 ino('æ','ä')
 ino('Ø','Ö')
 ino('Æ','Ä')
-ino('<A-d>','<C-w>')
-ino('<A-x>','<del>')
-ino('<A-s>','<bs>')
 ino('<A-n>','ä')
 ino('<A-S-n>','Ä')
 ino('<A-m>','å')
 ino('<A-S-m>','Å')
---emacs
+for k,v in pairs({h='Left',l='Right',j='Down',k='Up',w='S-Right',b='S-Left'}) do
+  lcno('<A-'..k..'>','<'..v..'>')
+  lcno('<A-S-'..k..'>',('<'..v..'>'):rep(5))
+  ino('<A-'..k..'>','<'..v..'>')
+  ino('<A-S-'..k..'>',('<'..v..'>'):rep(5))
+end
 for k,v in pairs{
-  ['<M-b>']={'<S-Left>'},
-  ['<M-f>']={'<S-Right>'},
-  ['<C-n>']={'<Down>'},
-  ['<C-p>']={'<Up>'},
-  ['<C-b>']={'<Left>'},
-  ['<C-f>']={'<Right>'},
-  ['<M-lt>']={'<C-home>',false},
-  ['<M-S-lt>']={'<C-end>',false},
-  ['<C-e>']={'<End>'},
-  ['<C-a>']={'<Home>'},
-  ['<C-g>']={'<C-\\><C-n>'},
+  ['<A-s>']='<BS>',
+  ['<A-d>']='<C-W>',
+  ['<A-x>']='<Del>',
+  --emacs{{
+  ['<M-b>']='<S-Left>',
+  ['<M-f>']='<S-Right>',
+  ['<C-n>']='<Down>',
+  ['<C-p>']='<Up>',
+  ['<C-b>']='<Left>',
+  ['<C-f>']='<Right>',
+  ['<M-lt>']='<C-home>',
+  ['<M-S-lt>']='<C-end>',
+  ['<C-e>']='<End>',
+  ['<C-a>']='<Home>',
+  ['<C-g>']='<C-\\><C-n>',
+  --}}
 } do
-  ino(k,v[1])
-  if v[2]~=false then lcno(k,v[2] or v[1]) end
+  ino(k,v)
+  lcno(k,v)
 end
 
 ----xno/ono
