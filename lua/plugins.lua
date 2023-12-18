@@ -8,7 +8,7 @@ local ll='User s1'
 local nx={'n','x'}
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'}},
-  --{'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
+  {'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
   {'altermo/small.nvim',config=get_config'small',event={ll},cmd='Shell',init=function (plug)
     rawset(vim,'notify',function (...)
       require'lazy'.load{plugins=plug.name}
