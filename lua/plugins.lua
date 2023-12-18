@@ -1,58 +1,19 @@
-local map=require'utils.keymap'
-local pckr_path=vim.fn.stdpath'data'..'/pckr/pckr.nvim'
-if not vim.loop.fs_stat(pckr_path) then
-  vim.system{'git','clone','--filter=blob:none','https://github.com/lewis6991/pckr.nvim',pckr_path}:wait()
+local lazypath=vim.fn.stdpath'data'..'/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.system{'git','clone','--filter=blob:none','https://github.com/folke/lazy.nvim.git','--branch=stable',lazypath}
 end
-vim.opt.rtp:prepend(pckr_path)
-local function lcmd(cmds,header)
-  return function (load)
-    for _,v in ipairs(cmds) do
-      vim.api.nvim_create_user_command((header or '')..v,function (args)
-        for _,n in ipairs(cmds) do pcall(vim.api.nvim_del_user_command,n) end
-        load()
-        vim.cmd(((header or '')..v)..' '..args.args)
-      end,{nargs='*',bang=true}) end end end
-local function lkey(mkeys)
-  return function (load)
-    for mode,keys in pairs(mkeys) do
-      for _,key in ipairs(keys) do
-        vim.api.nvim_set_keymap(mode,key,'',{callback=function()
-          vim.api.nvim_del_keymap(mode,key)
-          load()
-          if mode=='i' then
-            vim.api.nvim_input(key)
-          elseif mode=='o' then
-            vim.api.nvim_feedkeys(vim.v.operator..key,'x!',true)
-          else
-            vim.api.nvim_input((vim.v.count~=0 and vim.v.count or '')..key)
-          end
-        end}) end end end end
-local function levent(events)
-  return function (load)
-    vim.api.nvim_create_autocmd(events,{callback=load,once=true})
-  end end
-local function lft(fts)
-  return function (load)
-    vim.api.nvim_create_autocmd('FileType',{pattern=fts,callback=load,once=true})
-  end end
-local function lsource(source)
-  return function (load)
-    package.loaded[source]=setmetatable({},{__index=function (_,key)
-      load()
-      package.loaded[source]=nil
-      return require(source)[key]
-    end}) end end
-local function ll(load) vim.api.nvim_create_autocmd('User',{pattern='s1',callback=load,once=true}) end
-local function get_setup(name,conf) return function () require(name).setup(conf or {}) end end
+vim.opt.rtp:prepend(lazypath)
 local function get_config(name) return function () require('config.'..name) end end
-require'pckr'.add{
-  {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',cond=levent{'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'},branch='development'},
-  {'altermo/nxwm',cond=lsource'nxwm',config=get_setup('nxwm',{verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}})},
-  {'altermo/small.nvim',config=get_config'small',cond={ll,lcmd{'Shell'},lsource'small.dff',function(load)
+local ll='User s1'
+local nx={'n','x'}
+require'lazy'.setup({
+  {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'}},
+  --{'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
+  {'altermo/small.nvim',config=get_config'small',event={ll},cmd='Shell',init=function (plug)
     rawset(vim,'notify',function (...)
-      load()
+      require'lazy'.load{plugins=plug.name}
       vim.notify(...)
-    end) end}},
+    end) end},
 
   ----colorschm
   'folke/tokyonight.nvim',
@@ -63,115 +24,127 @@ require'pckr'.add{
   {'nvchad/nvim-colorizer.lua',config=function()
     require'colorizer'.setup{}
     vim.cmd'ColorizerAttachToBuffer'
-  end,cond=ll},
-  {'smjonas/live-command.nvim',config=get_setup('live-command',{commands={Norm={cmd='norm!'}}}),cond=levent{'CmdlineEnter'}},
-  {'nvim-lualine/lualine.nvim',config=get_setup('lualine',{
+  end,event={ll}},
+  {'smjonas/live-command.nvim',main='live-command',opts={commands={Norm={cmd='norm!'}}},event={'CmdlineEnter'}},
+  {'nvim-lualine/lualine.nvim',opts={
     sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}},
-  }),cond=ll},
-  {'folke/which-key.nvim',config=get_config'which-key',cond=lkey{n={' '}},requires={'echasnovski/mini.nvim','altermo/small.nvim'}},
+  },event={ll}},
+  {'folke/which-key.nvim',config=get_config'which-key',keys='<space>',dependencies={'echasnovski/mini.nvim','altermo/small.nvim'}},
 
   ----keys
-  {'gbprod/yanky.nvim',config=function()
-    require'yanky'.setup{}
-    map.nno('p','<Plug>(YankyPutAfter)')
-    map.nno('P','<Plug>(YankyPutBefore)')
-    map.nno('<A-p>','<Plug>(YankyCycleForward)')
-    map.nno('<A-P>','<Plug>(YankyCycleBackward)')
-    map.xno('p','<Plug>(YankyPutAfter)')
-    map.xno('P','<Plug>(YankyPutBefore)')
-  end,cond={lkey({n={'p','P','<A-p>','<A-P>'},x={'p','P'}}),levent{'TextYankPost'}}},
-  {'monaqa/dial.nvim',config=function()
-    local dialmap=require'dial.map'
-    map.nno('<C-a>',dialmap.inc_normal())
-    map.nno('<C-x>',dialmap.dec_normal())
-  end,cond=lkey{n={'<C-a>','<C-x>'}}},
-  {'folke/flash.nvim',config=get_config'flash',cond=lkey{n={'f','F','t','T','s'},x={'f','F','t','T','s'}}},
+  {'gbprod/yanky.nvim',opts={},event={'TextYankPost'},keys={
+    {'<A-p>','<Plug>(YankyCycleForward)'},
+    {'<A-P>','<Plug>(YankyCycleBackward)'},
+    {'p','<Plug>(YankyPutAfter)',mode=nx},
+    {'P','<Plug>(YankyPutBefore)',mode=nx},
+  }},
+  {'monaqa/dial.nvim',keys={
+    {'<C-a>',function () return require'dial.map'.inc_normal() end,expr=true},
+    {'<C-x>',function () return require'dial.map'.dec_normal() end,expr=true},
+  }},
+  {'folke/flash.nvim',opts={
+    label={uppercase=false},
+    modes={
+      search={enabled=false},
+      char={
+        labels='1234567890',
+        jump_labels=true,
+        autohide=true,
+        highlight={backdrop=false},
+        config=function(opts)
+          if vim.api.nvim_get_mode().mode:find('n[oi]') or
+            vim.v.count~=0 then opts.jump_labels=false end
+        end
+      }}},keys={{'f',mode=nx},{'F',mode=nx},{'t',mode=nx},{'T',mode=nx},
+      {'s',function () require'flash'.jump() end,mode=nx}}},
 
   ----command
-  {'sindrets/winshift.nvim',config=function ()
-    require'winshift'.setup{}
-    for k,v in pairs({h='left',j='down',k='up',l='right'}) do
-      map.nno('<C-S-'..k..'>',':WinShift '..v..'\r')
-    end end,cond={lkey{n={'<C-S-h>','<C-S-j>','<C-S-k>','<C-S-l>'}},lcmd{'WinShift'}}},
-  {'jiaoshijie/undotree',config=get_setup'undotree',requires={'nvim-lua/plenary.nvim'},lsource='undotree'},
-  {'ckolkey/ts-node-action',config=function()
-    local tsaction=require('ts-node-action')
-    tsaction.setup{lua=require'small.tree_lua_block_split_join'.nodes}
-    vim.keymap.set('n','K',tsaction.node_action)
-  end,cond=lkey{n={'K'}},requires={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
-  {'chrisgrieser/nvim-genghis',cond=lcmd{'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
-  {'stevearc/oil.nvim',config=function()
+  {'sindrets/winshift.nvim',opts={},cmd='WinShift',keys={
+    {'<C-S-h>',':WinShift left\r'},
+    {'<C-S-j>',':WinShift dowm\r'},
+    {'<C-S-k>',':WinShift up\r'},
+    {'<C-S-l>',':WinShift right\r'},
+  }},
+  {'jiaoshijie/undotree',opts={},dependencies={'nvim-lua/plenary.nvim'}},
+  {'ckolkey/ts-node-action',opts=function () return {lua=require'small.tree_lua_block_split_join'.nodes} end,
+    keys={{'K',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
+  {'chrisgrieser/nvim-genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
+  {'stevearc/oil.nvim',cmd='Oil',config=function ()
     require'oil'.setup{default_file_explorer=true,view_options={show_hidden=true}}
     vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function (ev)
       vim.cmd.lcd(ev.file:sub(#('oil://')+1))
     end})
-  end,cond={ll,function (load) if vim.fn.isdirectory(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))==1 then load() end end}},
-  {'smjonas/inc-rename.nvim',config=get_setup'inc_rename',cond=levent{'CmdlineEnter'}},
+  end,event={ll},init=function (plug) if vim.fn.isdirectory(vim.fn.expand('%'))==1 then require'lazy'.load{plugins=plug.name} end end},
+  {'smjonas/inc-rename.nvim',opts={},event={'CmdlineEnter'}},
 
   ----search
-  {'nvim-telescope/telescope.nvim',requires={
+  {'nvim-telescope/telescope.nvim',dependencies={
     'nvim-lua/plenary.nvim',
-    {'nvim-telescope/telescope-fzf-native.nvim',run='make'},
-    {'nvim-telescope/telescope-ui-select.nvim',cond=function (load)
-      ---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:39
-      ---@diagnostic disable-next-line: duplicate-set-field
-      function vim.ui.select(...)
-        load()
-        require'telescope'.load_extension'ui-select'
-        vim.ui.select(...)
-      end
-    end,requires={'nvim-telescope/telescope.nvim'}},
+    {'nvim-telescope/telescope-fzf-native.nvim',build='make'},
   },config=function ()
       local telescope=require'telescope'
       telescope.load_extension'fzf'
       telescope.setup{}
-    end,cond=lcmd{'Telescope'}},
+    end,cmd='Telescope'},
+  {'nvim-telescope/telescope-ui-select.nvim',init=function ()
+    rawset(vim.ui,'select',function (...)
+      require'telescope'.load_extension'ui-select'
+      vim.ui.select(...)
+    end) end,dependencies={'nvim-telescope/telescope.nvim'}},
 
   ----treesitter
-  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter',run=':TSUpdate'},
-  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',cond=ll,config=function() vim.cmd'TSEnable rainbow' end,requires={'nvim-treesitter/nvim-treesitter'}},
-  {'windwp/nvim-ts-autotag',cond=levent{'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,requires={'nvim-treesitter/nvim-treesitter'}},
-  {'rrethy/nvim-treesitter-endwise',cond=levent{'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,requires={'nvim-treesitter/nvim-treesitter'}},
-  {'ziontee113/syntax-tree-surfer',config=get_config'surfer',
-    cond=lkey{n={'vn'},x={'<C-j>','<C-k>','<C-h>','<C-l>'}},requires={'nvim-treesitter/nvim-treesitter','echasnovski/mini.nvim'}},
+  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter',build=':TSUpdate'},
+  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event={ll},config=function() vim.cmd'TSEnable rainbow' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+  {'windwp/nvim-ts-autotag',event={'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+  {'rrethy/nvim-treesitter-endwise',config=function() vim.cmd"TSEnable endwise" end,dependencies={'nvim-treesitter/nvim-treesitter'},keys={{'\r',mode='i'},{'o','A\r'}}},
+  {'ziontee113/syntax-tree-surfer',config=get_config'surfer',dependencies={'echasnovski/mini.nvim'},
+    keys={{'vn'},{'<C-j>',mode='x'},{'<C-k>',mode='x'},{'<C-h>',mode='x'},{'<C-l>',mode='x'}}},
 
   ----other
-  {'sindrets/diffview.nvim',cond=lcmd({'Open','FileHistory','Close','FocusFiles','ToggleFiles','Refresh','Log'},'Diffview'),
-    config=get_setup('diffview',{use_icons=false})},
-  {'neovim/nvim-lspconfig',config=get_config'lsp',cond=ll},
-  {'rafcamlet/nvim-luapad',cond=lcmd{'Luapad'},config=get_setup('luapad',{
-    preview=false,
-    on_init=function ()
-      vim.api.nvim_buf_set_lines(vim.api.nvim_get_current_buf(),0,-1,false,{'---@diagnostic disable: undefined-global,unused-local,lowercase-global',''})
-      vim.cmd.norm{'G',bang=true}
-    end,
-  })},
+  {'sindrets/diffview.nvim',cmd={'DiffviewOpen'},opts={use_icons=false}},
+  {'neovim/nvim-lspconfig',config=get_config'lsp',event={ll}},
+  {'rafcamlet/nvim-luapad',cmd='Luapad',opts={preview=false,on_init=function ()
+    vim.api.nvim_buf_set_lines(vim.api.nvim_get_current_buf(),0,-1,false,{'---@diagnostic disable: undefined-global,unused-local,lowercase-global',''})
+    vim.cmd.norm{'G',bang=true}
+  end}},
   {'echasnovski/mini.nvim',config=get_config'mini',
-    cond={lkey{n={'gl','gL','S','ds','cs'},x={'S','gl','gL','a','i'},o={'a','i'}},lsource'mini.bufremove'}},
+    keys={{'gl',mode=nx},{'gL',mode=nx},{'S',mode=nx},'ds','cs',{'a',mode={'o','x'}},{'i',mode={'o','x'}}}},
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
     vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'
-  end,cond=ll},
-  {'raghur/vim-ghost',run=':GhostInstall',cond=lcmd{'GhostStart'},config=function()
-    if vim.g.loaded_remote_plugins~=1 then return end
-    vim.g.loaded_remote_plugins=nil
-    vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim')
-  end},
+  end,event={ll}},
+  {'raghur/vim-ghost',build=':GhostInstall',cmd='GhostStart',config=function()
+    vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim') end},
 
   ----auto complete
-  {'hrsh7th/nvim-cmp',config=get_config'cmp-nvim',cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'hrsh7th/cmp-cmdline',requires={'hrsh7th/nvim-cmp'},cond=levent{'CmdlineEnter'}},
-  {'hrsh7th/cmp-buffer',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter','CmdlineEnter'}},
-  {'hrsh7th/cmp-nvim-lsp',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
-  {'hrsh7th/cmp-nvim-lsp-signature-help',requires={'hrsh7th/nvim-cmp'},cond=levent{'InsertEnter'}},
-  {'altermo/cmp-codeium',requires={'hrsh7th/nvim-cmp',{'exafunction/codeium.vim',config=function ()
-    vim.g.codeium_disable_bindings=true
-    vim.g.codeium_manual=true
-  end,cond=levent{'InsertEnter'}}},cond=levent{'InsertEnter'}},
+  {'hrsh7th/nvim-cmp',config=get_config'cmp-nvim',event={'InsertEnter','CmdlineEnter'},dependencies={
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-nvim-lsp-signature-help',
+    {'altermo/cmp-codeium',dependencies={'exafunction/codeium.vim',config=function ()
+      vim.g.codeium_disable_bindings=true
+      vim.g.codeium_manual=true
+    end}}}},
 
   ----writing
-  {'altermo/vim-ditto-fork',cond={lcmd{'NoDitto','ToggleDitto'},lcmd({'On','Off','Update'},'Ditto')}},
-  {'altermo/vim-wordy-fork',cond=lcmd{'Wordy','NoWordy','WordyToggle'}},
-  {'iamcco/markdown-preview.nvim',run='cd app && npm install',cond=lft{'markdown'}},
-}
+  {'altermo/vim-ditto-fork',cmd='ToggleDitto'},
+  {'altermo/vim-wordy-fork',cmd='WordyToggle'},
+  {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
+},{
+    lockfile='/dev/null',
+    defaults={lazy=true},
+    performance={rtp={disabled_plugins={
+      'matchparen',
+      'matchit',
+      'spellfile',
+      'gzip',
+      'zipPlugin',
+      'man',
+      'editorconfig',
+      'tohtml',
+      'tarPlugin',
+      'netrwPlugin',
+      'rplugin',
+    }}}})
 -- vim:fen:

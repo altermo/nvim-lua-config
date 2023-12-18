@@ -39,7 +39,7 @@ nno('g/','q/')
 nno('gp','`[v`]')
 nno("' ",":let a=@/\r:s/['\"]/\\=submatch(0)=='\"'?\"'\":'\"'/g\r:let @/=a\r")
 nno('vv','V')
-nno('\\p','<cmd>Pckr status\r')
+nno('\\p','<cmd>Lazy\r')
 nno('gd',function ()
   if vim.lsp.buf_notify(0,'window/progress',{}) or #vim.fn.tagfiles()>0 then return '<C-]>'
   else return 'gd' end
