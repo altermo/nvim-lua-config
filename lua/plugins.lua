@@ -96,7 +96,7 @@ require'lazy'.setup({
   {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter',build=':TSUpdate'},
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event={ll},config=function() vim.cmd'TSEnable rainbow' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'windwp/nvim-ts-autotag',event={'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
-  {'rrethy/nvim-treesitter-endwise',config=function() vim.cmd"TSEnable endwise" end,dependencies={'nvim-treesitter/nvim-treesitter'},keys={{'\r',mode='i'},{'o','A\r'}}},
+  {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'ziontee113/syntax-tree-surfer',config=get_config'surfer',dependencies={'echasnovski/mini.nvim'},
     keys={{'vn'},{'<C-j>',mode='x'},{'<C-k>',mode='x'},{'<C-h>',mode='x'},{'<C-l>',mode='x'}}},
 

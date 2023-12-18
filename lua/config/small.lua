@@ -1,3 +1,4 @@
+vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
 local setup=function (m) return m.setup() end
 local conf=function (conf,s) return function(m) m.conf=conf if s then s(m) end end end
 local key=require'utils.keymap'
@@ -6,8 +7,10 @@ for k,v in pairs{
     matchall=setup,
     tabline=setup,
     typos=setup,
+    labull=setup,
     foldtext=conf({treesitter=true},setup),
-    treewarn=conf({lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))'}},setup),
+    treewarn=conf({lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))',
+        '((for_generic_clause (expression_list ((identifier) @warn (#set! "mes" "`foo` => `pairs(foo)`")))))'}},setup),
     nterm=function (m) vim.api.nvim_create_user_command('Shell',function (opts) m.run('fish '..opts.args,true) end,{nargs='*'}) end,
     splitbuf=conf{call=function () require'which-key'.show(' ',{mode='n'}) end},
     exchange=function (m)
@@ -21,7 +24,6 @@ for k,v in pairs{
         key.nno("“",m.termbuild)
         key.nno("<F6>",m.eval)
     end,
-    labull=function (m) key.nno('o',m.run,{noremap=true,expr=true}) end,
     macro=function (m)
         key.nno('q',m.toggle_rec)
         key.nno('Q',m.play_rec)
@@ -32,7 +34,7 @@ for k,v in pairs{
         key.xno('gc',m.run)
         key.nno('gc',m.run)
     end,
-    reminder=conf({path='/home/user/.gtd/vault/gtd/Plans.md'},setup),
+    reminder=conf({path='/home/user/.gtd/vault/gtd/plans.md'},setup),
     textobj=function (m)
         key.xno('im',m.wordcolumn,{expr=true})
         key.ono('im',m.charcolumn,{expr=true})
