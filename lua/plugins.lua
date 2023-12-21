@@ -16,9 +16,8 @@ require'lazy'.setup({
     end) end},
 
   ----colorschm
-  'folke/tokyonight.nvim',
-  'edeneast/nightfox.nvim',
-  'hoprr/calvera-dark.nvim',
+  {'edeneast/nightfox.nvim',event={ll}},
+  {'hoprr/calvera-dark.nvim',event={ll}},
 
   ----visual
   {'nvchad/nvim-colorizer.lua',config=function()
@@ -29,7 +28,7 @@ require'lazy'.setup({
   {'nvim-lualine/lualine.nvim',opts={
     sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}},
   },event={ll}},
-  {'folke/which-key.nvim',config=get_config'which-key',keys='<space>',dependencies={'echasnovski/mini.nvim','altermo/small.nvim'}},
+  {'folke/which-key.nvim',config=get_config'which-key',keys='<space>',dependencies={'altermo/small.nvim'}},
 
   ----keys
   {'gbprod/yanky.nvim',opts={},event={'TextYankPost'},keys={
@@ -108,7 +107,7 @@ require'lazy'.setup({
     vim.cmd.norm{'G',bang=true}
   end}},
   {'echasnovski/mini.nvim',config=get_config'mini',
-    keys={{'gl',mode=nx},{'gL',mode=nx},{'S',mode=nx},'ds','cs',{'a',mode={'o','x'}},{'i',mode={'o','x'}}}},
+    keys={{'S',mode=nx},'ds','cs',{'a',mode={'o','x'}},{'i',mode={'o','x'}}}},
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
     vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'

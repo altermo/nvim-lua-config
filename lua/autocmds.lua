@@ -25,10 +25,9 @@ autocmd('BufReadPre',function(args)
 end)
 autocmd({'InsertLeave','TextChanged'},function (ev)
     if ev.file=='' or not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
-    vim.fn.mkdir(vim.fs.dirname(ev.file) --[[@as string]],'p')
     vim.cmd.update{bang=true,mods={emsg_silent=true,lockmarks=true}}
     if vim.o.cmdheight>0 then vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.v.echospace+1).."'") end
-end)
+end,{nested=true})
 autocmd({'BufRead','BufNewFile','StdinReadPost'},function()
     vim.filetype.add({extension={bf='bf'}})
     vim.cmd.setf('bf')
@@ -59,3 +58,8 @@ autocmd('VimEnter',function()
         vim.api.nvim_buf_get_lines(0,0,-1,false)[1]~='' then return end
     vim.bo.buftype='nofile'
 end,{once=true})
+autocmd('BufWritePre',function (ev)
+    local dir=vim.fs.dirname(ev.file)
+    if not dir or not dir:match('^/') then return end
+    vim.fn.mkdir(dir,'p')
+end)

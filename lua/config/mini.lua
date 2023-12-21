@@ -1,5 +1,4 @@
 for k,v in pairs{
-    align={mappings={start='gl',start_with_preview='gL'}},
     ai={},
     surround={
         mappings={
@@ -13,4 +12,3 @@ for k,v in pairs{
         }}} do
     require('mini.'..k).setup(v)
 end
-for i in ('= ,'):gmatch'.' do require'mini.align'.config.modifiers[i]=nil end

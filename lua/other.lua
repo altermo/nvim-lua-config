@@ -1,5 +1,5 @@
 vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
-vim.fn.timer_start(100,function() vim.cmd"doautocmd User s1" end)
+vim.fn.timer_start(200,function() vim.cmd"doautocmd User s1" end)
 
 local open=vim.ui.open
 ---@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:127
@@ -36,4 +36,4 @@ command('Colors',function ()
     vim.cmd.split'/tmp/nvim_out.colors'
 end)
 vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
-require'small.kitty'.setup()
+require'small.kitty'.conf={padding=20} require'small.kitty'.setup()

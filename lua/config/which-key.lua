@@ -53,8 +53,8 @@ require'which-key'.register{[' ']=format{
   ["'"]={':Shell\r','shell'},
   t={require'small.unimpaired'.set_opt,'toggle opt'},
   i={':edit .\r','edir'},
-  ------packer
-  P={name='+packer',_=cmap({p='status',i='install',c='clean',u='update'},':Pckr %s\r','%s')},
+  ------lazy
+  P={name='+lazy',_=cmap({p='lazy',i='install',c='clean',u='update'},':Lazy %s\r','%s')},
   ------fold
   z={'zMzv','close-all-folds-but-cursor'},
   Z={':e\r','reload-file'},
@@ -64,7 +64,7 @@ require'which-key'.register{[' ']=format{
   x={':qall\r','quitall'},
   v={require'small.splitbuf'.vsplit,'vsplitbuf'},
   e={require'small.splitbuf'.split,'hsplitbuf'},
-  d={':lua require"mini.bufremove".wipeout()\r','buffer-wipeout'},
+  d={':bdelete\r','buffer-delete'},
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
 
   ---cmd/app
@@ -172,7 +172,7 @@ require'which-key'.register{[' ']=format{
   ----theme
   T={name='+theme',
     h={':ColorizerToggle\r','toggle-color-name-highlight'},
-    z={require'small.zen'.run,'zen'},
+    z={function () require'small.kitty'.toggle_padding(20) end,'toggle-padding'},
     C={function ()
       vim.cmd.hi('Cursor blend=100')
       vim.o.guicursor='a:Cursor/lCursor,a:ver1'
