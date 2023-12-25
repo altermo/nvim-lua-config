@@ -46,14 +46,14 @@ require'lazy'.setup({
     modes={
       search={enabled=false},
       char={
-        labels='1234567890',
+        labels='-1234567890',
         jump_labels=true,
         autohide=true,
         highlight={backdrop=false},
         config=function(opts)
           if vim.api.nvim_get_mode().mode:find('n[oi]') or
             vim.v.count~=0 then opts.jump_labels=false end
-        end
+        end,
       }}},keys={{'f',mode=nx},{'F',mode=nx},{'t',mode=nx},{'T',mode=nx},
       {'s',function () require'flash'.jump() end,mode=nx}}},
 
@@ -93,7 +93,7 @@ require'lazy'.setup({
 
   ----treesitter
   {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter',build=':TSUpdate'},
-  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event={ll},config=function() vim.cmd'TSEnable rainbow' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event={ll},config=function () vim.cmd'doau FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'windwp/nvim-ts-autotag',event={'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'ziontee113/syntax-tree-surfer',config=get_config'surfer',dependencies={'echasnovski/mini.nvim'},

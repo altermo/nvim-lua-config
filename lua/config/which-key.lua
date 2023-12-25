@@ -193,6 +193,7 @@ require'which-key'.register{[' ']=format{
     S={':LspStart\r','start'},
     r={':Telescope lsp_references\r','search-references'},
     R={':IncRename <C-r>=expand("<cword>")\r','replace',silent=false},
+    t={':lua vim.lsp.buf.type_definition()\r','type'},
   },
 
   ---window

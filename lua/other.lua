@@ -36,4 +36,5 @@ command('Colors',function ()
     vim.cmd.split'/tmp/nvim_out.colors'
 end)
 vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
-require'small.kitty'.conf={padding=20} require'small.kitty'.setup()
+require'small.kitty'.conf={padding=20,smartpaddingtabline=true}
+require'small.kitty'.setup()
