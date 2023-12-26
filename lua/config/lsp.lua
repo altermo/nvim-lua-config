@@ -12,7 +12,7 @@ for lsp,opt in pairs({
     --jsonls={'json-lsp'},
     clangd={'clangd'},
     rust_analyzer={'rust-analyzer'},
-    fennel_language_server={'fennel-language-server'},
+    fennel_ls={'fennel-ls',settings={['fennel-ls']={['extra-globals']='vim'}},root_dir=function (dir) return require'lspconfig.util'.find_git_ancestor(dir) or vim.fs.dirname(dir) end},
     zls={'zls'},
     taplo={'taplo'},
     tsserver={'typescript-language-server'},
