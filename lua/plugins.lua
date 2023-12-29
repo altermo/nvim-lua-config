@@ -34,8 +34,8 @@ require'lazy'.setup({
   {'gbprod/yanky.nvim',opts={},event={'TextYankPost'},keys={
     {'<A-p>','<Plug>(YankyCycleForward)'},
     {'<A-P>','<Plug>(YankyCycleBackward)'},
-    {'p','<Plug>(YankyPutAfter)',mode=nx},
-    {'P','<Plug>(YankyPutBefore)',mode=nx},
+    {'p','<Plug>(YankyPutAfter)'},{'P','<Plug>(YankyPutAfter)',mode='x'},
+    {'P','<Plug>(YankyPutBefore)'},{'p','<Plug>(YankyPutBefore)',mode='x'},
   }},
   {'monaqa/dial.nvim',keys={
     {'<C-a>',function () return require'dial.map'.inc_normal() end,expr=true},
