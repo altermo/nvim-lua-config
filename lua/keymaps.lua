@@ -9,7 +9,8 @@ local ono=key.ono
 local xbmap=key.xbmap
 
 ----nno
-nno('g=','vgg=Gc')
+nno('g=',function () local s=vim.fn.winsaveview() vim.cmd'keepjumps norm! gg=G' vim.fn.winrestview(s) end)
+nno('gz','z')
 nno('gu','~')
 nno(',','<C-o>')
 nno(';','<C-i>')
@@ -27,7 +28,7 @@ nno('cD',function()
   vim.cmd.pwd()
 end)
 nno('dc',':lcd ..|pwd\r')
-nno('cd',':cd %:p:h|pwd\r')
+nno('cd',':lcd %:p:h|pwd\r')
 nno('\r','dd',{})
 nno('z','za')
 nno('j','gj')
@@ -40,10 +41,7 @@ nno('gp','`[v`]')
 nno("' ",":let a=@/\r:s/['\"]/\\=submatch(0)=='\"'?\"'\":'\"'/g\r:let @/=a\r")
 nno('vv','V')
 nno('\\p','<cmd>Lazy\r')
-nno('gd',function ()
-  if vim.lsp.buf_notify(0,'window/progress',{}) or #vim.fn.tagfiles()>0 then return '<C-]>'
-  else return 'gd' end
-end,{expr=true})
+nno('gd',function () return (vim.lsp.buf_notify(0,'window/progress',{}) or #vim.fn.tagfiles()>0) and '<C-]>' or 'gd' end,{expr=true})
 nno('gC',vim.lsp.buf.code_action)
 nno('gr',':IncRename <C-r>=expand("<cword>")\r',{noremap=true})
 ------alt/ctrl
@@ -54,7 +52,7 @@ for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical re
   nno('<C-A-S-'..k..'>',':'..v..'1\r')
 end
 nno('<A-e>','/',{noremap=true})
-nno('<A-a>','GVgg')
+nno('<A-a>','G:keepjumps norm! Vgg\r')
 nno('<A-y>',':let @+=@"\r')
 nno('<A-j>',':move +1\r')
 nno('<A-k>',':move -2\r')

@@ -1,5 +1,5 @@
 local lazypath=vim.fn.stdpath'data'..'/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.system{'git','clone','--filter=blob:none','https://github.com/folke/lazy.nvim.git','--branch=stable',lazypath}
 end
 vim.opt.rtp:prepend(lazypath)
@@ -16,8 +16,8 @@ require'lazy'.setup({
     end) end},
 
   ----colorschm
-  {'edeneast/nightfox.nvim',event={ll}},
   {'hoprr/calvera-dark.nvim',event={ll}},
+  {'catppuccin/nvim',name='catppuccin',event={ll}},
 
   ----visual
   {'nvchad/nvim-colorizer.lua',config=function()
@@ -145,5 +145,6 @@ require'lazy'.setup({
       'tarPlugin',
       'netrwPlugin',
       'rplugin',
+      'shada',
     }}}})
 -- vim:fen:

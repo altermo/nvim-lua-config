@@ -2,9 +2,7 @@ vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['rep
 vim.fn.timer_start(200,function() vim.cmd"doautocmd User s1" end)
 
 local open=vim.ui.open
----@source /usr/local/share/nvim/runtime/lua/vim/ui.lua:127
----@diagnostic disable-next-line: duplicate-set-field
-function vim.ui.open(path) open(path:gsub('^([a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+)$','https://github.com/%1')) end
+rawset(vim.ui,'open',function (path) open(path:gsub('^([a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+)$','https://github.com/%1')) end)
 --local dep=vim.deprecate
 -----@diagnostic disable-next-line: duplicate-set-field
 --function vim.deprecate(name,...)

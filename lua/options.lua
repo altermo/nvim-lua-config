@@ -46,4 +46,4 @@ vim.o.lazyredraw=true
 vim.o.smoothscroll=true
 vim.o.mouse='a'
 vim.o.concealcursor='nc'
-vim.o.guifont='Fira Code:h12'
+vim.o.guifont='Fira Code:h13'

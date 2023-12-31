@@ -3,26 +3,15 @@ autocmd('BufWinEnter',function () if vim.o.filetype=='' then vim.o.filetype='non
 autocmd('CmdlineEnter',function () vim.o.hlsearch=true end,{pattern='/,\\?'})
 autocmd('TermOpen',function() vim.o.filetype='term' end)
 autocmd('FileType',function()
-    if vim.o.filetype=='toml' or vim.o.filetype=='markdown' then
-        vim.wo.foldexpr='v:lua.vim.treesitter.foldexpr()'
-    else
-        vim.wo.foldexpr='getline(v:lnum)==""?0:1'
-    end end)
+    vim.wo.foldexpr=vim.tbl_contains({'python','lua','fish'},vim.o.filetype) and 'getline(v:lnum)==""?0:1' or 'v:lua.vim.treesitter.foldexpr()'
+end)
 autocmd('BufRead',function() vim.cmd[[noautocmd norm! g`"]] end)
 autocmd('VimLeave',function() vim.cmd.mksession{'/tmp/session.vim',bang=true} end)
 autocmd('BufWinEnter',function(ev)
     if vim.o.buftype~='' then return end
     local dir=vim.fs.dirname(vim.fs.find({'.git'},{upward=true,path=vim.fs.dirname(ev.file)})[1])
-    if dir then vim.cmd.lcd(dir)
-    else pcall(vim.cmd.lcd,vim.fn.expand('%:p:h')) end
+    pcall(vim.cmd.lcd,dir or vim.fs.dirname(ev.file))
 end,{group=vim.api.nvim_create_augroup('CD',{})})
-autocmd('BufReadPre',function(args)
-    if vim.loop.fs_stat(args.file).size<=1024*1024 then return end
-    vim.api.nvim_win_set_buf(0,vim.api.nvim_create_buf(true,true))
-    vim.api.nvim_buf_delete(args.buf,{})
-    vim.notify('file to big')
-    vim.fn.termopen('nvim -n -u NONE -- '..args.file)
-end)
 autocmd({'InsertLeave','TextChanged'},function (ev)
     if ev.file=='' or not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
     vim.cmd.update{bang=true,mods={emsg_silent=true,lockmarks=true}}
