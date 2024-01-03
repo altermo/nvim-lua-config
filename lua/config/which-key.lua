@@ -51,12 +51,12 @@ require'which-key'.register{[' ']=format{
   ['.']={'@:','run-prev-cmd'},
   r={require'small.ranger'.run,'ranger'},
   ["'"]={':Shell\r','shell'},
-  t={require'small.unimpaired'.set_opt,'toggle opt'},
+  O={require'small.unimpaired'.set_opt,'toggle opt'},
   i={':edit .\r','edir'},
   ------lazy
   P={name='+lazy',_=cmap({p='lazy',i='install',c='clean',u='update'},':Lazy %s\r','%s')},
   ------fold
-  z={'zMzv','close-all-folds-but-cursor'},
+  z={'zMzv','fold-only'},
   Z={':e\r','reload-file'},
   ------window/buffer
   q={':q\r','quit'},
@@ -147,11 +147,11 @@ require'which-key'.register{[' ']=format{
     c={':Telescope colorscheme enable_preview=true\r','colorscheme'},
     F={require'small.foldselect'.run,'fold'},
     P={require'small.plugin_search'.run,'plugins-online'},
-    _=cmap({f='find_files',o='oldfiles',s='live_grep',h='help_tags',b='marks',[' ']='resume'},':Telescope %s theme=ivy\r','%s'),
+    p={':Telescope find_files cwd=/home/user/.local/share/nvim/lazy/ find_command=ls\r','plugins'},
+    R={':Telescope find_files cwd=/usr/local/share/nvim/runtime/lua/vim/\r','root-runtime'},
+    _=cmap({f='find_files',o='oldfiles',s='live_grep',h='help_tags',m='marks',b='buffers',[' ']='resume'},':Telescope %s\r','%s'),
     y={':Telescope yank_history yank_history\r','yank'},
-    g={name='+git',
-      _=cmap({s='git_status',c='git_commits',b='git_branches'},':Telescope %s theme=ivy\r','%s'),
-    },
+    g={name='+git',_=cmap({s='git_status',c='git_commits',b='git_branches'},':Telescope %s\r','%s')},
     r={name='+replace',
       p={require'small.lbpr'.run,'lbpr'},
       --r={':Spectre\r','spectre'}, --TODO: replacement
@@ -170,7 +170,7 @@ require'which-key'.register{[' ']=format{
   },
 
   ----theme
-  T={name='+theme',
+  t={name='+toggle/theme',
     h={':ColorizerToggle\r','toggle-color-name-highlight'},
     z={function () require'small.kitty'.toggle_padding(20) end,'toggle-padding'},
     C={function ()

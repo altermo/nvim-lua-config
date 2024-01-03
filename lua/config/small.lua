@@ -5,7 +5,6 @@ local key=require'utils.keymap'
 for k,v in pairs{
     highlight_selected=setup,
     matchall=setup,
-    tabline=setup,
     typos=setup,
     labull=setup,
     specfile=setup,

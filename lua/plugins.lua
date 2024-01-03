@@ -96,7 +96,7 @@ require'lazy'.setup({
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event={ll},config=function () vim.cmd'doau FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'windwp/nvim-ts-autotag',event={'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,dependencies={'nvim-treesitter/nvim-treesitter'}},
-  {'ziontee113/syntax-tree-surfer',config=get_config'surfer',dependencies={'echasnovski/mini.nvim'},
+  {'ziontee113/syntax-tree-surfer',config=get_config'surfer',dependencies={'echasnovski/mini.move'},
     keys={{'vn'},{'<C-j>',mode='x'},{'<C-k>',mode='x'},{'<C-h>',mode='x'},{'<C-l>',mode='x'}}},
 
   ----other
@@ -106,8 +106,17 @@ require'lazy'.setup({
     vim.api.nvim_buf_set_lines(vim.api.nvim_get_current_buf(),0,-1,false,{'---@diagnostic disable: undefined-global,unused-local,lowercase-global',''})
     vim.cmd.norm{'G',bang=true}
   end}},
-  {'echasnovski/mini.nvim',config=get_config'mini',
-    keys={{'S',mode=nx},'ds','cs',{'a',mode={'o','x'}},{'i',mode={'o','x'}}}},
+  {'echasnovski/mini.surround',opts={
+    mappings={
+      add='S',
+      delete='ds',
+      find='',
+      find_left='',
+      highlight='',
+      replace='cs',
+      update_n_lines='',
+    }},keys={{'S',mode=nx},'ds','cs'}},
+  {'echasnovski/mini.ai',opts={},keys={{'a',mode={'o','x'}},{'i',mode={'o','x'}}}},
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
     vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'

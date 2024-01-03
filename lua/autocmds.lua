@@ -44,7 +44,8 @@ end,{pattern='markdown'})
 autocmd('VimEnter',function()
     if vim.fn.argc()>0 or
         vim.api.nvim_buf_line_count(0)>1 or
-        vim.api.nvim_buf_get_lines(0,0,-1,false)[1]~='' then return end
+        vim.api.nvim_buf_get_lines(0,0,-1,false)[1]~='' or
+        vim.api.nvim_buf_get_name(0)~='' then return end
     vim.bo.buftype='nofile'
 end,{once=true})
 autocmd('BufWritePre',function (ev)
