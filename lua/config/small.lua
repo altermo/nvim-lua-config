@@ -12,7 +12,6 @@ for k,v in pairs{
     treewarn=conf({lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))',
         '((for_generic_clause (expression_list ((identifier) @warn (#set! "mes" "`foo` => `pairs(foo)`")))))'}},setup),
     nterm=function (m) vim.api.nvim_create_user_command('Shell',function (opts) m.run('fish '..opts.args,true) end,{nargs='*'}) end,
-    splitbuf=conf{call=function () require'which-key'.show(' ',{mode='n'}) end},
     exchange=function (m)
         key.nno('cx',m.ex_oper)
         key.nno('cX',m.ex_eol)

@@ -16,7 +16,7 @@ for lsp,opt in pairs({
     zls={'zls'},
     taplo={'taplo'},
     tsserver={'typescript-language-server'},
-    nushell={'nu'}
+    --nushell={'nu'}
 }) do
     if vim.fn.executable(opt[1])==0 then vim.notify(opt[1]..' not found')
     else require'lspconfig'[lsp].setup(opt) end

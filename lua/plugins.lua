@@ -10,14 +10,17 @@ require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'}},
   {'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
   {'altermo/small.nvim',config=get_config'small',event={ll},cmd='Shell',init=function (plug)
+    vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
+    require'small.kitty'.conf={padding=20,smartpaddingtabline=true}
+    require'small.kitty'.setup()
     rawset(vim,'notify',function (...)
       require'lazy'.load{plugins=plug.name}
       vim.notify(...)
     end) end},
 
   ----colorschm
-  {'hoprr/calvera-dark.nvim',event={ll}},
-  {'catppuccin/nvim',name='catppuccin',event={ll}},
+  {'hoprr/calvera-dark.nvim',event=ll},
+  {'catppuccin/nvim',name='catppuccin',event=ll},
 
   ----visual
   {'nvchad/nvim-colorizer.lua',config=function()
@@ -69,9 +72,9 @@ require'lazy'.setup({
     keys={{'K',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
   {'chrisgrieser/nvim-genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
   {'stevearc/oil.nvim',cmd='Oil',config=function ()
-    require'oil'.setup{default_file_explorer=true,view_options={show_hidden=true}}
-    vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function (ev)
-      vim.cmd.lcd(ev.file:sub(#('oil://')+1))
+    require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true}
+    vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
+      vim.cmd.lcd(require'oil'.get_current_dir())
     end})
   end,event={ll},init=function (plug) if vim.fn.isdirectory(vim.fn.expand('%'))==1 then require'lazy'.load{plugins=plug.name} end end},
   {'smjonas/inc-rename.nvim',opts={},event={'CmdlineEnter'}},
@@ -96,8 +99,7 @@ require'lazy'.setup({
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event={ll},config=function () vim.cmd'doau FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'windwp/nvim-ts-autotag',event={'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,dependencies={'nvim-treesitter/nvim-treesitter'}},
-  {'ziontee113/syntax-tree-surfer',config=get_config'surfer',dependencies={'echasnovski/mini.move'},
-    keys={{'vn'},{'<C-j>',mode='x'},{'<C-k>',mode='x'},{'<C-h>',mode='x'},{'<C-l>',mode='x'}}},
+  {'ziontee113/syntax-tree-surfer',config=get_config'surfer',keys={{'vn'},{'<C-j>',mode='x'},{'<C-k>',mode='x'},{'<C-h>',mode='x'},{'<C-l>',mode='x'}}},
 
   ----other
   {'sindrets/diffview.nvim',cmd={'DiffviewOpen'},opts={use_icons=false}},
@@ -123,9 +125,10 @@ require'lazy'.setup({
   end,event={ll}},
   {'raghur/vim-ghost',build=':GhostInstall',cmd='GhostStart',config=function()
     vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim') end},
+  {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
 
   ----auto complete
-  {'hrsh7th/nvim-cmp',config=get_config'cmp-nvim',event={'InsertEnter','CmdlineEnter'},dependencies={
+  {'hrsh7th/nvim-cmp',config=get_config'cmp',event={'InsertEnter','CmdlineEnter'},dependencies={
     'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-nvim-lsp',
@@ -134,11 +137,6 @@ require'lazy'.setup({
       vim.g.codeium_disable_bindings=true
       vim.g.codeium_manual=true
     end}}}},
-
-  ----writing
-  {'altermo/vim-ditto-fork',cmd='ToggleDitto'},
-  {'altermo/vim-wordy-fork',cmd='WordyToggle'},
-  {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
 },{
     lockfile='/dev/null',
     defaults={lazy=true},

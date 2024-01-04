@@ -22,16 +22,4 @@ function M.tno(lhs,rhs,opt) map('t',lhs,rhs,opt or {silent=true}) end
 function M.ono(lhs,rhs,opt) map('o',lhs,rhs,opt or {silent=true}) end
 ---@overload fun(lhs:string|string[],rhs:string|function,opt?:table)
 function M.lcno(lhs,rhs,opt) map('c',lhs,rhs,opt or {}) end
----@overload fun(lhs:string|string[],rhsn:string,rhsb:string,opt?:table)
-function M.xbmap(lhs,rhsn,rhsb,opt)
-  opt=opt or {silent=true,expr=true}
-  if opt.expr==nil then opt.expr=true end
-  map('x',lhs,function ()
-    if vim.fn.mode()=='\x16' then
-      return rhsb
-    else
-      return rhsn
-    end
-  end,opt)
-end
 return M

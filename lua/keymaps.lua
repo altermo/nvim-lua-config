@@ -6,7 +6,6 @@ local xno=key.xno
 local tno=key.tno
 local lcno=key.lcno
 local ono=key.ono
-local xbmap=key.xbmap
 
 ----nno
 nno('g=',function () local s=vim.fn.winsaveview() vim.cmd'keepjumps norm! gg=G' vim.fn.winrestview(s) end)
@@ -73,7 +72,7 @@ lcno('<C-S-v>','<C-r>+')
 lcno('<C-A-v>','<C-r>+')
 ino('<A-v>',function()
   local nr=vim.fn.getchar()
-  vim.schedule_wrap(vim.api.nvim_paste)(vim.fn.list2blob{nr<64 and 0xc0 or 0xc1,nr%64+0x80},false,-1)
+  vim.schedule_wrap(vim.api.nvim_paste)(string.char(nr<64 and 0xc0 or 0xc1,nr%64+0x80),false,-1)
 end)
 ino('ø','ö')
 ino('æ','ä')
@@ -126,8 +125,8 @@ xno('æ','"+y')
 xno('å','"+p')
 xno('<S-tab>','<gv')
 xno('<tab>','>gv')
-xbmap('A',"<esc>:au InsertLeave * ++once :'<+1,'>norm! $\".p\r'<A",'A')
-xbmap('I',"<esc>:au InsertLeave * ++once :'<+1,'>norm! _\".P\r'<I",'I')
+xno('A',[[mode()=="\x16"?"A":"<esc>:au InsertLeave * ++once :'<+1,'>norm! $\".p\r'<A"]],{expr=true})
+xno('I',[[mode()=="\x16"?"I":"<esc>:au InsertLeave * ++once :'<+1,'>norm! _\".P\r'<I"]],{expr=true})
 xno('y','ygv<esc>')
 xno('p','P')
 xno('P','p')

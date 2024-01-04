@@ -49,9 +49,10 @@ require'which-key'.register{[' ']=format{
   L={':Luapad\r','luapad'},
   C={require'small.chat'.run,'chat'},
   ['.']={'@:','run-prev-cmd'},
-  r={require'small.ranger'.run,'ranger'},
+  r={require'small.dff'.file_expl,'dff'},
   ["'"]={':Shell\r','shell'},
   O={require'small.unimpaired'.set_opt,'toggle opt'},
+  [' ']={function () vim.cmd.lcd(vim.fn.expand'%:p:h') require'which-key'.show(' ',{mode='n'}) end,'cd-current'},
   i={':edit .\r','edir'},
   ------lazy
   P={name='+lazy',_=cmap({p='lazy',i='install',c='clean',u='update'},':Lazy %s\r','%s')},
@@ -62,8 +63,8 @@ require'which-key'.register{[' ']=format{
   q={':q\r','quit'},
   Q={':q!\r','QUIT!'},
   x={':qall\r','quitall'},
-  v={require'small.splitbuf'.vsplit,'vsplitbuf'},
-  e={require'small.splitbuf'.split,'hsplitbuf'},
+  v={function () vim.cmd.vsplit() require'which-key'.show(' ',{mode='n'}) end,'vsplit+which'},
+  e={function () vim.cmd.split() require'which-key'.show(' ',{mode='n'}) end,'split+which'},
   d={':bdelete\r','buffer-delete'},
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
 
@@ -82,6 +83,7 @@ require'which-key'.register{[' ']=format{
     d={require'small.dff'.file_expl,'dff'},
     a={require'small.tableformat'.run,'format table'},
     r={require'small.reminder'.sidebar,'reminder sidebar'},
+    R={require'small.ranger'.run,'ranger'},
   },
 
   ---fold/indent
@@ -169,8 +171,9 @@ require'which-key'.register{[' ']=format{
     },
   },
 
-  ----theme
+  ----toggle/theme
   t={name='+toggle/theme',
+    t={':silent! /\xff\xfe\r','disable-search'},
     h={':ColorizerToggle\r','toggle-color-name-highlight'},
     z={function () require'small.kitty'.toggle_padding(20) end,'toggle-padding'},
     C={function ()
