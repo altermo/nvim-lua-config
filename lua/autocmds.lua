@@ -53,3 +53,9 @@ autocmd('BufWritePre',function (ev)
     if not dir or not dir:match('^/') then return end
     vim.fn.mkdir(dir,'p')
 end)
+autocmd('BufWinEnter',function (ev)
+    if vim.bo[ev.buf].buftype~='quickfix' then return end
+    autocmd('CursorMoved',function () vim.cmd('cc '..(vim.fn.line'.')) vim.cmd.copen() end,{buffer=ev.buf})
+    vim.keymap.set('n','j','j',{buffer=ev.buf})
+    vim.keymap.set('n','k','k',{buffer=ev.buf})
+end)

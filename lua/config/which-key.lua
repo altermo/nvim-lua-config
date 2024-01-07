@@ -1,7 +1,7 @@
 ----init
-local function fmap(num,cmd,name,null)
+local function fmap(cmd,name,null)
   local tbl={[null and 'à' or 'ß']=name:gsub('%%s',null and '0..9' or '1..9')}
-  for i=null and 0 or 1,num do
+  for i=null and 0 or 1,9 do
     tbl[tostring(i)]={cmd:gsub('%%s',i),'which_key_ignore'}
   end
   return tbl
@@ -26,7 +26,7 @@ local function format(tbl)
   end
   return tbl
 end
-local spell={s='es',e='en',v='sv',n='nb'}
+local spell={e='en',s='sv'}
 require'which-key'.setup{
   key_labels={['ß']='1..9',['à']='0..9'},
   plugins={
@@ -37,7 +37,6 @@ require'which-key'.setup{
       operators=false,
       motions=false,
       text_objects=false,
-      windows=false,
       nav=false,
       z=false,
       g=false,
@@ -49,17 +48,14 @@ require'which-key'.register{[' ']=format{
   L={':Luapad\r','luapad'},
   C={require'small.chat'.run,'chat'},
   ['.']={'@:','run-prev-cmd'},
-  r={require'small.dff'.file_expl,'dff'},
+  r={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end,'dff'},
   ["'"]={':Shell\r','shell'},
-  O={require'small.unimpaired'.set_opt,'toggle opt'},
-  [' ']={function () vim.cmd.lcd(vim.fn.expand'%:p:h') require'which-key'.show(' ',{mode='n'}) end,'cd-current'},
-  i={':edit .\r','edir'},
-  ------lazy
+  o={require'small.unimpaired'.set_opt,'toggle opt'},
+  i={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') vim.cmd.edit'.' end,'edir'},
   P={name='+lazy',_=cmap({p='lazy',i='install',c='clean',u='update'},':Lazy %s\r','%s')},
-  ------fold
   z={'zMzv','fold-only'},
-  Z={':e\r','reload-file'},
   ------window/buffer
+  Z={':e\r','reload-file'},
   q={':q\r','quit'},
   Q={':q!\r','QUIT!'},
   x={':qall\r','quitall'},
@@ -67,6 +63,13 @@ require'which-key'.register{[' ']=format{
   e={function () vim.cmd.split() require'which-key'.show(' ',{mode='n'}) end,'split+which'},
   d={':bdelete\r','buffer-delete'},
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
+  w={'<cmd>WhichKey <C-w>\r','window'},
+  y={name='+spell',_=cmap(spell,':set spelllang=%s\r','lang=%s',{silent=false})},
+  F={name='+foldmethod',
+    d={':set foldmethod=diff\r','diff'},
+    t={':set foldmethod=expr\r:set foldexpr=v:lua.vim.treesitter.foldexpr()\r','treesitter'},
+    f={':set foldmethod=expr\r:set foldexpr=v:lua.Fold(v:lnum)\r','default'},
+  },
 
   ---cmd/app
   c={name='+cmd/app',
@@ -83,21 +86,7 @@ require'which-key'.register{[' ']=format{
     d={require'small.dff'.file_expl,'dff'},
     a={require'small.tableformat'.run,'format table'},
     r={require'small.reminder'.sidebar,'reminder sidebar'},
-    R={require'small.ranger'.run,'ranger'},
-  },
-
-  ---fold/indent
-  o={name='+fold/indent',
-    ------foldmethod
-    f={name='+foldmethod',
-      d={':set foldmethod=diff\r','diff'},
-      t={':set foldmethod=expr\r:set foldexpr=v:lua.vim.treesitter.foldexpr()\r','treesitter'},
-      f={':set foldmethod=expr\r:set foldexpr=v:lua.Fold(v:lnum)\r','default'},
-    },
-    ------foldlevel
-    l={name='+foldlevel',_=fmap(9,':set foldlevel=%s\r','set foldlevel=%s',true)},
-    ------indent
-    i={name='+indent',_=fmap(9,':set ts=%s\r','set indent=%s')},
+    f={require'small.ranger'.run,'file manager'},
   },
 
   ---tabs
@@ -109,10 +98,10 @@ require'which-key'.register{[' ']=format{
     ['<']={':-tabmove\r','move-prev'},
     ['>']={':+tabmove\r','move-next'},
     ['<tab>']={':tab split\r','new'},
-    _=fmap(9,':tabnext %s\r','tab-%s'),
+    _=fmap(':tabnext %s\r','tab-%s'),
     ['0']={':tablast\r','tab-last'},
     m={name='+move-buffer',
-      _=fmap(9,':lua require"utils.lib".tabbufmove(%s)\r','tab-%s'),
+      _=fmap(':lua require"utils.lib".tabbufmove(%s)\r','tab-%s'),
       ['0']={function() require'utils.lib'.tabbufmove'$' end,'last'},
       ['<']={function() require'utils.lib'.tabbufmove'-' end,'prev'},
       ['>']={function() require'utils.lib'.tabbufmove'+' end,'next'},
@@ -160,20 +149,9 @@ require'which-key'.register{[' ']=format{
     }
   },
 
-  ----text
-  y={name='+text',
-    s={name='+spell',
-      _=cmap(spell,':set spelllang=%s\r','lang=%s',{silent=false})
-    },
-    g={name='+grammar',
-      w={':WordyToggle weak\r','wordy toggle'},
-      d={':ToggleDitto\r','ditto'},
-    },
-  },
-
   ----toggle/theme
   t={name='+toggle/theme',
-    t={':silent! /\xff\xfe\r','disable-search'},
+    t={':silent! /a\\_$b\r','disable-search'},
     h={':ColorizerToggle\r','toggle-color-name-highlight'},
     z={function () require'small.kitty'.toggle_padding(20) end,'toggle-padding'},
     C={function ()
@@ -181,7 +159,6 @@ require'which-key'.register{[' ']=format{
       vim.o.guicursor='a:Cursor/lCursor,a:ver1'
     end,'hide-cursor'},
     c={':set guicursor&\r','reset-cursor'},
-    f={':set guifont=*\r','select-font'},
     m={':ToggleMatchAll\r','toggle matchall'},
   },
 
@@ -195,34 +172,35 @@ require'which-key'.register{[' ']=format{
     s={':LspStop\r','stop'},
     S={':LspStart\r','start'},
     r={':Telescope lsp_references\r','search-references'},
-    R={':IncRename <C-r>=expand("<cword>")\r','replace',silent=false},
+    R={':lua vim.lsp.buf.references()\r','list-references'},
     t={':lua vim.lsp.buf.type_definition()\r','type'},
   },
 
-  ---window
-  w={name='+window',
-    o={':only\r','only-window'},
-    v={':vsplit\r','vsplit'},
-    e={':split\r','split'},
-    d={':close\r','delete'},
-    w={':wincmd w\r','next'},
-    ['<tab>']={':wincmd w\r','next'},
+  ---project
+  p={name='+project',
+    p={':source /tmp/session.vim\r','reload-last-session',silent=false},
+    [' ']={':exe "edit" v:oldfiles[0]\r','reload-last-file'},
+    w={':wshada\r','write shada'},
+    r={':rshada!\r','read shada!'},
+    s={require'small.layout'.save,'layout-save'},
+    l={require'small.layout'.load,'layout-load'},
+  },
+},['<C-w>']=format{
     _=(function ()
-      local ret=fmap(9,':%swincmd w\r','window %s')
+      local ret=fmap(':%swincmd w\r','window %s')
       for k,v in pairs{
         h={'<','decrease width','left'},
         j={'+','increase height','down'},
         k={'-','decrease height','up'},
         l={'>','increase width','right'},
       } do
-        ret[k]={':wincmd '..k..'\r',v[3]}
         ret['<S-'..k..'>']={':5wincmd '..v[1]..'\r',v[2]}
         ret['<C-S-'..k..'>']={':wincmd '..v[1]..'\r','small '..v[2]}
         ret['<C-'..k..'>']={':WinShift '..v[3]..'\r','move '..v[3]}
       end
       return ret
     end)(),
-    s={function()
+    S={function()
       local win=require'small.winpick'.pick()
       if not win then return end
       local curbuf=vim.api.nvim_win_get_buf(0)
@@ -235,15 +213,4 @@ require'which-key'.register{[' ']=format{
       local win=require'small.winpick'.pick()
       if win then vim.api.nvim_set_current_win(win) end
     end,'hop'},
-  },
-
-  ---project
-  p={name='+project',
-    p={':source /tmp/session.vim\r','reload-last-session',silent=false},
-    [' ']={':exe "edit" v:oldfiles[0]\r','reload-last-file'},
-    w={':wshada\r','write shada'},
-    r={':rshada!\r','read shada!'},
-    s={require'small.layout'.save,'layout-save'},
-    l={require'small.layout'.load,'layout-load'},
-  },
-}}
+  }}

@@ -1,10 +1,10 @@
 local cmp=require'cmp'
 local data={
+    {name='cmdline',menu='CL',types={':'}},
     {name='buffer',menu='BUF',types={'','/'}},
     {name='nvim_lsp',menu='LSP'},
-    {name='codeium',menu='CI'},
     {name='nvim_lsp_signature_help'},
-    {name='cmdline',menu='CL',types={':'}},
+    {name='codeium',menu='CI'},
 }
 local function gen(type,tbl)
     return vim.iter(tbl):map(function (item)

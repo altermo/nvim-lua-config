@@ -18,7 +18,7 @@ for lsp,opt in pairs({
     tsserver={'typescript-language-server'},
     --nushell={'nu'}
 }) do
-    if vim.fn.executable(opt[1])==0 then vim.notify(opt[1]..' not found')
+    if vim.fn.executable(opt[1])==0 then vim.notify(opt[1]..' LSP not found')
     else require'lspconfig'[lsp].setup(opt) end
 end
 vim.cmd.LspStart()

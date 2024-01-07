@@ -9,14 +9,15 @@ local nx={'n','x'}
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'}},
   {'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
-  {'altermo/small.nvim',config=get_config'small',event={ll},cmd='Shell',init=function (plug)
+  {'altermo/small.nvim',config=get_config'small',event=ll,cmd='Shell',init=function (plug)
     vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
-    require'small.kitty'.conf={padding=20,smartpaddingtabline=true}
-    require'small.kitty'.setup()
     rawset(vim,'notify',function (...)
       require'lazy'.load{plugins=plug.name}
       vim.notify(...)
-    end) end},
+    end)
+    require'small.kitty'.conf={padding=20}
+    require'small.kitty'.setup()
+  end},
 
   ----colorschm
   {'hoprr/calvera-dark.nvim',event=ll},
@@ -26,14 +27,15 @@ require'lazy'.setup({
   {'nvchad/nvim-colorizer.lua',config=function()
     require'colorizer'.setup{}
     vim.cmd'ColorizerAttachToBuffer'
-  end,event={ll}},
+  end,event=ll},
   {'smjonas/live-command.nvim',main='live-command',opts={commands={Norm={cmd='norm!'}}},event={'CmdlineEnter'}},
   {'nvim-lualine/lualine.nvim',opts={
     sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}},
-  },event={ll}},
-  {'folke/which-key.nvim',config=get_config'which-key',keys='<space>',dependencies={'altermo/small.nvim'}},
+  },event=ll},
+  {'folke/which-key.nvim',config=get_config'which-key',keys={'<space>','<C-w>'},dependencies={'altermo/small.nvim'}},
 
   ----keys
+  {'atusy/treemonkey.nvim',keys={{'<C-s>',function() require("treemonkey").select{steps=1} end}}},
   {'gbprod/yanky.nvim',opts={},event={'TextYankPost'},keys={
     {'<A-p>','<Plug>(YankyCycleForward)'},
     {'<A-P>','<Plug>(YankyCycleBackward)'},
@@ -54,8 +56,8 @@ require'lazy'.setup({
         autohide=true,
         highlight={backdrop=false},
         config=function(opts)
-          if vim.api.nvim_get_mode().mode:find('n[oi]') or
-            vim.v.count~=0 then opts.jump_labels=false end
+          if vim.api.nvim_get_mode().mode:find('n[oi]') or vim.v.count~=0
+            or (vim.fn.reg_recording()~='' or vim.fn.reg_executing()~='') then opts.jump_labels=false end
         end,
       }}},keys={{'f',mode=nx},{'F',mode=nx},{'t',mode=nx},{'T',mode=nx},
       {'s',function () require'flash'.jump() end,mode=nx}}},
@@ -72,11 +74,11 @@ require'lazy'.setup({
     keys={{'K',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
   {'chrisgrieser/nvim-genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
   {'stevearc/oil.nvim',cmd='Oil',config=function ()
-    require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true}
+    require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true,keymaps={['<C-h>']=false,['<C-l>']=false}}
     vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
       vim.cmd.lcd(require'oil'.get_current_dir())
     end})
-  end,event={ll},init=function (plug) if vim.fn.isdirectory(vim.fn.expand('%'))==1 then require'lazy'.load{plugins=plug.name} end end},
+  end,event=ll,init=function (plug) if vim.fn.isdirectory(vim.fn.expand('%'))==1 then require'lazy'.load{plugins=plug.name} end end},
   {'smjonas/inc-rename.nvim',opts={},event={'CmdlineEnter'}},
 
   ----search
@@ -95,19 +97,27 @@ require'lazy'.setup({
     end) end,dependencies={'nvim-telescope/telescope.nvim'}},
 
   ----treesitter
-  {'nvim-treesitter/nvim-treesitter',config=get_config'treesitter',build=':TSUpdate'},
-  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event={ll},config=function () vim.cmd'doau FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
-  {'windwp/nvim-ts-autotag',event={'InsertEnter'},config=function() vim.cmd'TSEnable autotag' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
-  {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd"TSEnable endwise" end,dependencies={'nvim-treesitter/nvim-treesitter'}},
-  {'ziontee113/syntax-tree-surfer',config=get_config'surfer',keys={{'vn'},{'<C-j>',mode='x'},{'<C-k>',mode='x'},{'<C-h>',mode='x'},{'<C-l>',mode='x'}}},
+  {'nvim-treesitter/nvim-treesitter',config=function ()
+    require'nvim-treesitter.configs'.setup{highlight={enable=true},indent={enable=true}}
+  end,build={':TSInstall all',':TSUpdate'},event=ll},
+  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event=ll,config=function () vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+  {'windwp/nvim-ts-autotag',event={'InsertEnter'},config=function() vim.cmd.TSEnable'autotag' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+  {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+  {'ziontee113/syntax-tree-surfer',opts={},keys={
+    {'vn','<cmd>STSSelectCurrentNode\r'},
+    {'<C-j>','<cmd>STSSelectNextSiblingNode\r',mode='x'},
+    {'<C-k>','<cmd>STSSelectPrevSiblingNode\r',mode='x'},
+    {'<C-h>','<cmd>STSSelectParentNode\r',mode='x'},
+    {'<C-l>','<cmd>STSSelectChildNode\r',mode='x'}
+  },dependencies={'nvim-treesitter/nvim-treesitter'}},
 
   ----other
   {'sindrets/diffview.nvim',cmd={'DiffviewOpen'},opts={use_icons=false}},
-  {'neovim/nvim-lspconfig',config=get_config'lsp',event={ll}},
-  {'rafcamlet/nvim-luapad',cmd='Luapad',opts={preview=false,on_init=function ()
+  {'neovim/nvim-lspconfig',config=get_config'lsp',event=ll},
+  {'rafcamlet/nvim-luapad',cmd='Luapad',config=function () require'luapad'.setup{preview=false,on_init=function ()
     vim.api.nvim_buf_set_lines(vim.api.nvim_get_current_buf(),0,-1,false,{'---@diagnostic disable: undefined-global,unused-local,lowercase-global',''})
     vim.cmd.norm{'G',bang=true}
-  end}},
+  end} setfenv(require'luapad.evaluator'.tcall,setmetatable({print=function()end},{__index=_G})) end},
   {'echasnovski/mini.surround',opts={
     mappings={
       add='S',
@@ -122,7 +132,7 @@ require'lazy'.setup({
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
     vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'
-  end,event={ll}},
+  end,event=ll},
   {'raghur/vim-ghost',build=':GhostInstall',cmd='GhostStart',config=function()
     vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim') end},
   {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
@@ -151,7 +161,9 @@ require'lazy'.setup({
       'tohtml',
       'tarPlugin',
       'netrwPlugin',
+      'netrw',
       'rplugin',
       'shada',
+      'tutor',
     }}}})
 -- vim:fen:

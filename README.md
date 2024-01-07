@@ -10,6 +10,5 @@ Here is a list of things unique about this config:
 + No snippet plugin (uses `vim.snippet`) (still has cmp)
 + [small.nvim](https://github.com/altermo/small.nvim): my collection of private plugins
 + Conceal specific keywords in lua into symbols
-+ Nushell highlighting
 + Manual lsp install
 + Compact similar actions into one label in which-key
