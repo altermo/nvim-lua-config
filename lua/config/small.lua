@@ -46,4 +46,11 @@ for k,v in pairs{
     help_cword=function (m) key.nno('gh',m.run) end,
     ['emacs_features.recenter_top_bottom']=function(fn) key.nno('<C-z>',fn) end,
     notify=function (m) m.overide_notify() end,
+    cursor=function (m)
+        key.nno('m',function() m.create_cursor() end)
+        key.nno("'",function() m.goto_next_cursor(true) end)
+        key.nno("<C-'>",function() m.goto_next_cursor() end)
+        key.nno('¨',function() m.clear_cursor() end)
+        conf({show_cursors=true},setup)(m)
+    end,
 } do v(require('small.'..k)) end

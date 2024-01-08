@@ -8,7 +8,6 @@ local function map(mode,lhs,rhs,opt)
   opt.noremap=opt.noremap~=false
   if opt.expr==true then opt.replace_keycodes=true end
   for _,i in ipairs(type(lhs)=='table' and lhs or {lhs}) do vim.api.nvim_set_keymap(mode,i --[[@as string]],rhs,opt) end
-  --vim.keymap.set(mode,lhs,rhs,opt)
 end
 ---@overload fun(lhs:string|string[],rhs:string|function,opt?:table)
 function M.nno(lhs,rhs,opt) map('n',lhs,rhs,opt or {silent=true}) end

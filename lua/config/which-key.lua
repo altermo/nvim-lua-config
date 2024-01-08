@@ -47,12 +47,10 @@ require'which-key'.register{[' ']=format{
   b={require'small.bufend'.run,'bufend'},
   L={':Luapad\r','luapad'},
   C={require'small.chat'.run,'chat'},
-  ['.']={'@:','run-prev-cmd'},
   r={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end,'dff'},
   ["'"]={':Shell\r','shell'},
-  o={require'small.unimpaired'.set_opt,'toggle opt'},
   i={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') vim.cmd.edit'.' end,'edir'},
-  P={name='+lazy',_=cmap({p='lazy',i='install',c='clean',u='update'},':Lazy %s\r','%s')},
+  P={':Lazy\r','lazy'},
   z={'zMzv','fold-only'},
   ------window/buffer
   Z={':e\r','reload-file'},
@@ -77,13 +75,11 @@ require'which-key'.register{[' ']=format{
     u={':lua require("undotree").toggle()\r','undotree'},
     n={':lua require"small.notify".dismiss()\r','dismiss notify'},
     N={':lua require"small.notify".open_history()\r','open notify history'},
-    c={':let &scrolloff=(&scrolloff==1000?5:1000)\r','centermouse'},
     e={':silent !emacsclient %&\r','send-emacs'},
     w={':vsplit|call execute("terminal curl \'wttr.in/?nQF\' -s")|startinsert\r','weather'},
     m={':MarkdownPreview\r','markdown-preview'},
     l={':edit /tmp/nlog\r','open-log'},
     g={':DiffviewOpen\r','git-diff'},
-    d={require'small.dff'.file_expl,'dff'},
     a={require'small.tableformat'.run,'format table'},
     r={require'small.reminder'.sidebar,'reminder sidebar'},
     f={require'small.ranger'.run,'file manager'},
@@ -91,10 +87,7 @@ require'which-key'.register{[' ']=format{
 
   ---tabs
   ['<tab>']={name='+tab',
-    n={':tabnext\r','next'},
-    p={':tabprev\r','prev'},
     d={':tabclose\r','delete'},
-    [' ']={':tabnext\r','next'},
     ['<']={':-tabmove\r','move-prev'},
     ['>']={':+tabmove\r','move-next'},
     ['<tab>']={':tab split\r','new'},
@@ -128,7 +121,7 @@ require'which-key'.register{[' ']=format{
     f={':Telescope find_files\r','find'},
     t={name='+set-type',
       o={':setf ','other',silent=false},
-      _=cmap({p='python',t='txt',v='vim',f='fish',r='rust',l='lua',m='markdown',c='c',h='html',n='norg'},':set filetype=%s\r','%s')
+      _=cmap({p='python',t='txt',v='vim',f='fish',r='rust',l='lua',m='markdown',c='c',h='html'},':set filetype=%s\r','%s')
     },
   },
 
@@ -139,14 +132,8 @@ require'which-key'.register{[' ']=format{
     F={require'small.foldselect'.run,'fold'},
     P={require'small.plugin_search'.run,'plugins-online'},
     p={':Telescope find_files cwd=/home/user/.local/share/nvim/lazy/ find_command=ls\r','plugins'},
-    R={':Telescope find_files cwd=/usr/local/share/nvim/runtime/lua/vim/\r','root-runtime'},
+    r={':Telescope find_files cwd=/usr/local/share/nvim/runtime/lua/vim/\r','root-runtime'},
     _=cmap({f='find_files',o='oldfiles',s='live_grep',h='help_tags',m='marks',b='buffers',[' ']='resume'},':Telescope %s\r','%s'),
-    y={':Telescope yank_history yank_history\r','yank'},
-    g={name='+git',_=cmap({s='git_status',c='git_commits',b='git_branches'},':Telescope %s\r','%s')},
-    r={name='+replace',
-      p={require'small.lbpr'.run,'lbpr'},
-      --r={':Spectre\r','spectre'}, --TODO: replacement
-    }
   },
 
   ----toggle/theme
@@ -164,15 +151,12 @@ require'which-key'.register{[' ']=format{
 
   ----lsp
   l={name='+lsp',
-    h={':lua vim.lsp.buf.hover()\r','hover'},
     f={':lua vim.lsp.buf.format()\r','format'},
-    c={':lua vim.lsp.buf.code_action()\r','code-action'},
     I={':lua vim.lsp.inlay_hint.enable(0,not vim.lsp.inlay_hint.is_enabled())\r','toggle-inlay-hint'},
     i={':LspInfo\r','info'},
     s={':LspStop\r','stop'},
     S={':LspStart\r','start'},
     r={':Telescope lsp_references\r','search-references'},
-    R={':lua vim.lsp.buf.references()\r','list-references'},
     t={':lua vim.lsp.buf.type_definition()\r','type'},
   },
 
@@ -186,20 +170,9 @@ require'which-key'.register{[' ']=format{
     l={require'small.layout'.load,'layout-load'},
   },
 },['<C-w>']=format{
-    _=(function ()
-      local ret=fmap(':%swincmd w\r','window %s')
-      for k,v in pairs{
-        h={'<','decrease width','left'},
-        j={'+','increase height','down'},
-        k={'-','decrease height','up'},
-        l={'>','increase width','right'},
-      } do
-        ret['<S-'..k..'>']={':5wincmd '..v[1]..'\r',v[2]}
-        ret['<C-S-'..k..'>']={':wincmd '..v[1]..'\r','small '..v[2]}
-        ret['<C-'..k..'>']={':WinShift '..v[3]..'\r','move '..v[3]}
-      end
-      return ret
-    end)(),
+    _=vim.tbl_extend('error',fmap(':%swincmd w\r','window %s'),
+      cmap({['<C-h>']='left',['<C-j>']='down',['<C-k>']='up',['<C-l>']='right'},':WinShift %s\r','move %s')
+    ),
     S={function()
       local win=require'small.winpick'.pick()
       if not win then return end

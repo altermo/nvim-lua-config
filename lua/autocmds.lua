@@ -1,10 +1,10 @@
 local function autocmd(au,callback,opt) return vim.api.nvim_create_autocmd(au,vim.tbl_extend('error',{callback=callback},opt or {})) end
 autocmd('BufWinEnter',function () if vim.o.filetype=='' then vim.o.filetype='none' end end)
 autocmd('CmdlineEnter',function () vim.o.hlsearch=true end,{pattern='/,\\?'})
-autocmd('TermOpen',function() vim.o.filetype='term' end)
+autocmd('TermOpen',function(ev) vim.bo[ev.buf].filetype='term' end)
 autocmd('FileType',function()
-    vim.wo.foldexpr=vim.tbl_contains({'python','lua','fish'},vim.o.filetype) and 'getline(v:lnum)==""?0:1' or 'v:lua.vim.treesitter.foldexpr()'
-end)
+    vim.wo.foldexpr=vim.tbl_contains({'python','lua','fish'},vim.o.filetype)
+    and 'getline(v:lnum)==""?0:1' or 'v:lua.vim.treesitter.foldexpr()' end)
 autocmd('BufRead',function() vim.cmd[[noautocmd norm! g`"]] end)
 autocmd('VimLeave',function() vim.cmd.mksession{'/tmp/session.vim',bang=true} end)
 autocmd('BufWinEnter',function(ev)
@@ -14,13 +14,10 @@ autocmd('BufWinEnter',function(ev)
 end,{group=vim.api.nvim_create_augroup('CD',{})})
 autocmd({'InsertLeave','TextChanged'},function (ev)
     if ev.file=='' or not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
+    pcall(vim.fn.mkdir,vim.fs.dirname(ev.file),'p')
     vim.cmd.update{bang=true,mods={emsg_silent=true,lockmarks=true}}
     if vim.o.cmdheight>0 then vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.v.echospace+1).."'") end
-end,{nested=true})
-autocmd({'BufRead','BufNewFile','StdinReadPost'},function()
-    vim.filetype.add({extension={bf='bf'}})
-    vim.cmd.setf('bf')
-end,{once=true,pattern='*.bf'})
+end)
 local function bino(lhs,rhs) vim.keymap.set('i',lhs,rhs,{buffer=true}) end
 autocmd('FileType',function()
     bino('ł','local ')
@@ -29,33 +26,16 @@ autocmd('FileType',function()
     bino('þ','then return end')
     bino('„','vim.')
     bino('„a','vim.api.nvim_')
-    bino('„k','vim.keymap.set')
-    bino('„l','vim.lg')
-    bino('„p','vim.pprint')
+    bino('„ª','vim.api.nvim_')
     bino('M','M.')
 end,{pattern='lua'})
-autocmd('FileType',function() bino('…','self->') end,{pattern='c'})
-autocmd('FileType',function() bino('…','self.') end,{pattern='python'})
-autocmd('FileType',function() vim.keymap.set('n','<cr>','<cr>',{buffer=true}) end,{pattern='qf'})
 autocmd('FileType',function ()
     bino('<tab>','<C-T>')
     bino('<S-tab>','<C-D>')
 end,{pattern='markdown'})
 autocmd('VimEnter',function()
-    if vim.fn.argc()>0 or
-        vim.api.nvim_buf_line_count(0)>1 or
+    if vim.api.nvim_buf_line_count(0)>1 or
         vim.api.nvim_buf_get_lines(0,0,-1,false)[1]~='' or
         vim.api.nvim_buf_get_name(0)~='' then return end
     vim.bo.buftype='nofile'
 end,{once=true})
-autocmd('BufWritePre',function (ev)
-    local dir=vim.fs.dirname(ev.file)
-    if not dir or not dir:match('^/') then return end
-    vim.fn.mkdir(dir,'p')
-end)
-autocmd('BufWinEnter',function (ev)
-    if vim.bo[ev.buf].buftype~='quickfix' then return end
-    autocmd('CursorMoved',function () vim.cmd('cc '..(vim.fn.line'.')) vim.cmd.copen() end,{buffer=ev.buf})
-    vim.keymap.set('n','j','j',{buffer=ev.buf})
-    vim.keymap.set('n','k','k',{buffer=ev.buf})
-end)

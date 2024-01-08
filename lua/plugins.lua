@@ -19,16 +19,8 @@ require'lazy'.setup({
     require'small.kitty'.setup()
   end},
 
-  ----colorschm
-  {'hoprr/calvera-dark.nvim',event=ll},
-  {'catppuccin/nvim',name='catppuccin',event=ll},
-
   ----visual
-  {'nvchad/nvim-colorizer.lua',config=function()
-    require'colorizer'.setup{}
-    vim.cmd'ColorizerAttachToBuffer'
-  end,event=ll},
-  {'smjonas/live-command.nvim',main='live-command',opts={commands={Norm={cmd='norm!'}}},event={'CmdlineEnter'}},
+  {'catppuccin/nvim',name='catppuccin',event=ll},
   {'nvim-lualine/lualine.nvim',opts={
     sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}},
   },event=ll},
