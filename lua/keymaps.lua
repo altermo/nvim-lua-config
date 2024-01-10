@@ -10,6 +10,7 @@ local ono=key.ono
 ----nno
 nno('g=',function () local s=vim.fn.winsaveview() vim.cmd'keepjumps norm! gg=G' vim.fn.winrestview(s) end)
 nno('gz','z')
+nno('gu','~')
 nno(',','<C-o>')
 nno(';','<C-i>')
 nno('.',':',{noremap=true})

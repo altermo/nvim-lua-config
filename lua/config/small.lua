@@ -50,7 +50,6 @@ for k,v in pairs{
         key.nno('m',function() m.create_cursor() end)
         key.nno("'",function() m.goto_next_cursor(true) end)
         key.nno("<C-'>",function() m.goto_next_cursor() end)
-        key.nno('¨',function() m.clear_cursor() end)
         conf({show_cursors=true},setup)(m)
     end,
 } do v(require('small.'..k)) end
