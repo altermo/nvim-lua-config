@@ -45,6 +45,10 @@ for k,v in pairs{
     ranger=conf{exit_if_single=true},
     help_cword=function (m) key.nno('gh',m.run) end,
     ['emacs_features.recenter_top_bottom']=function(fn) key.nno('<C-z>',fn) end,
+    ['emacs_features.iedit']=function (m)
+        vim.keymap.set('x','gi',m.visual)
+        vim.keymap.set('n','gC',m.clear)
+    end,
     notify=function (m) m.overide_notify() end,
     cursor=function (m)
         key.nno('m',function() m.create_cursor() end)
