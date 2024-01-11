@@ -49,7 +49,7 @@ for k,v in pairs{
         vim.keymap.set('x','gi',m.visual)
         vim.keymap.set('n','gC',m.clear)
     end,
-    notify=function (m) m.overide_notify() end,
+    notify=function (m) m.override_notify() end,
     cursor=function (m)
         key.nno('m',function() m.create_cursor() end)
         key.nno("'",function() m.goto_next_cursor(true) end)

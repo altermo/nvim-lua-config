@@ -25,9 +25,10 @@ require'lazy'.setup({
     sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}},
   },event=ll},
   {'folke/which-key.nvim',config=get_config'which-key',keys={'<space>','<C-w>'},dependencies={'altermo/small.nvim'}},
+  {'smjonas/inc-rename.nvim',opts={},event={'CmdlineEnter'}},
+  {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
 
   ----keys
-  {'atusy/treemonkey.nvim',keys={{'<C-s>',function() require("treemonkey").select{steps=1} end}}},
   {'gbprod/yanky.nvim',opts={},event={'TextYankPost'},keys={
     {'<A-p>','<Plug>(YankyCycleForward)'},
     {'<A-P>','<Plug>(YankyCycleBackward)'},
@@ -53,27 +54,25 @@ require'lazy'.setup({
         end,
       }}},keys={{'f',mode=nx},{'F',mode=nx},{'t',mode=nx},{'T',mode=nx},
       {'s',function () require'flash'.jump() end,mode=nx}}},
-
-  ----command
   {'sindrets/winshift.nvim',opts={},cmd='WinShift',keys={
     {'<C-S-h>',':WinShift left\r'},
     {'<C-S-j>',':WinShift dowm\r'},
     {'<C-S-k>',':WinShift up\r'},
     {'<C-S-l>',':WinShift right\r'},
   }},
-  {'jiaoshijie/undotree',opts={},dependencies={'nvim-lua/plenary.nvim'}},
-  {'ckolkey/ts-node-action',opts=function () return {lua=require'small.tree_lua_block_split_join'.nodes} end,
-    keys={{'K',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
-  {'chrisgrieser/nvim-genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
-  {'stevearc/oil.nvim',cmd='Oil',config=function ()
-    require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true,keymaps={['<C-h>']=false,['<C-l>']=false}}
-    vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
-      vim.cmd.lcd(require'oil'.get_current_dir())
-    end})
-  end,event=ll,init=function (plug) if vim.fn.isdirectory(vim.fn.expand('%'))==1 then require'lazy'.load{plugins=plug.name} end end},
-  {'smjonas/inc-rename.nvim',opts={},event={'CmdlineEnter'}},
+  {'echasnovski/mini.surround',opts={
+    mappings={
+      add='S',
+      delete='ds',
+      find='',
+      find_left='',
+      highlight='',
+      replace='cs',
+      update_n_lines='',
+    }},keys={{'S',mode=nx},'ds','cs'}},
+  {'echasnovski/mini.ai',opts={},keys={{'a',mode={'o','x'}},{'i',mode={'o','x'}}}},
 
-  ----search
+  ----search (telescope)
   {'nvim-telescope/telescope.nvim',dependencies={
     'nvim-lua/plenary.nvim',
     {'nvim-telescope/telescope-fzf-native.nvim',build='make'},
@@ -102,34 +101,33 @@ require'lazy'.setup({
     {'<C-h>','<cmd>STSSelectParentNode\r',mode='x'},
     {'<C-l>','<cmd>STSSelectChildNode\r',mode='x'}
   },dependencies={'nvim-treesitter/nvim-treesitter'}},
+  {'ckolkey/ts-node-action',opts=function () return {lua=require'small.tree_lua_block_split_join'.nodes} end,
+    keys={{'K',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
+  {'atusy/treemonkey.nvim',keys={{'<C-s>',function() require("treemonkey").select{steps=1} end}}},
 
   ----other
+  {'jiaoshijie/undotree',opts={},dependencies={'nvim-lua/plenary.nvim'}},
+  {'chrisgrieser/nvim-genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
+  {'stevearc/oil.nvim',cmd='Oil',config=function ()
+    require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true,keymaps={['<C-h>']=false,['<C-l>']=false}}
+    vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
+      vim.cmd.lcd(require'oil'.get_current_dir())
+    end})
+  end,event=ll,init=function (plug) if vim.fn.isdirectory(vim.fn.expand('%'))==1 then require'lazy'.load{plugins=plug.name} end end},
   {'sindrets/diffview.nvim',cmd={'DiffviewOpen'},opts={use_icons=false}},
   {'neovim/nvim-lspconfig',config=get_config'lsp',event=ll},
   {'rafcamlet/nvim-luapad',cmd='Luapad',config=function () require'luapad'.setup{preview=false,on_init=function ()
     vim.api.nvim_buf_set_lines(vim.api.nvim_get_current_buf(),0,-1,false,{'---@diagnostic disable: undefined-global,unused-local,lowercase-global',''})
     vim.cmd.norm{'G',bang=true}
   end} setfenv(require'luapad.evaluator'.tcall,setmetatable({print=function()end},{__index=_G})) end},
-  {'echasnovski/mini.surround',opts={
-    mappings={
-      add='S',
-      delete='ds',
-      find='',
-      find_left='',
-      highlight='',
-      replace='cs',
-      update_n_lines='',
-    }},keys={{'S',mode=nx},'ds','cs'}},
-  {'echasnovski/mini.ai',opts={},keys={{'a',mode={'o','x'}},{'i',mode={'o','x'}}}},
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
     vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'
   end,event=ll},
   {'raghur/vim-ghost',build=':GhostInstall',cmd='GhostStart',config=function()
     vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim') end},
-  {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
 
-  ----auto complete
+  ----auto complete (cmp)
   {'hrsh7th/nvim-cmp',config=get_config'cmp',event={'InsertEnter','CmdlineEnter'},dependencies={
     'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-buffer',
