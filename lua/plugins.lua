@@ -96,6 +96,7 @@ require'lazy'.setup({
   {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'ziontee113/syntax-tree-surfer',opts={},keys={
     {'vn','<cmd>STSSelectCurrentNode\r'},
+    {'vr','<cmd>STSSelectMasterNode\r'},
     {'<C-j>','<cmd>STSSelectNextSiblingNode\r',mode='x'},
     {'<C-k>','<cmd>STSSelectPrevSiblingNode\r',mode='x'},
     {'<C-h>','<cmd>STSSelectParentNode\r',mode='x'},
@@ -103,7 +104,6 @@ require'lazy'.setup({
   },dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'ckolkey/ts-node-action',opts=function () return {lua=require'small.tree_lua_block_split_join'.nodes} end,
     keys={{'K',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
-  {'atusy/treemonkey.nvim',keys={{'<C-s>',function() require("treemonkey").select{steps=1} end}}},
 
   ----other
   {'jiaoshijie/undotree',opts={},dependencies={'nvim-lua/plenary.nvim'}},
