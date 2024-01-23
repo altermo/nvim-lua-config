@@ -148,7 +148,7 @@ require'lazy'.setup({
       'zipPlugin',
       'man',
       'editorconfig',
-      'tohtml',
+      --'tohtml',
       'tarPlugin',
       'netrwPlugin',
       'netrw',

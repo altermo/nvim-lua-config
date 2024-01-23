@@ -158,6 +158,7 @@ require'which-key'.register{[' ']=format{
     S={':LspStart\r','start'},
     r={':Telescope lsp_references\r','search-references'},
     t={':lua vim.lsp.buf.type_definition()\r','type'},
+    c={':lua vim.lsp.buf.code_action()\r','code-action'},
   },
 
   ---project

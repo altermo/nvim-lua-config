@@ -8,7 +8,7 @@ for k,v in pairs{
     typos=setup,
     labull=setup,
     specfile=setup,
-    foldtext=conf({treesitter=true},setup),
+    foldtext=conf({treesitter=true,skip_fn_luadoc=true},setup),
     treewarn=conf({lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))',
         '((for_generic_clause (expression_list ((identifier) @warn (#set! "mes" "`foo` => `pairs(foo)`")))))'}},setup),
     nterm=function (m) vim.api.nvim_create_user_command('Shell',function (opts) m.run('fish '..opts.args,true) end,{nargs='*'}) end,

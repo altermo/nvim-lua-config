@@ -32,7 +32,7 @@ vim.o.smartcase=true
 ---data
 vim.o.undofile=true
 vim.o.swapfile=false
-vim.o.shada="'100,/9,:50,<50,@9,s10"
+vim.o.shada="'200,/9,:50,<50,@9,s10"
 ---other
 vim.o.scrolloff=5
 vim.o.timeoutlen=500
