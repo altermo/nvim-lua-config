@@ -123,10 +123,6 @@ xno('I',[[mode()=="\x16"?"I":"<esc>:au InsertLeave * ++once :'<+1,'>norm! _\".P\
 xno('y','ygv<esc>')
 xno('p','P')
 xno('P','p')
-xno('gn','n')
-xno('gN','N')
-xno('n','y/\\c\\V<C-r>"\rgn')
-xno('N','y?\\c\\V<C-r>"\rgn')
 
 ----tno
 tno('<C-\\>','<C-\\><C-n>')

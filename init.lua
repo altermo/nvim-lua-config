@@ -5,5 +5,4 @@ require'autocmds' --200/1000ms
 require'options' --250/1000ms
 require'other' --110/1000ms
 require'plugins' --n/a
---If a local script fails to load the colorscheme
-vim.defer_fn(function () if vim.g.colors_name==nil then vim.cmd.colorscheme'own' end end,300)
+vim.cmd.colorscheme'catppuccin-frappe'

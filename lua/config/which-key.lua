@@ -139,7 +139,6 @@ require'which-key'.register{[' ']=format{
   ----toggle/theme
   t={name='+toggle/theme',
     t={':silent! /a\\_$b\r','disable-search'},
-    h={':ColorizerToggle\r','toggle-color-name-highlight'},
     z={function () require'small.kitty'.toggle_padding(20) end,'toggle-padding'},
     C={function ()
       vim.cmd.hi('Cursor blend=100')

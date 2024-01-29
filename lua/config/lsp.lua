@@ -9,14 +9,13 @@ for lsp,opt in pairs({
             '${3rd}/luv/library',
             '~/.config/nvim/lua',
         }}}}},
-    --jsonls={'json-lsp'},
     clangd={'clangd'},
     rust_analyzer={'rust-analyzer'},
     fennel_ls={'fennel-ls',settings={['fennel-ls']={['extra-globals']='vim'}},root_dir=function (dir) return require'lspconfig.util'.find_git_ancestor(dir) or vim.fs.dirname(dir) end},
     zls={'zls'},
     taplo={'taplo'},
     tsserver={'typescript-language-server'},
-    --nushell={'nu'}
+    vimls={'vim-language-server'},
 }) do
     if vim.fn.executable(opt[1])==0 then vim.notify(opt[1]..' LSP not found')
     else require'lspconfig'[lsp].setup(opt) end
