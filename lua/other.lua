@@ -13,11 +13,6 @@ vim.lg=require'utils.lib'.log
 vim.lgclear=require'utils.lib'.log_clear
 
 local function command(cmd,bin,opt) vim.api.nvim_create_user_command(cmd,bin,opt or {}) end
-command('L',function (opt)
-    if not pcall(vim.cmd['='],opt.args) then
-        vim.cmd.lua(opt.args)
-    end
-end,{complete='lua',nargs='+'})
 command('Capture',function (opts)
     vim.fn.writefile(vim.split(vim.api.nvim_exec2(opts.args,{output=true}).output,'\n'),'/tmp/nvim_out.capture')
     vim.cmd.split'/tmp/nvim_out.capture'

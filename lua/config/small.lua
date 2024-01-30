@@ -8,6 +8,7 @@ for k,v in pairs{
     typos=setup,
     labull=setup,
     specfile=setup,
+    color_cmdline=setup,
     foldtext=conf({treesitter=true,skip_fn_luadoc=true},setup),
     treewarn=conf({lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))',
         '((for_generic_clause (expression_list ((identifier) @warn (#set! "mes" "`foo` => `pairs(foo)`")))))'}},setup),
@@ -44,8 +45,8 @@ for k,v in pairs{
     whint=function (m) key.ino(':',m.run,{expr=true}) end,
     ranger=conf{exit_if_single=true},
     help_cword=function (m) key.nno('gh',m.run) end,
-    ['emacs_features.recenter_top_bottom']=function(fn) key.nno('<C-z>',fn) end,
-    ['emacs_features.iedit']=function (m)
+    recenter_top_bottom=function(fn) key.nno('<C-z>',fn) end,
+    iedit=function (m)
         vim.keymap.set('x','gi',m.visual)
         vim.keymap.set('n','gC',m.clear)
     end,

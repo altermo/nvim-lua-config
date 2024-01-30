@@ -53,7 +53,7 @@ nno('<A-y>',':let @+=@"\r')
 nno('<A-j>',':move +1\r')
 nno('<A-k>',':move -2\r')
 nno({'<A-.>','<C-.>'},'.')
-nno('<M-x>',':L ',{noremap=true})
+nno('<M-x>',':lua=',{noremap=true})
 nno('<A-f>',':%s///g<Left><Left><Left>',{noremap=true})
 for i=1,9 do
   nno('<A-'..i..'>',':tabnext '..i..'\r')
