@@ -44,7 +44,7 @@ require'lazy'.setup({
     modes={
       search={enabled=false},
       char={
-        labels='-1234567890',
+        labels='-1234567890äḧẅëẗÿüïöẍÄḦẄËẗŸÜÏÖẌâŝĝĥĵŵêŷûîôẑĉÂŜĜĤĴŴÊŶÛÎÔẐĈ',
         jump_labels=true,
         autohide=true,
         highlight={backdrop=false},

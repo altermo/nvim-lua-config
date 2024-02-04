@@ -5,7 +5,7 @@ local key=require'utils.keymap'
 for k,v in pairs{
     highlight_selected=setup,
     matchall=setup,
-    typos=setup,
+    typo=setup,
     labull=setup,
     specfile=setup,
     color_cmdline=setup,
@@ -47,7 +47,7 @@ for k,v in pairs{
     help_cword=function (m) key.nno('gh',m.run) end,
     recenter_top_bottom=function(fn) key.nno('<C-z>',fn) end,
     iedit=function (m)
-        vim.keymap.set('x','gi',m.visual)
+        vim.keymap.set('x','gi',m.visual_select)
         vim.keymap.set('n','gC',m.clear)
     end,
     notify=function (m) m.override_notify() end,

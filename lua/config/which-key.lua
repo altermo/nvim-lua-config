@@ -59,7 +59,7 @@ require'which-key'.register{[' ']=format{
   x={':qall\r','quitall'},
   v={function () vim.cmd.vsplit() require'which-key'.show(' ',{mode='n'}) end,'vsplit+which'},
   e={function () vim.cmd.split() require'which-key'.show(' ',{mode='n'}) end,'split+which'},
-  d={':bdelete\r','buffer-delete'},
+  d={':bwipeout\r','buffer-delete'},
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
   w={'<cmd>WhichKey <C-w>\r','window'},
   y={name='+spell',_=cmap(spell,':set spelllang=%s\r','lang=%s',{silent=false})},
@@ -150,7 +150,7 @@ require'which-key'.register{[' ']=format{
 
   ----lsp
   l={name='+lsp',
-    f={':lua vim.lsp.buf.format()\r','format'},
+    f={':lua require"small.format".run()\r','format'},
     I={':lua vim.lsp.inlay_hint.enable(0,not vim.lsp.inlay_hint.is_enabled())\r','toggle-inlay-hint'},
     i={':LspInfo\r','info'},
     s={':LspStop\r','stop'},
