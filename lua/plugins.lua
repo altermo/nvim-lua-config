@@ -9,6 +9,7 @@ local nx={'n','x'}
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'}},
   {'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
+  {'altermo/doune.nvim',config=get_config'doune',event=ll},
   {'altermo/small.nvim',config=get_config'small',event=ll,cmd='Shell',init=function (plug)
     vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
     rawset(vim,'notify',function (...)
@@ -81,11 +82,6 @@ require'lazy'.setup({
       telescope.load_extension'fzf'
       telescope.setup{}
     end,cmd='Telescope'},
-  {'nvim-telescope/telescope-ui-select.nvim',init=function ()
-    rawset(vim.ui,'select',function (...)
-      require'telescope'.load_extension'ui-select'
-      vim.ui.select(...)
-    end) end,dependencies={'nvim-telescope/telescope.nvim'}},
 
   ----treesitter
   {'nvim-treesitter/nvim-treesitter',config=function ()
@@ -148,7 +144,7 @@ require'lazy'.setup({
       'zipPlugin',
       'man',
       'editorconfig',
-      --'tohtml',
+      'tohtml',
       'tarPlugin',
       'netrwPlugin',
       'netrw',

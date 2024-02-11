@@ -26,7 +26,6 @@ local function format(tbl)
   end
   return tbl
 end
-local spell={e='en',s='sv'}
 require'which-key'.setup{
   key_labels={['ß']='1..9',['à']='0..9'},
   plugins={
@@ -62,12 +61,16 @@ require'which-key'.register{[' ']=format{
   d={':bwipeout\r','buffer-delete'},
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
   w={'<cmd>WhichKey <C-w>\r','window'},
-  y={name='+spell',_=cmap(spell,':set spelllang=%s\r','lang=%s',{silent=false})},
+  y={name='+spell',_=cmap({'en','sv'},':set spelllang=%s\r','lang=%s',{silent=false})},
   F={name='+foldmethod',
     d={':set foldmethod=diff\r','diff'},
     t={':set foldmethod=expr\r:set foldexpr=v:lua.vim.treesitter.foldexpr()\r','treesitter'},
     f={':set foldmethod=expr\r:set foldexpr=v:lua.Fold(v:lnum)\r','default'},
   },
+  ['.']={function ()
+    local dir=vim.fs.dirname(vim.fs.find('.quick',{upward=true})[1])
+    if dir then vim.cmd.edit(vim.fs.joinpath(dir,'.quick')) end
+  end,'open quick'},
 
   ---cmd/app
   c={name='+cmd/app',
@@ -76,7 +79,6 @@ require'which-key'.register{[' ']=format{
     n={':lua require"small.notify".dismiss()\r','dismiss notify'},
     N={':lua require"small.notify".open_history()\r','open notify history'},
     e={':silent !emacsclient %&\r','send-emacs'},
-    w={':vsplit|call execute("terminal curl \'wttr.in/?nQF\' -s")|startinsert\r','weather'},
     m={':MarkdownPreview\r','markdown-preview'},
     l={':edit /tmp/nlog\r','open-log'},
     g={':DiffviewOpen\r','git-diff'},
@@ -108,7 +110,7 @@ require'which-key'.register{[' ']=format{
       vim.fn.writefile(vim.fn.getline(1,vim.fn.line('$')),tmp)
       vim.cmd.vnew()
       local buf=vim.fn.bufnr()
-      vim.fn.termopen('cat '..tmp..'|sudo tee '..vim.fn.expand('#:p'),{
+      vim.fn.termopen('cat '..tmp..'|sudo tee >/dev/null '..vim.fn.expand('#:p'),{
         on_exit=function (_,code,_)
           vim.cmd.bdelete({buf,bang=true})
           if code==0 then vim.o.modified=false end
@@ -158,6 +160,8 @@ require'which-key'.register{[' ']=format{
     r={':Telescope lsp_references\r','search-references'},
     t={':lua vim.lsp.buf.type_definition()\r','type'},
     c={':lua vim.lsp.buf.code_action()\r','code-action'},
+    n={':lua vim.diagnostic.goto_next()\r','diagnostic-next'},
+    p={':lua vim.diagnostic.goto_prev()\r','diagnostic-prev'},
   },
 
   ---project
