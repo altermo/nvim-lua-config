@@ -53,4 +53,9 @@ for k,v in pairs{
         key.nno("<C-'>",function() m.goto_next_cursor() end)
         conf({},setup)(m)
     end,
+    fastmultif=function (m)
+        key.nno('f',m.find)
+        key.nno('F',m.rfind)
+        conf({labels='1234567890äḧẅëẗÿüïöẍÄḦẄËẗŸÜÏÖẌâŝĝĥĵŵêŷûîôẑĉÂŜĜĤĴŴÊŶÛÎÔẐĈ'})(m)
+    end
 } do v(require('small.'..k)) end

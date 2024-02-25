@@ -58,7 +58,7 @@ require'which-key'.register{[' ']=format{
   x={':qall\r','quitall'},
   v={function () vim.cmd.vsplit() require'which-key'.show(' ',{mode='n'}) end,'vsplit+which'},
   e={function () vim.cmd.split() require'which-key'.show(' ',{mode='n'}) end,'split+which'},
-  d={':bwipeout\r','buffer-delete'},
+  D={':bwipeout\r','buffer-delete'},
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
   w={'<cmd>WhichKey <C-w>\r','window'},
   y={name='+spell',_=cmap({'en','sv'},':set spelllang=%s\r','lang=%s',{silent=false})},
@@ -119,7 +119,7 @@ require'which-key'.register{[' ']=format{
       vim.cmd.startinsert()
     end,'sudosave'},
     r={':Rename\r','rename',silent=false},
-    c={':!echo "%:p"|xsel -ib\r','copy-path',silent=false},
+    c={':!wl-copy "%:p"\r','copy-path',silent=false},
     f={':Telescope find_files\r','find'},
     t={name='+set-type',
       o={':setf ','other',silent=false},
@@ -162,6 +162,21 @@ require'which-key'.register{[' ']=format{
     c={':lua vim.lsp.buf.code_action()\r','code-action'},
     n={':lua vim.diagnostic.goto_next()\r','diagnostic-next'},
     p={':lua vim.diagnostic.goto_prev()\r','diagnostic-prev'},
+  },
+
+  ---dap
+  d={name='+dap',
+    b={':lua require"dap".toggle_breakpoint()\r','toggle breakpoint'},
+    s={':lua require"small.dapnvim".start()\r','start'},
+    r={':lua require"dap.repl".toggle()\r','repl'},
+  },
+
+  ---harpoon
+  h={
+    a={':lua require"harpoon":list():append()\r','append'},
+    n={':lua require"harpoon":list():next()\r','next'},
+    p={':lua require"harpoon":list():prev()\r','prev'},
+    h={':lua require"harpoon".ui:toggle_quick_menu(require"harpoon":list())\r','menu'},
   },
 
   ---project

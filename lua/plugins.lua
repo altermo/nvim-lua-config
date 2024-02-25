@@ -40,24 +40,10 @@ require'lazy'.setup({
     {'<C-a>',function () return require'dial.map'.inc_normal() end,expr=true},
     {'<C-x>',function () return require'dial.map'.dec_normal() end,expr=true},
   }},
-  {'folke/flash.nvim',opts={
-    label={uppercase=false},
-    modes={
-      search={enabled=false},
-      char={
-        labels='-1234567890äḧẅëẗÿüïöẍÄḦẄËẗŸÜÏÖẌâŝĝĥĵŵêŷûîôẑĉÂŜĜĤĴŴÊŶÛÎÔẐĈ',
-        jump_labels=true,
-        autohide=true,
-        highlight={backdrop=false},
-        config=function(opts)
-          if vim.api.nvim_get_mode().mode:find('n[oi]') or vim.v.count~=0
-            or (vim.fn.reg_recording()~='' or vim.fn.reg_executing()~='') then opts.jump_labels=false end
-        end,
-      }}},keys={{'f',mode=nx},{'F',mode=nx},{'t',mode=nx},{'T',mode=nx},
-      {'s',function () require'flash'.jump() end,mode=nx}}},
+  {'mizlan/longbow.nvim',keys={{'s',':lua require"longbow".run()\r'}}},
   {'sindrets/winshift.nvim',opts={},cmd='WinShift',keys={
     {'<C-S-h>',':WinShift left\r'},
-    {'<C-S-j>',':WinShift dowm\r'},
+    {'<C-S-j>',':WinShift down\r'},
     {'<C-S-k>',':WinShift up\r'},
     {'<C-S-l>',':WinShift right\r'},
   }},
@@ -122,6 +108,14 @@ require'lazy'.setup({
   end,event=ll},
   {'raghur/vim-ghost',build=':GhostInstall',cmd='GhostStart',config=function()
     vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim') end},
+  {'mfussenegger/nvim-dap',config=function ()
+    local dap=require'dap'
+    dap.configurations.lua={{type='nlua',request='attach'}}
+    dap.adapters.nlua=function(callback)
+      callback({type='server',port=8086})
+    end
+  end,dependencies={'jbyuki/one-small-step-for-vimkind'}},
+  {'ThePrimeagen/harpoon',branch='harpoon2',dependencies={'nvim-lua/plenary.nvim'},opts={}},
 
   ----auto complete (cmp)
   {'hrsh7th/nvim-cmp',config=get_config'cmp',event={'InsertEnter','CmdlineEnter'},dependencies={
