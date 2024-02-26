@@ -40,7 +40,7 @@ require'lazy'.setup({
     {'<C-a>',function () return require'dial.map'.inc_normal() end,expr=true},
     {'<C-x>',function () return require'dial.map'.dec_normal() end,expr=true},
   }},
-  {'mizlan/longbow.nvim',keys={{'s',':lua require"longbow".run()\r'}}},
+  {'mizlan/longbow.nvim',keys={{'s',':lua require"longbow".run()\r'}},pin=true},
   {'sindrets/winshift.nvim',opts={},cmd='WinShift',keys={
     {'<C-S-h>',':WinShift left\r'},
     {'<C-S-j>',':WinShift down\r'},
