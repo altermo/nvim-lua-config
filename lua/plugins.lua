@@ -10,15 +10,7 @@ require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'}},
   {'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
   {'altermo/doune.nvim',config=get_config'doune',event=ll},
-  {'altermo/small.nvim',config=get_config'small',event=ll,cmd='Shell',init=function (plug)
-    vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
-    rawset(vim,'notify',function (...)
-      require'lazy'.load{plugins=plug.name}
-      vim.notify(...)
-    end)
-    require'small.kitty'.conf={padding=20}
-    require'small.kitty'.setup()
-  end},
+  {'altermo/small.nvim',config=get_config'small',event=ll,cmd='Shell'},
 
   ----visual
   {'catppuccin/nvim',name='catppuccin',event=ll},

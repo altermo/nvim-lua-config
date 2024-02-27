@@ -58,7 +58,15 @@ require'which-key'.register{[' ']=format{
   x={':qall\r','quitall'},
   v={function () vim.cmd.vsplit() require'which-key'.show(' ',{mode='n'}) end,'vsplit+which'},
   e={function () vim.cmd.split() require'which-key'.show(' ',{mode='n'}) end,'split+which'},
-  D={':bwipeout\r','buffer-delete'},
+  D={function ()
+    local buf=vim.api.nvim_get_current_buf()
+    local sbuf=vim.api.nvim_create_buf(false,true)
+    vim.bo[sbuf].bufhidden='wipe'
+    for _,win in ipairs(vim.fn.win_findbuf(buf)) do
+      vim.api.nvim_win_set_buf(win,sbuf)
+    end
+    vim.api.nvim_buf_delete(buf,{})
+  end,'buffer-delete'},
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
   w={'<cmd>WhichKey <C-w>\r','window'},
   y={name='+spell',_=cmap({'en','sv'},':set spelllang=%s\r','lang=%s',{silent=false})},
@@ -85,6 +93,7 @@ require'which-key'.register{[' ']=format{
     a={require'small.tableformat'.run,'format table'},
     r={require'small.reminder'.sidebar,'reminder sidebar'},
     f={require'small.ranger'.run,'file manager'},
+    c={':call codeium#Chat()\r','codeium chat'},
   },
 
   ---tabs
