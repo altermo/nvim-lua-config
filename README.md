@@ -9,7 +9,6 @@ Here is a list of *somewhat* unique things about this config:
     + *Note*: on kitty 60ms (because of kitty integration)
 + No status column (no line numbers)
 + No snippet plugin (uses `vim.snippet`) (still has cmp)
-+ [small.nvim](https://github.com/altermo/small.nvim): my collection of private plugins
 + [small.nvim](https://github.com/altermo/doune.nvim): my collection of plugins
 + No automatic LSP install
 + Treesitter queries:

@@ -178,10 +178,14 @@ require'which-key'.register{[' ']=format{
     b={':lua require"dap".toggle_breakpoint()\r','toggle breakpoint'},
     s={':lua require"small.dapnvim".start()\r','start'},
     r={':lua require"dap.repl".toggle()\r','repl'},
+    c={':lua require"dap".continue()\r','continue'},
+    n={':lua require"dap".step_over()\r','next'},
+    i={':lua require"dap".step_into()\r','into'},
   },
 
   ---harpoon
   h={
+    name='+harpoon',
     a={':lua require"harpoon":list():append()\r','append'},
     n={':lua require"harpoon":list():next()\r','next'},
     p={':lua require"harpoon":list():prev()\r','prev'},
