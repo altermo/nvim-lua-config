@@ -15,3 +15,4 @@ Here is a list of *somewhat* unique things about this config:
     + In lua, conceal specific keywords
     + In hyprlang, inject bash highlights into shell code
 + Codeium as AI autocomplete
++ Auto sync terminal background with neovim background
