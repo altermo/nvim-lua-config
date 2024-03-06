@@ -39,3 +39,7 @@ autocmd('VimEnter',function()
         vim.api.nvim_buf_get_name(0)~='' then return end
     vim.bo.buftype='nofile'
 end,{once=true})
+autocmd('VimLeave',function () io.stdout:write("\027]111;;\027\\") end)
+autocmd('ColorScheme',function ()
+    io.stdout:write(("\027]11;#%06x\027\\"):format(vim.api.nvim_get_hl(0,{name='Normal',link=false}).bg))
+end)

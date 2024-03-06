@@ -58,5 +58,5 @@ for k,v in pairs{
         key.nno('F',m.rfind)
         conf({labels='1234567890äḧẅëẗÿüïöẍÄḦẄËẗŸÜÏÖẌâŝĝĥĵŵêŷûîôẑĉÂŜĜĤĴŴÊŶÛÎÔẐĈ'})(m)
     end,
-    kitty=conf({padding=20},setup),
+    kitty=conf({padding=20,no_sync_bg=true},setup),
 } do v(require('small.'..k)) end
