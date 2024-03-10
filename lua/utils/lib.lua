@@ -8,6 +8,7 @@ function M.tabbufmove(num)
     vim.api.nvim_win_close(win,true)
 end
 function M.log(...)
+    if vim.in_fast_event() then return vim.schedule_wrap(M.log)(...) end
     local d=debug.getinfo(2)
     return vim.fn.writefile(vim.fn.split(
         ':'..d.short_src..':'..d.currentline..':\n'..

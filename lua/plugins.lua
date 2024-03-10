@@ -9,8 +9,11 @@ local nx={'n','x'}
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'}},
   {'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
-  {'altermo/doune.nvim',config=get_config'doune',event=ll},
   {'altermo/small.nvim',config=get_config'small',event=ll,cmd='Shell'},
+  {'altermo/iedit.nvim',keys={
+    {'gi','<cmd>lua require"iedit".select()\r',mode=nx},
+    {'gC','<cmd>lua require"iedit".stop()\r'},
+  }},
 
   ----visual
   {'catppuccin/nvim',name='catppuccin',event=ll},
@@ -32,7 +35,6 @@ require'lazy'.setup({
     {'<C-a>',function () return require'dial.map'.inc_normal() end,expr=true},
     {'<C-x>',function () return require'dial.map'.dec_normal() end,expr=true},
   }},
-  {'mizlan/longbow.nvim',keys={{'s',':lua require"longbow".run()\r'}},pin=true},
   {'sindrets/winshift.nvim',opts={},cmd='WinShift',keys={
     {'<C-S-h>',':WinShift left\r'},
     {'<C-S-j>',':WinShift down\r'},

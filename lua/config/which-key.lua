@@ -139,7 +139,8 @@ require'which-key'.register{[' ']=format{
   ----search
   s={name='+search',
     a={':Telescope\r','telescope'},
-    c={':Telescope colorscheme enable_preview=true\r','colorscheme'},
+    c={':lua require"small.colors".search_colors()\r','colorscheme'},
+    C={':lua require"small.colors".search_colors_online()\r','colors-online'},
     F={require'small.foldselect'.run,'fold'},
     P={require'small.plugin_search'.run,'plugins-online'},
     p={':Telescope find_files cwd=/home/user/.local/share/nvim/lazy/ find_command=ls\r','plugins'},
@@ -173,10 +174,11 @@ require'which-key'.register{[' ']=format{
     p={':lua vim.diagnostic.goto_prev()\r','diagnostic-prev'},
   },
 
-  ---dap
-  d={name='+dap',
+  ---debug
+  d={name='+debug',
+    s={':lua require"small.qrun".run()\r','start'},
     b={':lua require"dap".toggle_breakpoint()\r','toggle breakpoint'},
-    s={':lua require"small.dapnvim".start()\r','start'},
+    S={':lua require"small.dapnvim".start()\r','start-dap'},
     r={':lua require"dap.repl".toggle()\r','repl'},
     c={':lua require"dap".continue()\r','continue'},
     n={':lua require"dap".step_over()\r','next'},

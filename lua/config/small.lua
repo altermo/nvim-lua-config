@@ -21,7 +21,7 @@ for k,v in pairs{
         key.xno('X',m.ex_visual)
     end,
     builder=function (m)
-        key.nno("“",m.termbuild)
+        key.nno({"“","<F5>"},m.termbuild)
         key.nno("<F6>",m.eval)
     end,
     macro=function (m)
