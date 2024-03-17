@@ -39,7 +39,12 @@ nno('" ',":let a=@/\r:s/['\"]/\\=submatch(0)=='\"'?\"'\":'\"'/g\r:let @/=a\r")
 nno('vv','V')
 nno('\\p','<cmd>Lazy\r')
 nno('gd',function () return (vim.lsp.buf_notify(0,'window/progress',{}) or #vim.fn.tagfiles()>0) and '<C-]>' or 'gd' end,{expr=true})
-nno('gr',':IncRename <C-r>=expand("<cword>")\r',{noremap=true})
+nno('gr',function ()
+  local params=vim.lsp.util.make_position_params()
+  vim.lsp.buf_request(0,vim.lsp.protocol.Methods.textDocument_prepareRename,params,function (_,o)
+    vim.api.nvim_feedkeys(':IncRename '..o.placeholder,'n',false)
+  end)
+end,{noremap=true})
 ------alt/ctrl
 for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical resize +'}) do
   nno('<C-'..k..'>','<C-w>'..k..'<cmd>if &buftype=="terminal"|startinsert|endif\r')

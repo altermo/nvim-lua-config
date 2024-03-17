@@ -1,5 +1,5 @@
 for lsp,opt in pairs({
-    pyright={'pyright'},
+    basedpyright={'basedpyright-langserver'},
     lua_ls={'lua-language-server',settings={Lua={
         hint={enable=true},
         runtime={version='LuaJIT',unicodeName=true},

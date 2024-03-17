@@ -40,6 +40,6 @@ autocmd('VimEnter',function()
     vim.bo.buftype='nofile'
 end,{once=true})
 autocmd('VimLeave',function () io.stdout:write("\027]111;;\027\\") end)
-autocmd('ColorScheme',function ()
-    io.stdout:write(("\027]11;#%06x\027\\"):format(vim.api.nvim_get_hl(0,{name='Normal',link=false}).bg or 0))
-end)
+local function sync_background() io.stdout:write(("\027]11;#%06x\027\\"):format(vim.api.nvim_get_hl(0,{name='Normal',link=false}).bg or 0)) end
+autocmd('ColorScheme',sync_background)
+autocmd('OptionSet',sync_background,{pattern='background'})

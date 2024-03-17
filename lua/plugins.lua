@@ -1,17 +1,16 @@
 local lazypath=vim.fn.stdpath'data'..'/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
-  vim.system{'git','clone','--filter=blob:none','https://github.com/folke/lazy.nvim.git','--branch=stable',lazypath}
+  vim.system{'git','clone','--filter=blob:none','https://github.com/folke/lazy.nvim.git','--branch=stable',lazypath}:wait()
 end
 vim.opt.rtp:prepend(lazypath)
 local function get_config(name) return function () require('config.'..name) end end
 local ll='User s1'
-local nx={'n','x'}
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'}},
   {'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
   {'altermo/small.nvim',config=get_config'small',event=ll,cmd='Shell'},
   {'altermo/iedit.nvim',keys={
-    {'gi','<cmd>lua require"iedit".select()\r',mode=nx},
+    {'gi','<cmd>lua require"iedit".select()\r',mode={'n','x'}},
     {'gC','<cmd>lua require"iedit".stop()\r'},
   }},
 
@@ -50,18 +49,14 @@ require'lazy'.setup({
       highlight='',
       replace='cs',
       update_n_lines='',
-    }},keys={{'S',mode=nx},'ds','cs'}},
+    }},keys={{'S',mode={'n','x'}},'ds','cs'}},
   {'echasnovski/mini.ai',opts={},keys={{'a',mode={'o','x'}},{'i',mode={'o','x'}}}},
 
   ----search (telescope)
-  {'nvim-telescope/telescope.nvim',dependencies={
-    'nvim-lua/plenary.nvim',
-    {'nvim-telescope/telescope-fzf-native.nvim',build='make'},
-  },config=function ()
+  {'nvim-telescope/telescope.nvim',config=function ()
       local telescope=require'telescope'
-      telescope.load_extension'fzf'
       telescope.setup{}
-    end,cmd='Telescope'},
+    end,cmd='Telescope',dependencies={'nvim-lua/plenary.nvim'}},
 
   ----treesitter
   {'nvim-treesitter/nvim-treesitter',config=function ()
