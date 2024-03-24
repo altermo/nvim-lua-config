@@ -3,7 +3,6 @@ local data={
     {name='cmdline',menu='CL',types={':'}},
     {name='buffer',menu='BUF',types={'','/'}},
     {name='nvim_lsp',menu='LSP'},
-    {name='nvim_lsp_signature_help'},
     {name='codeium',menu='CI'},
 }
 local function gen(type,tbl)

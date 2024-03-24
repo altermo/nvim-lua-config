@@ -8,7 +8,7 @@ local ll='User s1'
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'}},
   {'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
-  {'altermo/small.nvim',config=get_config'small',event=ll,cmd='Shell'},
+  {'altermo/small.nvim',config=get_config'small',event=ll},
   {'altermo/iedit.nvim',keys={
     {'gi','<cmd>lua require"iedit".select()\r',mode={'n','x'}},
     {'gC','<cmd>lua require"iedit".stop()\r'},
@@ -16,20 +16,13 @@ require'lazy'.setup({
 
   ----visual
   {'catppuccin/nvim',name='catppuccin',event=ll},
-  {'nvim-lualine/lualine.nvim',opts={
-    sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}},
-  },event=ll},
+  {'nvim-lualine/lualine.nvim',opts={sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},
+    lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}}},event=ll},
   {'folke/which-key.nvim',config=get_config'which-key',keys={'<space>','<C-w>'},dependencies={'altermo/small.nvim'}},
   {'smjonas/inc-rename.nvim',opts={},event={'CmdlineEnter'}},
   {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
 
   ----keys
-  {'gbprod/yanky.nvim',opts={},event={'TextYankPost'},keys={
-    {'<A-p>','<Plug>(YankyCycleForward)'},
-    {'<A-P>','<Plug>(YankyCycleBackward)'},
-    {'p','<Plug>(YankyPutAfter)'},{'P','<Plug>(YankyPutAfter)',mode='x'},
-    {'P','<Plug>(YankyPutBefore)'},{'p','<Plug>(YankyPutBefore)',mode='x'},
-  }},
   {'monaqa/dial.nvim',keys={
     {'<C-a>',function () return require'dial.map'.inc_normal() end,expr=true},
     {'<C-x>',function () return require'dial.map'.dec_normal() end,expr=true},
@@ -54,9 +47,9 @@ require'lazy'.setup({
 
   ----search (telescope)
   {'nvim-telescope/telescope.nvim',config=function ()
-      local telescope=require'telescope'
-      telescope.setup{}
-    end,cmd='Telescope',dependencies={'nvim-lua/plenary.nvim'}},
+    local telescope=require'telescope'
+    telescope.setup{}
+  end,cmd='Telescope',dependencies={'nvim-lua/plenary.nvim'}},
 
   ----treesitter
   {'nvim-treesitter/nvim-treesitter',config=function ()
@@ -74,11 +67,10 @@ require'lazy'.setup({
     {'<C-l>','<cmd>STSSelectChildNode\r',mode='x'}
   },dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'ckolkey/ts-node-action',opts=function () return {lua=require'small.tree_lua_block_split_join'.nodes} end,
-    keys={{'K',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
+    keys={{'s',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
 
   ----other
   {'jiaoshijie/undotree',opts={},dependencies={'nvim-lua/plenary.nvim'}},
-  {'chrisgrieser/nvim-genghis',cmd={'NewFromSelection','Duplicate','Rename','Trash','Move','CopyFilename','CopyFilepath','Chmodx','New'}},
   {'stevearc/oil.nvim',cmd='Oil',config=function ()
     require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true,keymaps={['<C-h>']=false,['<C-l>']=false}}
     vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
@@ -86,7 +78,8 @@ require'lazy'.setup({
     end})
   end,event=ll,init=function (plug) if vim.fn.isdirectory(vim.fn.expand('%'))==1 then require'lazy'.load{plugins=plug.name} end end},
   {'sindrets/diffview.nvim',cmd={'DiffviewOpen'},opts={use_icons=false}},
-  {'neovim/nvim-lspconfig',config=get_config'lsp',event=ll},
+  {'neovim/nvim-lspconfig',config=get_config'lsp',event=ll,dependencies={
+    {'ray-x/lsp_signature.nvim',opts={hint_prefix='',floating_window=false}}}},
   {'rafcamlet/nvim-luapad',cmd='Luapad',config=function () require'luapad'.setup{preview=false,on_init=function ()
     vim.api.nvim_buf_set_lines(vim.api.nvim_get_current_buf(),0,-1,false,{'---@diagnostic disable: undefined-global,unused-local,lowercase-global',''})
     vim.cmd.norm{'G',bang=true}
@@ -104,14 +97,13 @@ require'lazy'.setup({
       callback({type='server',port=8086})
     end
   end,dependencies={'jbyuki/one-small-step-for-vimkind'}},
-  {'ThePrimeagen/harpoon',branch='harpoon2',dependencies={'nvim-lua/plenary.nvim'},opts={}},
+  {'cbochs/grapple.nvim',opts={icons=false},cmd='Grapple'},
 
   ----auto complete (cmp)
   {'hrsh7th/nvim-cmp',config=get_config'cmp',event={'InsertEnter','CmdlineEnter'},dependencies={
     'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-nvim-lsp-signature-help',
     {'altermo/cmp-codeium',dependencies={'exafunction/codeium.vim',config=function ()
       vim.g.codeium_disable_bindings=true
       vim.g.codeium_manual=true

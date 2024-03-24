@@ -41,5 +41,5 @@ autocmd('VimEnter',function()
 end,{once=true})
 autocmd('VimLeave',function () io.stdout:write("\027]111;;\027\\") end)
 local function sync_background() io.stdout:write(("\027]11;#%06x\027\\"):format(vim.api.nvim_get_hl(0,{name='Normal',link=false}).bg or 0)) end
-autocmd('ColorScheme',sync_background)
-autocmd('OptionSet',sync_background,{pattern='background'})
+autocmd('ColorScheme',vim.schedule_wrap(sync_background))
+autocmd('OptionSet',vim.schedule_wrap(sync_background),{pattern='background'})

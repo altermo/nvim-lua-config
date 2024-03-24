@@ -47,12 +47,12 @@ require'which-key'.register{[' ']=format{
   L={':Luapad\r','luapad'},
   C={require'small.chat'.run,'chat'},
   r={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end,'dff'},
-  ["'"]={':Shell\r','shell'},
-  i={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') vim.cmd.edit'.' end,'edir'},
+  ["'"]={':lua require"small.nterm".run("fish",true)\r','shell'},
+  --i={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') vim.cmd.edit'.' end,'edir'},
+  i={function () require'oil'.open() end,'edir'},
   P={':Lazy\r','lazy'},
   z={'zMzv','fold-only'},
   ------window/buffer
-  Z={':e\r','reload-file'},
   q={':q\r','quit'},
   Q={':q!\r','QUIT!'},
   x={':qall\r','quitall'},
@@ -69,16 +69,12 @@ require'which-key'.register{[' ']=format{
   end,'buffer-delete'},
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
   w={'<cmd>WhichKey <C-w>\r','window'},
-  y={name='+spell',_=cmap({'en','sv'},':set spelllang=%s\r','lang=%s',{silent=false})},
+  y={name='+spell',_=cmap({e='en',s='sv'},':set spelllang=%s\r','lang=%s',{silent=false})},
   F={name='+foldmethod',
     d={':set foldmethod=diff\r','diff'},
     t={':set foldmethod=expr\r:set foldexpr=v:lua.vim.treesitter.foldexpr()\r','treesitter'},
     f={':set foldmethod=expr\r:set foldexpr=v:lua.Fold(v:lnum)\r','default'},
   },
-  ['.']={function ()
-    local dir=vim.fs.dirname(vim.fs.find('.quick',{upward=true})[1])
-    if dir then vim.cmd.edit(vim.fs.joinpath(dir,'.quick')) end
-  end,'open quick'},
 
   ---cmd/app
   c={name='+cmd/app',
@@ -92,7 +88,6 @@ require'which-key'.register{[' ']=format{
     g={':DiffviewOpen\r','git-diff'},
     a={require'small.tableformat'.run,'format table'},
     r={require'small.reminder'.sidebar,'reminder sidebar'},
-    f={require'small.ranger'.run,'file manager'},
     c={':call codeium#Chat()\r','codeium chat'},
   },
 
@@ -127,7 +122,12 @@ require'which-key'.register{[' ']=format{
       })
       vim.cmd.startinsert()
     end,'sudosave'},
-    r={':Rename\r','rename',silent=false},
+    r={function () --TODO
+      require'oil'.open()
+      vim.defer_fn(function ()
+        vim.api.nvim_feedkeys('f.i','n',false)
+      end,100)
+    end,'rename',silent=false},
     c={':!wl-copy "%:p"\r','copy-path',silent=false},
     f={':Telescope find_files\r','find'},
     t={name='+set-type',
@@ -141,23 +141,22 @@ require'which-key'.register{[' ']=format{
     a={':Telescope\r','telescope'},
     c={':lua require"small.colors".search_colors()\r','colorscheme'},
     C={':lua require"small.colors".search_colors_online()\r','colors-online'},
-    F={require'small.foldselect'.run,'fold'},
     P={require'small.plugin_search'.run,'plugins-online'},
     p={':Telescope find_files cwd=/home/user/.local/share/nvim/lazy/ find_command=ls\r','plugins'},
-    r={':Telescope find_files cwd=/usr/local/share/nvim/runtime/lua/vim/\r','root-runtime'},
+    r={':Telescope find_files cwd=/usr/local/share/nvim/runtime\r','root-runtime'},
     _=cmap({f='find_files',o='oldfiles',s='live_grep',h='help_tags',m='marks',b='buffers',[' ']='resume'},':Telescope %s\r','%s'),
   },
 
   ----toggle/theme
   t={name='+toggle/theme',
-    t={':silent! /a\\_$b\r','disable-search'},
+    t={':nohls\r','disable-search'},
     z={function () require'small.kitty'.toggle_padding(20) end,'toggle-padding'},
     C={function ()
       vim.cmd.hi('Cursor blend=100')
       vim.o.guicursor='a:Cursor/lCursor,a:ver1'
     end,'hide-cursor'},
     c={':set guicursor&\r','reset-cursor'},
-    m={':ToggleMatchAll\r','toggle matchall'},
+    m={':lua require"small.matchall".toggle()\r','toggle matchall'},
   },
 
   ----lsp
@@ -185,13 +184,12 @@ require'which-key'.register{[' ']=format{
     i={':lua require"dap".step_into()\r','into'},
   },
 
-  ---harpoon
-  h={
-    name='+harpoon',
-    a={':lua require"harpoon":list():append()\r','append'},
-    n={':lua require"harpoon":list():next()\r','next'},
-    p={':lua require"harpoon":list():prev()\r','prev'},
-    h={':lua require"harpoon".ui:toggle_quick_menu(require"harpoon":list())\r','menu'},
+  ---grapple
+  h={name='+grapple',
+    a={':Grapple toggle\r','append'},
+    n={':Grapple cycle forward\r','next'},
+    p={':Grapple cycle backward\r','prev'},
+    h={':Grapple toggle_tags\r','menu'},
   },
 
   ---project
