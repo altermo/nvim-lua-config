@@ -42,4 +42,4 @@ vim.o.virtualedit='block,onemore'
 vim.o.smoothscroll=true
 vim.o.mouse='a'
 vim.o.concealcursor='nc'
-vim.o.guifont='Fira Code:h13'
+vim.o.guifont='Fira Code:h12'

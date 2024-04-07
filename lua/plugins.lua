@@ -6,7 +6,7 @@ vim.opt.rtp:prepend(lazypath)
 local function get_config(name) return function () require('config.'..name) end end
 local ll='User s1'
 require'lazy'.setup({
-  {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','CursorMoved'}},
+  {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter',ll},keys='%'},
   {'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
   {'altermo/small.nvim',config=get_config'small',event=ll},
   {'altermo/iedit.nvim',keys={
@@ -21,6 +21,7 @@ require'lazy'.setup({
   {'folke/which-key.nvim',config=get_config'which-key',keys={'<space>','<C-w>'},dependencies={'altermo/small.nvim'}},
   {'smjonas/inc-rename.nvim',opts={},event={'CmdlineEnter'}},
   {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
+  {'echasnovski/mini.diff',opts={view={style='number'},mappings={apply='',reset='',textobject='',goto_first='',goto_prev='',goto_next='',goto_last=''}}},
 
   ----keys
   {'monaqa/dial.nvim',keys={
@@ -47,9 +48,9 @@ require'lazy'.setup({
 
   ----search (telescope)
   {'nvim-telescope/telescope.nvim',config=function ()
-    local telescope=require'telescope'
-    telescope.setup{}
-  end,cmd='Telescope',dependencies={'nvim-lua/plenary.nvim'}},
+    require'telescope'.setup{}
+    require'telescope'.load_extension('nucleo')
+  end,cmd='Telescope',dependencies={'nvim-lua/plenary.nvim',{'altermo/telescope-nucleo-sorter.nvim',build='cargo build --release'}}},
 
   ----treesitter
   {'nvim-treesitter/nvim-treesitter',config=function ()
@@ -77,7 +78,6 @@ require'lazy'.setup({
       vim.cmd.lcd(require'oil'.get_current_dir())
     end})
   end,event=ll,init=function (plug) if vim.fn.isdirectory(vim.fn.expand('%'))==1 then require'lazy'.load{plugins=plug.name} end end},
-  {'sindrets/diffview.nvim',cmd={'DiffviewOpen'},opts={use_icons=false}},
   {'neovim/nvim-lspconfig',config=get_config'lsp',event=ll,dependencies={
     {'ray-x/lsp_signature.nvim',opts={hint_prefix='',floating_window=false}}}},
   {'rafcamlet/nvim-luapad',cmd='Luapad',config=function () require'luapad'.setup{preview=false,on_init=function ()
