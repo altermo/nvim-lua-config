@@ -26,6 +26,14 @@ local function format(tbl)
   end
   return tbl
 end
+local function tabbufmove(num)
+    local buf=vim.fn.bufnr()
+    local win=vim.api.nvim_get_current_win()
+    vim.cmd.tabnext(num)
+    vim.cmd.sbuf{buf,mods={vertical=true}}
+    vim.api.nvim_win_close(win,true)
+end
+_G.Tabbufmove__=tabbufmove
 require'which-key'.setup{
   key_labels={['ß']='1..9',['à']='0..9'},
   plugins={
@@ -100,10 +108,10 @@ require'which-key'.register{[' ']=format{
     _=fmap(':tabnext %s\r','tab-%s'),
     ['0']={':tablast\r','tab-last'},
     m={name='+move-buffer',
-      _=fmap(':lua require"utils.lib".tabbufmove(%s)\r','tab-%s'),
-      ['0']={function() require'core.utils.lib'.tabbufmove'$' end,'last'},
-      ['<']={function() require'core.utils.lib'.tabbufmove'-' end,'prev'},
-      ['>']={function() require'core.utils.lib'.tabbufmove'+' end,'next'},
+      _=fmap(':lua _G.Tabbufmove__(%s)\r','tab-%s'),
+      ['0']={function() tabbufmove'$' end,'last'},
+      ['<']={function() tabbufmove'-' end,'prev'},
+      ['>']={function() tabbufmove'+' end,'next'},
     },
   },
 
