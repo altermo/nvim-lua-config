@@ -101,9 +101,9 @@ require'which-key'.register{[' ']=format{
     ['0']={':tablast\r','tab-last'},
     m={name='+move-buffer',
       _=fmap(':lua require"utils.lib".tabbufmove(%s)\r','tab-%s'),
-      ['0']={function() require'utils.lib'.tabbufmove'$' end,'last'},
-      ['<']={function() require'utils.lib'.tabbufmove'-' end,'prev'},
-      ['>']={function() require'utils.lib'.tabbufmove'+' end,'next'},
+      ['0']={function() require'core.utils.lib'.tabbufmove'$' end,'last'},
+      ['<']={function() require'core.utils.lib'.tabbufmove'-' end,'prev'},
+      ['>']={function() require'core.utils.lib'.tabbufmove'+' end,'next'},
     },
   },
 

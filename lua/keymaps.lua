@@ -1,5 +1,5 @@
 ----init
-local key=require'utils.keymap'
+local key=require'core.utils.keymap'
 local nno=key.nno
 local ino=key.ino
 local xno=key.xno
@@ -8,6 +8,8 @@ local lcno=key.lcno
 local ono=key.ono
 
 ----nno
+vim.api.nvim_del_keymap('n','gcc')
+nno('gc',function () return require('vim._comment').operator()..'_' end,{expr=true})
 nno('g=',function () local s=vim.fn.winsaveview() vim.cmd'keepjumps norm! gg=G' vim.fn.winrestview(s) end)
 nno('gz','z')
 nno('gu','~')
@@ -129,6 +131,8 @@ xno('I',[[mode()=="\x16"?"I":"<esc>:au InsertLeave * ++once :'<+1,'>norm! _\".P\
 xno('y','ygv<esc>')
 xno('p','P')
 xno('P','p')
+vim.api.nvim_del_keymap('o','gc')
+xno('gc',function () return require('vim._comment').operator()..'gv' end,{expr=true})
 
 ----tno
 tno('<C-\\>','<C-\\><C-n>')

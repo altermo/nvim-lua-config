@@ -28,6 +28,7 @@ autocmd('FileType',function()
     bino('„a','vim.api.nvim_')
     bino('„ª','vim.api.nvim_')
     bino('M','M.')
+    vim.bo.commentstring='--%s'
 end,{pattern='lua'})
 autocmd('FileType',function ()
     bino('<tab>','<C-T>')

@@ -1,7 +1,7 @@
 vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
 require'small.small_loader'.run{
     'highlight_selected','matchall','typo','labull','specfile','color_cmdline',
-    'copyring', 'exchange','notify','builder','macro','onelinecomment','textobj',
+    'copyring', 'exchange','notify','builder','macro','textobj',
     'unimpaired','whint', 'help_cword',
     {'foldtext',conf={treesitter=true,skip_fn_luadoc=true}},
     {'treewarn',conf={lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))',

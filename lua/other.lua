@@ -9,8 +9,8 @@ function vim.pprint(...)
     if not s then args={...} end
     vim.schedule_wrap(vim.notify)(vim.inspect(#args>1 and args or unpack(args)))
 end
-vim.lg=require'utils.lib'.log
-vim.lgclear=require'utils.lib'.log_clear
+vim.lg=require'core.utils.lib'.log
+vim.lgclear=require'core.utils.lib'.log_clear
 
 vim.api.nvim_create_user_command('Capture',function (opts)
     vim.fn.writefile(vim.split(vim.api.nvim_exec2(opts.args,{output=true}).output,'\n'),'/tmp/nvim_out.capture')

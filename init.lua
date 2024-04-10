@@ -1,7 +1,7 @@
 vim.loader.enable()
-require'keymaps'
-require'autocmds'
-require'options'
-require'other'
-require'plugins'
+require'core.keymaps'
+require'core.autocmds'
+require'core.options'
+require'core.other'
+require'core.plugins'
 vim.cmd.colorscheme'catppuccin-frappe'

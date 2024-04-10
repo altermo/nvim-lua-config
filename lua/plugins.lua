@@ -3,11 +3,11 @@ if not vim.uv.fs_stat(lazypath) then
   vim.system{'git','clone','--filter=blob:none','https://github.com/folke/lazy.nvim.git','--branch=stable',lazypath}:wait()
 end
 vim.opt.rtp:prepend(lazypath)
-local function get_config(name) return function () require('config.'..name) end end
+local function get_config(name) return function () require('core.config.'..name) end end
 local ll='User s1'
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter',ll},keys='%'},
-  {'altermo/nxwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
+  {'altermo/nwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
   {'altermo/small.nvim',config=get_config'small',event=ll},
   {'altermo/iedit.nvim',keys={
     {'gi','<cmd>lua require"iedit".select()\r',mode={'n','x'}},
@@ -107,7 +107,9 @@ require'lazy'.setup({
     {'altermo/cmp-codeium',dependencies={'exafunction/codeium.vim',config=function ()
       vim.g.codeium_disable_bindings=true
       vim.g.codeium_manual=true
-    end}}}},
+      vim.cmd.doau'BufEnter'
+    end}}
+  }},
 },{
     lockfile='/dev/null',
     defaults={lazy=true},
