@@ -3,7 +3,7 @@ if not vim.uv.fs_stat(lazypath) then
   vim.system{'git','clone','--filter=blob:none','https://github.com/folke/lazy.nvim.git','--branch=stable',lazypath}:wait()
 end
 vim.opt.rtp:prepend(lazypath)
-local function get_config(name) return function () require('core.config.'..name) end end
+local function get_config(name) return function () require('config.'..name) end end
 local ll='User s1'
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter',ll},keys='%'},
@@ -59,14 +59,6 @@ require'lazy'.setup({
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event=ll,config=function () vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'windwp/nvim-ts-autotag',event={'InsertEnter'},config=function() vim.cmd.TSEnable'autotag' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
-  {'ziontee113/syntax-tree-surfer',opts={},keys={
-    {'vn','<cmd>STSSelectCurrentNode\r'},
-    {'vr','<cmd>STSSelectMasterNode\r'},
-    {'<C-j>','<cmd>STSSelectNextSiblingNode\r',mode='x'},
-    {'<C-k>','<cmd>STSSelectPrevSiblingNode\r',mode='x'},
-    {'<C-h>','<cmd>STSSelectParentNode\r',mode='x'},
-    {'<C-l>','<cmd>STSSelectChildNode\r',mode='x'}
-  },dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'ckolkey/ts-node-action',opts=function () return {lua=require'small.tree_lua_block_split_join'.nodes} end,
     keys={{'s',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
 

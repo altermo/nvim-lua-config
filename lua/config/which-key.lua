@@ -61,9 +61,9 @@ require'which-key'.register{[' ']=format{
   P={':Lazy\r','lazy'},
   z={'zMzv','fold-only'},
   ------window/buffer
-  q={':q\r','quit'},
-  Q={':q!\r','QUIT!'},
-  x={':qall\r','quitall'},
+  q={'<cmd>q\r','quit'},
+  Q={'<cmd>q!\r','QUIT!'},
+  x={'<cmd>qall\r','quitall'},
   v={function () vim.cmd.vsplit() require'which-key'.show(' ',{mode='n'}) end,'vsplit+which'},
   e={function () vim.cmd.split() require'which-key'.show(' ',{mode='n'}) end,'split+which'},
   D={function ()
@@ -183,13 +183,13 @@ require'which-key'.register{[' ']=format{
 
   ---debug
   d={name='+debug',
-    s={':lua require"small.qrun".run()\r','start'},
-    b={':lua require"dap".toggle_breakpoint()\r','toggle breakpoint'},
-    S={':lua require"small.dapnvim".start()\r','start-dap'},
-    r={':lua require"dap.repl".toggle()\r','repl'},
-    c={':lua require"dap".continue()\r','continue'},
-    n={':lua require"dap".step_over()\r','next'},
-    i={':lua require"dap".step_into()\r','into'},
+    --s={':lua require"small.qrun".run()\r','start'},
+    --b={':lua require"dap".toggle_breakpoint()\r','toggle breakpoint'},
+    --S={':lua require"small.dapnvim".start()\r','start-dap'},
+    --r={':lua require"dap.repl".toggle()\r','repl'},
+    --c={':lua require"dap".continue()\r','continue'},
+    --n={':lua require"dap".step_over()\r','next'},
+    --i={':lua require"dap".step_into()\r','into'},
   },
 
   ---grapple

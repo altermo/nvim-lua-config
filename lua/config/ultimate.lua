@@ -21,7 +21,7 @@ local configs={upair.extend_default{
     --utf8=false,
     cond={cond={function(fn) return not fn.in_macro() end}}
   },
-  {'<<','>>',newline=true,dosuround=true}, --For testing
+  --{'<<','>>',newline=true,dosuround=true}, --For testing
   {'*','*',multiline=false,ft={'markdown'}},
   {'**','**',multiline=false,ft={'markdown'}},
   {'$','$',multiline=false,ft={'markdown'}},

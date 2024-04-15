@@ -1,8 +1,9 @@
 vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
 require'small.small_loader'.run{
-    'highlight_selected','matchall','typo','labull','specfile','color_cmdline',
-    'copyring', 'exchange','notify','builder','macro','textobj',
-    'unimpaired','whint', 'help_cword',
+    'highlight_selected','matchall','typo','labull','specfile','color_cmdline','copyring',
+    'exchange','notify','builder','macro','textobj','unimpaired','whint','help_cword',
+    'tree_lua_block_split_join','bufend','chat','dff','nterm', 'tableformat','colors',
+    'plugin_search','format','layout','winpick','treeselect',
     {'foldtext',conf={treesitter=true,skip_fn_luadoc=true}},
     {'treewarn',conf={lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))',
         '((for_generic_clause (expression_list ((identifier) @warn (#set! "mes" "`foo` => `pairs(foo)`")))))'}}},
@@ -16,5 +17,5 @@ require'small.small_loader'.run{
         fn.map('n',"<C-'>",function () m.goto_next_cursor() end)
     end},
     {'fastmultif',conf={labels='1234567890äḧẅëẗÿüïöẍÄḦẄËẗŸÜÏÖẌâŝĝĥĵŵêŷûîôẑĉÂŜĜĤĴŴÊŶÛÎÔẐĈ'}},
-    {'kitty',conf={padding=20,no_sync_bg=true}},
+    {'kitty',conf={padding=20,no_sync_bg=true,original_padding=3}},
 }
