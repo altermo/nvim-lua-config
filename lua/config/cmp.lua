@@ -3,7 +3,6 @@ local data={
     {name='cmdline',menu='CL',types={':'}},
     {name='buffer',menu='BUF',types={'','/'}},
     {name='nvim_lsp',menu='LSP'},
-    {name='codeium',menu='CI'},
 }
 local function gen(type,tbl)
     return vim.iter(tbl):map(function (item)
@@ -21,7 +20,7 @@ cmp.setup{
     sources=cmp.config.sources(gen('',data)),
     mapping={
         ['<CR>']=cmp.mapping(function(fallback)
-            if cmp.get_active_entry() and vim.tbl_contains({'nvim_lsp','codeium'},cmp.get_selected_entry().source.name) then
+            if cmp.get_active_entry() and cmp.get_selected_entry().source.name=='nvim_lsp' then
                 cmp.confirm()
             else
                 fallback()

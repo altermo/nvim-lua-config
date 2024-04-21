@@ -17,7 +17,6 @@ for lsp,opt in pairs({
     tsserver={'typescript-language-server'},
     vimls={'vim-language-server'},
     jsonls={'vscode-json-language-server'},
-    --nixd={'nixd'},
 }) do
     if vim.fn.executable(opt[1])==0 then vim.notify(opt[1]..' LSP executable not found')
     else require'lspconfig'[lsp].setup(opt) end

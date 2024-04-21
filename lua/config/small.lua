@@ -1,21 +1,12 @@
 vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
 require'small.small_loader'.run{
-    'highlight_selected','matchall','typo','labull','specfile','color_cmdline','copyring',
-    'exchange','notify','builder','macro','textobj','unimpaired','whint','help_cword',
-    'tree_lua_block_split_join','bufend','chat','dff','nterm', 'tableformat','colors',
-    'plugin_search','format','layout','winpick','treeselect',
+    'bufend','winpick','matchall','tableformat','specfile','color_cmdline','whint','exchange',
+    'labull','dff','notify','builder','colors','textobj','unimpaired','copyring','help_cword',
+    'highlight_selected','nterm','treeselect','macro','plugin_search','format','layout','typo',
     {'foldtext',conf={treesitter=true,skip_fn_luadoc=true}},
-    {'treewarn',conf={lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))',
-        '((for_generic_clause (expression_list ((identifier) @warn (#set! "mes" "`foo` => `pairs(foo)`")))))'}}},
+    {'treewarn',conf={lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))'}}},
     {'reminder',conf={path='/home/user/.gtd/vault/gtd/plans.md'}},
-    {'recenter_top_bottom',keys=function (m,fn)
-        fn.map('n','<C-z>',m.run)
-    end},
-    {'cursor',keys=function (m,fn)
-        fn.map('n','m',function () m.create_cursor() end)
-        fn.map('n',"'",function () m.goto_next_cursor(true) end)
-        fn.map('n',"<C-'>",function () m.goto_next_cursor() end)
-    end},
+    {'recenter_top_bottom',keys=function (m,fn) fn.map('n','<C-z>',m.run) end},
     {'fastmultif',conf={labels='1234567890äḧẅëẗÿüïöẍÄḦẄËẗŸÜÏÖẌâŝĝĥĵŵêŷûîôẑĉÂŜĜĤĴŴÊŶÛÎÔẐĈ'}},
-    {'kitty',conf={padding=20,no_sync_bg=true,original_padding=3}},
+    {'kitty',conf={padding=20,no_sync_bg=true,strict=true}},
 }

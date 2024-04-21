@@ -53,7 +53,6 @@ require'which-key'.register{[' ']=format{
   ----main
   b={require'small.bufend'.run,'bufend'},
   L={':Luapad\r','luapad'},
-  C={require'small.chat'.run,'chat'},
   r={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end,'dff'},
   ["'"]={':lua require"small.nterm".run("fish",true)\r','shell'},
   --i={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') vim.cmd.edit'.' end,'edir'},
@@ -87,13 +86,11 @@ require'which-key'.register{[' ']=format{
   ---cmd/app
   c={name='+cmd/app',
     t={':InspectTree\r','TSPlayground'},
-    u={':lua require("undotree").toggle()\r','undotree'},
     n={':lua require"small.notify".dismiss()\r','dismiss notify'},
     N={':lua require"small.notify".open_history()\r','open notify history'},
-    e={':silent !emacsclient %&\r','send-emacs'},
     m={':MarkdownPreview\r','markdown-preview'},
     l={':edit /tmp/nlog\r','open-log'},
-    g={':lua require"mini.diff".enable()\r:lua require"mini.diff".toggle_overlay()\r','git-diff'},
+    --g={'','git-diff'},
     a={require'small.tableformat'.run,'format table'},
     r={require'small.reminder'.sidebar,'reminder sidebar'},
     c={':call codeium#Chat()\r','codeium chat'},

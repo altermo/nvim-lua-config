@@ -7,7 +7,7 @@ local function get_config(name) return function () require('config.'..name) end 
 local ll='User s1'
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter',ll},keys='%'},
-  {'altermo/nwm',opts={verbose=true,maps={{{mods={},key='F2'},function () vim.system{'scrot'} end}}}},
+  {'altermo/nwm',opts={verbose=true}},
   {'altermo/small.nvim',config=get_config'small',event=ll},
   {'altermo/iedit.nvim',keys={
     {'gi','<cmd>lua require"iedit".select()\r',mode={'n','x'}},
@@ -21,7 +21,6 @@ require'lazy'.setup({
   {'folke/which-key.nvim',config=get_config'which-key',keys={'<space>','<C-w>'},dependencies={'altermo/small.nvim'}},
   {'smjonas/inc-rename.nvim',opts={},event={'CmdlineEnter'}},
   {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
-  {'echasnovski/mini.diff',opts={view={style='number'},mappings={apply='',reset='',textobject='',goto_first='',goto_prev='',goto_next='',goto_last=''}}},
 
   ----keys
   {'monaqa/dial.nvim',keys={
@@ -59,11 +58,9 @@ require'lazy'.setup({
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event=ll,config=function () vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'windwp/nvim-ts-autotag',event={'InsertEnter'},config=function() vim.cmd.TSEnable'autotag' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
-  {'ckolkey/ts-node-action',opts=function () return {lua=require'small.tree_lua_block_split_join'.nodes} end,
-    keys={{'s',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter','altermo/small.nvim'}},
+  {'ckolkey/ts-node-action',keys={{'s',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter'}},
 
   ----other
-  {'jiaoshijie/undotree',opts={},dependencies={'nvim-lua/plenary.nvim'}},
   {'stevearc/oil.nvim',cmd='Oil',config=function ()
     require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true,keymaps={['<C-h>']=false,['<C-l>']=false}}
     vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
@@ -82,26 +79,21 @@ require'lazy'.setup({
   end,event=ll},
   {'raghur/vim-ghost',build=':GhostInstall',cmd='GhostStart',config=function()
     vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim') end},
-  {'mfussenegger/nvim-dap',config=function ()
-    local dap=require'dap'
-    dap.configurations.lua={{type='nlua',request='attach'}}
-    dap.adapters.nlua=function(callback)
-      callback({type='server',port=8086})
-    end
-  end,dependencies={'jbyuki/one-small-step-for-vimkind'}},
+  {'jbyuki/one-small-step-for-vimkind'},
   {'cbochs/grapple.nvim',opts={icons=false},cmd='Grapple'},
 
-  ----auto complete (cmp)
+  ----auto complete
   {'hrsh7th/nvim-cmp',config=get_config'cmp',event={'InsertEnter','CmdlineEnter'},dependencies={
     'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-nvim-lsp',
-    {'altermo/cmp-codeium',dependencies={'exafunction/codeium.vim',config=function ()
-      vim.g.codeium_disable_bindings=true
-      vim.g.codeium_manual=true
-      vim.cmd.doau'BufEnter'
-    end}}
   }},
+  {'exafunction/codeium.vim',config=function ()
+    vim.g.codeium_disable_bindings=true
+    vim.cmd.doau'BufEnter'
+    vim.keymap.set('i','<C-CR>',vim.fn['codeium#Accept'],{expr=true,silent=true})
+    vim.keymap.set('i','<A-CR>',vim.fn['codeium#Accept'],{expr=true,silent=true})
+  end,event={'InsertEnter'}},
 },{
     lockfile='/dev/null',
     defaults={lazy=true},

@@ -4,6 +4,7 @@ vim.o.shiftwidth=0
 vim.o.smartindent=true
 vim.o.cindent=true
 vim.o.expandtab=true
+vim.o.indentexpr='v.lua:require"nvim-treesitter".indentexpr()'
 ---warp
 vim.o.linebreak=true
 vim.o.showbreak='↳ '
