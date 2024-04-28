@@ -55,10 +55,8 @@ require'which-key'.register{[' ']=format{
   L={':Luapad\r','luapad'},
   r={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end,'dff'},
   ["'"]={':lua require"small.nterm".run("fish",true)\r','shell'},
-  --i={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') vim.cmd.edit'.' end,'edir'},
   i={function () require'oil'.open() end,'edir'},
   P={':Lazy\r','lazy'},
-  z={'zMzv','fold-only'},
   ------window/buffer
   q={'<cmd>q\r','quit'},
   Q={'<cmd>q!\r','QUIT!'},
@@ -94,6 +92,8 @@ require'which-key'.register{[' ']=format{
     a={require'small.tableformat'.run,'format table'},
     r={require'small.reminder'.sidebar,'reminder sidebar'},
     c={':call codeium#Chat()\r','codeium chat'},
+    W={require'small.layout'.save,'layout-write'},
+    L={require'small.layout'.load,'layout-load'},
   },
 
   ---tabs
@@ -127,12 +127,6 @@ require'which-key'.register{[' ']=format{
       })
       vim.cmd.startinsert()
     end,'sudosave'},
-    r={function () --TODO
-      require'oil'.open()
-      vim.defer_fn(function ()
-        vim.api.nvim_feedkeys('f.i','n',false)
-      end,100)
-    end,'rename',silent=false},
     c={':!wl-copy "%:p"\r','copy-path',silent=false},
     f={':Telescope find_files\r','find'},
     t={name='+set-type',
@@ -150,6 +144,7 @@ require'which-key'.register{[' ']=format{
     p={':Telescope find_files cwd=/home/user/.local/share/nvim/lazy/ find_command=ls\r','plugins'},
     r={':Telescope find_files cwd=/usr/local/share/nvim/runtime\r','root-runtime'},
     _=cmap({f='find_files',o='oldfiles',s='live_grep',h='help_tags',m='marks',b='buffers',[' ']='resume'},':Telescope %s\r','%s'),
+    g={':Telescope grapple tags\r','grapple'},
   },
 
   ----toggle/theme
@@ -180,13 +175,11 @@ require'which-key'.register{[' ']=format{
 
   ---debug
   d={name='+debug',
-    --s={':lua require"small.qrun".run()\r','start'},
-    --b={':lua require"dap".toggle_breakpoint()\r','toggle breakpoint'},
-    --S={':lua require"small.dapnvim".start()\r','start-dap'},
-    --r={':lua require"dap.repl".toggle()\r','repl'},
-    --c={':lua require"dap".continue()\r','continue'},
-    --n={':lua require"dap".step_over()\r','next'},
-    --i={':lua require"dap".step_into()\r','into'},
+    b={':lua require"dap".toggle_breakpoint()\r','toggle breakpoint'},
+    R={':lua require"dap.repl".toggle()\r','repl'},
+    c={':lua require"dap".continue()\r','continue'},
+    n={':lua require"dap".step_over()\r','next'},
+    i={':lua require"dap".step_into()\r','into'},
   },
 
   ---grapple
@@ -197,30 +190,7 @@ require'which-key'.register{[' ']=format{
     h={':Grapple toggle_tags\r','menu'},
   },
 
-  ---project
-  p={name='+project',
-    p={':source /tmp/session.vim\r','reload-last-session',silent=false},
-    [' ']={':exe "edit" v:oldfiles[0]\r','reload-last-file'},
-    w={':wshada\r','write shada'},
-    r={':rshada!\r','read shada!'},
-    s={require'small.layout'.save,'layout-save'},
-    l={require'small.layout'.load,'layout-load'},
-  },
 },['<C-w>']=format{
     _=vim.tbl_extend('error',fmap(':%swincmd w\r','window %s'),
       cmap({['<C-h>']='left',['<C-j>']='down',['<C-k>']='up',['<C-l>']='right'},':WinShift %s\r','move %s')
-    ),
-    S={function()
-      local win=require'small.winpick'.pick()
-      if not win then return end
-      local curbuf=vim.api.nvim_win_get_buf(0)
-      local twin=vim.api.nvim_open_win(curbuf,false,{hide=true,width=1,height=1,relative='cursor',col=1,row=1})
-      vim.api.nvim_win_set_buf(0,vim.api.nvim_win_get_buf(win))
-      vim.api.nvim_win_set_buf(win,curbuf)
-      vim.api.nvim_win_close(twin,true)
-    end,'swap'},
-    [' ']={function()
-      local win=require'small.winpick'.pick()
-      if win then vim.api.nvim_set_current_win(win) end
-    end,'hop'},
-  }}
+    )}}

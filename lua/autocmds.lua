@@ -1,5 +1,5 @@
 local function autocmd(au,callback,opt) return vim.api.nvim_create_autocmd(au,vim.tbl_extend('error',{callback=callback},opt or {})) end
-autocmd('BufWinEnter',function () if vim.o.filetype=='' then vim.o.filetype='none' end end)
+autocmd('BufWinEnter',function (ev) if vim.bo[ev.buf].filetype=='' then vim.bo[ev.buf].filetype='none' end end)
 autocmd('CmdlineEnter',function () vim.o.hlsearch=true end,{pattern='/,\\?'})
 autocmd('TermOpen',function(ev) vim.bo[ev.buf].filetype='term' end)
 autocmd('FileType',function()
@@ -9,8 +9,7 @@ autocmd('BufRead',function() vim.cmd[[noautocmd norm! g`"]] end)
 autocmd('VimLeave',function() vim.cmd.mksession{'/tmp/session.vim',bang=true} end)
 autocmd('BufWinEnter',function(ev)
     if vim.o.buftype~='' then return end
-    local dir=vim.fs.dirname(vim.fs.find({'.git'},{upward=true,path=vim.fs.dirname(ev.file)})[1])
-    pcall(vim.cmd.lcd,dir or vim.fs.dirname(ev.file))
+    pcall(vim.cmd.lcd,vim.fs.root(ev.file,'.git') or vim.fs.dirname(ev.file))
 end,{group=vim.api.nvim_create_augroup('CD',{})})
 autocmd({'InsertLeave','TextChanged'},function (ev)
     if ev.file=='' or not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end

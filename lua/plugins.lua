@@ -47,7 +47,7 @@ require'lazy'.setup({
 
   ----search (telescope)
   {'nvim-telescope/telescope.nvim',config=function ()
-    require'telescope'.setup{}
+    require'telescope'.setup{defaults={preview={ls_short=true}}}
     require'telescope'.load_extension('nucleo')
   end,cmd='Telescope',dependencies={'nvim-lua/plenary.nvim',{'altermo/telescope-nucleo-sorter.nvim',build='cargo build --release'}}},
 
@@ -79,7 +79,13 @@ require'lazy'.setup({
   end,event=ll},
   {'raghur/vim-ghost',build=':GhostInstall',cmd='GhostStart',config=function()
     vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim') end},
-  {'jbyuki/one-small-step-for-vimkind'},
+  {'mfussenegger/nvim-dap',config=function ()
+    local dap=require'dap'
+    dap.configurations.lua={{type='nlua',request='attach'}}
+    dap.adapters.nlua=function(callback)
+      callback({type='server',port=8086})
+    end
+  end,dependencies={'jbyuki/one-small-step-for-vimkind'}},
   {'cbochs/grapple.nvim',opts={icons=false},cmd='Grapple'},
 
   ----auto complete
