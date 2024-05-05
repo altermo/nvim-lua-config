@@ -2,7 +2,7 @@ vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['rep
 vim.fn.timer_start(200,function() vim.cmd"doautocmd User s1" end)
 
 local open=vim.ui.open
-rawset(vim.ui,'open',function (path) open(path:gsub('^([a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+)$','https://github.com/%1')) end)
+rawset(vim.ui,'open',function(path) return open((path:gsub('^([a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+)$','https://github.com/%1'))) end)
 
 function vim.pprint(...)
     local s,args=pcall(vim.deepcopy,{...})

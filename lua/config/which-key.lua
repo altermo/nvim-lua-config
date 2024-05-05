@@ -52,7 +52,6 @@ require'which-key'.register{[' ']=format{
 
   ----main
   b={require'small.bufend'.run,'bufend'},
-  L={':Luapad\r','luapad'},
   r={function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end,'dff'},
   ["'"]={':lua require"small.nterm".run("fish",true)\r','shell'},
   i={function () require'oil'.open() end,'edir'},
@@ -169,8 +168,8 @@ require'which-key'.register{[' ']=format{
     r={':Telescope lsp_references\r','search-references'},
     t={':lua vim.lsp.buf.type_definition()\r','type'},
     c={':lua vim.lsp.buf.code_action()\r','code-action'},
-    n={':lua vim.diagnostic.goto_next()\r','diagnostic-next'},
-    p={':lua vim.diagnostic.goto_prev()\r','diagnostic-prev'},
+    n={':lua vim.diagnostic.goto_next({_highest=true})\r','diagnostic-next'},
+    p={':lua vim.diagnostic.goto_prev({_highest=true})\r','diagnostic-prev'},
   },
 
   ---debug
@@ -180,6 +179,8 @@ require'which-key'.register{[' ']=format{
     c={':lua require"dap".continue()\r','continue'},
     n={':lua require"dap".step_over()\r','next'},
     i={':lua require"dap".step_into()\r','into'},
+    r={"<cmd>lua require'small.qvim2'.open_run_buf()\r",'open-run-buf'},
+    s={"<cmd>lua require'small.qvim2'.run()\r",'start'},
   },
 
   ---grapple

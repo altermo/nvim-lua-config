@@ -69,10 +69,6 @@ require'lazy'.setup({
   end,event=ll,init=function (plug) if vim.fn.isdirectory(vim.fn.expand('%'))==1 then require'lazy'.load{plugins=plug.name} end end},
   {'neovim/nvim-lspconfig',config=get_config'lsp',event=ll,dependencies={
     {'ray-x/lsp_signature.nvim',opts={hint_prefix='',floating_window=false}}}},
-  {'rafcamlet/nvim-luapad',cmd='Luapad',config=function () require'luapad'.setup{preview=false,on_init=function ()
-    vim.api.nvim_buf_set_lines(vim.api.nvim_get_current_buf(),0,-1,false,{'---@diagnostic disable: undefined-global,unused-local,lowercase-global',''})
-    vim.cmd.norm{'G',bang=true}
-  end} setfenv(require'luapad.evaluator'.tcall,setmetatable({print=function()end},{__index=_G})) end},
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
     vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'

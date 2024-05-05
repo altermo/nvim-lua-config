@@ -5,7 +5,7 @@ autocmd('TermOpen',function(ev) vim.bo[ev.buf].filetype='term' end)
 autocmd('FileType',function()
     vim.wo.foldexpr=vim.tbl_contains({'python','lua','fish'},vim.o.filetype)
     and 'getline(v:lnum)==""?0:1' or 'v:lua.vim.treesitter.foldexpr()' end)
-autocmd('BufRead',function() vim.cmd[[noautocmd norm! g`"]] end)
+autocmd('BufRead',function() pcall(vim.cmd --[[@as function]],[[noautocmd norm! g`"]]) end)
 autocmd('VimLeave',function() vim.cmd.mksession{'/tmp/session.vim',bang=true} end)
 autocmd('BufWinEnter',function(ev)
     if vim.o.buftype~='' then return end

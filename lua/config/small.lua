@@ -2,7 +2,7 @@ vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For t
 require'small.small_loader'.run{
     'bufend','treeselect','tableformat','unimpaired','color_cmdline','format','help_cword',
     'labull','dff','notify','builder','colors','matchall','specfile','copyring','exchange',
-    'highlight_selected','nterm','textobj','macro','plugin_search','whint','layout','typo',
+    'highlight_selected','nterm','textobj','macro','plugin_search','whint','layout','typo','qvim2',
     {'foldtext',conf={treesitter=true,skip_fn_luadoc=true}},
     {'treewarn',conf={lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))'}}},
     {'reminder',conf={path='/home/user/.gtd/vault/gtd/plans.md'}},
