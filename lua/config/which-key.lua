@@ -27,11 +27,11 @@ local function format(tbl)
   return tbl
 end
 local function tabbufmove(num)
-    local buf=vim.fn.bufnr()
-    local win=vim.api.nvim_get_current_win()
-    vim.cmd.tabnext(num)
-    vim.cmd.sbuf{buf,mods={vertical=true}}
-    vim.api.nvim_win_close(win,true)
+  local buf=vim.fn.bufnr()
+  local win=vim.api.nvim_get_current_win()
+  vim.cmd.tabnext(num)
+  vim.cmd.sbuf{buf,mods={vertical=true}}
+  vim.api.nvim_win_close(win,true)
 end
 _G.Tabbufmove__=tabbufmove
 require'which-key'.setup{
@@ -60,8 +60,8 @@ require'which-key'.register{[' ']=format{
   q={'<cmd>q\r','quit'},
   Q={'<cmd>q!\r','QUIT!'},
   x={'<cmd>qall\r','quitall'},
-  v={function () vim.cmd.vsplit() require'which-key'.show(' ',{mode='n'}) end,'vsplit+which'},
-  e={function () vim.cmd.split() require'which-key'.show(' ',{mode='n'}) end,'split+which'},
+  v={function () vim.cmd.vsplit() end,'vsplit'},
+  e={function () vim.cmd.split() end,'split'},
   D={function ()
     local buf=vim.api.nvim_get_current_buf()
     local sbuf=vim.api.nvim_create_buf(false,true)
@@ -190,7 +190,6 @@ require'which-key'.register{[' ']=format{
     p={':Grapple cycle backward\r','prev'},
     h={':Grapple toggle_tags\r','menu'},
   },
-
 },['<C-w>']=format{
     _=vim.tbl_extend('error',fmap(':%swincmd w\r','window %s'),
       cmap({['<C-h>']='left',['<C-j>']='down',['<C-k>']='up',['<C-l>']='right'},':WinShift %s\r','move %s')

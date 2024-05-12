@@ -4,20 +4,19 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 local function get_config(name) return function () require('config.'..name) end end
-local ll='User s1'
 require'lazy'.setup({
-  {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter',ll},keys='%'},
+  {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','VeryLazy'},keys='%'},
   {'altermo/nwm',opts={verbose=true}},
-  {'altermo/small.nvim',config=get_config'small',event=ll},
+  {'altermo/small.nvim',config=get_config'small',event='VeryLazy'},
   {'altermo/iedit.nvim',keys={
     {'gi','<cmd>lua require"iedit".select()\r',mode={'n','x'}},
     {'gC','<cmd>lua require"iedit".stop()\r'},
   }},
 
   ----visual
-  {'catppuccin/nvim',name='catppuccin',event=ll},
+  {'catppuccin/nvim',name='catppuccin',lazy=false,config=function () vim.cmd.colorscheme'catppuccin-frappe' end},
   {'nvim-lualine/lualine.nvim',opts={sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},
-    lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}}},event=ll},
+    lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}}},event='VeryLazy'},
   {'folke/which-key.nvim',config=get_config'which-key',keys={'<space>','<C-w>'},dependencies={'altermo/small.nvim'}},
   {'smjonas/inc-rename.nvim',opts={},event={'CmdlineEnter'}},
   {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
@@ -54,8 +53,8 @@ require'lazy'.setup({
   ----treesitter
   {'nvim-treesitter/nvim-treesitter',config=function ()
     require'nvim-treesitter.configs'.setup{highlight={enable=true},indent={enable=true}}
-  end,build={':TSInstall all',':TSUpdate'},event=ll},
-  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event=ll,config=function () vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+  end,build={':TSInstall all',':TSUpdate'},event='VeryLazy'},
+  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='VeryLazy',config=function () vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'windwp/nvim-ts-autotag',event={'InsertEnter'},config=function() vim.cmd.TSEnable'autotag' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'ckolkey/ts-node-action',keys={{'s',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter'}},
@@ -65,14 +64,13 @@ require'lazy'.setup({
     require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true,keymaps={['<C-h>']=false,['<C-l>']=false}}
     vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
       vim.cmd.lcd(require'oil'.get_current_dir())
-    end})
-  end,event=ll,init=function (plug) if vim.fn.isdirectory(vim.fn.expand('%'))==1 then require'lazy'.load{plugins=plug.name} end end},
-  {'neovim/nvim-lspconfig',config=get_config'lsp',event=ll,dependencies={
+    end}) end,event='VeryLazy'},
+  {'neovim/nvim-lspconfig',config=get_config'lsp',event='VeryLazy',dependencies={
     {'ray-x/lsp_signature.nvim',opts={hint_prefix='',floating_window=false}}}},
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
     vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'
-  end,event=ll},
+  end,event='VeryLazy'},
   {'raghur/vim-ghost',build=':GhostInstall',cmd='GhostStart',config=function()
     vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim') end},
   {'mfussenegger/nvim-dap',config=function ()
@@ -99,6 +97,8 @@ require'lazy'.setup({
 },{
     lockfile='/dev/null',
     defaults={lazy=true},
+    install={colorscheme={'catppuccin-frappe'}},
+    diff={cmd='terminal_git'},
     performance={rtp={disabled_plugins={
       'matchparen',
       'matchit',

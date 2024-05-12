@@ -15,7 +15,7 @@ cmp.setup{
     formatting={format=format},
     snippet={expand=function (args)
         vim.snippet.expand(args.body:gsub('${(%d):(.-)}','$%1'))
-        vim.snippet.exit()
+        vim.snippet.stop()
     end},
     sources=cmp.config.sources(gen('',data)),
     mapping={

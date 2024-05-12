@@ -1,5 +1,4 @@
 vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
-vim.fn.timer_start(200,function() vim.cmd"doautocmd User s1" end)
 
 local open=vim.ui.open
 rawset(vim.ui,'open',function(path) return open((path:gsub('^([a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+)$','https://github.com/%1'))) end)
