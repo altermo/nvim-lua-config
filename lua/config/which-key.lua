@@ -88,7 +88,6 @@ require'which-key'.register{[' ']=format{
     m={':MarkdownPreview\r','markdown-preview'},
     l={':edit /tmp/nlog\r','open-log'},
     --g={'','git-diff'},
-    a={require'small.tableformat'.run,'format table'},
     r={require'small.reminder'.sidebar,'reminder sidebar'},
     c={':call codeium#Chat()\r','codeium chat'},
     W={require'small.layout'.save,'layout-write'},

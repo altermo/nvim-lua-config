@@ -18,7 +18,7 @@ require'lazy'.setup({
   {'nvim-lualine/lualine.nvim',opts={sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},
     lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}}},event='VeryLazy'},
   {'folke/which-key.nvim',config=get_config'which-key',keys={'<space>','<C-w>'},dependencies={'altermo/small.nvim'}},
-  {'smjonas/inc-rename.nvim',opts={},event={'CmdlineEnter'}},
+  {'smjonas/inc-rename.nvim',opts={save_in_cmdline_history=false},event={'CmdlineEnter'}},
   {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
 
   ----keys
@@ -66,7 +66,7 @@ require'lazy'.setup({
       vim.cmd.lcd(require'oil'.get_current_dir())
     end}) end,event='VeryLazy'},
   {'neovim/nvim-lspconfig',config=get_config'lsp',event='VeryLazy',dependencies={
-    {'ray-x/lsp_signature.nvim',opts={hint_prefix='',floating_window=false}}}},
+    --[[{'ray-x/lsp_signature.nvim',opts={hint_prefix='',floating_window=false}}]]}},
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
     vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'
