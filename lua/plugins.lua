@@ -55,7 +55,7 @@ require'lazy'.setup({
     require'nvim-treesitter.configs'.setup{highlight={enable=true},indent={enable=true}}
   end,build={':TSInstall all',':TSUpdate'},event='VeryLazy'},
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='VeryLazy',config=function () vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
-  {'windwp/nvim-ts-autotag',event={'InsertEnter'},config=function() vim.cmd.TSEnable'autotag' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+  {'windwp/nvim-ts-autotag',ft='html',opts={},dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'ckolkey/ts-node-action',keys={{'s',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter'}},
 
@@ -88,17 +88,17 @@ require'lazy'.setup({
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-nvim-lsp',
   }},
-  {'exafunction/codeium.vim',config=function ()
-    vim.g.codeium_disable_bindings=true
-    vim.cmd.doau'BufEnter'
-    vim.keymap.set('i','<C-CR>',vim.fn['codeium#Accept'],{expr=true,silent=true})
-    vim.keymap.set('i','<A-CR>',vim.fn['codeium#Accept'],{expr=true,silent=true})
-  end,event={'InsertEnter'}},
+  {'supermaven-inc/supermaven-nvim',opts={
+    keymaps={
+      accept_suggestion='<A-cr>',
+      clear_suggestion='<nul>',
+      accept_word='<C-cr>',
+    },
+  },event={'InsertEnter'}}
 },{
     lockfile='/dev/null',
     defaults={lazy=true},
     install={colorscheme={'catppuccin-frappe'}},
-    diff={cmd='terminal_git'},
     performance={rtp={disabled_plugins={
       'matchparen',
       'matchit',

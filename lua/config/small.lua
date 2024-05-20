@@ -7,6 +7,6 @@ require'small.small_loader'.run{
     {'treewarn',conf={lua={'((binary_expression (unary_expression "not") "==") @warn (#set! "mes" "`not a==b` => `a~=b`"))'}}},
     {'reminder',conf={path='/home/user/.gtd/vault/gtd/plans.md'}},
     {'recenter_top_bottom',keys=function (m,fn) fn.map('n','<C-z>',m.run) end},
-    {'fastmultif',conf={labels='1234567890äḧẅëẗÿüïöẍÄḦẄËẗŸÜÏÖẌâŝĝĥĵŵêŷûîôẑĉÂŜĜĤĴŴÊŶÛÎÔẐĈ'}},
+    {'fastmultif',conf={labels='1234567890äḧẅëẗÿüïöẍÄḦẄËŸÜÏÖẌâŝĝĥĵŵêŷûîôẑĉÂŜĜĤĴŴÊŶÛÎÔẐĈ'}},
     {'kitty',conf={padding=20,no_sync_bg=true,strict=true}},
 }
