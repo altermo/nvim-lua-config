@@ -65,8 +65,7 @@ require'lazy'.setup({
     vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
       vim.cmd.lcd(require'oil'.get_current_dir())
     end}) end,event='VeryLazy'},
-  {'neovim/nvim-lspconfig',config=get_config'lsp',event='VeryLazy',dependencies={
-    --[[{'ray-x/lsp_signature.nvim',opts={hint_prefix='',floating_window=false}}]]}},
+  {'neovim/nvim-lspconfig',config=get_config'lsp',event='VeryLazy'},
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
     vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'
@@ -83,7 +82,7 @@ require'lazy'.setup({
   {'cbochs/grapple.nvim',opts={icons=false},cmd='Grapple'},
 
   ----auto complete
-  {'hrsh7th/nvim-cmp',config=get_config'cmp',event={'InsertEnter','CmdlineEnter'},dependencies={
+  {'hrsh7th/nvim-cmp',config=get_config'cmp_',event={'InsertEnter','CmdlineEnter'},dependencies={
     'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-nvim-lsp',

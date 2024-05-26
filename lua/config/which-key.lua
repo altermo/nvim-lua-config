@@ -74,11 +74,6 @@ require'which-key'.register{[' ']=format{
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
   w={'<cmd>WhichKey <C-w>\r','window'},
   y={name='+spell',_=cmap({e='en',s='sv'},':set spelllang=%s\r','lang=%s',{silent=false})},
-  F={name='+foldmethod',
-    d={':set foldmethod=diff\r','diff'},
-    t={':set foldmethod=expr\r:set foldexpr=v:lua.vim.treesitter.foldexpr()\r','treesitter'},
-    f={':set foldmethod=expr\r:set foldexpr=v:lua.Fold(v:lnum)\r','default'},
-  },
 
   ---cmd/app
   c={name='+cmd/app',
@@ -88,8 +83,6 @@ require'which-key'.register{[' ']=format{
     m={':MarkdownPreview\r','markdown-preview'},
     l={':edit /tmp/nlog\r','open-log'},
     r={require'small.reminder'.sidebar,'reminder sidebar'},
-    W={require'small.layout'.save,'layout-write'},
-    L={require'small.layout'.load,'layout-load'},
   },
 
   ---tabs
@@ -125,10 +118,6 @@ require'which-key'.register{[' ']=format{
     end,'sudosave'},
     c={':!wl-copy "%:p"\r','copy-path',silent=false},
     f={':Telescope find_files\r','find'},
-    t={name='+set-type',
-      o={':setf ','other',silent=false},
-      _=cmap({p='python',t='txt',v='vim',f='fish',r='rust',l='lua',m='markdown',c='c',h='html'},':set filetype=%s\r','%s')
-    },
   },
 
   ----search
@@ -152,13 +141,12 @@ require'which-key'.register{[' ']=format{
       vim.o.guicursor='a:Cursor/lCursor,a:ver1'
     end,'hide-cursor'},
     c={':set guicursor&\r','reset-cursor'},
-    m={':lua require"small.matchall".toggle()\r','toggle matchall'},
   },
 
   ----lsp
   l={name='+lsp',
     f={':lua require"small.format".run()\r','format'},
-    I={':lua vim.lsp.inlay_hint.enable(0,not vim.lsp.inlay_hint.is_enabled())\r','toggle-inlay-hint'},
+    I={':lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())\r','toggle-inlay-hint'},
     i={':LspInfo\r','info'},
     s={':LspStop\r','stop'},
     S={':LspStart\r','start'},

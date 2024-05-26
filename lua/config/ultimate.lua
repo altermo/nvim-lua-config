@@ -31,3 +31,4 @@ local configs={upair.extend_default{
 }
 require'ultimate-autopair.core'.modes={'i','c','n','t'}
 upair.init(configs)
+

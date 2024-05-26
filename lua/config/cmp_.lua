@@ -19,10 +19,9 @@ cmp.setup{
     sources=cmp.config.sources(gen('',data)),
     mapping={
         ['<CR>']=cmp.mapping(function(fallback)
-            if cmp.get_active_entry() and require('cmp.types').lsp.CompletionItemKind.Snippet==cmp.get_active_entry():get_kind() then
+            if cmp.get_active_entry() and vim.tbl_contains({'Snippet','Event'},require('cmp.types').lsp.CompletionItemKind[cmp.get_active_entry():get_kind()]) then
                 cmp.confirm()
             else
-                --cmp.confirm()
                 fallback()
             end end),
         ['<Tab>']=cmp.mapping.select_next_item(),

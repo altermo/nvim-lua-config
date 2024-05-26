@@ -75,6 +75,8 @@ end
 nno('=','z=')
 nno('0','(reg_recording()==""&&reg_executing()==""&&col(".")==1)?"^":"0"',{expr=true})
 nno('U',':later 1f\r')
+nno('<F6>',':source\r')
+nno('<C-z>','zz')
 
 ----ino/cno
 lcno({'<C-S-v>','<C-A-v>'},'<C-r>+')
