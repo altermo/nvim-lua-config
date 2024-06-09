@@ -10,7 +10,7 @@ end
 cmp.setup{
     formatting={format=function (entry,item)
         return setmetatable({dup=0,menu=require('cmp.types').lsp.CompletionItemKind.Snippet==entry:get_kind()
-            and 'SLSP' or data[entry.source.name].menu,kind=''},{__index=item})
+            and data[entry.source.name]=='LSP' and 'SLSP' or data[entry.source.name].menu,kind=''},{__index=item})
     end},
     snippet={expand=function (args)
         vim.snippet.expand(args.body:gsub('${(%d-):(.-)}','$%1'))
