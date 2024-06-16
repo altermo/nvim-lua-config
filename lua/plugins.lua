@@ -70,8 +70,6 @@ require'lazy'.setup({
     require'guess-indent'.setup{}
     vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'
   end,event='VeryLazy'},
-  {'raghur/vim-ghost',build=':GhostInstall',cmd='GhostStart',config=function()
-    vim.cmd.source('/usr/share/nvim/runtime/plugin/rplugin.vim') end},
   {'mfussenegger/nvim-dap',config=function ()
     local dap=require'dap'
     dap.configurations.lua={{type='nlua',request='attach'}}
