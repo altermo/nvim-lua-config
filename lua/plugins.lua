@@ -68,7 +68,7 @@ require'lazy'.setup({
   {'neovim/nvim-lspconfig',config=get_config'lsp',event='VeryLazy'},
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
-    vim.schedule_wrap(require'guess-indent'.set_from_buffer)'auto_cmd'
+    vim.cmd.GuessIndent'silent'
   end,event='VeryLazy'},
   {'mfussenegger/nvim-dap',config=function ()
     local dap=require'dap'
