@@ -17,7 +17,7 @@ require'lazy'.setup({
   {'catppuccin/nvim',name='catppuccin',lazy=false,config=function () vim.cmd.colorscheme'catppuccin-frappe' end},
   {'nvim-lualine/lualine.nvim',opts={sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')"},
     lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}}},event='VeryLazy'},
-  {'folke/which-key.nvim',config=get_config'which-key',keys={'<space>','<C-w>'},dependencies={'altermo/small.nvim'}},
+  {'folke/which-key.nvim',config=get_config'which-key',keys={'<space>','<C-w>'},dependencies={'altermo/small.nvim'},version='2.*'},
   {'smjonas/inc-rename.nvim',opts={save_in_cmdline_history=false},event={'CmdlineEnter'}},
   {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
 
@@ -54,7 +54,10 @@ require'lazy'.setup({
   {'nvim-treesitter/nvim-treesitter',config=function ()
     require'nvim-treesitter.configs'.setup{highlight={enable=true},indent={enable=true}}
   end,build={':TSInstall all',':TSUpdate'},event='VeryLazy'},
-  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='VeryLazy',config=function () vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='VeryLazy',config=function()
+    vim.g.rainbow_delimiters={strategy={ html=function (bufnr) return vim._with({buf=bufnr},function ()
+          return vim.fn.wordcount().bytes<50000 and require'rainbow-delimiters'.strategy.global or nil
+        end)end}} vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'windwp/nvim-ts-autotag',ft='html',opts={},dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'ckolkey/ts-node-action',keys={{'s',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter'}},

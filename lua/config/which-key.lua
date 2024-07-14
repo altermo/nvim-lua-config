@@ -36,6 +36,7 @@ end
 _G.Tabbufmove__=tabbufmove
 require'which-key'.setup{
   key_labels={['ß']='1..9',['à']='0..9'},
+  triggers={' ','<C-w>'},
   plugins={
     marks=false,
     registers=false,
