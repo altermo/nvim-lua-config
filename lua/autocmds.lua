@@ -1,6 +1,5 @@
 local function autocmd(au,callback,opt) return vim.api.nvim_create_autocmd(au,vim.tbl_extend('error',{callback=callback},opt or {})) end
 autocmd('BufWinEnter',function (ev) if vim.bo[ev.buf].filetype=='' then vim.bo[ev.buf].filetype='none' end end)
-autocmd('CmdlineEnter',function () vim.o.hlsearch=true end,{pattern='/,\\?'})
 autocmd('TermOpen',function(ev) vim.bo[ev.buf].filetype='term' end)
 autocmd('FileType',function()
     vim.wo.foldexpr=vim.tbl_contains({'python','lua','fish'},vim.o.filetype)

@@ -96,8 +96,7 @@ require'lazy'.setup({
     },
   },event={'InsertEnter'}}
 },{
-    lockfile='/dev/null',
-    defaults={lazy=true},
+    lockfile='/dev/null',defaults={lazy=true},
     install={colorscheme={'catppuccin-frappe'}},
     performance={rtp={disabled_plugins={
       'matchparen',
