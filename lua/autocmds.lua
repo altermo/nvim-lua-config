@@ -43,3 +43,26 @@ local function sync_background() io.stdout:write(("\027]11;#%06x\027\\"):format(
 autocmd('ColorScheme',vim.schedule_wrap(sync_background))
 autocmd('OptionSet',vim.schedule_wrap(sync_background),{pattern='background'})
 autocmd('OptionSet',function () vim.o.foldmethod=vim.v.option_new==true and 'diff' or 'expr' end,{pattern='diff'})
+local sys
+autocmd({'CursorMoved','CursorMovedI'},function ()
+    _G.a=nil
+    if not pcall(vim.treesitter.get_parser) then return end
+    if sys then sys:kill() end
+    local node=vim.treesitter.get_node({ignore_injections=false})
+    while node do
+        if node:type()=='inline_formula' then
+            break
+        end
+        node=node:parent()
+    end
+    if not node then return end
+    local text=vim.treesitter.get_node_text(node,0)
+    text=text:sub(2,-2)
+    sys=vim.system({'fend',text},{},function (out)
+        local res=out.stdout:sub(1,-2)
+        _G.a=res
+        vim.schedule(function()
+            vim.cmd"call v:lua.require'lualine'.refresh({'kind': 'tabpage', 'place': ['statusline'], 'trigger': 'autocmd'})"
+        end)
+    end)
+end)

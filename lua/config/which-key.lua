@@ -70,7 +70,7 @@ require'which-key'.register{[' ']=format{
     for _,win in ipairs(vim.fn.win_findbuf(buf)) do
       vim.api.nvim_win_set_buf(win,sbuf)
     end
-    vim.api.nvim_buf_delete(buf,{})
+    pcall(vim.api.nvim_buf_delete,buf,{})
   end,'buffer-delete'},
   u={':lua vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true,true))\r','scratch'},
   w={'<cmd>WhichKey <C-w>\r','window'},
