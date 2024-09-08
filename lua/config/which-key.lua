@@ -83,7 +83,7 @@ require'which-key'.register{[' ']=format{
     N={':lua require"small.notify".open_history()\r','open notify history'},
     m={':MarkdownPreview\r','markdown-preview'},
     l={':edit /tmp/nlog\r','open-log'},
-    r={require'small.reminder'.sidebar,'reminder sidebar'},
+    r={require'small.reminder2'.sidebar,'reminder sidebar'},
   },
 
   ---tabs

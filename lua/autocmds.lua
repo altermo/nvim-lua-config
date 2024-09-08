@@ -48,9 +48,9 @@ autocmd({'CursorMoved','CursorMovedI'},function ()
     _G.a=nil
     if not pcall(vim.treesitter.get_parser) then return end
     if sys then sys:kill() end
-    local node=vim.treesitter.get_node({ignore_injections=false})
+    local node=vim.treesitter.get_node({ignore_injections=true})
     while node do
-        if node:type()=='inline_formula' then
+        if node:type()=='inline_formula' or node:type()=='latex_block' then
             break
         end
         node=node:parent()

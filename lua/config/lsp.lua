@@ -13,7 +13,7 @@ for lsp,opt in pairs({
     rust_analyzer={'rust-analyzer'},
     zls={'zls'},
     taplo={'taplo'},
-    tsserver={'typescript-language-server'},
+    ts_ls={'typescript-language-server'},
     vimls={'vim-language-server'},
     jsonls={'vscode-json-language-server'},
     --hyprls={'hyprls'},

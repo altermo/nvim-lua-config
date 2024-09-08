@@ -12,6 +12,7 @@ require'lazy'.setup({
     {'gi','<cmd>lua require"iedit".select()\r',mode={'n','x'}},
     {'gC','<cmd>lua require"iedit".stop()\r'},
   }},
+  {'altermo/vim-ditto-fork',event='VeryLazy'},
 
   ----visual
   {'catppuccin/nvim',name='catppuccin',lazy=false,config=function () vim.cmd.colorscheme'catppuccin-frappe' end},
@@ -59,7 +60,8 @@ require'lazy'.setup({
           return vim.fn.wordcount().bytes<50000 and require'rainbow-delimiters'.strategy.global or nil
         end)end}} vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'windwp/nvim-ts-autotag',ft='html',opts={},dependencies={'nvim-treesitter/nvim-treesitter'}},
-  {'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+  --{'rrethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+  {'PriceHiller/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'},branch='fix/iter-matches'}, --TODO: remove once merged
   {'ckolkey/ts-node-action',keys={{'s',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter'}},
 
   ----other
