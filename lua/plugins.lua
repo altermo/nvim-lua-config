@@ -16,7 +16,7 @@ require'lazy'.setup({
 
   ----visual
   {'catppuccin/nvim',name='catppuccin',lazy=false,config=function () vim.cmd.colorscheme'catppuccin-frappe' end},
-  {'nvim-lualine/lualine.nvim',opts={sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')",'_G.a'},
+  {'nvim-lualine/lualine.nvim',opts={sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')",'_G.lualine_val'},
     lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}}},event='VeryLazy'},
   {'folke/which-key.nvim',config=get_config'which-key',keys={'<space>','<C-w>'},dependencies={'altermo/small.nvim'},version='2.*'},
   {'smjonas/inc-rename.nvim',opts={save_in_cmdline_history=false},event={'CmdlineEnter'}},

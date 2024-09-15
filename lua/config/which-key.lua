@@ -57,6 +57,7 @@ require'which-key'.register{[' ']=format{
   ["'"]={':lua require"small.nterm".run("fish",true)\r','shell'},
   i={function () require'oil'.open() end,'edir'},
   P={':Lazy\r','lazy'},
+  t={':nohls\r','disable-search'},
   ------window/buffer
   q={'<cmd>q\r','quit'},
   Q={'<cmd>q!\r','QUIT!'},
@@ -131,17 +132,6 @@ require'which-key'.register{[' ']=format{
     r={':Telescope find_files cwd=/usr/local/share/nvim/runtime\r','root-runtime'},
     _=cmap({f='find_files',o='oldfiles',s='live_grep',h='help_tags',m='marks',b='buffers',[' ']='resume'},':Telescope %s\r','%s'),
     g={':Telescope grapple tags\r','grapple'},
-  },
-
-  ----toggle/theme
-  t={name='+toggle/theme',
-    t={':nohls\r','disable-search'},
-    z={function () require'small.kitty'.toggle_padding(20) end,'toggle-padding'},
-    C={function ()
-      vim.cmd.hi('Cursor blend=100')
-      vim.o.guicursor='a:Cursor/lCursor,a:ver1'
-    end,'hide-cursor'},
-    c={':set guicursor&\r','reset-cursor'},
   },
 
   ----lsp

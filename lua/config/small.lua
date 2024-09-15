@@ -5,5 +5,6 @@ require'small.small_loader'.run{
     'highlight_selected','nterm','copyring','exchange','whint','typo',
     {'reminder2',conf={path='/home/user/.gtd/gtd/plans.md'}},
     {'fastmultif',conf={labels='1234567890äḧẅëẗÿüïöẍÄḦẄËŸÜÏÖẌâŝĝĥĵŵêŷûîôẑĉÂŜĜĤĴŴÊŶÛÎÔẐĈ'}},
-    {'kitty',conf={padding=20,no_sync_bg=true,strict=true}},
+    {'node_eval',conf={handle=function (res) _G.lualine_val=res vim.schedule(function() require'lualine'.refresh({})
+        end) end,handle_pre=function () _G.lualine_val=nil end,bin='fend',node='inline_formula'}},
 }
