@@ -23,6 +23,11 @@ local function lcno(lhs,rhs,opt) map('c',lhs,rhs,opt or {}) end
 
 ----nno
 vim.api.nvim_del_keymap('n','gcc')
+nno(' ',function ()
+  vim.keymap.del('n',' ')
+  require'spacekey'
+  vim.api.nvim_input(' ')
+end)
 nno('gc',function () return require('vim._comment').operator()..'_' end,{expr=true})
 nno('z','za')
 nno('<A-e>','/',{noremap=true})

@@ -1,6 +1,5 @@
 --vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/ua') --For testing
 local upair=require'ultimate-autopair'
-_G.UA_DEV=true
 upair.setup({
   backspace={space='balance',indent_ignore=true,single_delete=true},
   fastwarp={
@@ -14,10 +13,6 @@ upair.setup({
       rcmap='<C-A-S-e>',
     },
   },
-  filter={
-    function()
-      return vim.fn.reg_recording()=='' and vim.fn.reg_executing()==''
-    end,
-  },
+  filter={function() return vim.fn.reg_recording()=='' and vim.fn.reg_executing()=='' end},
 })
 

@@ -12,13 +12,11 @@ require'lazy'.setup({
     {'gi','<cmd>lua require"iedit".select()\r',mode={'n','x'}},
     {'gC','<cmd>lua require"iedit".stop()\r'},
   }},
-  {'altermo/vim-ditto-fork',event='VeryLazy'},
 
   ----visual
   {'catppuccin/nvim',name='catppuccin',lazy=false,config=function () vim.cmd.colorscheme'catppuccin-frappe' end},
   {'nvim-lualine/lualine.nvim',opts={sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')",'_G.lualine_val'},
     lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}}},event='VeryLazy'},
-  {'folke/which-key.nvim',config=get_config'which-key',keys={'<space>','<C-w>'},dependencies={'altermo/small.nvim'},version='2.*'},
   {'smjonas/inc-rename.nvim',opts={save_in_cmdline_history=false},event={'CmdlineEnter'}},
   {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
 
@@ -26,12 +24,6 @@ require'lazy'.setup({
   {'monaqa/dial.nvim',keys={
     {'<C-a>',function () return require'dial.map'.inc_normal() end,expr=true},
     {'<C-x>',function () return require'dial.map'.dec_normal() end,expr=true},
-  }},
-  {'sindrets/winshift.nvim',opts={},cmd='WinShift',keys={
-    {'<C-S-h>',':WinShift left\r'},
-    {'<C-S-j>',':WinShift down\r'},
-    {'<C-S-k>',':WinShift up\r'},
-    {'<C-S-l>',':WinShift right\r'},
   }},
   {'echasnovski/mini.surround',opts={
     mappings={
