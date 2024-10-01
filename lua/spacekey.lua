@@ -13,7 +13,6 @@ map(' b',require'small.bufend'.run)
 map(' r',function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end)
 map(" '",':lua require"small.nterm".run("fish",true)\r')
 map(' i',function () require'oil'.open() end)
-map(' P',':Lazy\r')
 map(' t',':nohls\r')
 cmap(' y',{e='en',s='sv'},':set spelllang=%s\r',{silent=false})
 ------window/buffer
