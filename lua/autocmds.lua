@@ -15,7 +15,7 @@ autocmd({'InsertLeave','TextChanged'},function (ev)
     pcall(vim.fn.mkdir,vim.fs.dirname(ev.file),'p')
     vim.cmd.update{bang=true,mods={emsg_silent=true,lockmarks=true}}
     if vim.o.cmdheight>0 then vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.v.echospace+1).."'") end
-end)
+end,{group=vim.api.nvim_create_augroup('AutoSave',{})})
 local function bino(lhs,rhs) vim.keymap.set('i',lhs,rhs,{buffer=true}) end
 autocmd('FileType',function()
     bino('ł','local ')
@@ -43,3 +43,12 @@ local function sync_background() io.stdout:write(("\027]11;#%06x\027\\"):format(
 autocmd('ColorScheme',vim.schedule_wrap(sync_background))
 autocmd('OptionSet',vim.schedule_wrap(sync_background),{pattern='background'})
 autocmd('OptionSet',function () vim.o.foldmethod=vim.v.option_new==true and 'diff' or 'expr' end,{pattern='diff'})
+autocmd('BufEnter',function ()
+    vim.o.tabstop=8
+    vim.keymap.set('n','gD',function ()
+        local word=vim.fn.expand('<cword>')
+        if vim.fn.search('^\\(# \\?define \\?\\)\\?\\<'..word..'\\>','')~=0 then return end
+        require('telescope.builtin').live_grep({glob_pattern='*.{c,h}'})
+        vim.api.nvim_input((('^(# ?define ?)?\\<'..word..'\\>'):gsub('<','<lt>')))
+    end,{buffer=true})
+end,{pattern='*/emacs/*.{c,h}'})

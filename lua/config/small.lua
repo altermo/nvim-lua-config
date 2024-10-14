@@ -1,4 +1,4 @@
-vim.opt.runtimepath:prepend('/home/user/.config/nvim/.other/small.nvim') --For testing
+vim.opt.runtimepath:prepend('/home/user/.tmp/lua/small.nvim') --For testing
 require'small.small_loader'.run{
     'bufend','dff','macro','format','help_cword','qvim2',
     'treeselect','notify','unimpaired','whint','typo',

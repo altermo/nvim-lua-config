@@ -1,6 +1,5 @@
 vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
 
-vim.treesitter.get_parser=function (...) return assert(vim.treesitter._get_parser(...)) end --TODO: temporary
 local open=vim.ui.open
 rawset(vim.ui,'open',function(path) return open((path:gsub('^([a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+)$','https://github.com/%1'))) end)
 
