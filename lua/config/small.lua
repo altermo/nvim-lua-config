@@ -1,6 +1,6 @@
 vim.opt.runtimepath:prepend('/home/user/.tmp/lua/small.nvim') --For testing
 require'small.small_loader'.run{
-    'bufend','dff','macro','format','help_cword','qvim2',
+    'dff','macro','format','help_cword','qvim2',
     'treeselect','notify','unimpaired','whint','typo',
     'highlight_selected','nterm','copyring','exchange',
     {'reminder2',conf={path='/home/user/.gtd/gtd/plans.md'}},

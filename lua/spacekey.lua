@@ -9,7 +9,6 @@ local function cmap(key,inp,cmd,opts)
 end
 
 ---main
-map(' b',require'small.bufend'.run)
 map(' r',function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end)
 map(" '",':lua require"small.nterm".run("fish",true)\r')
 map(' i',function () require'oil'.open() end)

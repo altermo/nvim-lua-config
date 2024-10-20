@@ -5,7 +5,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 local function get_config(name) return function () require('config.'..name) end end
 require'lazy'.setup({
-  {'altermo/ultimate-autopair.nvim',config=get_config'ultimate',branch='development',event={'InsertEnter','CmdlineEnter','TermEnter','VeryLazy'},keys='%'},
+  {'altermo/ultimate-autopair.nvim',branch='v0.7-pre-alpha',event={'InsertEnter','CmdlineEnter'},opts={
+    newline={enable=false},multiline=false,
+    filter={function () return vim.fn.reg_recording()=='' and vim.fn.reg_executing()=='' end}}},
   {'altermo/nwm',opts={verbose=true}},
   {'altermo/small.nvim',config=get_config'small',event='VeryLazy'},
   {'altermo/iedit.nvim',keys={
@@ -49,8 +51,8 @@ require'lazy'.setup({
   end,build={':TSInstall all',':TSUpdate'},event='VeryLazy'},
   {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='VeryLazy',config=function()
     vim.g.rainbow_delimiters={strategy={ html=function (bufnr) return vim._with({buf=bufnr},function ()
-          return vim.fn.wordcount().bytes<50000 and require'rainbow-delimiters'.strategy.global or nil
-        end)end}} vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
+      return vim.fn.wordcount().bytes<50000 and require'rainbow-delimiters'.strategy.global or nil
+    end)end}} vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'windwp/nvim-ts-autotag',ft='html',opts={},dependencies={'nvim-treesitter/nvim-treesitter'}},
   {'PriceHiller/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'},branch='fix/iter-matches'}, --TODO: remove once merged
   {'ckolkey/ts-node-action',keys={{'s',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter'}},
