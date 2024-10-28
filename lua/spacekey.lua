@@ -56,18 +56,17 @@ map(' cn',':lua require"small.notify".dismiss()\r')
 map(' cN',':lua require"small.notify".open_history()\r')
 map(' cm',':MarkdownPreview\r')
 map(' cl',':edit /tmp/nlog\r')
-map(' cr',require'small.reminder2'.sidebar)
+map(' cr',function () require'small.reminder2'.sidebar() end)
 
 ---search
 map(' sa',':Telescope\r')
 map(' sc',':Telescope colorscheme enable_preview=true\r')
 map(' sp',':Telescope find_files cwd=/home/user/.local/share/nvim/lazy/ find_command=ls\r')
 map(' sr',':Telescope find_files cwd=/usr/local/share/nvim/runtime\r')
-map(' sg',':Telescope grapple tags\r')
+map(' sg',':Telescope git_status\r')
 cmap(' s',{f='find_files',o='oldfiles',s='live_grep',h='help_tags',m='marks',b='buffers',[' ']='resume'},':Telescope %s\r')
 
 ---lsp
-map(' lf',':lua require"small.format".run()\r')
 map(' li',':LspInfo\r')
 map(' ls',':LspStop\r')
 map(' lS',':LspStart\r')
@@ -76,20 +75,5 @@ map(' lt',':lua vim.lsp.buf.type_definition()\r')
 map(' lc',':lua vim.lsp.buf.code_action()\r')
 map(' ln',':lua vim.diagnostic.goto_next({_highest=true})\r')
 map(' lp',':lua vim.diagnostic.goto_prev({_highest=true})\r')
-
----debug
-map(' db',':lua require"dap".toggle_breakpoint()\r')
-map(' dR',':lua require"dap.repl".toggle()\r')
-map(' dc',':lua require"dap".continue()\r')
-map(' dn',':lua require"dap".step_over()\r')
-map(' di',':lua require"dap".step_into()\r')
-map(' dr',"<cmd>lua require'small.qvim2'.open_run_buf()\r")
-map(' ds',"<cmd>lua require'small.qvim2'.run()\r")
-
----grapple
-map(' ha',':Grapple toggle\r')
-map(' hn',':Grapple cycle forward\r')
-map(' hp',':Grapple cycle backward\r')
-map(' hh',':Grapple toggle_tags\r')
 
 -- vim:fen

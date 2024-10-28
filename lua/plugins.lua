@@ -3,13 +3,12 @@ if not vim.uv.fs_stat(lazypath) then
   vim.system{'git','clone','--filter=blob:none','https://github.com/folke/lazy.nvim.git','--branch=stable',lazypath}:wait()
 end
 vim.opt.rtp:prepend(lazypath)
-local function get_config(name) return function () require('config.'..name) end end
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',branch='v0.7-pre-alpha',event={'InsertEnter','CmdlineEnter'},opts={
     newline={enable=false},multiline=false,
     filter={function () return vim.fn.reg_recording()=='' and vim.fn.reg_executing()=='' end}}},
   {'altermo/nwm',opts={verbose=true}},
-  {'altermo/small.nvim',config=get_config'small',event='VeryLazy'},
+  {'altermo/small.nvim',config=function () require'small' end,event='VeryLazy'},
   {'altermo/iedit.nvim',keys={
     {'gi','<cmd>lua require"iedit".select()\r',mode={'n','x'}},
     {'gC','<cmd>lua require"iedit".stop()\r'},
@@ -63,26 +62,23 @@ require'lazy'.setup({
     vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
       vim.cmd.lcd(require'oil'.get_current_dir())
     end}) end,event='VeryLazy'},
-  {'neovim/nvim-lspconfig',config=get_config'lsp',event='VeryLazy'},
+  {'neovim/nvim-lspconfig',config=function () require'lsp' end,event='VeryLazy'},
   {'nmac427/guess-indent.nvim',config=function ()
     require'guess-indent'.setup{}
     vim.cmd.GuessIndent'silent'
   end,event='VeryLazy'},
-  {'mfussenegger/nvim-dap',config=function ()
-    local dap=require'dap'
-    dap.configurations.lua={{type='nlua',request='attach'}}
-    dap.adapters.nlua=function(callback)
-      callback({type='server',port=8086})
-    end
-  end,dependencies={'jbyuki/one-small-step-for-vimkind'}},
-  {'cbochs/grapple.nvim',opts={icons=false},cmd='Grapple'},
 
   ----auto complete
-  {'hrsh7th/nvim-cmp',config=get_config'cmp_',event={'InsertEnter','CmdlineEnter'},dependencies={
-    'hrsh7th/cmp-cmdline',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-nvim-lsp',
-  }},
+  {'saghen/blink.cmp',version='*',lazy=false,opts={
+    highlight={use_nvim_cmp_as_default=true},
+    keymap={show={},hide={},accept={},select_and_accept={},snippet_forward={},snippet_backward={},
+      show_documentation={},hide_documentation={},scroll_documentation_up={},scroll_documentation_down={},
+      select_prev='<S-tab>',select_next='<tab>'},
+    trigger={signature_help={enabled=true}},
+    windows={documentation={auto_show=true},
+      autocomplete={selection='auto_insert'}},
+    sources={providers={lsp={score_offset=5},
+      buffer={fallback_for={}}}}}},
   {'supermaven-inc/supermaven-nvim',opts={
     keymaps={
       accept_suggestion='<A-cr>',

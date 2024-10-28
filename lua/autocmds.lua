@@ -47,8 +47,14 @@ autocmd('BufEnter',function ()
     vim.o.tabstop=8
     vim.keymap.set('n','gD',function ()
         local word=vim.fn.expand('<cword>')
-        if vim.fn.search('^\\(# \\?define \\?\\)\\?\\<'..word..'\\>','')~=0 then return end
+        if vim.fn.search('^\\C\\(# \\?define \\?\\)\\?\\<'..word..'\\>','')~=0 then return end
         require('telescope.builtin').live_grep({glob_pattern='*.{c,h}'})
         vim.api.nvim_input((('^(# ?define ?)?\\<'..word..'\\>'):gsub('<','<lt>')))
     end,{buffer=true})
 end,{pattern='*/emacs/*.{c,h}'})
+autocmd('RecordingLeave',function ()
+    if vim.v.event.regcontents=='' then
+        vim.notify'empty macro, previous recoding is kept'
+        return vim.schedule_wrap(function (prev) vim.fn.setreg('q',prev) end)(vim.fn.getreg'q') end
+    vim.notify('Recorded macro: '..vim.fn.keytrans(vim.v.event.regcontents))
+end)

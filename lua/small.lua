@@ -1,8 +1,7 @@
-vim.opt.runtimepath:prepend('/home/user/.tmp/lua/small.nvim') --For testing
 require'small.small_loader'.run{
-    'dff','macro','format','help_cword','qvim2',
-    'treeselect','notify','unimpaired','whint','typo',
-    'highlight_selected','nterm','copyring','exchange',
+    'dff','help_cword','exchange',
+    'treeselect','notify','whint','typo',
+    'highlight_selected','nterm','copyring',
     {'reminder2',conf={path='/home/user/.gtd/gtd/plans.md'}},
     {'fastmultif',conf={labels='1234567890äḧẅëẗÿüïöẍÄḦẄËŸÜÏÖẌâŝĝĥĵŵêŷûîôẑĉÂŜĜĤĴŴÊŶÛÎÔẐĈ'}},
     {'node_eval',conf={handle=function (res) _G.lualine_val=res vim.schedule(function() require'lualine'.refresh({})

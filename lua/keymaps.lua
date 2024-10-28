@@ -82,6 +82,21 @@ nno('0','(reg_recording()==""&&reg_executing()==""&&col(".")==1)?"^":"0"',{expr=
 nno('U',':later 1f\r')
 nno('<F6>',':source\r')
 nno('<C-z>','zz')
+nno('q','(reg_recording()==""?"qq":"q")',{expr=true})
+nno('Q','(reg_recording()==""?reg_executing()==""?"@q":"":v:lua.vim.notify("Cant play macro while recoding")??"")',{expr=true})
+nno('cq','<cmd>let b:_macro=input(">",keytrans(@q))|let @q=(trim(b:_macro)!=""?v:lua.vim.keycode(b:_macro):@q)\r')
+for k,v in pairs({
+  b={'background','"light"','"dark"'},c='cursorline',h='hlsearch',l='list',n='number',
+  r='relativenumber',s='spell',u='cursorcolumn',w='wrap',d='diff',t={'colorcolumn',
+  '"1,41,81,121,161,201,241"'},v={'virtualedit','"block,onemore"'},M={'mouse','"a"'},
+  f='foldenable',e='scrollbind',m={'conceallevel',2,0},T={'showtabline',1,0},
+  L={'laststatus',2,0},C={'cmdheight',0},B={'showbreak'},
+}) do
+  v=type(v)=='table' and v or {v,1,0}
+  nno('yo'..k,(':let &%s%s=&%s==%s?%s:%s\r:echo "%s=".&%s\r'):format(k=='d' and 'l:' or '',v[1],v[1],v[2],v[3] or '""',v[2],v[1],v[1]))
+end
+nno('yo',function() vim.cmd.nno('yo') local c=vim.fn.getcharstr()
+  vim.cmd.redraw() if vim.fn.maparg('yo'..c,'n')==1 then vim.api.nvim_input('yo'..c) end end)
 
 ----ino/cno
 lcno({'<C-S-v>','<C-A-v>'},'<C-r>+')
