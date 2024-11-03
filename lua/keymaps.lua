@@ -23,12 +23,12 @@ local function lcno(lhs,rhs,opt) map('c',lhs,rhs,opt or {}) end
 
 ----nno
 vim.api.nvim_del_keymap('n','gcc')
+nno('gc',function () return require('vim._comment').operator()..'_' end,{expr=true})
 nno(' ',function ()
   vim.keymap.del('n',' ')
   require'spacekey'
   vim.api.nvim_input(' ')
 end)
-nno('gc',function () return require('vim._comment').operator()..'_' end,{expr=true})
 nno('z','za')
 nno('<A-e>','/',{noremap=true})
 nno('<A-f>',':%s///g<Left><Left><Left>',{noremap=true})
@@ -56,11 +56,7 @@ nno('gp','`[v`]')
 nno('vv','V')
 nno('\\p','<cmd>Lazy\r')
 nno('gd',function () return (vim.o.tagfunc~='' or #vim.fn.tagfiles()>0) and '<C-]>' or 'gd' end,{expr=true})
-nno('gr',function ()
-  if not pcall(vim.lsp.buf_request,0,vim.lsp.protocol.Methods.textDocument_prepareRename,vim.lsp.util.make_position_params(),function (_,o)
-    vim.api.nvim_feedkeys(':IncRename '..((o or {}).placeholder or vim.fn.expand'<cword>'),'n',false)
-  end) then vim.api.nvim_feedkeys(':IncRename '..vim.fn.expand'<cword>','n',false) end
-end,{noremap=true})
+nno('gr',vim.lsp.buf.rename,{noremap=true})
 ------alt/ctrl
 for k,v in pairs({h='vertical resize -',j='resize +',k='resize -',l='vertical resize +'}) do
   nno('<C-'..k..'>','<C-w>'..k..'<cmd>if &buftype=="terminal"|startinsert|endif\r')

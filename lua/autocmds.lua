@@ -28,10 +28,6 @@ autocmd('FileType',function()
     bino('M','M.')
     vim.bo.commentstring='--%s'
 end,{pattern='lua'})
-autocmd('FileType',function ()
-    bino('<tab>','<C-T>')
-    bino('<S-tab>','<C-D>')
-end,{pattern='markdown'})
 autocmd('VimEnter',function()
     if vim.api.nvim_buf_line_count(0)>1 or
         vim.api.nvim_buf_get_lines(0,0,-1,false)[1]~='' or
@@ -43,15 +39,7 @@ local function sync_background() io.stdout:write(("\027]11;#%06x\027\\"):format(
 autocmd('ColorScheme',vim.schedule_wrap(sync_background))
 autocmd('OptionSet',vim.schedule_wrap(sync_background),{pattern='background'})
 autocmd('OptionSet',function () vim.o.foldmethod=vim.v.option_new==true and 'diff' or 'expr' end,{pattern='diff'})
-autocmd('BufEnter',function ()
-    vim.o.tabstop=8
-    vim.keymap.set('n','gD',function ()
-        local word=vim.fn.expand('<cword>')
-        if vim.fn.search('^\\C\\(# \\?define \\?\\)\\?\\<'..word..'\\>','')~=0 then return end
-        require('telescope.builtin').live_grep({glob_pattern='*.{c,h}'})
-        vim.api.nvim_input((('^(# ?define ?)?\\<'..word..'\\>'):gsub('<','<lt>')))
-    end,{buffer=true})
-end,{pattern='*/emacs/*.{c,h}'})
+autocmd('BufEnter',function () vim.o.tabstop=8 end,{pattern='*/emacs/*.{c,h}'})
 autocmd('RecordingLeave',function ()
     if vim.v.event.regcontents=='' then
         vim.notify'empty macro, previous recoding is kept'

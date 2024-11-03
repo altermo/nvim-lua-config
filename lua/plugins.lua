@@ -18,7 +18,6 @@ require'lazy'.setup({
   {'catppuccin/nvim',name='catppuccin',lazy=false,config=function () vim.cmd.colorscheme'catppuccin-frappe' end},
   {'nvim-lualine/lualine.nvim',opts={sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')",'_G.lualine_val'},
     lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}}},event='VeryLazy'},
-  {'smjonas/inc-rename.nvim',opts={save_in_cmdline_history=false},event={'CmdlineEnter'}},
   {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
 
   ----keys
@@ -71,9 +70,7 @@ require'lazy'.setup({
   ----auto complete
   {'saghen/blink.cmp',version='*',lazy=false,opts={
     highlight={use_nvim_cmp_as_default=true},
-    keymap={show={},hide={},accept={},select_and_accept={},snippet_forward={},snippet_backward={},
-      show_documentation={},hide_documentation={},scroll_documentation_up={},scroll_documentation_down={},
-      select_prev='<S-tab>',select_next='<tab>'},
+    keymap={['<S-tab>']={'select_prev'},['<tab>']={'select_next','fallback'}},
     trigger={signature_help={enabled=true}},
     windows={documentation={auto_show=true},
       autocomplete={selection='auto_insert'}},
