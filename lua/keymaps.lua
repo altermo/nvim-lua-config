@@ -96,7 +96,7 @@ for k,v in pairs{
   ['<C-g>']='<C-\\><C-n>',
 } do
   map('i',k,v)
-  map('c',k,v,{silent=false})
+  map('c',k,v,{noremap=true})
 end
 
 ---- ;; xno/ono

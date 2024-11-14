@@ -3,7 +3,7 @@ This is my private neovim config.
 
 ## Special about this config
 Here is a list of *somewhat* unique things about this config:
-+ 23-27ms startup time
++ 17-22ms startup time
 + No status column (no line numbers)
 + No autocompletion plugin (use nvim-builtin)
 + [small.nvim](https://github.com/altermo/doune.nvim): my collection of plugins
