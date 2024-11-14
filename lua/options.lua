@@ -12,6 +12,7 @@ vim.o.breakindent=true
 ---fold
 vim.o.foldmethod='expr'
 vim.o.foldenable=false
+vim.o.foldexpr='v:lua.vim.treesitter.foldexpr()'
 ---statuscolumn
 ---- https://github.com/neovim/neovim/issues/21342#issuecomment-1344280934
 ---window/split
@@ -33,12 +34,15 @@ vim.o.smartcase=true
 ---data
 vim.o.undofile=true
 vim.o.swapfile=false
-vim.o.shada="'200,/9,:50,<50,@9,s10"
+---autocomplete
+vim.o.completeopt='menu,menuone,popup,noselect,fuzzy'
+vim.o.complete='.'
+vim.o.wildmode='longest:full,full'
 ---other
 vim.o.scrolloff=5
 vim.o.timeoutlen=500
 vim.o.spelloptions='camel'
-vim.o.shortmess='asoOAFWI'
+vim.o.shortmess='ascoOAFWI'
 vim.o.virtualedit='block,onemore'
 vim.o.smoothscroll=true
 vim.o.mouse='a'
