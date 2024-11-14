@@ -1,9 +1,10 @@
 ---- ;; init
 vim.api.nvim_del_keymap('n','gcc')
+vim.o.timeoutlen=0
 vim.on_key(function (_,t)
+  vim.o.timeoutlen=500
   vim.on_key(nil,-1)
 
-  --TODO: fix that for example `ciw` turns into `icw`
   vim.api.nvim_input(t)
 
   local function map(mode,lhs,rhs,opt)
