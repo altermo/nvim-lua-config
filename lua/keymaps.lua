@@ -5,7 +5,7 @@ vim.on_key(function (_,t)
   vim.o.timeoutlen=500
   vim.on_key(nil,-1)
 
-  vim.api.nvim_input(t)
+  vim.api.nvim_input(vim.fn.keytrans(t))
 
   local function map(mode,lhs,rhs,opt)
     opt=(opt=='expr' and {expr=true,replace_keycodes=true,noremap=true}) or opt or {noremap=true,silent=true}
