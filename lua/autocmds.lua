@@ -48,10 +48,14 @@ end)
 local cancel
 autocmd('InsertCharPre',function ()
     if cancel then cancel:stop() end
-    if vim.fn.match(vim.v.char,[[\k]])==-1 then return end
+    if vim.fn.match(vim.v.char,[=[[\k.]]=])==-1 then return end
     cancel=vim.defer_fn(function ()
         if vim.fn.pumvisible()~=0 then return end
-        vim.api.nvim_input('<C-n>')
+        if vim.o.omnifunc=='' then
+            vim.api.nvim_input('<C-n>')
+        else
+            vim.api.nvim_input('<C-x><C-o>')
+        end
     end,0)
 end)
 autocmd('InsertCharPre',function ()

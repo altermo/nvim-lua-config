@@ -82,7 +82,6 @@ map('i','ø','ö')
 map('i','æ','ä')
 map('i','Ø','Ö')
 map('i','Æ','Ä')
-map('i','<C-o>','<C-x><C-o>')
 for k,v in pairs{
   [{'<C-BS>','<M-BS>','<S-BS>'}]='<del>',
   [{'<S-Left>','<M-S-h>'}]=('<Left>'):rep(5),

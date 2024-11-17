@@ -1,7 +1,7 @@
 --- Lazy load shada
 vim.o.shada=""
 vim.api.nvim_create_autocmd({'CmdlineEnter','InsertEnter','SafeState'},{callback=function ()
-    vim.o.shada="'200,/9,:50,<50,@9,s10"
+    vim.o.shada="'500,/9,:50,<50,@9,s10"
     vim.cmd.rshada()
 end,once=true})
 
