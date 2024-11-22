@@ -23,8 +23,6 @@ for lsp,opt in pairs({
     taplo={'taplo'},
     ts_ls={'typescript-language-server'},
     vimls={'vim-language-server'},
-    jsonls={'vscode-json-language-server'},
-    --hyprls={'hyprls'},
 }) do
     if vim.fn.executable(opt[1])==0 then vim.notify(opt[1]..' LSP executable not found')
     else require'lspconfig'[lsp].setup(opt) end

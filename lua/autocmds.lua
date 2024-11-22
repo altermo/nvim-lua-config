@@ -48,7 +48,7 @@ end)
 local cancel
 autocmd('InsertCharPre',function ()
     if cancel then cancel:stop() end
-    if vim.fn.match(vim.v.char,[=[[\k.]]=])==-1 then return end
+    if vim.fn.match(vim.v.char,[[\V\k\|.]])==-1 then return end
     cancel=vim.defer_fn(function ()
         if vim.fn.pumvisible()~=0 then return end
         if vim.o.omnifunc=='' then
@@ -58,10 +58,10 @@ autocmd('InsertCharPre',function ()
         end
     end,0)
 end)
-autocmd('InsertCharPre',function ()
+autocmd('InsertCharPre',function () pcall(function ()
     for _,client in ipairs(vim.lsp.get_clients{bufnr=0}) do
         if vim.tbl_contains(client.server_capabilities.signatureHelpProvider.triggerCharacters,vim.v.char) then
             vim.lsp.buf.signature_help{focusable=false,silent=true,max_height=4,anchor_bias='above'}
         end
     end
-end)
+end) end)

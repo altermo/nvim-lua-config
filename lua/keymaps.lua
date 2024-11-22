@@ -90,6 +90,8 @@ for k,v in pairs{
   ['<M-f>']='<S-Right>',
   [{'<C-b>','<M-h>'}]='<Left>',
   [{'<C-f>','<M-l>'}]='<Right>',
+  ['<A-j>']='<Down>',
+  ['<A-k>']='<Up>',
   ['<C-e>']='<End>',
   ['<C-a>']='<Home>',
   ['<C-g>']='<C-\\><C-n>',
@@ -101,8 +103,8 @@ end
 ---- ;; xno/ono
 map('o','æ','y')
 for i in ([['"`()[]{}<>]]):gmatch('.') do
-  map('o',i,'i'..i)
-  map('x',i,'i'..i)
+  map('o',i,'i'..i,{silent=true})
+  map('x',i,'i'..i,{silent=true})
 end
 map('x','\r','d',{})
 map('x','j','v:count==0?"gj":"j"','expr')

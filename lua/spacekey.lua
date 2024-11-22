@@ -17,6 +17,7 @@ return function (map)
   map(' u',':e `=tempname()`\r')
   map(' w','<C-w>',{noremap=false})
   map(' <tab>',':tab split\r')
+  map(' Z',':hi Cursor blend=100|set gcr+=n:Cursor ch=0 ls=0 cul scl=no stal=0\r')
   --- ;;; files
   map(' W',function ()
     local tmp=vim.fn.tempname()
@@ -35,6 +36,7 @@ return function (map)
 
   --- ;; search
   map(' sp',':FzfLua files cwd=/home/user/.local/share/nvim/lazy/ cmd=ls previewer=false\r')
+  map(' s\r',':FzfLua files cwd=/home/user/.projects/ cmd=ls previewer=false\r')
   map(' sr',':FzfLua files cwd=/usr/local/share/nvim/runtime/\r')
   map(' so',':FzfLua oldfiles formatter=path.filename_first\r')
   for k,v in pairs{a='',f='files',s='live_grep',h='helptags',b='buffers',[' ']='resume',g='git_status'} do

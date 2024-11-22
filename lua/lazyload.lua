@@ -26,6 +26,7 @@ end
 
 --- Lazy load keymaps
 vim.api.nvim_del_keymap('n','gcc')
+vim.api.nvim_del_keymap('x','Q')
 vim.o.timeoutlen=0
 vim.on_key(function (_,t)
     vim.on_key(nil,-1)

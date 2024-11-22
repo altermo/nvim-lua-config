@@ -19,7 +19,7 @@ require'lazy'.setup({
   {'catppuccin/nvim',name='catppuccin',lazy=false,config=function () vim.cmd.colorscheme'catppuccin-frappe' end},
   {'nvim-lualine/lualine.nvim',opts={sections={lualine_c={'filename',"vim.iter(vim.split(vim.lsp.status(),', ')):last():gsub('%%','%%%%')",'_G.lualine_val'},
     lualine_x={'encoding',{'fileformat',symbols={unix='',dos='dos',mac='mac'}},'filetype'}}},event='VeryLazy'},
-  {'iamcco/markdown-preview.nvim',build=function() vim.fn["mkdp#util#install"]() end,ft='markdown'},
+  {'brianhuster/live-preview.nvim',opts={},cmd='LivePreview'},
   {'monaqa/dial.nvim',keys={
     {'<C-a>',function () return require'dial.map'.inc_normal() end,expr=true},
     {'<C-x>',function () return require'dial.map'.dec_normal() end,expr=true},
