@@ -8,6 +8,7 @@ local function map(mode,lhs,rhs,opt)
 end
 
 ---- ;; nno
+vim.api.nvim_del_keymap('n','gcc')
 map('n','gc',function () return require('vim._comment').operator()..'_' end,'expr')
 map('n',' ',function ()
   vim.keymap.del('n',' ')
@@ -67,12 +68,6 @@ for k,v in pairs({
 end
 map('n','yo',function() vim.cmd.nno('yo') local c=vim.fn.getcharstr()
   vim.cmd.redraw() if vim.fn.maparg('yo'..c,'n')==1 then vim.api.nvim_input('yo'..c) end end)
-local function hi(k)
-  vim.cmd(('norm! %s"%s%s'):format(vim.v.count1,vim.v.register,k))
-  vim.highlight.on_yank{higroup='Search',timeout=500,event={operator='y',inclusive=true,regtype=vim.fn.getregtype(vim.v.register)}}
-end
-map('n','p',function() return hi('p') end)
-map('n','P',function() return hi('P') end)
 
 ---- ;; ino/cno
 map('c',{'<C-S-v>','<C-A-v>'},'<C-r>+',{noremap=true})
@@ -101,6 +96,7 @@ for k,v in pairs{
 end
 
 ---- ;; xno/ono
+vim.api.nvim_del_keymap('x','Q')
 map('o','æ','y')
 for i in ([['"`()[]{}<>]]):gmatch('.') do
   map('o',i,'i'..i,{silent=true})

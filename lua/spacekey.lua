@@ -8,7 +8,25 @@ return function (map)
   map(' ys',':set spelllang=sv\r',{noremap=true})
   map(' cl',':edit /tmp/nlog\r')
   map(' cr',function () require'small.reminder2'.sidebar() end)
-  map(' Y',':lua vim.ui.select(vim.yanks,{},function(s) vim.fn.setreg("\\"",s) end)\r')
+  map(' cR',function () require'small.luay'.run() end)
+  map(' p',function ()
+    local out={}
+    table.insert(out,('File name: %s'):format(vim.fn.expand('%:.')))
+    table.insert(out,('Current pos: %d,%d'):format(vim.api.nvim_win_get_cursor(0)[1],vim.api.nvim_win_get_cursor(0)[2]+1))
+    table.insert(out,('Filetype: %s'):format(vim.bo.filetype))
+    local c=vim.system({'git','rev-parse','--abbrev-ref','HEAD'}):wait()
+    if c.code==0 then
+      table.insert(out,('Git-branch: %s'):format(c.stdout))
+    end
+    local s={}
+    for _,v in ipairs(vim.diagnostic.get()) do
+      s[v.severity]=(s[v.severity] or 0)+1
+    end
+    for i in vim.spairs(s) do
+      table.insert(out,('%s: %d'):format(vim.diagnostic.severity[i],s[i]))
+    end
+    vim.notify(table.concat(out,'\n'))
+  end)
   --- ;;; window/buffer
   map(' q','<cmd>q\r')
   map(' Q','<cmd>q!\r')
@@ -17,7 +35,8 @@ return function (map)
   map(' u',':e `=tempname()`\r')
   map(' w','<C-w>',{noremap=false})
   map(' <tab>',':tab split\r')
-  map(' Z',':hi Cursor blend=100|set gcr+=n:Cursor ch=0 ls=0 cul scl=no stal=0\r')
+  map(' <',':-tabmove\r')
+  map(' >',':+tabmove\r')
   --- ;;; files
   map(' W',function ()
     local tmp=vim.fn.tempname()

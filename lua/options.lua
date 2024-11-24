@@ -25,7 +25,10 @@ vim.o.fillchars='vert: ,eob: ,horiz: ,horizup: ,horizdown: ,vertleft: ,vertright
 vim.o.list=true
 vim.o.cursorline=true
 vim.o.showmode=false
-vim.o.statusline=' '
+vim.o.statusline='%#Normal#'
+vim.o.signcolumn='no'
+vim.o.laststatus=0
+vim.o.cmdheight=0
 vim.o.conceallevel=2
 vim.o.pumblend=20
 ---search
