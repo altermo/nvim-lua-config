@@ -30,18 +30,13 @@ autocmd('RecordingLeave',function ()
         return vim.schedule_wrap(function (prev) vim.fn.setreg('q',prev) end)(vim.fn.getreg'q') end
     vim.notify('Recorded macro: '..vim.fn.keytrans(vim.v.event.regcontents))
 end)
-local cancel
 autocmd('InsertCharPre',function ()
-    if cancel then cancel:stop() end
-    if vim.fn.match(vim.v.char,[[\V\k\|.]])==-1 then return end
-    cancel=vim.defer_fn(function ()
-        if vim.fn.pumvisible()~=0 then return end
-        if vim.o.omnifunc=='' then
-            vim.api.nvim_input('<C-n>')
-        else
-            vim.api.nvim_input('<C-x><C-o>')
-        end
-    end,0)
+    if vim.fn.match(vim.v.char,[[\V\k\|.]])==-1 or vim.fn.state'm'=='m' or vim.fn.pumvisible()~=0 then return end
+    if vim.o.omnifunc=='' then
+        vim.api.nvim_input('<C-x><C-n>')
+    else
+        vim.api.nvim_input('<C-x><C-o>')
+    end
 end)
 autocmd('InsertCharPre',function () pcall(function ()
     for _,client in ipairs(vim.lsp.get_clients{bufnr=0}) do

@@ -11,6 +11,8 @@ require'lazy'.setup({
   {'altermo/small.nvim',config=function()
     require'small.color_cmdline'.setup{}
     require'small.highlight_selected'.setup{}
+    require'small.verttab'.setup{}
+    vim.schedule(require'small.ruler'.setup)
     require'small.notify'.override_notify{}
     require'small.typo'.setup{}
 
@@ -25,9 +27,6 @@ require'lazy'.setup({
     vim.keymap.set('x','X',ex.ex_visual)
 
     local fs=require'small.fastmultif'
-    fs.conf.labels='1234567890äḧẅëẗÿüïöẍÄḦẄËŸÜÏÖẌâŝĝĥĵŵêŷûîôẑĉÂŜĜĤĴŴÊŶÛÎÔẐĈ'
-    vim.keymap.set('n','f',fs.find)
-    vim.keymap.set('n','F',fs.rfind)
     vim.keymap.set('n','t',fs.ffind)
     vim.keymap.set('n','T',fs.rffind)
 

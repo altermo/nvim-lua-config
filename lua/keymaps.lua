@@ -67,7 +67,7 @@ for k,v in pairs({
   map('n','yo'..k,(':let &%s%s=&%s==%s?%s:%s\r:echo "%s=".&%s\r'):format(k=='d' and 'l:' or '',v[1],v[1],v[2],v[3] or '""',v[2],v[1],v[1]))
 end
 map('n','yo',function() vim.cmd.nno('yo') local c=vim.fn.getcharstr()
-  vim.cmd.redraw() if vim.fn.maparg('yo'..c,'n')==1 then vim.api.nvim_input('yo'..c) end end)
+  vim.cmd.redraw() if vim.fn.maparg('yo'..c,'n')~='' then vim.api.nvim_input('yo'..c) end end)
 
 ---- ;; ino/cno
 map('c',{'<C-S-v>','<C-A-v>'},'<C-r>+',{noremap=true})
@@ -116,6 +116,7 @@ map('x','y','ygv<esc>')
 map('x','p','P')
 map('x','P','p')
 map('x','gc',function () return require('vim._comment').operator()..'gv' end,'expr')
+map('x','<A-f>','y:<C-u>%s/<C-r>"//g<Left><Left>a<bs>',{silent=false})
 
 ---- ;; tno
 map('t','<C-\\>','<C-\\><C-n>')
