@@ -4,7 +4,7 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require'lazy'.setup({
-  {'altermo/ultimate-autopair.nvim',branch='v0.7-old',event={'InsertEnter','CmdlineEnter'},opts={
+  {'altermo/ultimate-autopair.nvim',event={'InsertEnter','CmdlineEnter'},opts={
     newline={enable=false},multiline=false,
     filter={function () return vim.fn.reg_recording()=='' and vim.fn.reg_executing()=='' end}}},
 
