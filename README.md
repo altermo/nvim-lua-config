@@ -11,7 +11,3 @@ Here is a list of *somewhat* unique things about this config:
     + In lua, conceal specific keywords
     + In hyprlang, inject bash highlights into shell code
 + Auto sync terminal background with neovim background
-+ Builtin micro plugins:
-    + Macro recording/replaying and editing
-    + Yank ring
-    + Autosave
