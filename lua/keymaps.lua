@@ -34,7 +34,7 @@ map('n','g:','q:')
 map('n','g/','q/')
 map('n','gp','`[v`]')
 map('n','vv','V')
-map('n','\\p','<cmd>Lazy\r')
+map('n','\\p','<cmd>lua require"lazy.view.commands".cmd("")\r')
 map('n','gd',function () return (vim.o.tagfunc~='' or #vim.fn.tagfiles()>0) and '<C-]>' or 'gd' end,'expr')
 map('n','gr',vim.lsp.buf.rename,{noremap=true})
 for c in ('hjkl'):gmatch('.') do
@@ -61,7 +61,7 @@ for k,v in pairs({
   r='relativenumber',s='spell',u='cursorcolumn',w='wrap',d='diff',t={'colorcolumn',
     '"1,41,81,121,161,201,241"'},v={'virtualedit','"block,onemore"'},M={'mouse','"a"'},
   f='foldenable',e='scrollbind',m={'conceallevel',2,0},T={'showtabline',1,0},
-  L={'laststatus',2,0},C={'cmdheight',1,0},B={'showbreak'},
+  L={'laststatus',2,0},C={'cmdheight',2,0},B={'showbreak'},
 }) do
   v=type(v)=='table' and v or {v,1,0}
   map('n','yo'..k,(':let &%s%s=&%s==%s?%s:%s\r:echo "%s=".&%s\r'):format(k=='d' and 'l:' or '',v[1],v[1],v[2],v[3] or '""',v[2],v[1],v[1]))
