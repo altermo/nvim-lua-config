@@ -5,7 +5,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',event={'InsertEnter','CmdlineEnter'},opts={
-    newline={enable=false},multiline=false,
+    cr={enable=false},multiline=false,
     filter={function () return vim.fn.reg_recording()=='' and vim.fn.reg_executing()=='' end}}},
 
   {'altermo/small.nvim',config=function()
