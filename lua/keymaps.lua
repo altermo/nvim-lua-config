@@ -1,4 +1,4 @@
----- ;; init
+--- ;; init
 local function map(mode,lhs,rhs,opt)
   opt=(opt=='expr' and {expr=true,replace_keycodes=true,noremap=true}) or opt or {noremap=true,silent=true}
   if type(rhs)=='function' then opt.callback=rhs rhs='' end
@@ -38,7 +38,7 @@ map('n','\\p','<cmd>lua require"lazy.view.commands".cmd("")\r')
 map('n','gd',function () return (vim.o.tagfunc~='' or #vim.fn.tagfiles()>0) and '<C-]>' or 'gd' end,'expr')
 map('n','gr',vim.lsp.buf.rename,{noremap=true})
 for c in ('hjkl'):gmatch('.') do
-  map('n','<C-'..c..'>','<C-w>'..c..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
+  map('n','<C-'..c..'>','<C-w>'..c..'<cmd>if &buftype=="terminal"|startinsert|endif\r<cmd>redraw\r')
 end
 map('n','<A-a>','G:keepjumps norm! Vgg\r')
 map('n','<A-y>',':let @+=@"\r')
@@ -61,7 +61,7 @@ for k,v in pairs({
   r='relativenumber',s='spell',u='cursorcolumn',w='wrap',d='diff',t={'colorcolumn',
     '"1,41,81,121,161,201,241"'},v={'virtualedit','"block,onemore"'},M={'mouse','"a"'},
   f='foldenable',e='scrollbind',m={'conceallevel',2,0},T={'showtabline',1,0},
-  L={'laststatus',2,0},C={'cmdheight',2,0},B={'showbreak'},
+  L={'laststatus',2,0},C={'cmdheight',1,0},B={'showbreak'},
 }) do
   v=type(v)=='table' and v or {v,1,0}
   map('n','yo'..k,(':let &%s%s=&%s==%s?%s:%s\r:echo "%s=".&%s\r'):format(k=='d' and 'l:' or '',v[1],v[1],v[2],v[3] or '""',v[2],v[1],v[1]))

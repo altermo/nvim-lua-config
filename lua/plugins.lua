@@ -12,7 +12,7 @@ require'lazy'.setup({
     require'small.color_cmdline'.setup{}
     require'small.highlight_selected'.setup{}
     require'small.verttab'.setup{}
-    vim.schedule(require'small.ruler'.setup)
+    vim.schedule(require'small.bottombar'.setup)
     require'small.notify'.override_notify{}
     require'small.typo'.setup{}
 
@@ -59,7 +59,11 @@ require'lazy'.setup({
     vim.keymap.set('i',':',w.run,{expr=true})
   end,lazy=false},
 
-  {'catppuccin/nvim',name='catppuccin',lazy=false,config=function () vim.cmd.colorscheme'catppuccin-frappe' end},
+  {'catppuccin/nvim',name='catppuccin',lazy=false,config=function ()
+    vim.cmd.colorscheme'catppuccin-frappe'
+    vim.cmd.hi'clear StatusLine'
+    vim.cmd.hi'clear StatusLineNC'
+  end},
 
   {'brianhuster/live-preview.nvim',opts={},cmd='LivePreview'},
 
