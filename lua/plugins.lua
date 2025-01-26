@@ -12,12 +12,14 @@ require'lazy'.setup({
     require'small.color_cmdline'.setup{}
     require'small.highlight_selected'.setup{}
     require'small.verttab'.setup{}
-    vim.schedule(require'small.bottombar'.setup)
     require'small.notify'.override_notify{}
     require'small.typo'.setup{}
 
     require'small.reminder2'.conf={path='/home/user/.gtd/gtd/plans.md'}
     require'small.reminder2'.setup{}
+
+    vim.schedule(require'small.bottombar'.setup)
+    vim.keymap.set('n','yoR',require'small.bottombar'.toggle)
 
     local ex=require'small.exchange'
     vim.keymap.set('n','cx',ex.ex_oper)
@@ -38,7 +40,7 @@ require'lazy'.setup({
     ne.conf={handle_pre=function () vim.api.nvim_buf_clear_namespace(0,ne_ns,0,-1) end,
       handle=vim.schedule_wrap(function(res)
         vim.api.nvim_buf_set_extmark(0,ne_ns,0,0,{virt_text={{res,'Comment'}},virt_text_pos='right_align'})
-    end),bin='fend',node='inline_formula'}
+      end),bin='fend',node='inline_formula'}
     ne.setup()
 
     local to=require'small.textobj'
@@ -88,7 +90,7 @@ require'lazy'.setup({
   {'gbprod/yanky.nvim',opts={},keys={
     {'p','<Plug>(YankyPutAfter)'},
     {'P','<Plug>(YankyPutBefore)'},
-    {'<A-p>','<Plug>(YankyNextEntry)'},
+    {'<A-p>','<Plug>(YankyPreviousEntry)'},
   },event='TextYankPost'},
 
   {'nvim-treesitter/nvim-treesitter',config=function ()
@@ -111,7 +113,7 @@ require'lazy'.setup({
   {'stevearc/oil.nvim',cmd='Oil',config=function ()
     require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true,keymaps={['<C-h>']=false,['<C-l>']=false}}
     vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
-      vim.cmd.lcd(require'oil'.get_current_dir())
+      pcall(vim.cmd.lcd,require'oil'.get_current_dir())
     end}) end,lazy=false},
 
   {'neovim/nvim-lspconfig',config=function () require'lsp' end,lazy=false},
