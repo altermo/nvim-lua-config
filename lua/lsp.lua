@@ -28,4 +28,4 @@ for lsp,opt in pairs({
     else require'lspconfig'[lsp].setup(opt) end
 end
 vim.cmd.LspStart()
-vim.diagnostic.config({virtual_text=true,float=false})
+vim.diagnostic.config({virtual_text=true,severity_sort=true})

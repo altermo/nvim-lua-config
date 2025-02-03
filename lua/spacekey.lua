@@ -51,5 +51,6 @@ return function (map)
   map(' ln',':lua vim.diagnostic.goto_next({_highest=true})\r')
   map(' lp',':lua vim.diagnostic.goto_prev({_highest=true})\r')
   map(' lt',':lua vim.lsp.buf.type_definition()\r')
+  map(' lh',':lua vim.lsp.buf.hover()\r')
 end
 -- vim:ts=2

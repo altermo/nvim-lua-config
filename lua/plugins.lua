@@ -5,7 +5,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 require'lazy'.setup({
   {'altermo/ultimate-autopair.nvim',event={'InsertEnter','CmdlineEnter'},opts={
-    cr={enable=false},multiline=false,
+    multiline=false,
     filter={function () return vim.fn.reg_recording()=='' and vim.fn.reg_executing()=='' end}}},
 
   {'altermo/small.nvim',config=function()
@@ -56,9 +56,6 @@ require'lazy'.setup({
     vim.keymap.set('x','<C-l>',ts.next)
     vim.keymap.set('x','<C-k>',ts.up)
     vim.keymap.set('x','<C-j>',ts.down)
-
-    local w=require'small.whint'
-    vim.keymap.set('i',':',w.run,{expr=true})
   end,lazy=false},
 
   {'catppuccin/nvim',name='catppuccin',lazy=false,config=function ()
@@ -101,8 +98,6 @@ require'lazy'.setup({
     vim.g.rainbow_delimiters={strategy={html=function (bufnr) return vim._with({buf=bufnr},function ()
       return vim.fn.wordcount().bytes<50000 and require'rainbow-delimiters'.strategy.global or nil
     end)end}} vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
-
-  {'windwp/nvim-ts-autotag',ft='html',opts={},dependencies={'nvim-treesitter/nvim-treesitter'}},
 
   {'PriceHiller/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'},branch='fix/iter-matches'},
 

@@ -49,7 +49,7 @@ map('n',{'<M-x>','<M-S-.>'},':lua=',{noremap=true})
 for i=1,9 do
   map('n','<A-'..i..'>',':tabnext '..i..'\r')
 end
-map('n','=','z=')
+map('n','=',':set sps=best,<C-r>=&lines-3\r\rz=')
 map('n','0','(reg_recording()==""&&reg_executing()==""&&col(".")==1)?"^":"0"','expr')
 map('n','U',':later 1f\r')
 map('n','<F6>',':source\r')
