@@ -56,6 +56,9 @@ require'lazy'.setup({
     vim.keymap.set('x','<C-l>',ts.next)
     vim.keymap.set('x','<C-k>',ts.up)
     vim.keymap.set('x','<C-j>',ts.down)
+
+    local w=require'small.whint'
+    vim.keymap.set('i',':',w.run,{expr=true})
   end,lazy=false},
 
   {'catppuccin/nvim',name='catppuccin',lazy=false,config=function ()

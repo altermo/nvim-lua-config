@@ -32,7 +32,7 @@ autocmd('RecordingLeave',function ()
 end)
 autocmd('InsertCharPre',function ()
     if vim.fn.match(vim.v.char,[[\V\k\|.]])==-1 or vim.fn.state'm'=='m' or vim.fn.pumvisible()~=0 then return end
-    if vim.o.omnifunc=='' then
+    if vim.o.omnifunc~='v:lua.vim.lsp.omnifunc' then
         vim.api.nvim_input('<C-x><C-n>')
     else
         vim.api.nvim_input('<C-x><C-o>')

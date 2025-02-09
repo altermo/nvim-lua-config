@@ -22,9 +22,8 @@ vim.api.nvim_create_autocmd({'CmdlineEnter','InsertEnter','SafeState'},{callback
 end,once=true})
 
 vim.o.loadplugins=false
-local idx=#package.loaders+1
 local function f(m)
-    assert(package.loaders[idx]==f) table.remove(package.loaders,idx)
+    package.loaders=vim.tbl_filter(function (x) return x~=f end,package.loaders)
     vim.o.loadplugins=true require'plugins'
     local ret=require(m)
     return function () return ret end
