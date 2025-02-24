@@ -18,8 +18,8 @@ require'lazy'.setup({
     require'small.reminder2'.conf={path='/home/user/.gtd/gtd/plans.md'}
     require'small.reminder2'.setup{}
 
-    vim.schedule(require'small.bottombar'.setup)
-    vim.keymap.set('n','yoR',require'small.bottombar'.toggle)
+    --vim.schedule(require'small.bottombar'.setup)
+    --vim.keymap.set('n','yoR',require'small.bottombar'.toggle)
 
     local ex=require'small.exchange'
     vim.keymap.set('n','cx',ex.ex_oper)
