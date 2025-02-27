@@ -18,9 +18,6 @@ require'lazy'.setup({
     require'small.reminder2'.conf={path='/home/user/.gtd/gtd/plans.md'}
     require'small.reminder2'.setup{}
 
-    --vim.schedule(require'small.bottombar'.setup)
-    --vim.keymap.set('n','yoR',require'small.bottombar'.toggle)
-
     local ex=require'small.exchange'
     vim.keymap.set('n','cx',ex.ex_oper)
     vim.keymap.set('n','cX',ex.ex_eol)
@@ -103,10 +100,6 @@ require'lazy'.setup({
     end)end}} vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
 
   {'PriceHiller/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'},branch='fix/iter-matches'},
-
-  {'ckolkey/ts-node-action',keys={{'s',function () require'ts-node-action'.node_action() end}},dependencies={'nvim-treesitter/nvim-treesitter'},
-    opts=function () return {lua=require'small.tree_lua_block_split_join'.nodes} end
-  },
 
   {'stevearc/oil.nvim',cmd='Oil',config=function ()
     require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true,keymaps={['<C-h>']=false,['<C-l>']=false}}
