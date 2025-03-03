@@ -37,7 +37,6 @@ return function (map)
 
   --- ;; search
   map(' sp',':FzfLua files cwd=/home/user/.local/share/nvim/lazy/ cmd=ls previewer=false\r')
-  map(' s\r',':FzfLua files cwd=/home/user/.projects/ cmd=ls previewer=false\r')
   map(' sr',':FzfLua files cwd=/usr/local/share/nvim/runtime/\r')
   map(' so',':FzfLua oldfiles formatter=path.filename_first\r')
   for k,v in pairs{a='',f='files',s='live_grep',h='helptags',b='buffers',[' ']='resume',g='git_status'} do

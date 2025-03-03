@@ -94,7 +94,7 @@ require'lazy'.setup({
     require'nvim-treesitter.configs'.setup{highlight={enable=true},indent={enable=true}}
   end,build={':TSInstall all',':TSUpdate'},event={'FileType'}},
 
-  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',lazy=false,config=function()
+  {'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='SafeState',config=function()
     vim.g.rainbow_delimiters={strategy={html=function (bufnr) return vim._with({buf=bufnr},function ()
       return vim.fn.wordcount().bytes<50000 and require'rainbow-delimiters'.strategy.global or nil
     end)end}} vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}},
@@ -107,7 +107,7 @@ require'lazy'.setup({
       pcall(vim.cmd.lcd,require'oil'.get_current_dir())
     end}) end,lazy=false},
 
-  {'neovim/nvim-lspconfig',config=function () require'lsp' end,lazy=false},
+  {'neovim/nvim-lspconfig',config=function () require'lsp' end,event='SafeState'},
 
   {'supermaven-inc/supermaven-nvim',opts={
     keymaps={

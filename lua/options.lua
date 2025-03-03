@@ -13,8 +13,6 @@ vim.o.breakindent=true
 vim.o.foldmethod='expr'
 vim.o.foldenable=false
 vim.o.foldexpr='v:lua.vim.treesitter.foldexpr()'
----statuscolumn
----- https://github.com/neovim/neovim/issues/21342#issuecomment-1344280934
 ---window/split
 vim.o.splitbelow=true
 vim.o.splitright=true
@@ -52,3 +50,4 @@ vim.o.virtualedit='block,onemore'
 vim.o.smoothscroll=true
 vim.o.mouse='a'
 vim.o.concealcursor='nc'
+vim.o.shada="'500,/9,:50,<50,@9,s10"

@@ -57,17 +57,15 @@ map('n','q','(reg_recording()==""?"qq":"q")','expr')
 map('n','Q','(reg_recording()==""?reg_executing()==""?"@q":"":v:lua.vim.notify("Cant play macro while recoding")??"")','expr')
 map('n','cq','<cmd>let b:_macro=input(">",keytrans(@q))|let @q=(trim(b:_macro)!=""?v:lua.vim.keycode(b:_macro):@q)\r')
 for k,v in pairs({
-  b={'background','"light"','"dark"'},c='cursorline',h='hlsearch',l='list',n='number',
-  r='relativenumber',s='spell',u='cursorcolumn',w='wrap',d='diff',t={'colorcolumn',
-    '"1,41,81,121,161,201,241"'},v={'virtualedit','"block,onemore"'},M={'mouse','"a"'},
-  f='foldenable',e='scrollbind',m={'conceallevel',2,0},T={'showtabline',1,0},
-  L={'laststatus',2,0},C={'cmdheight',1,0},B={'showbreak'},
+  b={'background','"light"','"dark"'},c={'cmdheight',1,0},l='list',
+  m={'conceallevel',2,0},L={'laststatus',2,0},w='wrap',d='diff',
+  s='spell',f='foldenable',e='scrollbind',S={'statusline','" "'}
 }) do
   v=type(v)=='table' and v or {v,1,0}
-  map('n','yo'..k,(':let &%s%s=&%s==%s?%s:%s\r:echo "%s=".&%s\r'):format(k=='d' and 'l:' or '',v[1],v[1],v[2],v[3] or '""',v[2],v[1],v[1]))
+    map('n','yo'..k,function ()
+      vim.cmd(('let &%s%s=&%s==%s?%s:%s|redraw|echo "%s=".&%s')
+      :format(k=='d' and 'l:' or '',v[1],v[1],v[2],v[3] or '""',v[2],v[1],v[1])) end)
 end
-map('n','yo',function() vim.cmd.nno('yo') local c=vim.fn.getcharstr()
-  vim.cmd.redraw() if vim.fn.maparg('yo'..c,'n')~='' then vim.api.nvim_input('yo'..c) end end)
 
 ---- ;; ino/cno
 map('c',{'<C-S-v>','<C-A-v>'},'<C-r>+',{noremap=true})

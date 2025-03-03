@@ -1,4 +1,14 @@
 local function autocmd(au,callback,opt) return vim.api.nvim_create_autocmd(au,vim.tbl_extend('error',{callback=callback},opt or {})) end
+autocmd('VimEnter',function ()
+    if vim.api.nvim_buf_line_count(0)>1 or
+        vim.api.nvim_buf_get_lines(0,0,-1,false)[1]~='' or
+        vim.api.nvim_buf_get_name(0)~='' then return end
+    vim.bo.buftype='nofile'
+end,{once=true})
+autocmd('BufReadPre',function (ev)
+    if vim.o.buftype~='' then return end
+    vim.schedule(function () pcall(vim.cmd.lcd,vim.fs.root(ev.file,'.git') or vim.fs.dirname(ev.file)) end)
+end,{group=vim.api.nvim_create_augroup('AutoCd',{})})
 autocmd('BufRead',function() pcall(vim.cmd --[[@as function]],[[noautocmd norm! g`"]]) end)
 autocmd('VimLeave',function() vim.cmd.mksession{'/tmp/session.vim',bang=true} end)
 autocmd({'InsertLeave','TextChanged'},function (ev)
@@ -21,7 +31,6 @@ end,{pattern='lua'})
 autocmd('VimLeave',function() io.stdout:write("\027]111;;\027\\") end)
 local function sync_background() io.stdout:write(("\027]11;#%06x\027\\"):format(vim.api.nvim_get_hl(0,{name='Normal',link=false}).bg or 0)) end
 autocmd('ColorScheme',vim.schedule_wrap(sync_background))
---autocmd('OptionSet',vim.schedule_wrap(sync_background),{pattern='background'}) --This causes a CSI recursive loop
 autocmd('OptionSet',function () vim.o.foldmethod=vim.v.option_new==true and 'diff' or 'expr' end,{pattern='diff'})
 autocmd('BufEnter',function () vim.o.tabstop=8 end,{pattern='*/emacs/*.{c,h}'})
 autocmd('RecordingLeave',function ()
