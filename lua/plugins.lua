@@ -4,9 +4,8 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require'lazy'.setup({
-  {'altermo/ultimate-autopair.nvim',event={'InsertEnter','CmdlineEnter'},opts={
-    multiline=false,
-    filter={function () return vim.fn.reg_recording()=='' and vim.fn.reg_executing()=='' end}}},
+  -- Temporary, until ultimate-autopair.nvim v0.7 is released
+  {'echasnovski/mini.pairs',event={'InsertEnter','CmdlineEnter'},opts={modes={command=true}}},
 
   {'altermo/small.nvim',config=function()
     require'small.color_cmdline'.setup{}
@@ -58,8 +57,10 @@ require'lazy'.setup({
     vim.keymap.set('i',':',w.run,{expr=true})
   end,lazy=false},
 
-  {'catppuccin/nvim',name='catppuccin',lazy=false,config=function ()
-    vim.cmd.colorscheme'catppuccin-frappe'
+  --{'catppuccin/nvim',name='catppuccin',lazy=false,config=function ()
+    --vim.cmd.colorscheme'catppuccin-frappe'
+  {'EdenEast/nightfox.nvim',lazy=false,config=function ()
+    vim.cmd.colorscheme'dayfox'
     vim.cmd.hi'clear StatusLine'
     vim.cmd.hi'clear StatusLineNC'
   end},
@@ -129,7 +130,7 @@ require'lazy'.setup({
       'zipPlugin',
       'man',
       'editorconfig',
-      'tohtml',
+      --'tohtml',
       'tarPlugin',
       'netrwPlugin',
       'netrw',
