@@ -57,8 +57,6 @@ require'lazy'.setup({
     vim.keymap.set('i',':',w.run,{expr=true})
   end,lazy=false},
 
-  --{'catppuccin/nvim',name='catppuccin',lazy=false,config=function ()
-    --vim.cmd.colorscheme'catppuccin-frappe'
   {'EdenEast/nightfox.nvim',lazy=false,config=function ()
     vim.cmd.colorscheme'dayfox'
     vim.cmd.hi'clear StatusLine'
@@ -129,8 +127,8 @@ require'lazy'.setup({
       'gzip',
       'zipPlugin',
       'man',
-      'editorconfig',
-      --'tohtml',
+      --'editorconfig',
+      'tohtml',
       'tarPlugin',
       'netrwPlugin',
       'netrw',
