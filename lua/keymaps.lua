@@ -12,7 +12,58 @@ vim.api.nvim_del_keymap('n','gcc')
 map('n','gc',function () return require('vim._comment').operator()..'_' end,'expr')
 map('n',' ',function ()
   vim.keymap.del('n',' ')
-  require'spacekey'(function (...) map('n',...) end)
+  --- ;;; space- main
+  map('n',' r',function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end)
+  map('n'," '",':lua require"small.nterm".run("fish",true)\r')
+  map('n',' i',function () require'oil'.open() end)
+  map('n',' t',':nohls\r')
+  map('n',' ye',':set spelllang=en\r',{noremap=true})
+  map('n',' ys',':set spelllang=sv\r',{noremap=true})
+  map('n',' cl',':edit /tmp/nlog\r')
+  map('n',' cr',function () require'small.reminder2'.sidebar() end)
+  map('n',' cR',function () require'small.luay'.run() end)
+  --- ;;;; space- window/buffer
+  map('n',' q','<cmd>q\r')
+  map('n',' Q','<cmd>q!\r')
+  map('n',' v',function () vim.cmd.vsplit() end)
+  map('n',' e',function () vim.cmd.split() end)
+  map('n',' u',':e `=tempname()`\r')
+  map('n',' w','<C-w>',{noremap=false})
+  map('n',' <tab>',':tab split\r')
+  map('n',' <',':-tabmove\r')
+  map('n',' >',':+tabmove\r')
+  --- ;;;; space- files
+  map('n',' W',function ()
+    local tmp=vim.fn.tempname()
+    vim.fn.writefile(vim.fn.getline(1,vim.fn.line('$')),tmp)
+    vim.cmd.vnew()
+    local buf=vim.fn.bufnr()
+    vim.fn.jobstart('cat '..tmp..'|sudo tee >/dev/null '..vim.fn.expand('#:p'),{
+      term=true,on_exit=function (_,code,_)
+        vim.cmd.bdelete({buf,bang=true})
+        if code==0 then vim.o.modified=false end
+      end
+    })
+    vim.cmd.startinsert()
+  end)
+  map('n',' C',':call setreg("+","<C-r>=expand("%:p")\r")\r',{noremap=true})
+
+  --- ;;; space- search
+  map('n',' sp',':FzfLua files cmd=fd\\ --max-depth=1 previewer=false cwd=/home/user/.local/share/nvim/lazy/\r')
+  map('n',' sr',':FzfLua files cwd=/usr/local/share/nvim/runtime/\r')
+  map('n',' so',':FzfLua oldfiles formatter=path.filename_first\r')
+  for k,v in pairs{a='',f='files',s='live_grep',h='helptags',b='buffers',[' ']='resume',g='git_status'} do
+    map('n',' s'..k,':FzfLua '..v..'\r')
+  end
+
+  --- ;;; space- lsp
+  map('n',' ls',':LspStop\r')
+  map('n',' lS',':LspStart\r')
+  map('n',' lr',':FzfLua lsp_references\r')
+  map('n',' ln',':lua vim.diagnostic.goto_next({_highest=true})\r')
+  map('n',' lp',':lua vim.diagnostic.goto_prev({_highest=true})\r')
+  map('n',' lt',':lua vim.lsp.buf.type_definition()\r')
+  map('n',' lh',':lua vim.lsp.buf.hover()\r')
   vim.api.nvim_input(' ')
 end)
 map('n',',','<C-o>')
