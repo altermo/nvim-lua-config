@@ -31,7 +31,7 @@ end,{pattern='lua'})
 autocmd('VimLeave',function() io.stdout:write("\027]111;;\027\\") end)
 local function sync_background() io.stdout:write(("\027]11;#%06x\027\\"):format(vim.api.nvim_get_hl(0,{name='Normal',link=false}).bg or 0)) end
 autocmd('ColorScheme',vim.schedule_wrap(sync_background))
-autocmd('OptionSet',function () vim.o.foldmethod=vim.v.option_new==true and 'diff' or 'expr' end,{pattern='diff'})
+autocmd('OptionSet',function () vim.o.foldmethod=vim.v.option_new==true and 'diff' or 'manual' end,{pattern='diff'})
 autocmd('BufEnter',function () vim.o.tabstop=8 end,{pattern='*/emacs/*.{c,h}'})
 autocmd('RecordingLeave',function ()
     if vim.v.event.regcontents=='' then

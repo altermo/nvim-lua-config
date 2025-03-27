@@ -36,7 +36,6 @@ map('n','gp','`[v`]')
 map('n','vv','V')
 map('n','\\p','<cmd>lua require"lazy.view.commands".cmd("")\r')
 map('n','gd',function () return (vim.o.tagfunc~='' or #vim.fn.tagfiles()>0) and '<C-]>' or 'gd' end,'expr')
-map('n','gr',vim.lsp.buf.rename,{noremap=true})
 for c in ('hjkl'):gmatch('.') do
   map('n','<C-'..c..'>','<C-w>'..c..'<cmd>if &buftype=="terminal"|startinsert|endif\r<cmd>redraw\r')
 end

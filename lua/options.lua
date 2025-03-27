@@ -9,10 +9,6 @@ vim.o.indentexpr='v.lua:require"nvim-treesitter".indentexpr()'
 vim.o.linebreak=true
 vim.o.showbreak='↳ '
 vim.o.breakindent=true
----fold
-vim.o.foldmethod='expr'
-vim.o.foldenable=false
-vim.o.foldexpr='v:lua.vim.treesitter.foldexpr()'
 ---window/split
 vim.o.splitbelow=true
 vim.o.splitright=true
@@ -21,11 +17,10 @@ vim.o.winminwidth=0
 ---visual
 vim.o.fillchars='vert: ,eob: ,horiz: ,horizup: ,horizdown: ,vertleft: ,vertright: ,verthoriz: '
 vim.o.list=true
---vim.o.cursorline=true
-vim.o.showmode=false
+--vim.o.showmode=false
 vim.o.statusline=' '
-vim.o.ruler=false
-vim.o.showcmd=false
+--vim.o.ruler=false
+--vim.o.showcmd=false
 vim.o.signcolumn='no'
 vim.o.laststatus=0
 vim.o.cmdheight=0
