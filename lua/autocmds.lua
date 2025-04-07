@@ -7,7 +7,7 @@ autocmd('VimEnter',function ()
 end,{once=true})
 autocmd('BufReadPre',function (ev)
     if vim.o.buftype~='' then return end
-    vim.schedule(function () pcall(vim.cmd.lcd,vim.fs.root(ev.file,'.git') or vim.fs.dirname(ev.file)) end)
+    vim.schedule(function () pcall(vim.cmd.lcd,{vim.fs.root(ev.file,'.git') or vim.fs.dirname(ev.file),mods={silent=true}}) end)
 end,{group=vim.api.nvim_create_augroup('AutoCd',{})})
 autocmd('BufRead',function() pcall(vim.cmd --[[@as function]],[[noautocmd norm! g`"]]) end)
 autocmd('VimLeave',function() vim.cmd.mksession{'/tmp/session.vim',bang=true} end)
