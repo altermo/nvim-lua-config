@@ -8,15 +8,12 @@ vim.lsp.handlers['textDocument/rename']=function(_,result,ctx)
 end
 for lsp,opt in pairs({
     basedpyright={'basedpyright-langserver',settings={basedpyright={analysis={typeCheckingMode='standard'}}}},
+    --lua_ls={'emmylua_ls',cmd={'emmylua_ls'},settings={Lua={
     lua_ls={'lua-language-server',settings={Lua={
         hint={enable=true},
         runtime={version='LuaJIT',unicodeName=true},
-        completion={displayContext=30,postfix=':'},
-        workspace={library={
-            '/usr/local/share/nvim/runtime/lua/vim/',
-            '${3rd}/luv/library',
-            '~/.config/nvim/lua',
-        }}}}},
+        --completion={displayContext=30,postfix=':'},
+        workspace={library={'/usr/local/share/nvim/runtime/lua/'}}}}},
     clangd={'clangd'},
     rust_analyzer={'rust-analyzer'},
     zls={'zls'},

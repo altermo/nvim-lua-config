@@ -37,7 +37,7 @@ autocmd('RecordingLeave',function ()
     if vim.v.event.regcontents=='' then
         vim.notify'empty macro, previous recoding is kept'
         return vim.schedule_wrap(function (prev) vim.fn.setreg('q',prev) end)(vim.fn.getreg'q') end
-    vim.notify('Recorded macro: '..vim.fn.keytrans(vim.v.event.regcontents))
+    vim.notify('Recorded macro: '..vim.fn.keytrans(assert(vim.v.event.regcontents)))
 end)
 autocmd('InsertCharPre',function ()
     if vim.fn.match(vim.v.char,[[\V\k\|.]])==-1 or vim.fn.state'm'=='m' or vim.fn.pumvisible()~=0 then return end
