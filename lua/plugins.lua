@@ -10,9 +10,11 @@ require'lazy'.setup({
   {'altermo/small.nvim',config=function()
     require'small.color_cmdline'.setup{}
     require'small.highlight_selected'.setup{}
-    require'small.verttab'.setup{}
     require'small.notify'.override_notify{}
     require'small.typo'.setup{}
+
+    require'small.verttab'.setup{}
+    vim.keymap.set('n','<A-Tab>',require'small.verttab'.show)
 
     require'small.reminder2'.conf={path='/home/user/.gtd/gtd/plans.md'}
     require'small.reminder2'.setup{}
