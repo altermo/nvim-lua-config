@@ -11,3 +11,5 @@ function vim.lg(...)
         vim.inspect(#{...}>1 and {...} or ...),'\n'
     ),'/tmp/nlog','a')
 end
+
+require('vim._extui').enable{}

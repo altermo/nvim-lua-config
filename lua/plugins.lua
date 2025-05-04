@@ -8,9 +8,7 @@ require'lazy'.setup({
   {'echasnovski/mini.pairs',event={'InsertEnter','CmdlineEnter'},opts={modes={command=true}}},
 
   {'altermo/small.nvim',config=function()
-    require'small.color_cmdline'.setup{}
     require'small.highlight_selected'.setup{}
-    require'small.notify'.override_notify{}
     require'small.typo'.setup{}
 
     require'small.verttab'.setup{}
@@ -33,13 +31,13 @@ require'lazy'.setup({
     local hc=require'small.help_cword'
     vim.keymap.set('n','K',hc.run)
 
-    local ne=require'small.node_eval'
-    local ne_ns=vim.api.nvim_create_namespace'_node_eval_ns'
-    ne.conf={handle_pre=function () vim.api.nvim_buf_clear_namespace(0,ne_ns,0,-1) end,
-      handle=vim.schedule_wrap(function(res)
-        vim.api.nvim_buf_set_extmark(0,ne_ns,0,0,{virt_text={{res,'Comment'}},virt_text_pos='right_align'})
-      end),bin='fend',node='inline_formula'}
-    ne.setup()
+    --local ne=require'small.node_eval'
+    --local ne_ns=vim.api.nvim_create_namespace'_node_eval_ns'
+    --ne.conf={handle_pre=function () vim.api.nvim_buf_clear_namespace(0,ne_ns,0,-1) end,
+    --  handle=vim.schedule_wrap(function(res)
+    --    vim.api.nvim_buf_set_extmark(0,ne_ns,0,0,{virt_text={{res,'Comment'}},virt_text_pos='right_align'})
+    --  end),bin='fend',node='inline_formula'}
+    --ne.setup()
 
     local to=require'small.textobj'
     vim.keymap.set('x','im',to.wordcolumn,{expr=true})

@@ -8,11 +8,8 @@ vim.lsp.handlers['textDocument/rename']=function(_,result,ctx)
 end
 for lsp,opt in pairs({
     basedpyright={'basedpyright-langserver',settings={basedpyright={analysis={typeCheckingMode='standard'}}}},
-    --lua_ls={'emmylua_ls',cmd={'emmylua_ls'},settings={Lua={
     lua_ls={'lua-language-server',settings={Lua={
-        hint={enable=true},
         runtime={version='LuaJIT',unicodeName=true},
-        --completion={displayContext=30,postfix=':'},
         workspace={library={'/usr/local/share/nvim/runtime/lua/'}}}}},
     clangd={'clangd'},
     rust_analyzer={'rust-analyzer'},
@@ -21,8 +18,9 @@ for lsp,opt in pairs({
     ts_ls={'typescript-language-server'},
     vimls={'vim-language-server'},
 }) do
-    if vim.fn.executable(opt[1])==0 then vim.notify(opt[1]..' LSP executable not found')
-    else require'lspconfig'[lsp].setup(opt) end
+    if vim.fn.executable(opt[1])==0 then vim.notify(opt[1]..' LSP executable not found') end
+    vim.lsp.config[lsp]=vim.tbl_extend('force',vim.lsp.config[lsp],opt)
+    vim.lsp.enable(lsp)
 end
-vim.cmd.LspStart()
 vim.diagnostic.config({virtual_text=true,severity_sort=true})
+vim.cmd.LspStart()
