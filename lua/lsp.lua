@@ -23,4 +23,3 @@ for lsp,opt in pairs({
     vim.lsp.enable(lsp)
 end
 vim.diagnostic.config({virtual_text=true,severity_sort=true})
-vim.cmd.LspStart()
