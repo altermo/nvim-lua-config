@@ -7,15 +7,13 @@ autocmd('VimEnter',function ()
 end,{once=true})
 autocmd('BufReadPre',function (ev)
     if vim.o.buftype~='' then return end
-    vim.schedule(function () pcall(vim.cmd.lcd,{vim.fs.root(ev.file,'.git') or vim.fs.dirname(ev.file),mods={silent=true}}) end)
+    vim.schedule_wrap(pcall)(vim.cmd.lcd,{vim.fs.root(ev.file,'.git') or vim.fs.dirname(ev.file),mods={silent=true}})
 end,{group=vim.api.nvim_create_augroup('AutoCd',{})})
 autocmd('BufRead',function() pcall(vim.cmd --[[@as function]],[[noautocmd norm! g`"]]) end)
-autocmd('VimLeave',function() vim.cmd.mksession{'/tmp/session.vim',bang=true} end)
 autocmd({'InsertLeave','TextChanged'},function (ev)
     if ev.file=='' or not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
     pcall(vim.fn.mkdir,vim.fs.dirname(ev.file),'p')
     vim.cmd.update{bang=true,mods={emsg_silent=true,lockmarks=true}}
-    if vim.o.cmdheight>0 then vim.cmd.echon(("'AutoSave: saved at "..vim.fn.strftime("%H:%M:%S")):sub(1,vim.v.echospace+1).."'") end
 end,{group=vim.api.nvim_create_augroup('AutoSave',{})})
 autocmd('FileType',function()
     local function bino(lhs,rhs) vim.keymap.set('i',lhs,rhs,{buffer=true}) end
@@ -45,12 +43,9 @@ autocmd('InsertCharPre',function ()
         vim.api.nvim_input('<C-x><C-n>')
     else
         vim.api.nvim_input('<C-x><C-o>')
-    end
-end)
+    end end)
 autocmd('InsertCharPre',function () pcall(function ()
     for _,client in ipairs(vim.lsp.get_clients{bufnr=0}) do
         if vim.tbl_contains(client.server_capabilities.signatureHelpProvider.triggerCharacters,vim.v.char) then
             vim.lsp.buf.signature_help{focusable=false,silent=true,max_height=4,anchor_bias='above'}
-        end
-    end
-    end) end)
+        end end end) end)

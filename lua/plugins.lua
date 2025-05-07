@@ -10,6 +10,7 @@ require'lazy'.setup({
   {'altermo/small.nvim',config=function()
     require'small.highlight_selected'.setup{}
     require'small.typo'.setup{}
+    require'small.copyring'.setup{}
 
     require'small.verttab'.setup{}
     vim.keymap.set('n','<A-Tab>',require'small.verttab'.show)
@@ -82,12 +83,6 @@ require'lazy'.setup({
     }},keys={{'S',mode={'n','x'}},'ds','cs'}},
 
   {'echasnovski/mini.ai',opts={},keys={{'a',mode={'o','x'}},{'i',mode={'o','x'}}}},
-
-  {'gbprod/yanky.nvim',opts={},keys={
-    {'p','<Plug>(YankyPutAfter)'},
-    {'P','<Plug>(YankyPutBefore)'},
-    {'<A-p>','<Plug>(YankyPreviousEntry)'},
-  },event='TextYankPost'},
 
   {'nvim-treesitter/nvim-treesitter',config=function ()
     require'nvim-treesitter.configs'.setup{highlight={enable=true},indent={enable=true}}

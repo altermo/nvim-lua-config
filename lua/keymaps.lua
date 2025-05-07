@@ -71,9 +71,8 @@ map('n',',','<C-o>')
 map('n',';','<C-i>')
 map('n','.',':',{noremap=true})
 map('n','<M-e>','/',{noremap=true})
-map('n','ø',':redo\r')
+map('n','ø','<C-r>')
 map('n','å','"+p')
-map('n','æ','"+y')
 map('n','π','yyp')
 map('n',{'<tab>','<A-l>'},'a<C-T><esc>')
 map('n',{'<S-tab>','<A-h>'},'a<C-D><esc>')
@@ -146,7 +145,6 @@ end
 
 ---- ;; xno/ono
 vim.api.nvim_del_keymap('x','Q')
-map('o','æ','y')
 for i in ([['"`()[]{}<>]]):gmatch('.') do
   map('o',i,'i'..i,{silent=true})
   map('x',i,'i'..i,{silent=true})
