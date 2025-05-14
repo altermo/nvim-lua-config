@@ -52,7 +52,7 @@ vim.o.complete='.'
 --  Second <tab>: Cycles through the completions in the completion menu.
 vim.o.wildmode='longest:full,full'
 ```
-```lua imap
+```lua ictmap
 autocmd('InsertCharPre',function ()
     if vim.fn.match(vim.v.char,[[\V\k\|.]])==-1 or vim.fn.state'm'=='m' or vim.fn.pumvisible()~=0 then return end
     if vim.o.omnifunc~='v:lua.vim.lsp.omnifunc' then
@@ -67,7 +67,7 @@ map('i','<S-tab>','pumvisible()?"<c-p>":"<S-tab>"','expr')
 ```
 
 ### AI
-Mostly useful as a smart copy/paste.
+Mostly used as a smart copy/paste.
 ```lua
 plugin{'supermaven-inc/supermaven-nvim',opts={
   keymaps={
@@ -107,7 +107,7 @@ end,event='User Later'}
 ```
 
 ### Signature help
-```lua imap
+```lua ictmap
 map('i','<A-tab>',function ()
   vim.lsp.buf.signature_help{focusable=false,silent=true,max_height=4,anchor_bias='above'}
 end)
@@ -752,9 +752,8 @@ vim.keymap.set('o','ik',to.charrow,{expr=true})
 ```
 
 Quickly add lua function annotations.
-```lua small
-local w=require'small.whint'
-vim.keymap.set('i',':',w.run,{expr=true})
+```lua ictmap
+vim.keymap.set('i',':',require'small.whint'.run,{expr=true})
 ```
 
 Interactive lua scratchpad repl.
@@ -837,12 +836,6 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function()
   &LATER!()
 
   vim.cmd.doau'User Later'
-end,once=true})
-vim.api.nvim_create_autocmd('InsertEnter',{callback=function()
-
-  -- This is a macro
-  &IMAP!()
-
 end,once=true})
 vim.api.nvim_create_autocmd({'InsertEnter','CmdlineEnter','TermEnter'},{callback=function()
 
