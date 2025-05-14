@@ -4,9 +4,6 @@
 > [!TIP]
 > In the README, some (really-useful) information are inside the code-block posing as lua-comments.
 
-# About the README (and tangling system)
-TODO, write.
-
 # Utility functions
 * `autocmd`: Creates an autocommand.
 * `map`: Creates a keymap.
