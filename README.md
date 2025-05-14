@@ -765,6 +765,16 @@ Interactive lua scratchpad repl.
 space_map('cR',function () require'small.luay'.run() end)
 ```
 
+# Mini-plugin
+```lua
+plugin{'altermo/small.nvim',config=function()
+
+  -- This is a macro
+  &SMALL!()
+
+end,lazy=false}
+```
+
 # Plugin-manager
 ## AutoInstall
 ```lua
@@ -820,16 +830,6 @@ map('n',' ',function ()
 
   vim.api.nvim_input(' ')
 end)
-```
-
-# Mini-plugin
-```lua
-plugin{'altermo/small.nvim',config=function()
-
-  -- This is a macro
-  &SMALL!()
-
-end}
 ```
 
 # Lazy-loading
