@@ -4,7 +4,7 @@
 > [!TIP]
 > In the README, some (really-useful) information are inside the code-block posing as lua-comments.
 
-# Utility functions
+# Utility functions <!-- utils -->
 * `autocmd`: Creates an autocommand.
 * `map`: Creates a keymap.
 * `plugin`: Defines a plugin.
@@ -36,7 +36,7 @@ end
 </details>
 
 # LSP & autocomplete (& diagnostics)
-## Autocomplete
+## Autocomplete <!-- autocomplete -->
 ```lua
 
 -- Applies to all insert mode completion.
@@ -66,7 +66,7 @@ map('i','<tab>','pumvisible()?"<c-n>":"<tab>"','expr')
 map('i','<S-tab>','pumvisible()?"<c-p>":"<S-tab>"','expr')
 ```
 
-### AI
+### AI <!-- ai -->
 Mostly used as a smart copy/paste.
 ```lua
 plugin{'supermaven-inc/supermaven-nvim',opts={
@@ -78,7 +78,7 @@ plugin{'supermaven-inc/supermaven-nvim',opts={
 },event={'InsertEnter'}}
 ```
 
-## LSP
+## LSP <!-- lsp -->
 ```lua
 plugin{'neovim/nvim-lspconfig',config=function ()
 
@@ -106,14 +106,14 @@ plugin{'neovim/nvim-lspconfig',config=function ()
 end,event='User Later'}
 ```
 
-### Signature help
+### Signature help <!-- signature -->
 ```lua ictmap
 map('i','<A-tab>',function ()
   vim.lsp.buf.signature_help{focusable=false,silent=true,max_height=4,anchor_bias='above'}
 end)
 ```
 
-### Renaming
+### Renaming <!-- rename -->
 Shows how many things got renamed in how many files.
 ```lua later
 local rename=vim.lsp.handlers['textDocument/rename']
@@ -139,12 +139,12 @@ space_map('lp',':lua vim.diagnostic.jump({count=-1,_highest=true,float=true})\r'
 space_map('lt',':lua vim.lsp.buf.type_definition()\r')
 space_map('lh',':lua vim.lsp.buf.hover()\r')
 ```
-## Diagnostics
+## Diagnostics <!-- diagnostics -->
 ```lua later
 vim.diagnostic.config({virtual_text=true,severity_sort=true})
 ```
 
-# Windows
+# Windows <!-- windows -->
 ```lua
 --Switching windows with `<C-hjkl>`; and if terminal, enter it.
 for i in ('hjkl'):gmatch('.') do
@@ -168,7 +168,7 @@ space_map('e',function () vim.cmd.split() end)
 space_map('w','<C-w>',{noremap=false})
 ```
 
-# Tabs
+# Tabs <!-- tabs -->
 ```lua
 for i=1,9 do
   map('n','<A-'..i..'>',':tabnext '..i..'\r')
@@ -182,7 +182,7 @@ space_map('<tab>',':tab split\r')
 space_map('<',':-tabmove\r')
 space_map('>',':+tabmove\r')
 ```
-## Tabbar
+## Tabbar <!-- bar -->
 I use a vertical tab bar.
 ```lua small
 require'small.verttab'.setup{}
@@ -190,7 +190,7 @@ vim.keymap.set('n','<A-Tab>',require'small.verttab'.show)
 ```
 
 # Files & Directories
-## Files
+## Files <!-- files -->
 Check every 100ms if the file has changed, and update the buffer if it has.
 ```lua later
 vim.fn.timer_start(100,function() vim.fn.execute('silent! checktime') end,{['repeat']=-1})
@@ -235,7 +235,7 @@ Copy file name.
 space_map('C',':call setreg("+","<C-r>=expand("%:p")\r")\r',{noremap=true})
 ```
 
-## Directories
+## Directories <!-- dirs -->
 Auto change directory to the git root (or directory) of the file.
 ```lua
 autocmd('BufReadPre',function (ev)
@@ -250,7 +250,7 @@ map('n','dc',':lcd ..|pwd\r')
 map('n','cd',':lcd %:p:h|pwd\r')
 ```
 
-## Filesystem explorer/navigation
+## Filesystem explorer/navigation <!-- explorer -->
 There are 3 of them:
 ### Oil
 A plugin which is useful to edit directories and other similar operations.
@@ -278,7 +278,7 @@ My own plugin, can get you to your file really fast (typically 1-3 key presses),
 space_map('r',function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end)
 ```
 
-# Search
+# Search <!-- search -->
 ```lua
 plugin{'ibhagwan/fzf-lua',cmd='FzfLua',opts={winopts={backdrop=100},oldfiles={formatter='path.filename_first'}}}
 ```
@@ -295,7 +295,7 @@ for k,v in pairs{a='',f='files',s='live_grep',h='helptags',b='buffers',[' ']='re
 end
 ```
 
-## Text search (& replace)
+## Text search (& replace) <!-- replace -->
 ```lua
 -- Easier for me to press <M-e> than /
 map('n','<M-e>','/',{noremap=true})
@@ -310,7 +310,7 @@ vim.o.smartcase=true
 space_map('t',':nohls\r')
 ```
 
-# Spell
+# Spell <!-- spell -->
 Uses [typos](https://github.com/crate-ci/typos) to check spelling.
 ```lua small
 require'small.typo'.setup{}
@@ -327,7 +327,7 @@ map('n','=',':set sps=best,<C-r>=&lines-3\r\rz=')
 vim.o.spelloptions='camel'
 ```
 
-# Pairs
+# Pairs <!-- pairs -->
 ```lua
 --Auto-pair
 --Temporary, until ultimate-autopair.nvim v0.7 is released, so that I'm motivated to finish it.
@@ -364,7 +364,7 @@ for i in ([['"`()[]{}<>]]):gmatch('.') do
 end
 ```
 
-# Insert/Cmdline/Terminal keymaps
+# Insert/Cmdline/Terminal keymaps <!-- imap -->
 ```lua ictmap
 -- Some terminals don't work with one of theme, so that's why there's two.
 map('c',{'<C-S-v>','<C-A-v>'},'<C-r>+',{noremap=true})
@@ -403,7 +403,7 @@ map('t','<C-\\>','<C-\\><C-n>')
 map('t','<C-A-\\>','<C-\\><C-\\>')
 ```
 
-## Snippets
+## Snippets <!-- snippets -->
 ```lua
 autocmd('FileType',function()
     local function bino(lhs,rhs) vim.keymap.set('i',lhs,rhs,{buffer=true}) end
@@ -433,7 +433,7 @@ autocmd('FileType',function()
 end,{pattern='markdown'})
 ```
 
-# Dashboard
+# Dashboard <!-- dashboard -->
 I don't care about dashboards, so the "dashboard" is just a scratch-buffer where I can quickly write down stuff.
 ```lua
 autocmd('VimEnter',function ()
@@ -444,7 +444,7 @@ autocmd('VimEnter',function ()
 end,{once=true})
 ```
 
-# Colors
+# Colors <!-- colors -->
 Auto change terminal background(e.g. padding) color to nvim's background color, and restore on exit.
 Previously there was one autocmd for when `background`(e.g. light/dark mode setting) changed, but that caused an infinite CSI loop where: set terminal background color -> terminal send's that it's dark/light mode -> neovim updates `background` -> autocmd fires -> set terminal background color... (or something like that, I'd not look into it too deep)
 ```lua
@@ -453,7 +453,7 @@ local function sync_background() io.stdout:write(("\027]11;#%06x\027\\"):format(
 autocmd('ColorScheme',vim.schedule_wrap(sync_background))
 ```
 
-## Colorscheme
+## Colorscheme <!-- colorscheme -->
 Yes, I'm using a light theme. It's not that bad, once you apply a 4000k temperature filter ontop of it.
 ```lua
 plugin{'EdenEast/nightfox.nvim',lazy=false,config=function ()
@@ -466,14 +466,14 @@ plugin{'EdenEast/nightfox.nvim',lazy=false,config=function ()
 end}
 ```
 
-# UI
+# UI <!-- ui -->
 Neovim's experimental command-line/message UI.
 Is a replacement for notify plugins.
 ```lua
 require('vim._extui').enable{}
 ```
 
-# Treesitter
+# Treesitter <!-- treesitter -->
 ```lua
 plugin{'nvim-treesitter/nvim-treesitter',config=function ()
   require'nvim-treesitter.configs'.setup{highlight={enable=true},indent={enable=true}}
@@ -485,7 +485,7 @@ end,
   event={'FileType'}}
 ```
 
-## Selection
+## Selection <!-- selection -->
 Similar to Helix's treesitter selection
 ```lua small
 local ts=require'small.treeselect'
@@ -497,7 +497,7 @@ vim.keymap.set('x','<C-k>',ts.up)
 vim.keymap.set('x','<C-j>',ts.down)
 ```
 
-# Macro
+# Macro <!-- macro -->
 Minimal macro plugin.
 + `q`: toggle macro recording.
 + `Q`: run macro.
@@ -514,7 +514,7 @@ map('n','Q','(reg_recording()==""?reg_executing()==""?"@q":"":v:lua.vim.notify("
 map('n','cq','<cmd>let b:_macro=input(">",keytrans(@q))|let @q=(trim(b:_macro)!=""?v:lua.vim.keycode(b:_macro):@q)\r')
 ```
 
-# Options
+# Options <!-- options -->
 ```lua
 ---indent
 vim.o.tabstop=4
@@ -566,7 +566,7 @@ for k,v in pairs({
 end
 ```
 
-# Other Keymaps
+# Other Keymaps <!-- maps -->
 ```lua
 -- I like using `gc` to comment current line, so I replace `gcc` with `gc`
 vim.api.nvim_del_keymap('n','gcc')
@@ -651,7 +651,7 @@ map('x','p','P')
 map('x','P','p')
 ```
 
-# Other
+# Other <!-- other -->
 Here goes everything that doesn't fit in any other category.
 
 Auto jump to last known position.
@@ -699,7 +699,7 @@ plugin{'monaqa/dial.nvim',keys={
 }}
 ```
 
-## Other-Mini-plugins
+## Other-Mini-plugins <!-- mini -->
 Reminder.
 ```lua small
 require'small.reminder2'.conf={path='/home/user/.gtd/gtd/plans.md'}
@@ -780,7 +780,7 @@ if not vim.uv.fs_stat(lazypath) then
 end
 ```
 
-## Setup & optinos
+## Setup & optinos <!-- lazy -->
 ```lua
 vim.opt.rtp:prepend(lazypath)
 
