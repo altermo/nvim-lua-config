@@ -69,7 +69,7 @@ plugin{'neovim/nvim-lspconfig',config=function ()
   -- NOTE: The first entry is the lsp-executable and is ignored by the config.
   for lsp,opt in pairs({
     basedpyright={'basedpyright-langserver',settings={basedpyright={analysis={typeCheckingMode='standard'}}}},
-    lua_ls={'emmylua_ls',cmd={'emmylua_ls'},settings={Lua={
+    lua_ls={'lua-language-server',settings={Lua={
       runtime={version='LuaJIT',unicodeName=true},
       workspace={library={'/usr/local/share/nvim/runtime/lua/'}}}}},
     clangd={'clangd'},
@@ -567,6 +567,10 @@ map('x','y','ygv<esc>')
 -- Don't yank on paste.
 map('x','p','P')
 map('x','P','p')
+
+map('', '<D-q>','<cmd>qall<cr>')
+map('!','<D-q>','<cmd>qall<cr>')
+map('t','<D-q>','<cmd>qall<cr>')
 
 --- ;; Other *other*
 -- Here goes everything that doesn't fit in any other category.
