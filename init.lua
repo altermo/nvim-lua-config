@@ -69,7 +69,7 @@ plugin{'neovim/nvim-lspconfig',config=function ()
   -- NOTE: The first entry is the lsp-executable and is ignored by the config.
   for lsp,opt in pairs({
     basedpyright={'basedpyright-langserver',settings={basedpyright={analysis={typeCheckingMode='standard'}}}},
-    lua_ls={'lua-language-server',settings={Lua={
+    lua_ls={'emmylua_ls',cmd={'emmylua_ls'},settings={Lua={
       runtime={version='LuaJIT',unicodeName=true},
       workspace={library={'/usr/local/share/nvim/runtime/lua/'}}}}},
     clangd={'clangd'},
@@ -83,7 +83,7 @@ plugin{'neovim/nvim-lspconfig',config=function ()
     -- If lsp executable not found, notify.
     if vim.fn.executable(opt[1])==0 then vim.notify(opt[1]..' LSP executable not found') end
 
-    vim.lsp.config[lsp]=vim.tbl_extend('force',vim.lsp.config[lsp],opt)
+    vim.lsp.config(lsp,opt)
     vim.lsp.enable(lsp)
   end
 end,event='VeryLazy'}
@@ -519,6 +519,8 @@ map('n','ø','<C-r>')
 
 -- Source current file.
 map('n','<F6>',':source\r')
+
+map('n','<F7>',':echo v:errmsg\r')
 
 --
 map('n',',','<C-o>')
