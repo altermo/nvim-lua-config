@@ -294,7 +294,7 @@ plugin{'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='VeryLazy',con
 plugin{'PriceHiller/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'},branch='fix/iter-matches'}
 
 --Pair surrounding operators
-plugin{'echasnovski/mini.ai',opts={},keys={{'a',mode={'o','x'}},{'i',mode={'o','x'}}}}
+plugin{'echasnovski/mini.ai',opts={mappings={around_next='aL',inside_next='iL'}},keys={{'a',mode={'o','x'}},{'i',mode={'o','x'}}}}
 
 -- Shorthands for surrounding operators.
 for i in ([['"`()[]{}<>]]):gmatch('.') do
