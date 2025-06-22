@@ -430,6 +430,7 @@ autocmd('RecordingLeave',function ()
     return vim.schedule_wrap(function (prev) vim.fn.setreg('q',prev) end)(vim.fn.getreg'q') end
   vim.notify('Recorded macro: '..vim.fn.keytrans(assert(vim.v.event.regcontents)))
 end)
+autocmd('RecordingEnter',function () vim.notify'recording macro' end)
 map('n','q','(reg_recording()==""?"qq":"q")','expr')
 map('n','Q','(reg_recording()==""?reg_executing()==""?"@q":"":v:lua.vim.notify("Cant play macro while recoding")??"")','expr')
 map('n','cq','<cmd>let b:_macro=input(">",keytrans(@q))|let @q=(trim(b:_macro)!=""?v:lua.vim.keycode(b:_macro):@q)\r')
