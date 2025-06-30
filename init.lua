@@ -234,16 +234,20 @@ plugin{'ibhagwan/fzf-lua',cmd='FzfLua',opts={winopts={backdrop=100},oldfiles={fo
 space_map('sp',':FzfLua files cmd=fd\\ --max-depth=1 previewer=false cwd=/home/user/.local/share/nvim/lazy/\r')
 
 --Search neovim runtime files.
-space_map('sr',':FzfLua files cwd=/usr/local/share/nvim/runtime/\r')
+space_map('sr','<cmd>FzfLua files cwd=/usr/local/share/nvim/runtime/\r')
 
-space_map('so',':FzfLua oldfiles formatter=path.filename_first\r')
+space_map('so','<cmd>FzfLua oldfiles formatter=path.filename_first\r')
 for k,v in pairs{a='',f='files',s='live_grep',h='helptags',b='buffers',[' ']='resume',g='git_status'} do
-  space_map('s'..k,':FzfLua '..v..'\r')
+  space_map('s'..k,'<cmd>FzfLua '..v..'\r')
 end
 
 --- ;;; Text search (& replace) *replace*
 -- Easier for me to press <M-e> than /
 map('n','<M-e>','/',{noremap=true})
+
+--Move to next/prev search
+map('c','<C-n>','<C-g><cmd>redraw<cr>',{noremap=true})
+map('c','<C-p>','<C-t><cmd>redraw<cr>',{noremap=true})
 
 --Search and replace selected word.
 map('x','<A-f>','y:<C-u>%s/<C-r>"//g<Left><Left>a<bs>',{silent=false})
@@ -469,7 +473,7 @@ vim.o.shortmess='ascoOAFWI'
 vim.o.virtualedit='block,onemore'
 vim.o.smoothscroll=true
 vim.o.mouse='a'
-vim.o.concealcursor='nc'
+vim.o.concealcursor='n'
 vim.o.shada="'500,/9,:50,<50,@9,s10"
 
 --- ;;; Option-keymap
