@@ -573,10 +573,6 @@ map('x','y','ygv<esc>')
 map('x','p','P')
 map('x','P','p')
 
-map('', '<D-q>','<cmd>qall<cr>')
-map('!','<D-q>','<cmd>qall<cr>')
-map('t','<D-q>','<cmd>qall<cr>')
-
 --- ;; Other *other*
 -- Here goes everything that doesn't fit in any other category.
 
