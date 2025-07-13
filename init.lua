@@ -53,14 +53,13 @@ map('i','<tab>','pumvisible()?"<c-n>":"<tab>"','expr')
 map('i','<S-tab>','pumvisible()?"<c-p>":"<S-tab>"','expr')
 
 --- ;;;; AI *ai*
--- Mostly used as a smart copy/paste.
-plugin{'supermaven-inc/supermaven-nvim',opts={
-  keymaps={
-    accept_suggestion='<A-cr>',
-    clear_suggestion='<nul>',
-    accept_word='<C-cr>',
-  },
-},event={'InsertEnter'}}
+-- plugin{'supermaven-inc/supermaven-nvim',opts={
+--   keymaps={
+--     accept_suggestion='<A-cr>',
+--     clear_suggestion='<nul>',
+--     accept_word='<C-cr>',
+--   },
+-- },event={'InsertEnter'}}
 
 --- ;;; LSP *lsp*
 plugin{'neovim/nvim-lspconfig',config=function ()
@@ -104,19 +103,12 @@ vim.lsp.handlers['textDocument/rename']=function(_,result,ctx)
     #vim.tbl_keys(changes)))
 end
 
---- ;;;; Space-mappings
-space_map('ls',':LspStop\r')
-space_map('lS',':LspStart\r')
-space_map('lr',':FzfLua lsp_references\r')
+--- ;;; Diagnostics *diagnostics*
+vim.diagnostic.config({virtual_text=true,severity_sort=true,jump={float=true}})
 
 -- There's a hidden option `_highest` which jumps to the highest severity
-space_map('ln',':lua vim.diagnostic.jump({count=1,_highest=true,float=true})\r')
-space_map('lp',':lua vim.diagnostic.jump({count=-1,_highest=true,float=true})\r')
-
-space_map('lt',':lua vim.lsp.buf.type_definition()\r')
-space_map('lh',':lua vim.lsp.buf.hover()\r')
---- ;;; Diagnostics *diagnostics*
-vim.diagnostic.config({virtual_text=true,severity_sort=true})
+space_map('ln',':lua vim.diagnostic.jump({count=1,_highest=true})\r')
+space_map('lp',':lua vim.diagnostic.jump({count=-1,_highest=true})\r')
 
 --- ;; Windows *windows*
 --Switching windows with `<C-hjkl>`; and if terminal, enter it.
@@ -150,13 +142,6 @@ space_map('<tab>',':tab split\r')
 -- Moves tab to the left/right
 space_map('<',':-tabmove\r')
 space_map('>',':+tabmove\r')
-
---- ;;; Tabbar *bar*
--- I use a vertical tab bar.
-small(function ()
-  require'small.verttab'.setup{}
-  vim.keymap.set('n','<A-Tab>',require'small.verttab'.show)
-end)
 
 --- ;; Files & Directories
 --- ;;; Files *files*
@@ -264,9 +249,6 @@ end)
 
 space_map('sle',':set spelllang=en\r',{noremap=true})
 space_map('sls',':set spelllang=sv\r',{noremap=true})
-
---spell, set the amount of suggestions because otherwise more-prompt.
-map('n','=',':set sps=best,<C-r>=&lines-3\r\rz=')
 
 -- Correct detect spell of CamelCased words.
 vim.o.spelloptions='camel'
@@ -387,19 +369,32 @@ autocmd('ColorScheme',vim.schedule_wrap(sync_background))
 
 --- ;;; Colorscheme *colorscheme*
 -- Yes, I'm using a light theme. It's not that bad, once you apply a 4000k temperature filter ontop of it.
-plugin{'EdenEast/nightfox.nvim',lazy=false,config=function ()
-  vim.cmd.colorscheme'dayfox'
+vim.o.background = 'light'
 
-  -- I don't like to have a visible horizontal window separator.
-  -- So just hide it.
-  vim.cmd.hi'clear StatusLine'
-  vim.cmd.hi'clear StatusLineNC'
-end}
+-- The default colorscheme is automatically set, so no need to set it.
+-- vim.cmd.colorscheme'default'
+sync_background()
 
 --- ;; UI *ui*
 -- Neovim's experimental command-line/message UI.
--- Is a replacement for notify plugins.
+-- Is also a replacement for notify plugins.
 require('vim._extui').enable{}
+
+--- ;;; Statusline/statuscolumn *statusline*
+-- No statusline(/cmdline), no statuscolumn.
+vim.o.cmdheight=0
+vim.o.laststatus=0
+vim.o.statusline=' ' -- if set to '', will interper as unset(default).
+vim.cmd.hi'clear StatusLine'
+vim.cmd.hi'clear StatusLineNC'
+vim.o.signcolumn='no'
+
+--- ;;; Tabbar *bar*
+-- I use a vertical tab bar.
+small(function ()
+  require'small.verttab'.setup{}
+  map('n','<A-Tab>',require'small.verttab'.show)
+end)
 
 --- ;; Treesitter *treesitter*
 plugin{'nvim-treesitter/nvim-treesitter',config=function ()
@@ -409,18 +404,17 @@ end,
   -- On update, install and update all parsers.
   build={':TSInstall all',':TSUpdate'},
 
-  event={'FileType'}}
+  event={'VeryLazy'}}
 
 --- ;;; Selection *selection*
 -- Similar to Helix's treesitter selection
 small(function ()
-  local ts=require'small.treeselect'
-  vim.keymap.set('n','vn',ts.current)
-  vim.keymap.set('n','vr',ts.line)
-  vim.keymap.set('x','<C-h>',ts.prev)
-  vim.keymap.set('x','<C-l>',ts.next)
-  vim.keymap.set('x','<C-k>',ts.up)
-  vim.keymap.set('x','<C-j>',ts.down)
+  map('n','vn',function () require'small.treeselect'.current() end)
+  map('n','vr',function () require'small.treeselect'.line() end)
+  map('x','<C-h>',function () require'small.treeselect'.prev() end)
+  map('x','<C-l>',function () require'small.treeselect'.next() end)
+  map('x','<C-k>',function () require'small.treeselect'.up() end)
+  map('x','<C-j>',function () require'small.treeselect'.down() end)
 end)
 
 --- ;; Macro *macro*
@@ -455,10 +449,6 @@ vim.o.breakindent=true
 
 --visual
 vim.o.list=true
-vim.o.statusline=' '
-vim.o.signcolumn='no'
-vim.o.laststatus=0
-vim.o.cmdheight=0
 vim.o.conceallevel=2
 vim.o.pumblend=20
 
@@ -511,7 +501,7 @@ map('n','<A-y>',':let @+=@"\r')
 map('n','<A-j>',':move +1\r')
 map('n','<A-k>',':move -2\r')
 
---
+--Emacs's M-x, but neovim-lua
 map('n',{'<M-x>','<M-S-.>'},':lua=',{noremap=true})
 
 -- If on first char, goto first non-whitespace char.
@@ -522,24 +512,25 @@ map('n','U',':later 1f\r')
 
 map('n','ø','<C-r>')
 
--- Source current file.
 map('n','<F6>',':source\r')
 
+-- What was last error?
 map('n','<F7>',':echo v:errmsg\r')
 
---
 map('n',',','<C-o>')
 map('n',';','<C-i>')
 
 map('n','.',':',{noremap=true})
 map('x','.',':',{noremap=true})
 
+-- Clipboard copy/paste
 map('n','å','"+p')
 map('x','æ','"+y')
 map('x','å','"+p')
 
 map('n','π','yyp')
 
+-- dd is slow, so use enter(\r) instead (except quickfix, where it has special behavior)
 map('n','\r','&buftype=="quickfix"?"\r":"dd"','expr')
 map('x','\r','d',{})
 
@@ -625,39 +616,31 @@ end)
 
 -- Exchange.
 small(function ()
-  local ex=require'small.exchange'
-  vim.keymap.set('n','cx',ex.ex_oper)
-  vim.keymap.set('n','cX',ex.ex_eol)
-  vim.keymap.set('n','cxx',ex.ex_line)
-  vim.keymap.set('n','cxc',ex.ex_cancel)
-  vim.keymap.set('x','X',ex.ex_visual)
+  map('n','cx',function () require'small.exchange'.ex_oper() end)
+  map('n','cX',function () require'small.exchange'.ex_eol() end)
+  map('n','cxx',function () require'small.exchange'.ex_line() end)
+  map('n','cxc',function () require'small.exchange'.ex_cancel() end)
+  map('x','X',function () require'small.exchange'.ex_visual() end)
 end)
 
 -- FAST MULTIline Find
 small(function ()
   local fs=require'small.fastmultif'
-  vim.keymap.set('n','t',fs.ffind)
-  vim.keymap.set('n','T',fs.rffind)
-end)
-
--- Open `:help` on current word (smartly).
-small(function ()
-  local hc=require'small.help_cword'
-  vim.keymap.set('n','K',hc.run)
+  map('n','t',fs.ffind)
+  map('n','T',fs.rffind)
 end)
 
 -- Vertical/horizontal select same character.
 small(function ()
-  local to=require'small.textobj'
-  vim.keymap.set('x','im',to.wordcolumn,{expr=true})
-  vim.keymap.set('o','im',to.charcolumn,{expr=true})
-  vim.keymap.set('x','ik',to.wordrow,{expr=true})
-  vim.keymap.set('o','ik',to.charrow,{expr=true})
+  map('x','im',function () return require'small.textobj'.wordcolumn() end,{expr=true})
+  map('o','im',function () return require'small.textobj'.charcolumn() end,{expr=true})
+  map('x','ik',function () return require'small.textobj'.wordrow() end,{expr=true})
+  map('o','ik',function () return require'small.textobj'.charrow() end,{expr=true})
 end)
 
 -- Quickly add lua function annotations.
 small(function ()
-  vim.keymap.set('i',':',require'small.whint'.run,{expr=true})
+  map('i',':',function () return require'small.whint'.run() end,{expr=true})
 end)
 
 -- Interactive lua scratchpad repl.
