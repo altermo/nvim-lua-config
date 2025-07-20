@@ -27,7 +27,6 @@ end
 --- ;; LSP & autocomplete (& diagnostics)
 --- ;;; Autocomplete *autocomplete*
 
--- Applies to all insert mode completion.
 vim.o.completeopt='menu,menuone,popup,noselect,fuzzy'
 
 -- Applies to only default completion. (e.g. when lsp not acttive)
@@ -71,6 +70,9 @@ plugin{'neovim/nvim-lspconfig',config=function ()
     lua_ls={'lua-language-server',settings={Lua={
       runtime={version='LuaJIT',unicodeName=true},
       workspace={library={'/usr/local/share/nvim/runtime/lua/'}}}}},
+    -- emmylua_ls={'emmylua_ls',settings={Lua={
+    --   runtime={version='LuaJIT'},
+    --   workspace={library={'/usr/local/share/nvim/runtime/lua/'}}}}},
     clangd={'clangd'},
     rust_analyzer={'rust-analyzer'},
     zls={'zls'},
@@ -88,9 +90,9 @@ plugin{'neovim/nvim-lspconfig',config=function ()
 end,event='VeryLazy'}
 
 --- ;;;; Signature help *signature*
-map('i','<A-tab>',function ()
-  vim.lsp.buf.signature_help{focusable=false,silent=true,max_height=4,anchor_bias='above'}
-end)
+-- map('i','<A-tab>',function ()
+--   vim.lsp.buf.signature_help{focusable=false,silent=true,max_height=4,anchor_bias='above'}
+-- end)
 
 --- ;;;; Renaming *rename*
 -- Shows how many things got renamed in how many files.
@@ -126,10 +128,8 @@ vim.o.winminwidth=0
 vim.o.fillchars='vert: ,eob: ,horiz: ,horizup: ,horizdown: ,vertleft: ,vertright: ,verthoriz: '
 
 space_map('q','<cmd>q\r')
-space_map('Q','<cmd>q!\r')
 space_map('v',function () vim.cmd.vsplit() end)
 space_map('e',function () vim.cmd.split() end)
-space_map('w','<C-w>',{noremap=false})
 
 --- ;; Tabs *tabs*
 for i=1,9 do
@@ -177,6 +177,10 @@ space_map('u',':e `=tempname()`\r')
 -- Copy file name.
 space_map('C',':call setreg("+","<C-r>=expand("%:p")\r")\r',{noremap=true})
 
+-- Follow symlinks
+autocmd('BufAdd',function (ev) local path=vim.uv.fs_realpath(ev.file)
+  if path and path~=ev.file then vim.api.nvim_buf_set_name(ev.buf,path) end end)
+
 --- ;;; Directories *dirs*
 
 -- Auto change directory to the git root (or directory) of the file.
@@ -207,7 +211,7 @@ plugin{'stevearc/oil.nvim',cmd='Oil',config=function ()
 
 --- ;;;; Yazi
 -- A tui file manager, mostly used when doing bigger file operations and generally file-exploring.
-space_map('y',':lua require"small.nterm".run("yazi -- "..vim.fn.expand"%:p")\r')
+space_map('y',':lua require"small.nterm".run("EDITOR=nv yazi -- "..vim.fn.expand"%:p")\r')
 
 --- ;;;; Dff
 -- My own plugin, can get you to your file really fast (typically 1-3 key presses), but isn't good at file-exploring.
@@ -243,9 +247,7 @@ space_map('t',':nohls\r')
 
 --- ;; Spell *spell*
 -- Uses [typos](https://github.com/crate-ci/typos) to check spelling.
-small(function ()
-  require'small.typo'.setup{}
-end)
+small(function () require'small.typo'.setup{} end)
 
 space_map('sle',':set spelllang=en\r',{noremap=true})
 space_map('sls',':set spelllang=sv\r',{noremap=true})
@@ -271,13 +273,11 @@ plugin{'echasnovski/mini.surround',opts={
   }},keys={{'S',mode={'n','x'}},'ds','cs'}}
 
 --Rainbow pairs
-plugin{'https://gitlab.com/HiPhish/rainbow-delimiters.nvim',event='VeryLazy',config=function()
-  vim.g.rainbow_delimiters={strategy={html=function (bufnr) return vim._with({buf=bufnr},function ()
-    return vim.fn.wordcount().bytes<50000 and require'rainbow-delimiters'.strategy.global or nil
-  end)end}} vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}}
+small(function () require'small.rainbow_pair'.setup() end)
 
 --Keyword pairs
-plugin{'PriceHiller/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.TSEnable'endwise' end,dependencies={'nvim-treesitter/nvim-treesitter'},branch='fix/iter-matches'}
+--TODO
+-- plugin{'RRethy/nvim-treesitter-endwise',event={'InsertEnter'},config=function() vim.cmd.doau'FileType' end,dependencies={'nvim-treesitter/nvim-treesitter'}}
 
 --Pair surrounding operators
 plugin{'echasnovski/mini.ai',opts={mappings={around_next='aL',inside_next='iL'}},keys={{'a',mode={'o','x'}},{'i',mode={'o','x'}}}}
@@ -285,7 +285,7 @@ plugin{'echasnovski/mini.ai',opts={mappings={around_next='aL',inside_next='iL'}}
 -- Shorthands for surrounding operators.
 for i in ([['"`()[]{}<>]]):gmatch('.') do
   map('o',i,'i'..i,{silent=true})
-  map('x',i,'i'..i,{silent=true})
+  map('n','v'..i,'vi'..i,{silent=true})
 end
 
 --- ;; Insert/Cmdline/Terminal keymaps *imap*
@@ -411,6 +411,7 @@ end,
 small(function ()
   map('n','vn',function () require'small.treeselect'.current() end)
   map('n','vr',function () require'small.treeselect'.line() end)
+  map('n','vR',function () require'small.treeselect'.base() end)
   map('x','<C-h>',function () require'small.treeselect'.prev() end)
   map('x','<C-l>',function () require'small.treeselect'.next() end)
   map('x','<C-k>',function () require'small.treeselect'.up() end)
@@ -465,6 +466,7 @@ vim.o.smoothscroll=true
 vim.o.mouse='a'
 vim.o.concealcursor='n'
 vim.o.shada="'500,/9,:50,<50,@9,s10"
+vim.o.pumheight=5
 
 --- ;;; Option-keymap
 for k,v in pairs({
@@ -570,9 +572,6 @@ map('x','P','p')
 -- Auto jump to last known position.
 autocmd('BufRead',function() pcall(vim.cmd --[[@as function]],[[noautocmd norm! g`"]]) end)
 
--- Live preview markdown/html files.
-plugin{'brianhuster/live-preview.nvim',opts={},cmd='LivePreview'}
-
 -- Makes it so that you can `gx` a plugin name and open the github page for it.
 local open=vim.ui.open
 rawset(vim.ui,'open',function(path) return open((path:gsub('^([a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+)$','https://github.com/%1'))) end)
@@ -587,17 +586,9 @@ space_map('cl',':edit /tmp/nlog\r')
 -- When diff, fold the diff.
 autocmd('OptionSet',function () vim.o.foldmethod=vim.v.option_new==true and 'diff' or 'manual' end,{pattern='diff'})
 
--- Better increment/decrement.
-plugin{'monaqa/dial.nvim',keys={
-  {'<C-a>',function () return require'dial.map'.inc_normal() end,expr=true},
-  {'<C-x>',function () return require'dial.map'.dec_normal() end,expr=true},
-}}
-
---- ;;; Other-Mini-plugins *mini*
+--- ;;; Other-Small-plugins *small*
 -- Highlight every instance of selected text.
-small(function ()
-  require'small.highlight_selected'.setup{}
-end)
+small(function () require'small.highlight_selected'.setup{} end)
 
 -- Reminder.
 small(function ()
@@ -610,9 +601,7 @@ end)
 space_map("'",':lua require"small.nterm".run("fish",true)\r')
 
 -- Copyring. Also highlights yanks/pastes.
-small(function ()
-  require'small.copyring'.setup{}
-end)
+small(function () require'small.copyring'.setup{} end)
 
 -- Exchange.
 small(function ()
@@ -625,28 +614,35 @@ end)
 
 -- FAST MULTIline Find
 small(function ()
-  local fs=require'small.fastmultif'
-  map('n','t',fs.ffind)
-  map('n','T',fs.rffind)
+  map('n','t',function () require'small.fastmultif'.ffind() end)
+  map('n','T',function () require'small.fastmultif'.rffind() end)
 end)
 
 -- Vertical/horizontal select same character.
 small(function ()
-  map('x','im',function () return require'small.textobj'.wordcolumn() end,{expr=true})
-  map('o','im',function () return require'small.textobj'.charcolumn() end,{expr=true})
-  map('x','ik',function () return require'small.textobj'.wordrow() end,{expr=true})
-  map('o','ik',function () return require'small.textobj'.charrow() end,{expr=true})
+  map('x','im',function () return require'small.textobj'.wordcolumn() end,'expr')
+  map('o','im',function () return require'small.textobj'.charcolumn() end,'expr')
+  map('x','ik',function () return require'small.textobj'.wordrow() end,'expr')
+  map('o','ik',function () return require'small.textobj'.charrow() end,'expr')
 end)
 
 -- Quickly add lua function annotations.
 small(function ()
-  map('i',':',function () return require'small.whint'.run() end,{expr=true})
+  map('i',':',function () return require'small.whint'.run() end,'expr')
 end)
 
--- Interactive lua scratchpad repl.
-space_map('cR',function () require'small.luay'.run() end)
+-- Interactive scratchpad repl.
+space_map('Sl',function () require'small.luay'.run() end)
+space_map('Sf',function () require'small.fendy'.run() end)
 
---- ;; Mini-plugin
+-- Better increment/decrement.
+small(function ()
+  vim.o.nrformats='hex,unsigned'
+  map('n','<C-a>',function () require'small.incdec'.inc(vim.v.count) end)
+  map('n','<C-x>',function () require'small.incdec'.dec(vim.v.count) end)
+end)
+
+--- ;; Small-plugin
 plugin{'altermo/small.nvim',config=function()
   for _,fn in ipairs(_smalls) do fn() end
 end,lazy=false}
@@ -701,4 +697,4 @@ map('n',' ',function ()
   vim.api.nvim_input(' ')
 end)
 
--- vim: set conceallevel=0 ts=2 sw=2 :
+-- vim: ts=2 sw=2 conceallevel=2 wrap :
