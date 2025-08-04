@@ -1,5 +1,7 @@
 vim.loader.enable()
 
+vim.o.autocomplete=true
+vim.o.complete='o,.'
 vim.o.completeopt='menu,menuone,popup,noselect,fuzzy'
 vim.o.wildmode='longest:full,full' -- for cmdline completion
 vim.o.splitbelow=true
@@ -35,11 +37,11 @@ vim.o.shada="'500,/9,:50,<50,@9,s10"
 vim.o.pumheight=5
 vim.o.nrformats='hex,unsigned'
 
+vim.g.netrw_keepdir=0
 vim.g.lspconfig=1
 
 vim.pack.add({
   'https://github.com/neovim/nvim-lspconfig',
-  'https://github.com/stevearc/oil.nvim',
   'https://github.com/ibhagwan/fzf-lua',
   'https://github.com/echasnovski/mini.pairs',
   'https://github.com/echasnovski/mini.surround',
@@ -49,6 +51,7 @@ vim.pack.add({
 })
 
 vim.cmd.filetype'indent off'
+vim.cmd.syntax'off'
 
 vim.api.nvim_create_autocmd('SafeState',{callback=function ()
   vim.diagnostic.config({virtual_text=true,severity_sort=true,jump={float=true}})
@@ -62,19 +65,13 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function ()
       #vim.tbl_keys(changes))) end
 
   for lsp,opt in pairs({
-    basedpyright={'basedpyright-langserver',settings={basedpyright={analysis={typeCheckingMode='standard'}}}},
-    lua_ls={'lua-language-server',settings={Lua={
+    basedpyright={settings={basedpyright={analysis={typeCheckingMode='standard'}}}},
+    lua_ls={settings={Lua={
       runtime={version='LuaJIT',unicodeName=true},
       workspace={library={'/usr/local/share/nvim/runtime/lua/'}}}}},
-    clangd={'clangd'},
-    rust_analyzer={'rust-analyzer'},
-    zls={'zls'},
-    taplo={'taplo'},
-    ts_ls={'typescript-language-server'},
-    vimls={'vim-language-server'},
+    clangd={},rust_analyzer={},zls={},
+    taplo={},ts_ls={},vimls={},
   }) do
-    if vim.fn.executable(opt[1])==0 then vim.notify(opt[1]..' LSP executable not found') end
-
     vim.lsp.config(lsp,opt)
     vim.lsp.enable(lsp)
   end
@@ -86,13 +83,12 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function ()
   require'nvim-treesitter'.update({max_jobs=2})
   pcall(vim.treesitter.start)
   vim.api.nvim_create_autocmd('FileType',{callback=function() pcall(vim.treesitter.start) end})
+  vim.cmd.syntax'on'
 
   require'small.typo'.setup{}
   require'small.rainbow_pair'.setup()
   require'small.highlight_selected'.setup{}
   require'small.verttab'.setup{}
-
-  require'fzf-lua'.setup{winopts={backdrop=100},oldfiles={formatter='path.filename_first'}}
 end,once=true})
 
 require('vim._extui').enable{}
@@ -111,9 +107,6 @@ end
 vim.keymap.set('n','dc',':lcd ..|pwd\r')
 vim.keymap.set('n','cd',':lcd %:p:h|pwd\r')
 
-vim.keymap.set('c','<C-n>','<C-g><cmd>redraw<cr>',{noremap=true})
-vim.keymap.set('c','<C-p>','<C-t><cmd>redraw<cr>',{noremap=true})
-
 vim.keymap.set('x','<A-f>','y:<C-u>%s/<C-r>"//g<Left><Left>a<bs>',{silent=false})
 
 vim.keymap.set('i','ø','ö')
@@ -127,21 +120,13 @@ for i in ([['"`()[]{}<>]]):gmatch('.') do
 end
 
 for k,v in pairs{
-  ['<S-BS>']='<del>',['<C-BS>']='<del>',['<M-BS>']='<del>',
   ['<S-Left>']=('<Left>'):rep(5),['<M-S-h>']=('<Left>'):rep(5),
   ['<S-Right>']=('<Right>'):rep(5),['<M-S-l>']=('<Right>'):rep(5),
-  ['<M-b>']='<S-Left>',
-  ['<M-f>']='<S-Right>',
-  ['<M-h>']='<Left>',['<C-b>']='<Left>',
-  ['<M-l>']='<Right>',['<C-f>']='<Right>',
-  ['<A-j>']='<Down>',
-  ['<A-k>']='<Up>',
-  ['<C-e>']='<End>',
-  ['<C-a>']='<Home>',
-  ['<C-g>']='<C-\\><C-n>',
+  ['<M-b>']='<S-Left>',['<M-f>']='<S-Right>',
+  ['<M-h>']='<Left>',['<M-l>']='<Right>',
+  ['<A-j>']='<Down>',['<A-k>']='<Up>',
 } do
-  vim.keymap.set('i',k,v)
-  vim.keymap.set('c',k,v,{noremap=true})
+  vim.keymap.set({'i','c'},k,v)
 end
 
 vim.keymap.set('t','<C-\\>','<C-\\><C-n>')
@@ -153,17 +138,13 @@ for k,v in pairs({
   s='spell',f='foldenable',e='scrollbind',S={'statusline','" "'}
 }) do
   v=type(v)=='table' and v or {v,1,0}
-  vim.keymap.set('n','yo'..k,function ()
-    vim.cmd(('let &%s%s=&%s==%s?%s:%s|redraw|echo "%s=".&%s')
-      :format(k=='d' and 'l:' or '',v[1],v[1],v[2],v[3] or '""',v[2],v[1],v[1])) end)
+  vim.keymap.set('n','yo'..k,('<cmd>let &%s%s=&%s==%s?%s:%s|redraw|echo "%s=".&%s\r')
+      :format(k=='d' and 'l:' or '',v[1],v[1],v[2],v[3] or '""',v[2],v[1],v[1]))
 end
 
 vim.api.nvim_del_keymap('n','gcc')
 vim.keymap.set('n','gc',function () return require('vim._comment').operator()..'_' end,{expr=true})
-
 vim.keymap.set('x','gc',function () return require('vim._comment').operator()..'gv' end,{expr=true})
-
-vim.keymap.set('n','gp','`[v`]')
 
 vim.keymap.set('n','gd',function () return (vim.o.tagfunc~='' or #vim.fn.tagfiles()>0) and '<C-]>' or 'gd' end,{expr=true})
 
@@ -227,12 +208,7 @@ vim.keymap.set('x','P','p')
 
 vim.keymap.set('n',' ln',':lua vim.diagnostic.jump({count=1,_highest=true})\r')
 vim.keymap.set('n',' lp',':lua vim.diagnostic.jump({count=-1,_highest=true})\r')
-vim.keymap.set('n',' q','<cmd>q\r')
-vim.keymap.set('n',' v',function () vim.cmd.vsplit() end)
-vim.keymap.set('n',' e',function () vim.cmd.split() end)
 vim.keymap.set('n',' <tab>',':tab split\r')
-vim.keymap.set('n',' <',':-tabmove\r')
-vim.keymap.set('n',' >',':+tabmove\r')
 vim.keymap.set('n',' W',function ()
   local tmp=vim.fn.tempname()
   vim.fn.writefile(vim.fn.getline(1,vim.fn.line('$')),tmp)
@@ -242,20 +218,20 @@ vim.keymap.set('n',' W',function ()
 end)
 vim.keymap.set('n',' u',':e `=tempname()`\r')
 vim.keymap.set('n',' C',':call setreg("+","<C-r>=expand("%:p")\r")\r',{noremap=true})
-vim.keymap.set('n',' i',function () require'oil'.open() end)
 vim.keymap.set('n',' y',':lua require"small.nterm".run("EDITOR=nv yazi -- "..vim.fn.expand"%:p")\r')
+vim.keymap.set('n',' i',':e .\r')
 vim.keymap.set('n',' r',function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end)
-for k,v in pairs{a='',f='files',s='live_grep',h='helptags',b='buffers',R='resume',g='git_status',o='oldfiles'} do
-  vim.keymap.set('n',' '..k,'<cmd>FzfLua '..v..'\r')
+for k,v in pairs{a='builtin',f='files',s='live_grep',h='helptags',b='buffers',
+  o="oldfiles formatter='path.filename_first'"} do
+  vim.keymap.set('n',' '..k,'<cmd>FzfLua '..v..' winopts={backdrop=100}\r')
 end
 vim.keymap.set('n',' t',':nohls\r')
 vim.keymap.set('n',' le',':set spelllang=en\r',{noremap=true})
 vim.keymap.set('n',' ls',':set spelllang=sv\r',{noremap=true})
 vim.keymap.set('n',' cl',':edit /tmp/nlog\r')
 vim.keymap.set('n',' cr',function () require'small.reminder2'.sidebar() end)
-vim.keymap.set('n',' Sl',function () require'small.luay'.run() end)
-vim.keymap.set('n',' Sf',function () require'small.fendy'.run() end)
 vim.keymap.set('n'," '",':lua require"small.nterm".run("fish",true)\r')
+vim.keymap.set('n',' ','<C-w>')
 
 vim.keymap.set('n','<A-Tab>',function () require'small.verttab'.show() end)
 
@@ -308,26 +284,13 @@ vim.api.nvim_create_autocmd('BufAdd',{callback=function (ev) local path=vim.uv.f
   if path and path~=ev.file then vim.api.nvim_buf_set_name(ev.buf,path) end
 end})
 
-require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true,keymaps={['<C-h>']=false,['<C-l>']=false}}
-vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
-  require'oil.actions'.cd.callback{scope='win',silent=true} end})
-
 vim.api.nvim_create_autocmd('OptionSet',{callback=function () vim.o.foldmethod=vim.v.option_new==true and 'diff' or 'manual' end,pattern='diff'})
 
 vim.api.nvim_create_autocmd('BufRead',{callback=function() pcall(vim.cmd --[[@as function]],[[noautocmd norm! g`"]]) end})
 
-vim.api.nvim_create_autocmd('InsertCharPre',{callback=function ()
-  if vim.fn.match(vim.v.char,'[[:keyword:].:]')==-1 or vim.fn.state'm'=='m' or vim.fn.pumvisible()~=0 then return end
-  if vim.o.omnifunc~='v:lua.vim.lsp.omnifunc' then
-    vim.api.nvim_input('<C-x><C-n>')
-  else
-    vim.api.nvim_input('<C-x><C-o>')
-  end end})
-
 vim.api.nvim_create_autocmd({'InsertLeave','TextChanged'},{callback=function (ev)
   if ev.file=='' or not vim.o.modified or vim.o.readonly or vim.o.buftype~='' then return end
-  pcall(vim.fn.mkdir,vim.fs.dirname(ev.file),'p')
-  vim.cmd.update{bang=true,mods={emsg_silent=true,lockmarks=true}}
+  vim.cmd.update{'++p',bang=true,mods={emsg_silent=true,lockmarks=true}}
 end,group=vim.api.nvim_create_augroup('AutoSave',{})})
 
 vim.api.nvim_create_autocmd('BufReadPre',{callback=function (ev)
