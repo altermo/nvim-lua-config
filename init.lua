@@ -280,10 +280,6 @@ require'mini.surround'.setup{
   }
 }
 
-vim.api.nvim_create_autocmd('BufAdd',{callback=function (ev) local path=vim.uv.fs_realpath(ev.file)
-  if path and path~=ev.file then vim.api.nvim_buf_set_name(ev.buf,path) end
-end})
-
 vim.api.nvim_create_autocmd('OptionSet',{callback=function () vim.o.foldmethod=vim.v.option_new==true and 'diff' or 'manual' end,pattern='diff'})
 
 vim.api.nvim_create_autocmd('BufRead',{callback=function() pcall(vim.cmd --[[@as function]],[[noautocmd norm! g`"]]) end})
